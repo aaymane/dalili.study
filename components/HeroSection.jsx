@@ -17,12 +17,12 @@ const HERO_CHIPS = [
   { icon: '📱', value: 'iOS & Android', label: 'Bientôt' },
 ];
 
-// Mobile-first sizes: clamp(mobile, fluid, desktop)
+// Mobile-first sizes: clamp(mobile, fluid, desktop) — bigger on mobile
 const LINES = [
-  { text: 'TON',     color: '#ffffff',               size: 'clamp(3.4rem,13.5vw,16rem)', ls: '0.02em' },
-  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(3.4rem,13.5vw,16rem)', ls: '0.02em' },
-  { text: 'POUR LA', color: 'rgba(255,255,255,0.5)', size: 'clamp(1.7rem,6.5vw,7.5rem)',  ls: '0.06em' },
-  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(3rem,12vw,14rem)',      ls: '0.02em' },
+  { text: 'TON',     color: '#ffffff',               size: 'clamp(5.2rem,13.5vw,16rem)', ls: '0.01em' },
+  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(5.2rem,13.5vw,16rem)', ls: '0.01em' },
+  { text: 'POUR LA', color: 'rgba(255,255,255,0.5)', size: 'clamp(2.6rem,6.5vw,7.5rem)',  ls: '0.04em' },
+  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(4.6rem,12vw,14rem)',    ls: '0.01em' },
 ];
 
 export default function HeroSection({ revealed = false }) {
@@ -32,7 +32,6 @@ export default function HeroSection({ revealed = false }) {
   const linesRef   = useRef([]);
   const badgeRef   = useRef(null);
   const subRef     = useRef(null);
-  const cueRef     = useRef(null);
   const chipsRef   = useRef([]);
 
   // ── Set section height + initial hidden state before paint
@@ -82,10 +81,33 @@ export default function HeroSection({ revealed = false }) {
       opacity: 1,
       duration: 1.7, ease: 'power3.out',
       onComplete: () => {
-        // Fade in stat chips after plane lands (opacity only — float is pure CSS)
+        // Chips: fade in + GSAP float + 3D perspective wobble
         chipsRef.current.forEach((chip, i) => {
           if (!chip) return;
-          gsap.to(chip, { opacity: 1, duration: 0.65, ease: 'power2.out', delay: i * 0.2 });
+          const wrap = chip.parentElement;
+
+          // Fade in
+          gsap.to(chip, { opacity: 1, duration: 0.7, ease: 'power2.out', delay: i * 0.25 });
+
+          // Float (y axis) on the outer wrapper — replaces CSS animation
+          gsap.to(wrap, {
+            y: -(7 + i * 2),
+            duration: 4 + i * 0.6,
+            ease: 'sine.inOut',
+            yoyo: true, repeat: -1,
+            delay: i * 1.1,
+          });
+
+          // 3D perspective wobble on inner chip (rotates independently of float)
+          gsap.to(chip, {
+            rotateX: i % 2 === 0 ?  6 : -5,
+            rotateY: i % 2 === 0 ? -8 :  7,
+            z: 14,
+            duration: 3.5 + i * 0.9,
+            ease: 'sine.inOut',
+            yoyo: true, repeat: -1,
+            delay: 0.4 + i * 1.1,
+          });
         });
 
         // 2. Scroll-driven diagonal exit
@@ -124,9 +146,9 @@ export default function HeroSection({ revealed = false }) {
         },
       );
 
-      // Badge + subtitle + scroll-cue
+      // Badge + subtitle
       gsap.fromTo(
-        [badgeRef.current, subRef.current, cueRef.current].filter(Boolean),
+        [badgeRef.current, subRef.current].filter(Boolean),
         { y: 24, opacity: 0 },
         {
           y: 0, opacity: 1, ease: 'none',
@@ -139,16 +161,17 @@ export default function HeroSection({ revealed = false }) {
         },
       );
 
-      // ── Chips fade OUT before text arrives — fully gone by 200px scroll (text starts ~287px)
+      // ── Chips fade OUT before text arrives (opacity only — y handled by GSAP float)
       const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
       if (chipEls.length) {
         gsap.to(chipEls, {
-          opacity: 0, y: -18, ease: 'power2.in',
+          opacity: 0,
+          ease: 'power2.in',
           scrollTrigger: {
             trigger: section,
             start: 'top top',
             end: `+=${mobile ? 200 : 320}`,
-            scrub: true,   // locked to scroll (no lag) — reliable disappear
+            scrub: true,
           },
         });
       }
@@ -377,72 +400,77 @@ export default function HeroSection({ revealed = false }) {
         </div>
         </div>{/* /hero-text-offset */}
 
-        {/* Scroll cue — sits above the Paris skyline with clear separation */}
-        <div ref={cueRef} className="scroll-cue" style={{
-          position: 'absolute', bottom: 'clamp(155px, 21vh, 230px)', left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-          zIndex: 10, pointerEvents: 'none', userSelect: 'none',
-        }}>
-          {/* Pulsing dot */}
-          <div style={{
-            width: 5, height: 5, borderRadius: '50%',
-            background: 'rgba(77,143,255,0.7)',
-            boxShadow: '0 0 8px rgba(1,77,248,0.8)',
-            animation: 'heroPulse 2.2s ease-in-out infinite',
-          }} />
-          <span style={{
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.5rem', letterSpacing: '0.22em',
-            color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase',
-          }}>
-            Découvrir
-          </span>
-          <div style={{
-            width: 1, height: 28,
-            background: 'linear-gradient(to bottom, rgba(1,77,248,0.6), transparent)',
-            animation: 'heroPulse 2.2s ease-in-out infinite 0.4s',
-          }} />
-        </div>
-
-        {/* ── Floating stat chips — fill the empty hero space
-            Outer div: CSS absolute position + float animation
-            Inner div (ref): GSAP opacity-only entrance (no transform conflict) */}
+        {/* ── Floating 3D stat chips
+            Outer div: CSS absolute position only (GSAP handles float + fade)
+            Inner div (ref): GSAP opacity entrance + 3D rotateX/Y wobble */}
         {HERO_CHIPS.map((chip, i) => (
-          <div key={i} className={`hero-chip-wrap hero-chip-wrap-${i}`} aria-hidden="true">
+          <div
+            key={i}
+            className={`hero-chip-wrap hero-chip-wrap-${i}`}
+            aria-hidden="true"
+            style={{ perspective: '600px' }}
+          >
             <div
               ref={el => { chipsRef.current[i] = el; }}
               className="hero-chip"
               style={{
                 opacity: 0,
+                transformStyle: 'preserve-3d',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 10,
-                padding: '10px 16px 10px 14px',
-                background: 'rgba(1,5,22,0.80)',
-                border: '1px solid rgba(1,77,248,0.32)',
-                borderLeft: '3px solid rgba(1,77,248,0.85)',
-                borderRadius: 14,
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.50), 0 0 24px rgba(1,77,248,0.13), inset 0 1px 0 rgba(255,255,255,0.04)',
+                gap: 12,
+                padding: '11px 18px 11px 12px',
+                background: 'linear-gradient(135deg, rgba(1,12,40,0.93) 0%, rgba(1,5,22,0.90) 100%)',
+                border: '1px solid rgba(1,77,248,0.28)',
+                borderLeft: '3px solid rgba(1,77,248,0.92)',
+                borderRadius: 18,
+                backdropFilter: 'blur(22px)',
+                WebkitBackdropFilter: 'blur(22px)',
+                boxShadow: [
+                  '0 12px 40px rgba(0,0,0,0.60)',
+                  '0 0 28px rgba(1,77,248,0.14)',
+                  'inset 0 1px 0 rgba(255,255,255,0.08)',
+                  'inset 0 -1px 0 rgba(0,0,0,0.35)',
+                ].join(', '),
                 whiteSpace: 'nowrap',
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
-              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>{chip.icon}</span>
+              {/* Shimmer sweep */}
+              <div className={`chip-shimmer chip-shimmer-${i}`} aria-hidden="true" style={{
+                position: 'absolute', top: 0, left: 0,
+                width: '60%', height: '100%',
+                background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.07) 50%, transparent 70%)',
+                pointerEvents: 'none',
+              }} />
+
+              {/* Icon box */}
+              <div style={{
+                width: 36, height: 36,
+                borderRadius: 10,
+                background: 'rgba(1,77,248,0.16)',
+                border: '1px solid rgba(1,77,248,0.28)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '1.25rem', flexShrink: 0,
+                boxShadow: '0 0 14px rgba(1,77,248,0.25)',
+              }}>
+                <span style={{ lineHeight: 1 }}>{chip.icon}</span>
+              </div>
+
               <div>
                 <div style={{
                   fontFamily: 'var(--font-montserrat)',
-                  fontWeight: 700, fontSize: '0.78rem',
-                  color: '#fff', lineHeight: 1.2,
+                  fontWeight: 700, fontSize: '0.84rem',
+                  color: '#fff', lineHeight: 1.15,
                 }}>{chip.value}</div>
                 <div style={{
                   fontFamily: 'var(--font-dm-sans)',
-                  fontSize: '0.58rem',
-                  color: 'rgba(77,143,255,0.7)',
-                  letterSpacing: '0.06em',
+                  fontSize: '0.57rem',
+                  color: 'rgba(77,143,255,0.78)',
+                  letterSpacing: '0.09em',
                   textTransform: 'uppercase',
-                  lineHeight: 1.3,
+                  marginTop: 2,
                 }}>{chip.label}</div>
               </div>
             </div>
