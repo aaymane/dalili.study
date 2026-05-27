@@ -310,7 +310,7 @@ export default function EmailCapture() {
                     aria-label="Rejoindre la liste d'attente Dalili"
                     disabled={status === 'loading'}
                     style={{
-                      padding: '16px 28px',
+                      padding: '16px 24px',
                       background: status === 'loading'
                         ? 'rgba(1,77,248,0.6)'
                         : 'linear-gradient(135deg, #014df8 0%, #0066ff 100%)',
@@ -323,6 +323,7 @@ export default function EmailCapture() {
                       letterSpacing: '0.03em',
                       cursor: status === 'loading' ? 'wait' : 'pointer',
                       whiteSpace: 'nowrap',
+                      width: '100%',           // full-width when stacked on mobile
                       boxShadow: '0 8px 32px rgba(1,77,248,0.35)',
                       transition: 'filter .2s ease, box-shadow .2s ease, transform .15s ease',
                       willChange: 'transform',

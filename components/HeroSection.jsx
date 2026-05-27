@@ -7,17 +7,15 @@ import dynamic from 'next/dynamic';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Canvas 2D renderer — no WebGL, works everywhere (headless, mobile, Lighthouse)
 const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false });
 
+// Mobile-first sizes: clamp(mobile, fluid, desktop)
 const LINES = [
-  { text: 'TON',     color: '#ffffff',               size: 'clamp(3.8rem,13.5vw,16rem)', ls: '0.02em' },
-  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(3.8rem,13.5vw,16rem)', ls: '0.02em' },
-  { text: 'POUR LA', color: 'rgba(255,255,255,0.5)', size: 'clamp(1.9rem,6.5vw,7.5rem)',  ls: '0.06em' },
-  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(3.5rem,12vw,14rem)',    ls: '0.02em' },
+  { text: 'TON',     color: '#ffffff',               size: 'clamp(3.4rem,13.5vw,16rem)', ls: '0.02em' },
+  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(3.4rem,13.5vw,16rem)', ls: '0.02em' },
+  { text: 'POUR LA', color: 'rgba(255,255,255,0.5)', size: 'clamp(1.7rem,6.5vw,7.5rem)',  ls: '0.06em' },
+  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(3rem,12vw,14rem)',      ls: '0.02em' },
 ];
-
-const SECTION_VH = 420;
 
 export default function HeroSection({ revealed = false }) {
   const sectionRef = useRef(null);
@@ -28,23 +26,33 @@ export default function HeroSection({ revealed = false }) {
   const subRef     = useRef(null);
   const cueRef     = useRef(null);
 
-  // ── Hide everything until reveal
+  // ── Set section height + initial hidden state before paint
   useEffect(() => {
-    const W = window.innerWidth;
-    const H = window.innerHeight;
+    const W      = window.innerWidth;
+    const H      = window.innerHeight;
     const mobile = W < 768;
+
+    // Adjust section scroll distance for mobile (300vh) vs desktop (420vh)
+    if (sectionRef.current) {
+      sectionRef.current.style.height = `${mobile ? 300 : 420}vh`;
+    }
+
     if (planeRef.current) {
+      // ── Coordinate system:
+      //   wrapper: position:absolute left:50% top:50%
+      //   xPercent:-50 yPercent:-50  →  element IS centered at (W/2, H/2) when x=0,y=0
+      //   So x=0 means "centered" on mobile, NOT W*0.5 !
       gsap.set(planeRef.current, {
         xPercent: -50, yPercent: -50,
-        x:  mobile ? W * 0.5  : W * 0.85,
-        y:  mobile ? -H * 0.5 : -H * 0.65,
-        rotate: -6, opacity: 0,
+        x:  mobile ? 0       : W * 0.55,   // mobile: centered | desktop: right half
+        y:  mobile ? -H * 0.7 : -H * 0.65, // start above viewport
+        rotate: -8, opacity: 0,
       });
     }
     if (textRef.current) gsap.set(textRef.current, { opacity: 0 });
   }, []);
 
-  // ── Triggered when logo disappears: plane entrance + all scroll animations
+  // ── Entrance + scroll animations (run once logo disappears)
   useEffect(() => {
     if (!revealed) return;
     const section = sectionRef.current;
@@ -56,11 +64,11 @@ export default function HeroSection({ revealed = false }) {
     const H      = window.innerHeight;
     const mobile = W < 768;
 
-    // 1. Plane enters from off-screen → lands at visible position
+    // 1. Plane swoops in from off-screen
     gsap.to(plane, {
       xPercent: -50, yPercent: -50,
-      x:      mobile ? W * 0.5  : W * 0.28,
-      y:      mobile ? -H * 0.08 : -H * 0.18,
+      x:      mobile ? 0       : W * 0.26,   // centered on mobile, right on desktop
+      y:      mobile ? -H * 0.2 : -H * 0.18, // upper portion
       rotate: mobile ? 2 : 5,
       opacity: 1,
       duration: 1.7, ease: 'power3.out',
@@ -69,47 +77,48 @@ export default function HeroSection({ revealed = false }) {
         gsap.context(() => {
           gsap.to(plane, {
             xPercent: -50, yPercent: -50,
-            x:      mobile ? -W * 0.6 : -W * 0.62,
-            y:      mobile ?  H * 0.2 :  H * 0.38,
-            rotate: -4,
-            opacity: 0,
+            x:       mobile ? -W * 0.7 : -W * 0.62,
+            y:       mobile ?  H * 0.25 :  H * 0.38,
+            rotate: -6, opacity: 0,
             ease: 'none',
             scrollTrigger: {
               trigger: section,
               start: 'top top',
-              end:   '58% bottom',
-              scrub: 2.2,
+              end:   '55% bottom',
+              scrub: 2,
             },
           });
         }, section);
       },
     });
 
-    // 3. Text & character animations
+    // 3. Text & character reveal (scroll-linked)
     const ctx = gsap.context(() => {
 
+      // Text container fades in
       gsap.fromTo(text,
         { opacity: 0 },
         {
           opacity: 1, ease: 'none',
           scrollTrigger: {
             trigger: section,
-            start: '32% center',
-            end:   '46% center',
+            start: mobile ? '28% center' : '32% center',
+            end:   mobile ? '44% center' : '46% center',
             scrub: true,
           },
         },
       );
 
+      // Badge + subtitle + scroll-cue
       gsap.fromTo(
         [badgeRef.current, subRef.current, cueRef.current].filter(Boolean),
-        { y: 28, opacity: 0 },
+        { y: 24, opacity: 0 },
         {
           y: 0, opacity: 1, ease: 'none',
           scrollTrigger: {
             trigger: section,
-            start: '44% center',
-            end:   '54% center',
+            start: mobile ? '42% center' : '44% center',
+            end:   mobile ? '52% center' : '54% center',
             scrub: true,
           },
         },
@@ -123,16 +132,16 @@ export default function HeroSection({ revealed = false }) {
 
         gsap.set(chars, { yPercent: 115, opacity: 0 });
 
+        const offset = mobile ? 4 : 5;
         gsap.to(chars, {
-          yPercent: 0,
-          opacity: 1,
+          yPercent: 0, opacity: 1,
           ease: 'power3.out',
-          stagger: { each: 0.032, from: 'start' },
+          stagger: { each: 0.028, from: 'start' },
           scrollTrigger: {
             trigger: section,
-            start: `${33 + i * 5}% center`,
-            end:   `${47 + i * 5}% center`,
-            scrub: 1.2,
+            start: `${(mobile ? 30 : 33) + i * offset}% center`,
+            end:   `${(mobile ? 44 : 47) + i * offset}% center`,
+            scrub: 1.0,
           },
         });
       });
@@ -144,7 +153,7 @@ export default function HeroSection({ revealed = false }) {
 
   // ── Mouse parallax — desktop only
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
+    if (window.innerWidth < 768) return;
     let tx = 0, ty = 0, cx = 0, cy = 0, raf;
     const el = textRef.current;
     if (!el) return;
@@ -168,14 +177,18 @@ export default function HeroSection({ revealed = false }) {
   }, []);
 
   return (
-    <section ref={sectionRef} style={{ position: 'relative', height: `${SECTION_VH}vh` }}>
+    <section
+      ref={sectionRef}
+      className="hero-section"
+      style={{ position: 'relative', height: '420vh' /* overridden by JS on mobile */ }}
+    >
       <div style={{
         position: 'sticky', top: 0, height: '100vh',
         overflow: 'hidden',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
 
-        {/* Volumetric spotlight cone */}
+        {/* Volumetric spotlight */}
         <div aria-hidden="true" style={{
           position: 'absolute', top: '-10%', left: '50%',
           transform: 'translateX(-50%)',
@@ -193,15 +206,19 @@ export default function HeroSection({ revealed = false }) {
           pointerEvents: 'none', zIndex: 1, filter: 'blur(2px)',
         }} />
 
-        {/* ── PLANE wrapper */}
+        {/* ── PLANE wrapper
+            CSS class controls size (responsive).
+            GSAP controls position via transform (x/y/xPercent/yPercent).
+            x=0 + xPercent=-50 + left:50% = perfectly centered on mobile. */}
         <div
           ref={planeRef}
           className="hero-plane-wrap"
           style={{
             position: 'absolute',
             left: '50%', top: '50%',
-            width: 'clamp(520px, 68vw, 980px)',
-            height: 'clamp(320px, 42.5vw, 612px)',
+            /* desktop fallback — CSS class overrides on mobile */
+            width: 'clamp(460px, 60vw, 900px)',
+            height: 'clamp(288px, 37.5vw, 562px)',
             zIndex: 4, pointerEvents: 'none',
             willChange: 'transform',
           }}
@@ -217,36 +234,44 @@ export default function HeroSection({ revealed = false }) {
             position: 'relative', zIndex: 10,
             textAlign: 'center',
             userSelect: 'none', pointerEvents: 'none',
-            padding: '0 24px', width: '100%',
+            padding: '0 20px', width: '100%',
             transformStyle: 'preserve-3d',
             willChange: 'transform',
           }}
         >
           {/* Badge */}
-          <div ref={badgeRef} className="hero-badge" style={{
-            display: 'inline-flex', marginBottom: 36,
-            padding: '7px 22px',
-            border: '1px solid rgba(255,255,255,0.12)',
-            borderRadius: 100,
-            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-            background: 'rgba(255,255,255,0.03)',
-            animation: 'badgeGlow 4s ease-in-out infinite',
-          }}>
-            <span style={{
+          <div
+            ref={badgeRef}
+            className="hero-badge"
+            style={{
+              display: 'inline-flex', marginBottom: 32,
+              padding: '7px 18px',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: 100,
+              backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+              background: 'rgba(255,255,255,0.03)',
+              animation: 'badgeGlow 4s ease-in-out infinite',
+              maxWidth: '92vw',
+            }}
+          >
+            <span className="hero-badge-text" style={{
               fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.62rem', letterSpacing: '0.24em',
+              fontSize: '0.6rem', letterSpacing: '0.2em',
               color: 'rgba(255,255,255,0.45)',
-              textTransform: 'uppercase', whiteSpace: 'nowrap',
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}>
-              ✦ APPLICATION MOBILE &nbsp;·&nbsp; IOS &amp; ANDROID &nbsp;·&nbsp; BIENTÔT DISPONIBLE
+              ✦ APP MOBILE &nbsp;·&nbsp; IOS &amp; ANDROID &nbsp;·&nbsp; BIENTÔT
             </span>
           </div>
 
           {/* Title */}
           <h1 style={{
-            margin: '0 0 32px',
+            margin: '0 0 28px',
             fontFamily: 'var(--font-bebas)',
-            fontWeight: 400, lineHeight: 0.88,
+            fontWeight: 400, lineHeight: 0.9,
           }}>
             {LINES.map((line, i) => (
               <div
@@ -257,14 +282,12 @@ export default function HeroSection({ revealed = false }) {
                   fontSize: line.size,
                   letterSpacing: line.ls,
                   color: line.color,
-                  marginBottom: i === 1 ? '0.08em' : 0,
+                  marginBottom: i === 1 ? '0.06em' : 0,
                 }}
               >
                 {line.text.split('').map((ch, j) => (
                   <span key={j} className="char-wrap">
-                    <span className="hero-char">
-                      {ch === ' ' ? ' ' : ch}
-                    </span>
+                    <span className="hero-char">{ch === ' ' ? ' ' : ch}</span>
                   </span>
                 ))}
               </div>
@@ -272,34 +295,41 @@ export default function HeroSection({ revealed = false }) {
           </h1>
 
           {/* Subtitle */}
-          <p ref={subRef} className="hero-subtitle" style={{
-            fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
-            fontSize: 'clamp(0.9rem, 1.3vw, 1.1rem)',
-            color: 'rgba(255,255,255,0.42)',
-            maxWidth: 440, margin: '0 auto', lineHeight: 1.75,
-          }}>
-            L&apos;application qui accompagne les étudiants<br />
-            internationaux à chaque étape de leur aventure.
+          <p
+            ref={subRef}
+            className="hero-subtitle"
+            style={{
+              fontFamily: 'var(--font-dm-sans)',
+              fontWeight: 300,
+              fontSize: 'clamp(0.82rem, 1.3vw, 1.05rem)',
+              color: 'rgba(255,255,255,0.42)',
+              maxWidth: 'min(440px, 88vw)',
+              margin: '0 auto',
+              lineHeight: 1.75,
+            }}
+          >
+            L&apos;application qui accompagne les étudiants
+            <span className="hero-br"><br /></span>
+            {' '}internationaux à chaque étape de leur aventure.
           </p>
         </div>
 
         {/* Scroll cue */}
         <div ref={cueRef} className="scroll-cue" style={{
-          position: 'absolute', bottom: 44, left: '50%',
+          position: 'absolute', bottom: 36, left: '50%',
           transform: 'translateX(-50%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
           zIndex: 10, pointerEvents: 'none', userSelect: 'none',
         }}>
           <span style={{
             fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.6rem', letterSpacing: '0.22em',
+            fontSize: '0.55rem', letterSpacing: '0.2em',
             color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase',
           }}>
             Découvrir
           </span>
           <div style={{
-            width: 1, height: 40,
+            width: 1, height: 32,
             background: 'linear-gradient(to bottom, rgba(1,77,248,0.8), transparent)',
             animation: 'heroPulse 2.2s ease-in-out infinite',
           }} />

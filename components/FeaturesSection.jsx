@@ -166,8 +166,8 @@ export default function FeaturesSection() {
         {/* Cards */}
         <div className="features-grid" style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 'clamp(16px,2.5vw,28px)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
+          gap: 'clamp(14px,2.5vw,28px)',
         }}>
           {CARDS.map((card, i) => (
             <div

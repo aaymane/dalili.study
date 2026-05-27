@@ -238,30 +238,42 @@ input[type="email"]:focus {
 /* ─── Mobile responsive ─────────────────────────────────────── */
 
 @media (max-width: 767px) {
-  /* Navbar */
-  .navbar          { padding: 0 16px !important; height: 56px !important; }
-  .navbar-cta      { padding: 9px 16px !important; font-size: 0.72rem !important; }
 
-  /* Hero */
+  /* ── Navbar ──────────────────────────────────────────────── */
+  .navbar     { padding: 0 16px !important; height: 56px !important; }
+  .navbar-cta { padding: 8px 14px !important; font-size: 0.7rem !important; letter-spacing: 0.03em !important; }
+
+  /* ── Hero plane ──────────────────────────────────────────── */
+  /* Width = 96vw, height = 60vw (16:9 aspect), capped nicely  */
   .hero-plane-wrap {
-    width: min(90vw, 360px) !important;
-    height: min(56vw, 225px) !important;
+    width:  min(96vw, 420px) !important;
+    height: min(60vw, 262px) !important;
   }
-  .hero-text-wrap  { padding: 0 20px !important; }
-  .hero-badge      { margin-bottom: 20px !important; }
-  .hero-badge span { font-size: 0.52rem !important; letter-spacing: 0.14em !important; }
-  .hero-subtitle   { font-size: 0.85rem !important; }
-  .scroll-cue      { bottom: 28px !important; }
 
-  /* Features */
-  .features-grid   { grid-template-columns: 1fr !important; gap: 16px !important; }
-  .features-section { padding: 60px 16px !important; }
+  /* ── Hero text ───────────────────────────────────────────── */
+  .hero-text-wrap  { padding: 0 16px !important; }
+  .hero-badge      { padding: 6px 14px !important; margin-bottom: 18px !important; max-width: 90vw !important; }
+  .hero-badge-text { font-size: 0.5rem !important; letter-spacing: 0.12em !important; }
+  .hero-subtitle   { font-size: 0.82rem !important; line-height: 1.65 !important; }
+  .hero-br         { display: none; }   /* remove <br> on mobile — text wraps naturally */
+  .scroll-cue      { bottom: 24px !important; }
 
-  /* Email */
-  .email-form-row  { grid-template-columns: 1fr !important; gap: 10px !important; }
-  .email-section   { padding: 60px 16px !important; }
+  /* ── Features ────────────────────────────────────────────── */
+  .features-section { padding: 56px 16px 48px !important; }
+  .features-grid    {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
 
-  /* Footer */
-  .footer-bottom   { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; }
-  .footer-links    { gap: 16px !important; }
+  /* ── Email capture ───────────────────────────────────────── */
+  .email-section  { min-height: auto !important; padding: 56px 16px 64px !important; }
+  .email-form-row { grid-template-columns: 1fr !important; gap: 10px !important; }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  .footer-links { gap: 20px !important; }
 }
