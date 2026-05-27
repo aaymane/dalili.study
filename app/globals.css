@@ -96,19 +96,10 @@ body {
 }
 
 /* ─── Section paint containment ───────────────────────────── */
-
-/* Prevent layout recalcs from crossing section boundaries */
+/* contain: layout style is safe — no content-visibility (causes blank sections) */
 .features-section,
 .email-section {
   contain: layout style;
-}
-
-/* Skip rendering when off-screen — browser paints on demand */
-.features-section,
-.email-section {
-  content-visibility: auto;
-  /* Reserve space so scroll position stays stable before paint */
-  contain-intrinsic-size: 0 800px;
 }
 
 /* ─── Hero text char container ────────────────────────────── */
@@ -204,6 +195,29 @@ body {
 .feature-card {
   transform-style: preserve-3d;
   will-change: transform;
+}
+
+/* ─── Feature card icon pulse (per-card color via box-shadow) ── */
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1);    filter: brightness(1); }
+  50%       { transform: scale(1.1); filter: brightness(1.2); }
+}
+
+.card-icon-0 { animation: iconPulse 3.2s ease-in-out infinite; }
+.card-icon-1 { animation: iconPulse 3.7s ease-in-out infinite; animation-delay: -1.2s; }
+.card-icon-2 { animation: iconPulse 3.4s ease-in-out infinite; animation-delay: -2.1s; }
+
+/* ─── Paris skyline antenna blink ──────────────────────────── */
+
+@keyframes antennaBlink {
+  0%, 45%, 55%, 100% { opacity: 0.95; }
+  48%, 52%            { opacity: 0.1; }
+}
+
+/* Pause card icon animation on card hover for cleanliness */
+.feature-card:hover .card-icon {
+  animation-play-state: paused;
 }
 
 /* ─── Grain overlay ─────────────────────────────────────────── */

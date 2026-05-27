@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 gsap.registerPlugin(ScrollTrigger);
 
 const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false });
+const ParisSkyline   = dynamic(() => import('./ParisSkyline'),   { ssr: false });
 
 // Mobile-first sizes: clamp(mobile, fluid, desktop)
 const LINES = [
@@ -348,9 +349,9 @@ export default function HeroSection({ revealed = false }) {
         </div>
         </div>{/* /hero-text-offset */}
 
-        {/* Scroll cue */}
+        {/* Scroll cue — sits above the Paris skyline, pushed up on mobile */}
         <div ref={cueRef} className="scroll-cue" style={{
-          position: 'absolute', bottom: 36, left: '50%',
+          position: 'absolute', bottom: 'clamp(90px, 14vh, 130px)', left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
           zIndex: 10, pointerEvents: 'none', userSelect: 'none',
@@ -368,6 +369,9 @@ export default function HeroSection({ revealed = false }) {
             animation: 'heroPulse 2.2s ease-in-out infinite',
           }} />
         </div>
+
+        {/* Paris skyline — cinematic bottom decoration, fades in after plane lands */}
+        <ParisSkyline revealed={revealed} />
 
       </div>
     </section>

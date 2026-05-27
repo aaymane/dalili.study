@@ -12,42 +12,48 @@ const CARDS = [
     tag: '01',
     title: 'Navigation\nIntelligente',
     desc: 'Un guide personnalisé qui t\'accompagne dans chaque démarche — de la visa jusqu\'à ton premier appartement.',
-    // #014DF8 — blue
-    bg:     'linear-gradient(145deg, rgba(1,77,248,0.22) 0%, rgba(2,6,22,0.92) 100%)',
-    border: 'rgba(1,77,248,0.45)',
+    accent: '#014DF8',
+    bg:     'linear-gradient(145deg, rgba(1,77,248,0.18) 0%, rgba(2,6,22,0.95) 100%)',
+    border: 'rgba(1,77,248,0.40)',
     topBar: '#014DF8',
     glow:   'rgba(1,77,248,0.12)',
+    blobBg: 'rgba(1,77,248,0.16)',
     iconBg: 'rgba(1,77,248,0.15)',
     iconBorder: 'rgba(1,77,248,0.3)',
-    iconGlow:   'rgba(1,77,248,0.5)',
+    iconGlow: '0 0 20px rgba(1,77,248,0.7), 0 0 40px rgba(1,77,248,0.3)',
+    shimmer: 'rgba(77,143,255,0.12)',
   },
   {
     icon: '🤝',
     tag: '02',
     title: 'Dalili\nt\'accompagne',
     desc: 'Des mentors étudiants qui ont vécu la même expérience, prêts à partager leurs conseils et leur réseau.',
-    // #EFB370 — amber/gold
-    bg:     'linear-gradient(145deg, rgba(239,179,112,0.20) 0%, rgba(4,8,28,0.92) 100%)',
-    border: 'rgba(239,179,112,0.40)',
+    accent: '#EFB370',
+    bg:     'linear-gradient(145deg, rgba(239,179,112,0.16) 0%, rgba(4,8,28,0.95) 100%)',
+    border: 'rgba(239,179,112,0.38)',
     topBar: '#EFB370',
     glow:   'rgba(239,179,112,0.10)',
+    blobBg: 'rgba(239,179,112,0.14)',
     iconBg: 'rgba(239,179,112,0.12)',
     iconBorder: 'rgba(239,179,112,0.3)',
-    iconGlow:   'rgba(239,179,112,0.5)',
+    iconGlow: '0 0 20px rgba(239,179,112,0.7), 0 0 40px rgba(239,179,112,0.3)',
+    shimmer: 'rgba(239,179,112,0.10)',
   },
   {
     icon: '⚡',
     tag: '03',
     title: 'Démarches\nSimplifiées',
     desc: 'CAF, CROUS, sécu étudiante — on centralise tout. Moins de stress, plus de temps pour vivre.',
-    // #22C55E — emerald green
-    bg:     'linear-gradient(145deg, rgba(34,197,94,0.18) 0%, rgba(2,10,18,0.92) 100%)',
-    border: 'rgba(34,197,94,0.38)',
+    accent: '#22C55E',
+    bg:     'linear-gradient(145deg, rgba(34,197,94,0.15) 0%, rgba(2,10,18,0.95) 100%)',
+    border: 'rgba(34,197,94,0.35)',
     topBar: '#22C55E',
     glow:   'rgba(34,197,94,0.10)',
+    blobBg: 'rgba(34,197,94,0.13)',
     iconBg: 'rgba(34,197,94,0.12)',
     iconBorder: 'rgba(34,197,94,0.3)',
-    iconGlow:   'rgba(34,197,94,0.5)',
+    iconGlow: '0 0 20px rgba(34,197,94,0.7), 0 0 40px rgba(34,197,94,0.3)',
+    shimmer: 'rgba(34,197,94,0.10)',
   },
 ];
 
@@ -55,6 +61,8 @@ export default function FeaturesSection() {
   const sectionRef = useRef(null);
   const titleRef   = useRef(null);
   const cardsRef   = useRef([]);
+  const shimmerRef = useRef([]);   // shimmer layer per card
+  const blobRef    = useRef([]);   // animated blob per card
 
   // ── Title 3D character reveal on scroll
   useEffect(() => {
@@ -76,34 +84,113 @@ export default function FeaturesSection() {
     return () => ctx.revert();
   }, []);
 
-  // ── Cards scroll reveal
+  // ── Cards scroll reveal + GSAP float idle
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth < 768;
+
     const ctx = gsap.context(() => {
       cardsRef.current.forEach((card, i) => {
         if (!card) return;
+
+        // Scroll entrance
         gsap.from(card, {
-          y: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
-          delay: i * 0.12,
+          y: 70, opacity: 0, duration: 0.95, ease: 'power3.out',
+          delay: i * 0.14,
           scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' },
+          onComplete: () => {
+            // Start idle float AFTER entrance so they don't fight
+            if (!reduced && !isMobile) {
+              gsap.to(card, {
+                y: -10,
+                duration: 3.8 + i * 0.5,
+                ease: 'sine.inOut',
+                yoyo: true,
+                repeat: -1,
+                delay: i * 0.9,
+              });
+            }
+          },
         });
       });
     });
+
     return () => ctx.revert();
   }, []);
 
-  // ── 3D tilt on hover
-  function onCardMove(e, el) {
+  // ── Shimmer sweep animation per card (every ~7s, staggered)
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+
+    shimmerRef.current.forEach((el, i) => {
+      if (!el) return;
+      function runShimmer() {
+        gsap.fromTo(el,
+          { x: '-110%', opacity: 0 },
+          {
+            x: '110%', opacity: 1,
+            duration: 0.9, ease: 'power2.inOut',
+            onComplete: () => { gsap.set(el, { opacity: 0 }); },
+          }
+        );
+      }
+      // Initial delay staggered per card
+      const id = setTimeout(() => {
+        runShimmer();
+        setInterval(runShimmer, 7000 + i * 800);
+      }, 3200 + i * 900);
+
+      return () => clearTimeout(id);
+    });
+  }, []);
+
+  // ── Blob drift animations per card
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+
+    blobRef.current.forEach((blob, i) => {
+      if (!blob) return;
+      gsap.to(blob, {
+        x: (i % 2 === 0 ? 18 : -18),
+        y: (i % 2 === 0 ? -12 : 14),
+        duration: 5 + i * 0.8,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: i * 0.7,
+      });
+    });
+  }, []);
+
+  // ── 3D tilt via GSAP (composes with float y)
+  function onCardMove(e, i) {
     if (window.innerWidth < 768) return;
-    const r = el.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width  - 0.5) * 2;
-    const y = ((e.clientY - r.top)  / r.height - 0.5) * 2;
-    el.style.transform  = `perspective(900px) rotateY(${(x * 8).toFixed(2)}deg) rotateX(${(-y * 6).toFixed(2)}deg) translateZ(8px)`;
-    el.style.transition = 'none';
+    const el = cardsRef.current[i];
+    if (!el) return;
+    const r  = el.getBoundingClientRect();
+    const x  = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+    const y  = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+    gsap.to(el, {
+      rotateY:  x * 10,
+      rotateX: -y *  8,
+      z: 16,
+      duration: 0.3,
+      ease: 'power2.out',
+      overwrite: 'auto',
+    });
   }
-  function onCardLeave(el) {
-    el.style.transition = 'transform .6s cubic-bezier(.34,1.56,.64,1)';
-    el.style.transform  = 'perspective(900px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
+
+  function onCardLeave(i) {
+    const el = cardsRef.current[i];
+    if (!el) return;
+    gsap.to(el, {
+      rotateY: 0, rotateX: 0, z: 0,
+      duration: 0.65,
+      ease: 'elastic.out(1, 0.55)',
+      overwrite: 'auto',
+    });
   }
 
   return (
@@ -115,7 +202,7 @@ export default function FeaturesSection() {
         position: 'relative', overflow: 'hidden',
       }}
     >
-      {/* Background glow — no filter:blur (gradient is naturally soft) */}
+      {/* Background glow */}
       <div aria-hidden="true" style={{
         position: 'absolute', top: '30%', left: '50%',
         transform: 'translateX(-50%)',
@@ -163,7 +250,7 @@ export default function FeaturesSection() {
           </h2>
         </div>
 
-        {/* Cards */}
+        {/* ── Cards grid ── */}
         <div className="features-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
@@ -173,53 +260,132 @@ export default function FeaturesSection() {
             <div
               key={i}
               ref={el => { cardsRef.current[i] = el; }}
-              onMouseMove={e => onCardMove(e, e.currentTarget)}
-              onMouseLeave={e => onCardLeave(e.currentTarget)}
+              onMouseMove={e => onCardMove(e, i)}
+              onMouseLeave={() => onCardLeave(i)}
               className="feature-card"
               style={{
                 padding: 'clamp(28px,4vw,44px)',
                 background: card.bg,
                 border: `1px solid ${card.border}`,
-                borderRadius: 20,
+                borderRadius: 22,
                 backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
                 boxShadow: `0 20px 60px rgba(0,0,0,0.35), 0 0 40px ${card.glow}`,
                 position: 'relative', overflow: 'hidden',
-                cursor: 'default', transformStyle: 'preserve-3d',
+                cursor: 'default',
+                transformStyle: 'preserve-3d',
+                willChange: 'transform',
               }}
             >
+              {/* ── Animated gradient blob (slow drift) */}
+              <div
+                ref={el => { blobRef.current[i] = el; }}
+                aria-hidden="true"
+                style={{
+                  position: 'absolute',
+                  top: '-20%', left: '-20%',
+                  width: '140%', height: '140%',
+                  background: `radial-gradient(circle at 40% 40%, ${card.blobBg} 0%, transparent 60%)`,
+                  borderRadius: '50%',
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                  filter: 'blur(28px)',
+                }}
+              />
+
+              {/* ── Shimmer sweep line */}
+              <div
+                ref={el => { shimmerRef.current[i] = el; }}
+                aria-hidden="true"
+                style={{
+                  position: 'absolute',
+                  top: 0, left: 0,
+                  width: '60%', height: '100%',
+                  background: `linear-gradient(105deg, transparent 30%, ${card.shimmer} 50%, transparent 70%)`,
+                  transform: 'translateX(-110%)',
+                  pointerEvents: 'none',
+                  zIndex: 5,
+                  opacity: 0,
+                }}
+              />
+
               {/* Top accent stripe */}
               <div style={{
                 position: 'absolute', top: 0, left: 0, right: 0, height: 2,
                 background: `linear-gradient(90deg, transparent, ${card.topBar}, transparent)`,
+                zIndex: 2,
               }} />
 
-              {/* Icon + tag row */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28 }}>
+              {/* Corner glow bottom-right */}
+              <div aria-hidden="true" style={{
+                position: 'absolute', bottom: -10, right: -10,
+                width: 160, height: 160,
+                background: `radial-gradient(circle at bottom right, ${card.glow.replace('0.10', '0.22')} 0%, transparent 70%)`,
+                pointerEvents: 'none', zIndex: 1,
+              }} />
+
+              {/* ── Icon + tag row */}
+              <div style={{
+                display: 'flex', alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                marginBottom: 28,
+                position: 'relative', zIndex: 3,
+              }}>
+                {/* Icon — larger, 3D depth feel */}
                 <div style={{
-                  width: 52, height: 52,
+                  width: 64, height: 64,
                   background: card.iconBg,
                   border: `1px solid ${card.iconBorder}`,
-                  borderRadius: 14,
+                  borderRadius: 18,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.6rem',
-                  filter: `drop-shadow(0 0 12px ${card.iconGlow})`,
+                  fontSize: '2rem',
+                  boxShadow: card.iconGlow,
+                  flexShrink: 0,
+                  /* CSS pulse animation via class */
                 }}>
-                  <span aria-hidden="true">{card.icon}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`card-icon card-icon-${i}`}
+                    style={{ display: 'block', lineHeight: 1 }}
+                  >
+                    {card.icon}
+                  </span>
                 </div>
-                <span style={{
-                  fontFamily: 'var(--font-montserrat)',
-                  fontSize: '0.65rem', fontWeight: 700,
-                  letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)',
-                }}>
-                  {card.tag}
-                </span>
+
+                {/* Tag + decorative dots */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+                  <span style={{
+                    fontFamily: 'var(--font-montserrat)',
+                    fontSize: '0.65rem', fontWeight: 700,
+                    letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)',
+                  }}>
+                    {card.tag}
+                  </span>
+                  {/* Decorative 3 dots */}
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    {[1, 0.4, 0.15].map((op, j) => (
+                      <div
+                        key={j}
+                        style={{
+                          width: 5, height: 5,
+                          borderRadius: '50%',
+                          background: card.accent,
+                          opacity: op,
+                          boxShadow: `0 0 6px ${card.accent}`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
 
               <h3 style={{
                 fontFamily: 'var(--font-bebas)',
-                fontWeight: 400, fontSize: 'clamp(1.8rem,3vw,2.5rem)',
+                fontWeight: 400,
+                fontSize: 'clamp(1.8rem,3vw,2.6rem)',
                 lineHeight: 0.95, letterSpacing: '0.04em',
-                color: '#fff', margin: '0 0 16px', whiteSpace: 'pre-line',
+                color: '#fff', margin: '0 0 16px',
+                whiteSpace: 'pre-line',
+                position: 'relative', zIndex: 3,
               }}>
                 {card.title}
               </h3>
@@ -227,17 +393,18 @@ export default function FeaturesSection() {
               <p style={{
                 fontFamily: 'var(--font-dm-sans)',
                 fontWeight: 300, fontSize: '0.92rem',
-                lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', margin: 0,
+                lineHeight: 1.72, color: 'rgba(255,255,255,0.45)',
+                margin: 0,
+                position: 'relative', zIndex: 3,
               }}>
                 {card.desc}
               </p>
 
-              {/* Corner glow accent */}
+              {/* Bottom accent line */}
               <div style={{
-                position: 'absolute', bottom: 0, right: 0,
-                width: 130, height: 130,
-                background: `radial-gradient(circle at bottom right, ${card.glow.replace('0.10', '0.2')} 0%, transparent 70%)`,
-                pointerEvents: 'none',
+                position: 'absolute', bottom: 0, left: 0, right: 0, height: 1,
+                background: `linear-gradient(90deg, transparent, ${card.border}, transparent)`,
+                zIndex: 2,
               }} />
             </div>
           ))}
