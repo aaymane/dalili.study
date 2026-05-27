@@ -208,6 +208,47 @@ body {
 .card-icon-1 { animation: iconPulse 3.7s ease-in-out infinite; animation-delay: -1.2s; }
 .card-icon-2 { animation: iconPulse 3.4s ease-in-out infinite; animation-delay: -2.1s; }
 
+/* ─── Hero floating stat chips ─────────────────────────────── */
+
+@keyframes chipFloat0 {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-7px); }
+}
+@keyframes chipFloat1 {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-5px); }
+}
+@keyframes chipFloat2 {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Outer wrapper: absolute position + float animation */
+.hero-chip-wrap {
+  position: absolute;
+  zIndex: 8;
+  pointer-events: none;
+}
+
+/* Desktop: scatter in the LEFT half (plane is right side) */
+@media (min-width: 768px) {
+  .hero-chip-wrap-0 { left: 7%;  top: 40%; animation: chipFloat0 4.5s ease-in-out infinite; }
+  .hero-chip-wrap-1 { left: 12%; top: 57%; animation: chipFloat1 3.9s ease-in-out infinite 1.1s; }
+  .hero-chip-wrap-2 { left: 5%;  top: 71%; animation: chipFloat2 4.2s ease-in-out infinite 2.0s; }
+}
+
+/* Mobile: one centered chip in the empty space below the plane */
+@media (max-width: 767px) {
+  .hero-chip-wrap-0 {
+    left: 50%;
+    top: 62%;
+    transform: translateX(-50%);
+    animation: chipFloat0 4.2s ease-in-out infinite;
+  }
+  .hero-chip-wrap-1,
+  .hero-chip-wrap-2 { display: none; }
+}
+
 /* ─── Paris skyline antenna blink ──────────────────────────── */
 
 @keyframes antennaBlink {

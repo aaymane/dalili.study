@@ -10,6 +10,13 @@ gsap.registerPlugin(ScrollTrigger);
 const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false });
 const ParisSkyline   = dynamic(() => import('./ParisSkyline'),   { ssr: false });
 
+// Floating stat chips — fill the empty hero space
+const HERO_CHIPS = [
+  { icon: '🌍', value: '200+', label: 'étudiants inscrits' },
+  { icon: '🇫🇷', value: 'Paris',      label: 'Destination' },
+  { icon: '📱', value: 'iOS & Android', label: 'Bientôt' },
+];
+
 // Mobile-first sizes: clamp(mobile, fluid, desktop)
 const LINES = [
   { text: 'TON',     color: '#ffffff',               size: 'clamp(3.4rem,13.5vw,16rem)', ls: '0.02em' },
@@ -26,6 +33,7 @@ export default function HeroSection({ revealed = false }) {
   const badgeRef   = useRef(null);
   const subRef     = useRef(null);
   const cueRef     = useRef(null);
+  const chipsRef   = useRef([]);
 
   // ── Set section height + initial hidden state before paint
   useEffect(() => {
@@ -74,6 +82,12 @@ export default function HeroSection({ revealed = false }) {
       opacity: 1,
       duration: 1.7, ease: 'power3.out',
       onComplete: () => {
+        // Fade in stat chips after plane lands (opacity only — float is pure CSS)
+        chipsRef.current.forEach((chip, i) => {
+          if (!chip) return;
+          gsap.to(chip, { opacity: 1, duration: 0.65, ease: 'power2.out', delay: i * 0.2 });
+        });
+
         // 2. Scroll-driven diagonal exit
         gsap.context(() => {
           gsap.to(plane, {
@@ -369,6 +383,49 @@ export default function HeroSection({ revealed = false }) {
             animation: 'heroPulse 2.2s ease-in-out infinite',
           }} />
         </div>
+
+        {/* ── Floating stat chips — fill the empty hero space
+            Outer div: CSS absolute position + float animation
+            Inner div (ref): GSAP opacity-only entrance (no transform conflict) */}
+        {HERO_CHIPS.map((chip, i) => (
+          <div key={i} className={`hero-chip-wrap hero-chip-wrap-${i}`} aria-hidden="true">
+            <div
+              ref={el => { chipsRef.current[i] = el; }}
+              className="hero-chip"
+              style={{
+                opacity: 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '10px 16px',
+                background: 'rgba(1,5,22,0.72)',
+                border: '1px solid rgba(1,77,248,0.28)',
+                borderRadius: 14,
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 18px rgba(1,77,248,0.10)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>{chip.icon}</span>
+              <div>
+                <div style={{
+                  fontFamily: 'var(--font-montserrat)',
+                  fontWeight: 700, fontSize: '0.78rem',
+                  color: '#fff', lineHeight: 1.2,
+                }}>{chip.value}</div>
+                <div style={{
+                  fontFamily: 'var(--font-dm-sans)',
+                  fontSize: '0.58rem',
+                  color: 'rgba(77,143,255,0.7)',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  lineHeight: 1.3,
+                }}>{chip.label}</div>
+              </div>
+            </div>
+          </div>
+        ))}
 
         {/* Paris skyline — cinematic bottom decoration, fades in after plane lands */}
         <ParisSkyline revealed={revealed} />

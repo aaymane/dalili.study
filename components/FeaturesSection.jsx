@@ -86,8 +86,9 @@ export default function FeaturesSection() {
 
   // ── Cards scroll reveal + GSAP float idle
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = window.innerWidth < 768;
+    const reduced   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile  = window.innerWidth < 768;
+    const floatAmp  = isMobile ? -6 : -10; // smaller amplitude on mobile
 
     const ctx = gsap.context(() => {
       cardsRef.current.forEach((card, i) => {
@@ -97,21 +98,20 @@ export default function FeaturesSection() {
         gsap.from(card, {
           y: 70, opacity: 0, duration: 0.95, ease: 'power3.out',
           delay: i * 0.14,
-          scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' },
-          onComplete: () => {
-            // Start idle float AFTER entrance so they don't fight
-            if (!reduced && !isMobile) {
-              gsap.to(card, {
-                y: -10,
-                duration: 3.8 + i * 0.5,
-                ease: 'sine.inOut',
-                yoyo: true,
-                repeat: -1,
-                delay: i * 0.9,
-              });
-            }
-          },
+          scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' },
         });
+
+        // Idle float — starts immediately (GSAP handles compose with entrance)
+        if (!reduced) {
+          gsap.to(card, {
+            y: floatAmp,
+            duration: 3.6 + i * 0.5,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+            delay: i * 0.8,
+          });
+        }
       });
     });
 
