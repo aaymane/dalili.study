@@ -1,0 +1,152 @@
+{
+  "sourceSize": {
+    "width": 2500,
+    "height": 2500
+  },
+  "parts": {
+    "fuselage": {
+      "file": "fuselage.png",
+      "x": 524,
+      "y": 880,
+      "width": 1708,
+      "height": 722,
+      "center": {
+        "x": 1377,
+        "y": 1240
+      },
+      "explode": {
+        "x": -250,
+        "y": 140
+      },
+      "visible": true
+    },
+    "nose": {
+      "file": "nose.png",
+      "x": 508,
+      "y": 1416,
+      "width": 329,
+      "height": 185,
+      "center": {
+        "x": 674,
+        "y": 1508
+      },
+      "explode": {
+        "x": -420,
+        "y": 230
+      },
+      "visible": true
+    },
+    "wing-left": {
+      "file": "wing-left.png",
+      "x": 652,
+      "y": 644,
+      "width": 479,
+      "height": 626,
+      "center": {
+        "x": 892,
+        "y": 957
+      },
+      "explode": {
+        "x": -260,
+        "y": -360
+      },
+      "visible": true
+    },
+    "wing-right": {
+      "file": "wing-right.png",
+      "x": 1196,
+      "y": 1288,
+      "width": 1198,
+      "height": 366,
+      "center": {
+        "x": 1795,
+        "y": 1469
+      },
+      "explode": {
+        "x": 370,
+        "y": 250
+      },
+      "visible": true
+    },
+    "engine-left": {
+      "file": "engine-left.png",
+      "x": 796,
+      "y": 1072,
+      "width": 228,
+      "height": 227,
+      "center": {
+        "x": 909,
+        "y": 1184
+      },
+      "explode": {
+        "x": -420,
+        "y": -90
+      },
+      "visible": true
+    },
+    "engine-right": {
+      "file": "engine-right.png",
+      "x": 1256,
+      "y": 1432,
+      "width": 223,
+      "height": 160,
+      "center": {
+        "x": 1366,
+        "y": 1510
+      },
+      "explode": {
+        "x": 120,
+        "y": 430
+      },
+      "visible": true
+    },
+    "tail": {
+      "file": "tail.png",
+      "x": 1708,
+      "y": 468,
+      "width": 351,
+      "height": 585,
+      "center": {
+        "x": 1882,
+        "y": 760
+      },
+      "explode": {
+        "x": 210,
+        "y": -430
+      },
+      "visible": true
+    },
+    "tail-h": {
+      "file": "tail-h.png",
+      "x": 1696,
+      "y": 736,
+      "width": 566,
+      "height": 264,
+      "center": {
+        "x": 1976,
+        "y": 870
+      },
+      "explode": {
+        "x": 430,
+        "y": -90
+      },
+      "visible": true
+    },
+    "landing-gear": {
+      "file": "landing-gear.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "center": {
+        "x": 0,
+        "y": 0
+      },
+      "explode": {
+        "x": 0,
+        "y": 520
+      },
+      "visible": false
+    }
+  }
+}

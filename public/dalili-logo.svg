@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="daliliLogoTitle">
+  <title id="daliliLogoTitle">Dalili logo</title>
+  <defs>
+    <filter id="daliliBlueGlow" x="-55%" y="-55%" width="210%" height="210%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="72" result="blur" />
+      <feFlood flood-color="#014df8" flood-opacity="0.4" result="glowColor" />
+      <feComposite in="glowColor" in2="blur" operator="in" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#daliliBlueGlow)">
+    <path
+      fill="#014df8"
+      fill-rule="evenodd"
+      d="M294.4 149.333h435.2L930.133 349.867v324.266L729.6 874.667H294.4L93.867 674.133V349.867L294.4 149.333Zm64 106.667L221.867 392.533l166.4 166.4L533.333 413.867h72.534L772.267 580.267 644.267 708.267H349.867L221.867 580.267l-72.534 72.533 166.4 166.4h392.534L874.667 652.8 661.333 439.467H490.667L345.6 584.533 256 494.933 430.933 320h230.4l110.934 110.933V320l-64-64H332.8L157.867 430.933l115.2 115.2 76.8-76.8L358.4 256Z"
+    />
+  </g>
+</svg>
