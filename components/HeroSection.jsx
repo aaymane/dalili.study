@@ -363,24 +363,31 @@ export default function HeroSection({ revealed = false }) {
         </div>
         </div>{/* /hero-text-offset */}
 
-        {/* Scroll cue — sits above the Paris skyline, pushed up on mobile */}
+        {/* Scroll cue — sits above the Paris skyline with clear separation */}
         <div ref={cueRef} className="scroll-cue" style={{
-          position: 'absolute', bottom: 'clamp(90px, 14vh, 130px)', left: '50%',
+          position: 'absolute', bottom: 'clamp(155px, 21vh, 230px)', left: '50%',
           transform: 'translateX(-50%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
           zIndex: 10, pointerEvents: 'none', userSelect: 'none',
         }}>
+          {/* Pulsing dot */}
+          <div style={{
+            width: 5, height: 5, borderRadius: '50%',
+            background: 'rgba(77,143,255,0.7)',
+            boxShadow: '0 0 8px rgba(1,77,248,0.8)',
+            animation: 'heroPulse 2.2s ease-in-out infinite',
+          }} />
           <span style={{
             fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.55rem', letterSpacing: '0.2em',
-            color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase',
+            fontSize: '0.5rem', letterSpacing: '0.22em',
+            color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase',
           }}>
             Découvrir
           </span>
           <div style={{
-            width: 1, height: 32,
-            background: 'linear-gradient(to bottom, rgba(1,77,248,0.8), transparent)',
-            animation: 'heroPulse 2.2s ease-in-out infinite',
+            width: 1, height: 28,
+            background: 'linear-gradient(to bottom, rgba(1,77,248,0.6), transparent)',
+            animation: 'heroPulse 2.2s ease-in-out infinite 0.4s',
           }} />
         </div>
 
@@ -397,13 +404,14 @@ export default function HeroSection({ revealed = false }) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 10,
-                padding: '10px 16px',
-                background: 'rgba(1,5,22,0.72)',
-                border: '1px solid rgba(1,77,248,0.28)',
+                padding: '10px 16px 10px 14px',
+                background: 'rgba(1,5,22,0.80)',
+                border: '1px solid rgba(1,77,248,0.32)',
+                borderLeft: '3px solid rgba(1,77,248,0.85)',
                 borderRadius: 14,
-                backdropFilter: 'blur(14px)',
-                WebkitBackdropFilter: 'blur(14px)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 18px rgba(1,77,248,0.10)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.50), 0 0 24px rgba(1,77,248,0.13), inset 0 1px 0 rgba(255,255,255,0.04)',
                 whiteSpace: 'nowrap',
               }}
             >

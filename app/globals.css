@@ -237,15 +237,20 @@ body {
   .hero-chip-wrap-2 { left: 5%;  top: 71%; animation: chipFloat2 4.2s ease-in-out infinite 2.0s; }
 }
 
-/* Mobile: one centered chip in the empty space below the plane */
+/* Mobile: two stacked centered chips in the empty space below the plane */
 @media (max-width: 767px) {
   .hero-chip-wrap-0 {
     left: 50%;
-    top: 62%;
+    top: 56%;
     transform: translateX(-50%);
-    animation: chipFloat0 4.2s ease-in-out infinite;
+    animation: chipFloat0 4.5s ease-in-out infinite;
   }
-  .hero-chip-wrap-1,
+  .hero-chip-wrap-1 {
+    left: 50%;
+    top: 69%;
+    transform: translateX(-50%);
+    animation: chipFloat1 3.9s ease-in-out infinite 1.2s;
+  }
   .hero-chip-wrap-2 { display: none; }
 }
 
@@ -334,7 +339,7 @@ input[type="email"]:focus {
   .hero-badge-text { font-size: 0.5rem !important; letter-spacing: 0.12em !important; }
   .hero-subtitle   { font-size: 0.82rem !important; line-height: 1.65 !important; }
   .hero-br         { display: none; }   /* remove <br> on mobile — text wraps naturally */
-  .scroll-cue      { bottom: 24px !important; }
+  .scroll-cue      { bottom: 155px !important; }
 
   /* ── Features ────────────────────────────────────────────── */
   .features-section { padding: 56px 16px 48px !important; }
