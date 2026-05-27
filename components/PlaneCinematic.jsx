@@ -215,10 +215,39 @@ const PlaneCinematic = forwardRef(function PlaneCinematic(
       }
     }
 
+    // Pause when tab is hidden — saves GPU when user switches tabs
+    function onVisibility() {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+      } else {
+        last = performance.now();
+        raf  = requestAnimationFrame(draw);
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility);
+
+    // Pause when canvas is scrolled off-screen (IntersectionObserver)
+    let visible = true;
+    const io = typeof IntersectionObserver !== 'undefined'
+      ? new IntersectionObserver((entries) => {
+          const wasVisible = visible;
+          visible = entries[0].isIntersecting;
+          if (!visible) {
+            cancelAnimationFrame(raf);
+          } else if (!wasVisible) {
+            last = performance.now();
+            raf  = requestAnimationFrame(draw);
+          }
+        }, { rootMargin: '50% 0px' })
+      : null;
+    if (io) io.observe(canvas);
+
     return () => {
       cancelAnimationFrame(raf);
       if (resizeObs) resizeObs.unobserve(canvas);
       else window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibility);
+      if (io) io.unobserve(canvas);
     };
   }, [src, hasAlpha]);
 

@@ -41,8 +41,12 @@ body {
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: none;
   overflow-x: hidden;
+}
+
+/* Hide cursor only on precise-pointer (mouse) devices */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
 }
 
 /* ─── Cursor ──────────────────────────────────────────────── */
@@ -89,6 +93,22 @@ body {
   height: 54px;
   border-color: rgba(77,143,255,0.7);
   background: rgba(1,77,248,0.07);
+}
+
+/* ─── Section paint containment ───────────────────────────── */
+
+/* Prevent layout recalcs from crossing section boundaries */
+.features-section,
+.email-section {
+  contain: layout style;
+}
+
+/* Skip rendering when off-screen — browser paints on demand */
+.features-section,
+.email-section {
+  content-visibility: auto;
+  /* Reserve space so scroll position stays stable before paint */
+  contain-intrinsic-size: 0 800px;
 }
 
 /* ─── Hero text char container ────────────────────────────── */

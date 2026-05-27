@@ -119,7 +119,6 @@ export default function EmailCapture() {
         borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(1,77,248,0.08) 0%, transparent 65%)',
         pointerEvents: 'none', zIndex: 0,
-        filter: 'blur(2px)',
         animation: 'glowPulse 6s ease-in-out infinite',
       }} />
 
@@ -272,7 +271,7 @@ export default function EmailCapture() {
                 lineHeight: 1.7,
                 color: 'rgba(255,255,255,0.42)',
               }}>
-                Sois parmi les premiers à recevoir Dalili et rejoindre<br />notre communauté d&apos;étudiants internationaux.
+                Sois parmi les premiers à recevoir Dalili et rejoindre notre communauté d&apos;étudiants internationaux.
               </p>
 
               <form onSubmit={handleSubmit} noValidate>

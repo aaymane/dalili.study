@@ -115,13 +115,13 @@ export default function FeaturesSection() {
         position: 'relative', overflow: 'hidden',
       }}
     >
-      {/* Background glow */}
+      {/* Background glow — no filter:blur (gradient is naturally soft) */}
       <div aria-hidden="true" style={{
         position: 'absolute', top: '30%', left: '50%',
         transform: 'translateX(-50%)',
         width: '80vw', height: '60vh',
         background: 'radial-gradient(ellipse, rgba(1,77,248,0.055) 0%, transparent 70%)',
-        pointerEvents: 'none', filter: 'blur(4px)',
+        pointerEvents: 'none',
       }} />
 
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>

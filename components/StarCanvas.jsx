@@ -225,9 +225,22 @@ export default function StarCanvas() {
     }
 
     raf = requestAnimationFrame(draw);
+
+    // Pause animation when tab is hidden — saves battery + GPU
+    function onVisibility() {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+      } else {
+        last = performance.now();
+        raf  = requestAnimationFrame(draw);
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, []);
 
@@ -239,7 +252,9 @@ export default function StarCanvas() {
         position: 'fixed', inset: 0,
         width: '100%', height: '100%',
         zIndex: 0, pointerEvents: 'none',
-        willChange: 'contents',
+        /* 'transform' promotes to own compositor layer for cheap repaints */
+        willChange: 'transform',
+        transform: 'translateZ(0)',
       }}
     />
   );

@@ -15,6 +15,8 @@ interface Props {
 export default function LenisProvider({ children, enabled = true }: Props) {
   useEffect(() => {
     if (!enabled) return;
+    // Skip smooth scroll on touch devices — native momentum feels better
+    if (window.matchMedia('(pointer: coarse)').matches) return;
 
     const lenis = new Lenis({
       duration: 1.3,

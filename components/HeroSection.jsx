@@ -151,12 +151,15 @@ export default function HeroSection({ revealed = false }) {
     return () => ctx.revert();
   }, [revealed]);
 
-  // ── Mouse parallax — desktop only
+  // ── Mouse parallax — desktop only; pauses when hero is off-screen or tab hidden
   useEffect(() => {
     if (window.innerWidth < 768) return;
     let tx = 0, ty = 0, cx = 0, cy = 0, raf;
-    const el = textRef.current;
-    if (!el) return;
+    const el      = textRef.current;
+    const section = sectionRef.current;
+    if (!el || !section) return;
+
+    let inView = true;
 
     const onMove = (e) => {
       tx = (e.clientX / window.innerWidth  - 0.5) * 2;
@@ -168,11 +171,37 @@ export default function HeroSection({ revealed = false }) {
       el.style.transform = `perspective(1400px) rotateY(${(cx * 3.5).toFixed(2)}deg) rotateX(${(-cy * 2.5).toFixed(2)}deg)`;
       raf = requestAnimationFrame(loop);
     };
+
+    // Stop loop when hero scrolls out of viewport
+    const io = typeof IntersectionObserver !== 'undefined'
+      ? new IntersectionObserver((entries) => {
+          inView = entries[0].isIntersecting;
+          if (!inView) {
+            cancelAnimationFrame(raf);
+          } else {
+            raf = requestAnimationFrame(loop);
+          }
+        }, { threshold: 0 })
+      : null;
+    if (io) io.observe(section);
+
+    // Stop loop when tab hidden
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+      } else if (inView) {
+        raf = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
     window.addEventListener('mousemove', onMove, { passive: true });
     raf = requestAnimationFrame(loop);
     return () => {
       window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('visibilitychange', onVisibility);
       cancelAnimationFrame(raf);
+      if (io) io.unobserve(section);
     };
   }, []);
 
@@ -188,13 +217,13 @@ export default function HeroSection({ revealed = false }) {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
 
-        {/* Volumetric spotlight */}
+        {/* Volumetric spotlight — no filter:blur (CSS gradient is soft enough) */}
         <div aria-hidden="true" style={{
           position: 'absolute', top: '-10%', left: '50%',
           transform: 'translateX(-50%)',
           width: '140vw', height: '130vh',
-          background: 'conic-gradient(from 258deg at 50% 0%, rgba(1,77,248,0) 0deg, rgba(1,77,248,0.05) 14deg, rgba(1,77,248,0) 28deg)',
-          pointerEvents: 'none', zIndex: 1, filter: 'blur(1px)',
+          background: 'conic-gradient(from 258deg at 50% 0%, rgba(1,77,248,0) 0deg, rgba(1,77,248,0.04) 14deg, rgba(1,77,248,0) 28deg)',
+          pointerEvents: 'none', zIndex: 1,
         }} />
 
         {/* Horizon glow */}
@@ -203,7 +232,7 @@ export default function HeroSection({ revealed = false }) {
           transform: 'translateX(-50%)',
           width: '90vw', height: '35vh',
           background: 'radial-gradient(ellipse at center bottom, rgba(1,77,248,0.07) 0%, transparent 70%)',
-          pointerEvents: 'none', zIndex: 1, filter: 'blur(2px)',
+          pointerEvents: 'none', zIndex: 1,
         }} />
 
         {/* ── PLANE wrapper
@@ -248,8 +277,8 @@ export default function HeroSection({ revealed = false }) {
               padding: '7px 18px',
               border: '1px solid rgba(255,255,255,0.12)',
               borderRadius: 100,
-              backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-              background: 'rgba(255,255,255,0.03)',
+              backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+              background: 'rgba(255,255,255,0.04)',
               animation: 'badgeGlow 4s ease-in-out infinite',
               maxWidth: '92vw',
             }}
