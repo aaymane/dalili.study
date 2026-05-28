@@ -8,7 +8,7 @@ const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: f
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700", "900"],   // only weights actually used; saves 3 font files
   display: "swap",
   preload: true,
 });

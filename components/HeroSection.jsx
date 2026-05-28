@@ -107,73 +107,75 @@ export default function HeroSection({ revealed = false }) {
     const H      = window.innerHeight;
     const mobile = W < 768;
 
-    // 1. Plane swoops in from off-screen
+    // 1. Plane swoops in from off-screen (1.7s entrance)
     gsap.to(plane, {
       xPercent: -50, yPercent: -50,
-      x:      mobile ? 0       : W * 0.26,   // centered on mobile, right on desktop
-      y:      mobile ? -H * 0.2 : -H * 0.18, // upper portion
+      x:      mobile ? 0       : W * 0.26,
+      y:      mobile ? -H * 0.2 : -H * 0.18,
       rotate: mobile ? 2 : 5,
       opacity: 1,
       duration: 1.7, ease: 'power3.out',
-      onComplete: () => {
-        // Cards: spring entrance + float + 3D wobble
-        chipsRef.current.forEach((chip, i) => {
-          if (!chip) return;
-          const wrap = chip.parentElement;
-          const fromRight = i % 2 === 0;
-
-          // 1. Spring entrance from the side
-          gsap.fromTo(wrap,
-            { x: fromRight ? 80 : -80, opacity: 0, scale: 0.82, rotateZ: fromRight ? 6 : -6 },
-            { x: 0, opacity: 1, scale: 1, rotateZ: 0,
-              duration: 0.95, ease: 'back.out(1.6)',
-              delay: i * 0.28,
-            }
-          );
-          gsap.to(chip, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: i * 0.28 + 0.15 });
-
-          // 2. Continuous float
-          gsap.to(wrap, {
-            y: -(8 + i * 2),
-            duration: 4 + i * 0.65,
-            ease: 'sine.inOut',
-            yoyo: true, repeat: -1,
-            delay: i * 1.1 + 1,
-          });
-
-          // 3. 3D wobble on inner card
-          gsap.to(chip, {
-            rotateX: fromRight ?  6 : -5,
-            rotateY: fromRight ? -9 :  8,
-            z: 16,
-            duration: 3.8 + i * 0.9,
-            ease: 'sine.inOut',
-            yoyo: true, repeat: -1,
-            delay: 0.5 + i * 1.1,
-          });
-        });
-
-        // 2. Scroll-driven diagonal exit
-        gsap.context(() => {
-          gsap.to(plane, {
-            xPercent: -50, yPercent: -50,
-            x:       mobile ? -W * 0.7 : -W * 0.62,
-            y:       mobile ?  H * 0.25 :  H * 0.38,
-            rotate: -6, opacity: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top top',
-              end:   '55% bottom',
-              scrub: 2,
-            },
-          });
-        }, section);
-      },
     });
 
-    // 3. Text & character reveal (scroll-linked)
+    // 2. Cards spring in — parallel with plane landing (delay 1.2s so they appear as plane arrives)
+    //    FIX: moved OUT of onComplete so cards never miss early scrollers
+    //    Outer wrap: spring x/scale/rotateZ | Inner chip: opacity + 3D wobble
+    chipsRef.current.forEach((chip, i) => {
+      if (!chip) return;
+      const wrap      = chip.parentElement;
+      const fromRight = i % 2 === 0;
+      const entryDelay = 1.2 + i * 0.28;
+
+      // Spring entrance (x/scale/rotateZ only — opacity stays at 1 for scroll-fade)
+      gsap.fromTo(wrap,
+        { x: fromRight ? 80 : -80, scale: 0.82, rotateZ: fromRight ? 6 : -6 },
+        { x: 0, scale: 1, rotateZ: 0,
+          duration: 0.95, ease: 'back.out(1.6)',
+          delay: entryDelay,
+        }
+      );
+      // Inner chip fade in
+      gsap.to(chip, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: entryDelay + 0.15 });
+
+      // Continuous float (y on outer wrap — composites with x spring)
+      gsap.to(wrap, {
+        y: -(8 + i * 2),
+        duration: 4 + i * 0.65,
+        ease: 'sine.inOut',
+        yoyo: true, repeat: -1,
+        delay: entryDelay + 0.8,
+      });
+
+      // 3D wobble on inner chip (composes with its opacity)
+      gsap.to(chip, {
+        rotateX: fromRight ?  6 : -5,
+        rotateY: fromRight ? -9 :  8,
+        z: 16,
+        duration: 3.8 + i * 0.9,
+        ease: 'sine.inOut',
+        yoyo: true, repeat: -1,
+        delay: entryDelay + 0.5,
+      });
+    });
+
+    // 3. All scroll-based animations in one context for proper cleanup
     const ctx = gsap.context(() => {
+
+      // Plane scroll-driven exit — overwrite entrance if user scrolls early
+      gsap.to(plane, {
+        xPercent: -50, yPercent: -50,
+        x:       mobile ? -W * 0.7 : -W * 0.62,
+        y:       mobile ?  H * 0.25 :  H * 0.38,
+        rotate: -6, opacity: 0,
+        ease: 'none',
+        overwrite: 'auto',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end:   '55% bottom',
+          scrub: 2,
+        },
+      });
 
       // Text container fades in
       gsap.fromTo(text,
@@ -205,22 +207,26 @@ export default function HeroSection({ revealed = false }) {
       );
 
       // ── Chips + skyline + horizon glow fade OUT before text arrives
-      const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
+      // FIX: fromTo with explicit opacity:1 → scrub reversal correctly restores cards on scroll-back
+      const chipEls    = Array.from(section.querySelectorAll('.hero-chip-wrap'));
       const fadeTargets = chipEls.filter(Boolean);
-      if (skylineWrap.current)  fadeTargets.push(skylineWrap.current);
-      if (horizonGlow.current)  fadeTargets.push(horizonGlow.current);
+      if (skylineWrap.current) fadeTargets.push(skylineWrap.current);
+      if (horizonGlow.current) fadeTargets.push(horizonGlow.current);
 
       if (fadeTargets.length) {
-        gsap.to(fadeTargets, {
-          opacity: 0,
-          ease: 'power2.in',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top top',
-            end: `+=${mobile ? 200 : 320}`,
-            scrub: true,
-          },
-        });
+        gsap.fromTo(fadeTargets,
+          { opacity: 1 },
+          {
+            opacity: 0,
+            ease: 'power2.in',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top top',
+              end: `+=${mobile ? 200 : 320}`,
+              scrub: true,
+            },
+          }
+        );
       }
 
       // Per-character curtain reveal
@@ -455,7 +461,7 @@ export default function HeroSection({ revealed = false }) {
             key={card.id}
             className={`hero-chip-wrap hero-chip-wrap-${i}`}
             aria-hidden="true"
-            style={{ perspective: '700px', opacity: 0 /* GSAP controls */ }}
+            style={{ perspective: '700px' }}
           >
             <div
               ref={el => { chipsRef.current[i] = el; }}

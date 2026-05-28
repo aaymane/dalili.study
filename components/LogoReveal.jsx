@@ -74,7 +74,7 @@ export default function LogoReveal({ onComplete }) {
     // Glow starts hidden — will show briefly, then FULLY removed from paint
     gsap.set(glowRef.current, { opacity: 0, scale: 0.8 });
 
-    const SHRINK_DUR = 0.65;
+    const SHRINK_DUR = 0.5;   // was 0.65 — save 0.15s
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -82,35 +82,35 @@ export default function LogoReveal({ onComplete }) {
       },
     });
 
-    // 1. Draw stroke
+    // 1. Draw stroke — faster
     tl.to(path, {
       strokeDashoffset: 0,
-      duration: isMobile ? 1.2 : 1.6,
+      duration: isMobile ? 0.9 : 1.1,   // was 1.2 / 1.6 — save 0.3–0.5s
       ease: 'power2.inOut',
     });
 
     // 2. Fill — no glow on mobile (avoids the circle artifact)
     if (isMobile) {
-      tl.to(path, { fill: '#014df8', strokeWidth: 0, duration: 0.3, ease: 'power2.out' }, '-=0.08');
+      tl.to(path, { fill: '#014df8', strokeWidth: 0, duration: 0.25, ease: 'power2.out' }, '-=0.06');
     } else {
-      tl.to(path, { fill: '#014df8', strokeWidth: 0, duration: 0.35, ease: 'power2.out' }, '-=0.1')
-        .to(glowRef.current, { opacity: 1, scale: 1.15, duration: 0.4, ease: 'power2.out' }, '<')
-        .to(glowRef.current, { opacity: 0, scale: 1,    duration: 0.5, ease: 'power2.in',
+      tl.to(path, { fill: '#014df8', strokeWidth: 0, duration: 0.28, ease: 'power2.out' }, '-=0.1')
+        .to(glowRef.current, { opacity: 1, scale: 1.15, duration: 0.3, ease: 'power2.out' }, '<')
+        .to(glowRef.current, { opacity: 0, scale: 1,    duration: 0.35, ease: 'power2.in',
           // Fully remove from paint after fade to prevent GPU artifact
           onComplete: () => { if (glowRef.current) glowRef.current.style.display = 'none'; },
-        }, '+=0.1');
+        }, '+=0.05');
     }
 
     // 3. Letters rise
     tl.to(lettersRef.current, {
       y: 0, opacity: 1,
-      duration: isMobile ? 0.4 : 0.55,
+      duration: isMobile ? 0.35 : 0.45,  // was 0.4 / 0.55 — save 0.1s
       ease: 'power3.out',
-      stagger: 0.06,
-    }, '-=0.25');
+      stagger: 0.055,
+    }, '-=0.2');
 
-    // 4. Hold
-    tl.to({}, { duration: isMobile ? 0.45 : 0.7 });
+    // 4. Hold — shorter
+    tl.to({}, { duration: isMobile ? 0.2 : 0.3 });   // was 0.45 / 0.7 — save 0.25–0.4s
 
     // 5. Shrink + fly to navbar logo
     tl.add(() => {
