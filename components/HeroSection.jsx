@@ -63,9 +63,11 @@ export default function HeroSection({ revealed = false }) {
   const planeRef   = useRef(null);
   const textRef    = useRef(null);
   const linesRef   = useRef([]);
-  const badgeRef   = useRef(null);
-  const subRef     = useRef(null);
-  const chipsRef   = useRef([]);
+  const badgeRef    = useRef(null);
+  const subRef      = useRef(null);
+  const chipsRef    = useRef([]);
+  const skylineWrap = useRef(null); // fades out before text appears
+  const horizonGlow = useRef(null); // the blue ellipse following the plane — fades on scroll
 
   // ── Set section height + initial hidden state before paint
   useEffect(() => {
@@ -202,10 +204,14 @@ export default function HeroSection({ revealed = false }) {
         },
       );
 
-      // ── Chips fade OUT before text arrives (opacity only — y handled by GSAP float)
+      // ── Chips + skyline + horizon glow fade OUT before text arrives
       const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
-      if (chipEls.length) {
-        gsap.to(chipEls, {
+      const fadeTargets = chipEls.filter(Boolean);
+      if (skylineWrap.current)  fadeTargets.push(skylineWrap.current);
+      if (horizonGlow.current)  fadeTargets.push(horizonGlow.current);
+
+      if (fadeTargets.length) {
+        gsap.to(fadeTargets, {
           opacity: 0,
           ease: 'power2.in',
           scrollTrigger: {
@@ -319,8 +325,8 @@ export default function HeroSection({ revealed = false }) {
           pointerEvents: 'none', zIndex: 1,
         }} />
 
-        {/* Horizon glow */}
-        <div aria-hidden="true" style={{
+        {/* Horizon glow — fades on scroll so it doesn't trail the exiting plane */}
+        <div ref={horizonGlow} aria-hidden="true" style={{
           position: 'absolute', bottom: '8%', left: '50%',
           transform: 'translateX(-50%)',
           width: '90vw', height: '35vh',
@@ -563,8 +569,10 @@ export default function HeroSection({ revealed = false }) {
           </div>
         ))}
 
-        {/* Paris skyline — cinematic bottom decoration, fades in after plane lands */}
-        <ParisSkyline revealed={revealed} />
+        {/* Paris skyline — fades out on scroll before text appears (no overlap ever) */}
+        <div ref={skylineWrap}>
+          <ParisSkyline revealed={revealed} />
+        </div>
 
       </div>
     </section>
