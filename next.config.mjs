@@ -3,17 +3,12 @@ const nextConfig = {
   // Remove X-Powered-By header
   poweredByHeader: false,
 
-  // Compress responses with gzip/brotli
+  // Compress responses (gzip/brotli) — default is already true, explicit for clarity
   compress: true,
 
-  // Prefer modern image formats (avif → webp → original)
-  images: {
-    formats: ['image/avif', 'image/webp'],
-  },
-
-  // Compiler options — drop console.* in production builds
+  // Strip console.* from client bundles in production
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: true,
   },
 };
 
