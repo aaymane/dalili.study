@@ -332,12 +332,12 @@ export default function HeroSection({ revealed = false }) {
           pointerEvents: 'none', zIndex: 1,
         }} />
 
-        {/* Horizon glow — fades on scroll so it doesn't trail the exiting plane */}
+        {/* Horizon glow — très subtil pour ne pas créer de bande visible sur le fond */}
         <div ref={horizonGlow} aria-hidden="true" style={{
-          position: 'absolute', bottom: '8%', left: '50%',
+          position: 'absolute', bottom: '10%', left: '50%',
           transform: 'translateX(-50%)',
-          width: '90vw', height: '35vh',
-          background: 'radial-gradient(ellipse at center bottom, rgba(1,77,248,0.07) 0%, transparent 70%)',
+          width: '40vw', height: '20vh',
+          background: 'radial-gradient(ellipse at center bottom, rgba(1,77,248,0.025) 0%, transparent 70%)',
           pointerEvents: 'none', zIndex: 1,
         }} />
 
