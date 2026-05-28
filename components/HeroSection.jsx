@@ -10,11 +10,44 @@ gsap.registerPlugin(ScrollTrigger);
 const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false });
 const ParisSkyline   = dynamic(() => import('./ParisSkyline'),   { ssr: false });
 
-// Floating stat chips — fill the empty hero space
-const HERO_CHIPS = [
-  { icon: '🌍', value: '200+', label: 'étudiants inscrits' },
-  { icon: '🇫🇷', value: 'Paris',      label: 'Destination' },
-  { icon: '📱', value: 'iOS & Android', label: 'Bientôt' },
+// Dalili app notification cards — real product UI fragments
+const DALILI_CARDS = [
+  {
+    id: 'visa',
+    icon: '🛂',
+    category: 'Visa Étudiant',
+    title: 'ACCORDÉ',
+    detail: 'Long séjour · 12 mois',
+    progress: 100,
+    accent: '#22C55E',
+    accentRgb: '34,197,94',
+    statusLabel: 'Validé',
+    statusColor: '#22C55E',
+  },
+  {
+    id: 'mentor',
+    icon: '👩‍🎓',
+    category: 'Dalili Mentor',
+    title: 'Sarah M.',
+    detail: 'Paris 3 · Droit européen',
+    accent: '#EFB370',
+    accentRgb: '239,179,112',
+    statusLabel: 'En ligne',
+    statusColor: '#22C55E',
+    isOnline: true,
+  },
+  {
+    id: 'caf',
+    icon: '📋',
+    category: 'CAF · CROUS',
+    title: 'Mon Dossier',
+    detail: '2 pièces restantes',
+    progress: 78,
+    accent: '#4d8fff',
+    accentRgb: '77,143,255',
+    statusLabel: '78%',
+    statusColor: '#4d8fff',
+  },
 ];
 
 // Mobile-first sizes: clamp(mobile, fluid, desktop) — bigger on mobile
@@ -81,32 +114,40 @@ export default function HeroSection({ revealed = false }) {
       opacity: 1,
       duration: 1.7, ease: 'power3.out',
       onComplete: () => {
-        // Chips: fade in + GSAP float + 3D perspective wobble
+        // Cards: spring entrance + float + 3D wobble
         chipsRef.current.forEach((chip, i) => {
           if (!chip) return;
           const wrap = chip.parentElement;
+          const fromRight = i % 2 === 0;
 
-          // Fade in
-          gsap.to(chip, { opacity: 1, duration: 0.7, ease: 'power2.out', delay: i * 0.25 });
+          // 1. Spring entrance from the side
+          gsap.fromTo(wrap,
+            { x: fromRight ? 80 : -80, opacity: 0, scale: 0.82, rotateZ: fromRight ? 6 : -6 },
+            { x: 0, opacity: 1, scale: 1, rotateZ: 0,
+              duration: 0.95, ease: 'back.out(1.6)',
+              delay: i * 0.28,
+            }
+          );
+          gsap.to(chip, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: i * 0.28 + 0.15 });
 
-          // Float (y axis) on the outer wrapper — replaces CSS animation
+          // 2. Continuous float
           gsap.to(wrap, {
-            y: -(7 + i * 2),
-            duration: 4 + i * 0.6,
+            y: -(8 + i * 2),
+            duration: 4 + i * 0.65,
             ease: 'sine.inOut',
             yoyo: true, repeat: -1,
-            delay: i * 1.1,
+            delay: i * 1.1 + 1,
           });
 
-          // 3D perspective wobble on inner chip (rotates independently of float)
+          // 3. 3D wobble on inner card
           gsap.to(chip, {
-            rotateX: i % 2 === 0 ?  6 : -5,
-            rotateY: i % 2 === 0 ? -8 :  7,
-            z: 14,
-            duration: 3.5 + i * 0.9,
+            rotateX: fromRight ?  6 : -5,
+            rotateY: fromRight ? -9 :  8,
+            z: 16,
+            duration: 3.8 + i * 0.9,
             ease: 'sine.inOut',
             yoyo: true, repeat: -1,
-            delay: 0.4 + i * 1.1,
+            delay: 0.5 + i * 1.1,
           });
         });
 
@@ -400,15 +441,15 @@ export default function HeroSection({ revealed = false }) {
         </div>
         </div>{/* /hero-text-offset */}
 
-        {/* ── Floating 3D stat chips
-            Outer div: CSS absolute position only (GSAP handles float + fade)
-            Inner div (ref): GSAP opacity entrance + 3D rotateX/Y wobble */}
-        {HERO_CHIPS.map((chip, i) => (
+        {/* ── Dalili app notification cards — floating product UI fragments
+            Outer: CSS position + GSAP spring entrance + float
+            Inner (ref): GSAP opacity + 3D rotateX/Y wobble             */}
+        {DALILI_CARDS.map((card, i) => (
           <div
-            key={i}
+            key={card.id}
             className={`hero-chip-wrap hero-chip-wrap-${i}`}
             aria-hidden="true"
-            style={{ perspective: '600px' }}
+            style={{ perspective: '700px', opacity: 0 /* GSAP controls */ }}
           >
             <div
               ref={el => { chipsRef.current[i] = el; }}
@@ -416,23 +457,21 @@ export default function HeroSection({ revealed = false }) {
               style={{
                 opacity: 0,
                 transformStyle: 'preserve-3d',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                padding: '11px 18px 11px 12px',
-                background: 'linear-gradient(135deg, rgba(1,12,40,0.93) 0%, rgba(1,5,22,0.90) 100%)',
-                border: '1px solid rgba(1,77,248,0.28)',
-                borderLeft: '3px solid rgba(1,77,248,0.92)',
-                borderRadius: 18,
-                backdropFilter: 'blur(22px)',
-                WebkitBackdropFilter: 'blur(22px)',
+                padding: '12px 16px',
+                background: 'linear-gradient(145deg, rgba(1,10,35,0.96) 0%, rgba(1,5,20,0.92) 100%)',
+                border: `1px solid rgba(${card.accentRgb},0.22)`,
+                borderLeft: `3px solid rgba(${card.accentRgb},0.95)`,
+                borderRadius: 20,
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
                 boxShadow: [
-                  '0 12px 40px rgba(0,0,0,0.60)',
-                  '0 0 28px rgba(1,77,248,0.14)',
+                  '0 16px 48px rgba(0,0,0,0.65)',
+                  `0 0 32px rgba(${card.accentRgb},0.12)`,
                   'inset 0 1px 0 rgba(255,255,255,0.08)',
-                  'inset 0 -1px 0 rgba(0,0,0,0.35)',
+                  'inset 0 -1px 0 rgba(0,0,0,0.4)',
                 ].join(', '),
-                whiteSpace: 'nowrap',
+                minWidth: 200,
+                maxWidth: 230,
                 position: 'relative',
                 overflow: 'hidden',
               }}
@@ -440,39 +479,86 @@ export default function HeroSection({ revealed = false }) {
               {/* Shimmer sweep */}
               <div className={`chip-shimmer chip-shimmer-${i}`} aria-hidden="true" style={{
                 position: 'absolute', top: 0, left: 0,
-                width: '60%', height: '100%',
-                background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.07) 50%, transparent 70%)',
+                width: '55%', height: '100%',
+                background: 'linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.06) 50%, transparent 75%)',
                 pointerEvents: 'none',
               }} />
 
-              {/* Icon box */}
-              <div style={{
-                width: 36, height: 36,
-                borderRadius: 10,
-                background: 'rgba(1,77,248,0.16)',
-                border: '1px solid rgba(1,77,248,0.28)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '1.25rem', flexShrink: 0,
-                boxShadow: '0 0 14px rgba(1,77,248,0.25)',
-              }}>
-                <span style={{ lineHeight: 1 }}>{chip.icon}</span>
+              {/* ── Header row: icon + category + status */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9 }}>
+                <div style={{
+                  width: 28, height: 28, borderRadius: 8, flexShrink: 0,
+                  background: `rgba(${card.accentRgb},0.15)`,
+                  border: `1px solid rgba(${card.accentRgb},0.3)`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.95rem',
+                  boxShadow: `0 0 12px rgba(${card.accentRgb},0.25)`,
+                }}>
+                  <span style={{ lineHeight: 1 }}>{card.icon}</span>
+                </div>
+
+                <span style={{
+                  fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+                  fontSize: '0.58rem', letterSpacing: '0.14em',
+                  color: 'rgba(255,255,255,0.42)', textTransform: 'uppercase',
+                  flex: 1,
+                }}>{card.category}</span>
+
+                {/* Status badge */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+                  {card.isOnline && (
+                    <div className="dalili-status-dot" style={{
+                      width: 5, height: 5, borderRadius: '50%',
+                      background: card.statusColor, flexShrink: 0,
+                    }} />
+                  )}
+                  <span style={{
+                    fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+                    fontSize: '0.56rem', letterSpacing: '0.06em',
+                    color: card.statusColor, textTransform: 'uppercase',
+                  }}>{card.statusLabel}</span>
+                </div>
               </div>
 
-              <div>
-                <div style={{
-                  fontFamily: 'var(--font-montserrat)',
-                  fontWeight: 700, fontSize: '0.84rem',
-                  color: '#fff', lineHeight: 1.15,
-                }}>{chip.value}</div>
-                <div style={{
-                  fontFamily: 'var(--font-dm-sans)',
-                  fontSize: '0.57rem',
-                  color: 'rgba(77,143,255,0.78)',
-                  letterSpacing: '0.09em',
-                  textTransform: 'uppercase',
-                  marginTop: 2,
-                }}>{chip.label}</div>
-              </div>
+              {/* ── Divider */}
+              <div style={{
+                height: 1,
+                background: `linear-gradient(90deg, rgba(${card.accentRgb},0.4), transparent)`,
+                marginBottom: 9,
+              }} />
+
+              {/* ── Title + detail */}
+              <div style={{
+                fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+                fontSize: '0.92rem', color: '#fff', lineHeight: 1.15,
+                letterSpacing: '0.02em', marginBottom: 4,
+              }}>{card.title}</div>
+              <div style={{
+                fontFamily: 'var(--font-dm-sans)', fontSize: '0.62rem',
+                color: 'rgba(255,255,255,0.38)', letterSpacing: '0.03em',
+              }}>{card.detail}</div>
+
+              {/* ── Progress bar (visa + CAF cards) */}
+              {card.progress !== undefined && (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{
+                    height: 3, borderRadius: 2,
+                    background: 'rgba(255,255,255,0.07)',
+                    overflow: 'hidden',
+                  }}>
+                    <div
+                      className={`dalili-progress dalili-progress-${i}`}
+                      style={{
+                        height: '100%', borderRadius: 2,
+                        background: `linear-gradient(90deg, rgba(${card.accentRgb},0.7), rgba(${card.accentRgb},1))`,
+                        boxShadow: `0 0 8px rgba(${card.accentRgb},0.8)`,
+                        transformOrigin: 'left center',
+                        width: `${card.progress}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ))}

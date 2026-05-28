@@ -230,28 +230,48 @@ body {
   pointer-events: none;
 }
 
-/* Desktop: scatter in the LEFT half (plane is right side) — GSAP handles float */
+/* Desktop: left column, plane is right — GSAP handles all motion */
 @media (min-width: 768px) {
-  .hero-chip-wrap-0 { left: 7%;  top: 40%; }
-  .hero-chip-wrap-1 { left: 12%; top: 57%; }
-  .hero-chip-wrap-2 { left: 5%;  top: 71%; }
+  .hero-chip-wrap-0 { left: 6%;  top: 36%; }
+  .hero-chip-wrap-1 { left: 10%; top: 54%; }
+  .hero-chip-wrap-2 { left: 5%;  top: 69%; }
 }
 
-/* Mobile: alternating right-left-right diagonal — GSAP handles float */
+/* Mobile: alternating right-left-right diagonal */
 @media (max-width: 767px) {
-  .hero-chip-wrap-0 { left: auto; right: 4%; top: 47%; }
-  .hero-chip-wrap-1 { left: 4%;             top: 62%; }
-  .hero-chip-wrap-2 { left: auto; right: 4%; top: 76%; }
+  .hero-chip-wrap-0 { left: auto; right: 3%; top: 44%; }
+  .hero-chip-wrap-1 { left: 3%;              top: 59%; }
+  .hero-chip-wrap-2 { left: auto; right: 3%; top: 73%; }
 }
 
-/* ─── Chip shimmer sweep ──────────────────────────────────────── */
+/* ─── Card shimmer sweep ──────────────────────────────────────── */
 @keyframes chipShimmer {
   0%   { transform: translateX(-110%); }
   100% { transform: translateX(220%); }
 }
-.chip-shimmer-0 { animation: chipShimmer 4s ease-in-out infinite 2.5s; }
-.chip-shimmer-1 { animation: chipShimmer 4s ease-in-out infinite 3.6s; }
-.chip-shimmer-2 { animation: chipShimmer 4s ease-in-out infinite 4.7s; }
+.chip-shimmer-0 { animation: chipShimmer 4.5s ease-in-out infinite 3s; }
+.chip-shimmer-1 { animation: chipShimmer 4.5s ease-in-out infinite 4.4s; }
+.chip-shimmer-2 { animation: chipShimmer 4.5s ease-in-out infinite 5.8s; }
+
+/* ─── Progress bar fill animation ────────────────────────────── */
+@keyframes progressFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.dalili-progress {
+  transform-origin: left center;
+  animation: progressFill 1.4s cubic-bezier(0.4,0,0.2,1) both;
+}
+.dalili-progress-0 { animation-delay: 1.2s; }
+.dalili-progress-1 { animation-delay: 1.5s; }
+.dalili-progress-2 { animation-delay: 1.8s; }
+
+/* ─── Online status dot pulse ─────────────────────────────────── */
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+  50%       { box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+}
+.dalili-status-dot { animation: statusPulse 2s ease-in-out infinite; }
 
 /* ─── Paris skyline antenna blink ──────────────────────────── */
 

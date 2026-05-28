@@ -41,6 +41,9 @@ export default function ParisSkyline({ revealed = false }) {
         pointerEvents: 'none',
         opacity: 0,
         overflow: 'hidden',
+        /* Gradient mask: top 45% fades to transparent so tower doesn't bleed into text */
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 45%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 45%)',
       }}
     >
       {/* Ground atmospheric glow */}
