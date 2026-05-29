@@ -68,6 +68,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "6051ba04f9f38498",
+  },
   openGraph: {
     title: "Dalili — Guide des étudiants internationaux en France",
     description:
