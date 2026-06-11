@@ -46,19 +46,6 @@ const ARTICLES = [
   },
 ];
 
-// Named variants let child components inherit the parent hover state automatically
-const cardVariants = {
-  rest: {
-    y: 0,
-    boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)',
-  },
-  hover: {
-    y: -10,
-    boxShadow: '0 28px 70px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)',
-    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
 const headerOverlayVariants = {
   rest:  { opacity: 0 },
   hover: { opacity: 1, transition: { duration: 0.3 } },
