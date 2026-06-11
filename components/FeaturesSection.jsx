@@ -26,8 +26,8 @@ const CARDS = [
   {
     icon: '🤝',
     tag: '02',
-    title: 'Dalili\nt\'accompagne',
-    desc: 'Des mentors étudiants qui ont vécu la même expérience, prêts à partager leurs conseils et leur réseau.',
+    title: 'Mentors\nÉtudiants',
+    desc: 'Des étudiants qui ont vécu la même expérience, prêts à partager leurs conseils et à t\'éviter les erreurs coûteuses.',
     accent: '#EFB370',
     bg:     'linear-gradient(145deg, rgba(239,179,112,0.16) 0%, rgba(4,8,28,0.95) 100%)',
     border: 'rgba(239,179,112,0.38)',

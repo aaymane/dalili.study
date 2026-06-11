@@ -44,56 +44,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Hide cursor only on precise-pointer (mouse) devices */
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
-}
-
-/* ─── Cursor ──────────────────────────────────────────────── */
-
-.cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: #4d8fff;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 12px rgba(77,143,255,0.9), 0 0 24px rgba(77,143,255,0.4);
-  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
-  will-change: left, top;
-}
-
-.cursor-dot.hovering {
-  width: 10px;
-  height: 10px;
-  background: #fff;
-  box-shadow: 0 0 16px rgba(255,255,255,0.8);
-}
-
-.cursor-ring {
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(77,143,255,0.35);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease,
-              background 0.3s ease;
-  will-change: left, top;
-}
-
-.cursor-ring.hovering {
-  width: 54px;
-  height: 54px;
-  border-color: rgba(77,143,255,0.7);
-  background: rgba(1,77,248,0.07);
-}
 
 /* ─── Section paint containment ───────────────────────────── */
 /* contain: layout style is safe — no content-visibility (causes blank sections) */

@@ -100,7 +100,7 @@ const mdxComponents = {
     <em style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.55)' }}>{children}</em>
   ),
 
-  a: ({ href, children }) => (
+  a: ({ href, children, ...props }) => (
     <a
       href={href}
       style={{
@@ -110,6 +110,7 @@ const mdxComponents = {
         textUnderlineOffset: 3,
         transition: 'color 0.2s, text-decoration-color 0.2s',
       }}
+      {...props}
     >{children}</a>
   ),
 

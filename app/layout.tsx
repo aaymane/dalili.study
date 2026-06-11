@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
-import dynamic from "next/dynamic";
 import "./globals.css";
-
-const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili-waitlist.vercel.app";
 
@@ -122,7 +119,6 @@ export default function RootLayout({
         >
           Aller au contenu principal
         </a>
-        <CustomCursor />
         {children}
       </body>
     </html>
