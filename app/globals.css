@@ -226,6 +226,22 @@ body {
   50%       { transform: translateY(-8px); }
 }
 
+/* Immediate title — desktop left half, above the cards */
+.hero-immediate-title {
+  display: none; /* hidden on mobile — scroll-driven centered title serves that */
+}
+
+@media (min-width: 768px) {
+  .hero-immediate-title {
+    display: block;
+    position: absolute;
+    left: 4%;
+    top: 10%;
+    width: 40%;
+    z-index: 8;
+  }
+}
+
 /* Outer wrapper: absolute position + float animation */
 .hero-chip-wrap {
   position: absolute;

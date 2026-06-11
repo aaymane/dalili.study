@@ -59,15 +59,16 @@ const LINES = [
 ];
 
 export default function HeroSection({ revealed = false }) {
-  const sectionRef = useRef(null);
-  const planeRef   = useRef(null);
-  const textRef    = useRef(null);
-  const linesRef   = useRef([]);
-  const badgeRef    = useRef(null);
-  const subRef      = useRef(null);
-  const chipsRef    = useRef([]);
-  const skylineWrap = useRef(null); // fades out before text appears
-  const horizonGlow = useRef(null); // the blue ellipse following the plane — fades on scroll
+  const sectionRef        = useRef(null);
+  const planeRef          = useRef(null);
+  const textRef           = useRef(null);
+  const linesRef          = useRef([]);
+  const badgeRef          = useRef(null);
+  const subRef            = useRef(null);
+  const chipsRef          = useRef([]);
+  const skylineWrap       = useRef(null); // fades out before text appears
+  const horizonGlow       = useRef(null); // the blue ellipse following the plane — fades on scroll
+  const immediateTitleRef = useRef(null); // always-visible title in left half on desktop
 
   // ── Set section height + initial hidden state before paint
   useEffect(() => {
@@ -93,6 +94,7 @@ export default function HeroSection({ revealed = false }) {
       });
     }
     if (textRef.current) gsap.set(textRef.current, { opacity: 0 });
+    if (immediateTitleRef.current) gsap.set(immediateTitleRef.current, { opacity: 0, y: 18 });
   }, []);
 
   // ── Entrance + scroll animations (run once logo disappears)
@@ -133,6 +135,15 @@ export default function HeroSection({ revealed = false }) {
         });
       },
     });
+
+    // 2a. Immediate title fades in on desktop — synced with plane arrival
+    if (!mobile && immediateTitleRef.current) {
+      gsap.to(immediateTitleRef.current, {
+        opacity: 1, y: 0,
+        duration: 0.9, ease: 'power2.out',
+        delay: 0.7,
+      });
+    }
 
     // 2. Cards spring in — parallel with plane landing (delay 1.2s so they appear as plane arrives)
     //    FIX: moved OUT of onComplete so cards never miss early scrollers
@@ -211,8 +222,9 @@ export default function HeroSection({ revealed = false }) {
       // FIX: fromTo with explicit opacity:1 → scrub reversal correctly restores cards on scroll-back
       const chipEls    = Array.from(section.querySelectorAll('.hero-chip-wrap'));
       const fadeTargets = chipEls.filter(Boolean);
-      if (skylineWrap.current) fadeTargets.push(skylineWrap.current);
-      if (horizonGlow.current) fadeTargets.push(horizonGlow.current);
+      if (skylineWrap.current)       fadeTargets.push(skylineWrap.current);
+      if (horizonGlow.current)       fadeTargets.push(horizonGlow.current);
+      if (immediateTitleRef.current) fadeTargets.push(immediateTitleRef.current);
 
       if (fadeTargets.length) {
         gsap.fromTo(fadeTargets,
@@ -453,6 +465,36 @@ export default function HeroSection({ revealed = false }) {
           </p>
         </div>
         </div>{/* /hero-text-offset */}
+
+        {/* ── Immediate title — visible on load, desktop only, left half above cards ── */}
+        <div
+          ref={immediateTitleRef}
+          className="hero-immediate-title"
+          aria-hidden="false"
+          style={{ pointerEvents: 'none', userSelect: 'none' }}
+        >
+          <h1 style={{
+            fontFamily: 'var(--font-bebas)',
+            fontWeight: 400, lineHeight: 0.92,
+            margin: '0 0 18px',
+          }}>
+            <span style={{ display: 'block', fontSize: 'clamp(3rem,5.8vw,8rem)', color: '#ffffff', letterSpacing: '0.01em' }}>TON</span>
+            <span style={{ display: 'block', fontSize: 'clamp(3rem,5.8vw,8rem)', color: '#ffffff', letterSpacing: '0.01em' }}>GUIDE</span>
+            <span style={{ display: 'block', fontSize: 'clamp(1.5rem,2.8vw,3.8rem)', color: 'rgba(255,255,255,0.45)', letterSpacing: '0.04em' }}>POUR LA</span>
+            <span style={{ display: 'block', fontSize: 'clamp(2.6rem,5.2vw,7.2rem)', color: '#014df8', letterSpacing: '0.01em' }}>FRANCE.</span>
+          </h1>
+          <p style={{
+            fontFamily: 'var(--font-dm-sans)',
+            fontWeight: 300,
+            fontSize: 'clamp(0.8rem,1vw,0.95rem)',
+            color: 'rgba(255,255,255,0.4)',
+            lineHeight: 1.75,
+            margin: 0,
+            maxWidth: '34vw',
+          }}>
+            Visa, logement, CAF, banque —<br />on t&apos;accompagne pas à pas.
+          </p>
+        </div>
 
         {/* ── Dalili app notification cards — floating product UI fragments
             Outer: CSS position + GSAP spring entrance + float
