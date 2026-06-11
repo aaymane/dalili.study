@@ -58,9 +58,15 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   const cat      = CATEGORY_COLORS[fm.category] ?? CATEGORY_COLORS.Visa;
   const headings = extractHeadings(mdxSource);
 
+  // MdxComponents.jsx infers each component's parameter type from destructuring,
+  // making optional HTML attributes (children, id, href) appear required.
+  // The runtime types are correct — cast to suppress the false TS error.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const components = { ...mdxComponents, Callout } as any;
+
   const { content } = await compileMDX({
     source: mdxSource,
-    components: { ...mdxComponents, Callout },
+    components,
     options: {
       parseFrontmatter: false,
       mdxOptions: {

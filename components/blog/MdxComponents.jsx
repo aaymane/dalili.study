@@ -100,9 +100,12 @@ const mdxComponents = {
     <em style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.55)' }}>{children}</em>
   ),
 
-  a: ({ href, children, ...props }) => (
+  // Default values make href/children optional in the inferred parameter type,
+  // satisfying AnchorHTMLAttributes where both are optional.
+  a: ({ href = undefined, children = null, ...props }) => (
     <a
       href={href}
+      {...props}
       style={{
         color: ACCENT,
         textDecoration: 'underline',
@@ -110,7 +113,6 @@ const mdxComponents = {
         textUnderlineOffset: 3,
         transition: 'color 0.2s, text-decoration-color 0.2s',
       }}
-      {...props}
     >{children}</a>
   ),
 
