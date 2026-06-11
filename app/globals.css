@@ -197,6 +197,36 @@ body {
   will-change: transform;
 }
 
+/* ─── Blog listing cards ─────────────────────────────────────── */
+
+.blog-card {
+  transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+.blog-card:hover {
+  transform: translateY(-8px);
+  /* --accent-rgb is set inline per-card */
+  border-color: rgba(var(--accent-rgb), 0.5) !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 30px rgba(var(--accent-rgb), 0.15) !important;
+}
+
+/* ─── Blog article prose ────────────────────────────────────── */
+
+.article-prose {
+  /* max-width handled by the grid; this just prevents overflow */
+  min-width: 0;
+}
+
+/* Link hover — can't do :hover inline in React */
+.article-prose a:hover {
+  color: #fff;
+  text-decoration-color: rgba(77,143,255,0.7);
+}
+
+/* Blog two-column content layout */
+.blog-content-grid {
+  grid-template-columns: 1fr clamp(200px, 22%, 260px);
+}
+
 /* ─── FAQ two-column → single-column on mobile ──────────────── */
 
 .faq-layout {
@@ -400,4 +430,10 @@ input[type="email"]:focus {
     gap: 12px !important;
   }
   .footer-links { gap: 20px !important; }
+
+  /* ── Blog ───────────────────────────────────────────────────── */
+  .blog-content-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .blog-toc-sidebar { display: none !important; }
 }
