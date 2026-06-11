@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const FROM     = "Dalili <bonjour@dalili.study>";
+const FROM     = "Dalili <onboarding@resend.dev>";
 const ADMIN    = "boyayman388@gmail.com";
 
 export async function POST(request: NextRequest) {
@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = process.env.RESEND_API_KEY;
+    console.log("KEY:", apiKey?.slice(0, 10));
     if (!apiKey) {
       console.error("[subscribe] RESEND_API_KEY is not set");
       return NextResponse.json({ ok: false, error: "Erreur serveur." }, { status: 500 });
@@ -27,7 +28,8 @@ export async function POST(request: NextRequest) {
     const resend    = new Resend(apiKey);
     const timestamp = new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
 
-    await Promise.all([
+    try {
+    const [adminResult, welcomeResult] = await Promise.all([
       // ── Admin notification ──
       resend.emails.send({
         from:    FROM,
@@ -132,6 +134,13 @@ export async function POST(request: NextRequest) {
         `,
       }),
     ]);
+    console.log("Resend admin result:", JSON.stringify(adminResult));
+    console.log("Resend welcome result:", JSON.stringify(welcomeResult));
+    console.log("[subscribe] Emails sent successfully to admin and:", email);
+    } catch (resendErr) {
+      console.error("[subscribe] Resend error:", JSON.stringify(resendErr, null, 2));
+      return NextResponse.json({ ok: false, error: "Erreur envoi email." }, { status: 500 });
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
