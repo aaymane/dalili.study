@@ -197,6 +197,14 @@ body {
   will-change: transform;
 }
 
+/* ─── Journey timeline ───────────────────────────────────────── */
+
+.journey-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.journey-scroll::-webkit-scrollbar { display: none; }
+
 /* ─── Feature card icon pulse (per-card color via box-shadow) ── */
 
 @keyframes iconPulse {
