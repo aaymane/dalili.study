@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 const ROW1_ITEMS = [
   'DALILI', '✦', 'TON GUIDE EN FRANCE', '✦', 'MENTORS', '✦',
@@ -107,10 +108,13 @@ export default function Footer() {
         </p>
 
         <div className="footer-links" style={{ display: 'flex', gap: 24 }}>
-          {['Mentions légales', 'Confidentialité'].map(link => (
-            <a
-              key={link}
-              href="#"
+          {[
+            { label: 'Mentions légales',  href: '/mentions-legales' },
+            { label: 'Confidentialité',   href: '/confidentialite'  },
+          ].map(({ label, href }) => (
+            <Link
+              key={href}
+              href={href}
               style={{
                 fontFamily: 'var(--font-dm-sans)',
                 fontSize: '0.72rem',
@@ -122,8 +126,8 @@ export default function Footer() {
               onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}
               onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.28)'; }}
             >
-              {link}
-            </a>
+              {label}
+            </Link>
           ))}
         </div>
       </div>

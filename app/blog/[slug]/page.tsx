@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import { getAllPosts, getRawPost, extractHeadings, CATEGORY_COLORS, formatDate } from '@/lib/blog';
 import mdxComponents, { Callout } from '@/components/blog/MdxComponents';
+import WaitlistCTA from '@/components/blog/WaitlistCTA';
 import { notFound } from 'next/navigation';
 
 // Client-only components loaded dynamically
@@ -384,65 +385,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           maxWidth: 780, margin: '0 auto',
           padding: '0 clamp(16px,5vw,80px) clamp(40px,6vw,72px)',
         }}>
-          <div style={{
-            padding: 'clamp(28px,5vw,48px)',
-            background: 'linear-gradient(145deg, rgba(1,77,248,0.1) 0%, rgba(1,4,16,0.96) 100%)',
-            borderWidth: 1, borderStyle: 'solid',
-            borderColor: 'rgba(1,77,248,0.25)',
-            borderRadius: 22,
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            boxShadow: '0 0 40px rgba(1,77,248,0.08), 0 20px 60px rgba(0,0,0,0.4)',
-            position: 'relative', overflow: 'hidden',
-            textAlign: 'center',
-          }}>
-            <div aria-hidden="true" style={{
-              position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-              background: 'linear-gradient(90deg, transparent, rgba(1,77,248,0.7), rgba(77,143,255,0.9), rgba(1,77,248,0.7), transparent)',
-            }} />
-
-            <div style={{ fontSize: '2rem', marginBottom: 12 }}>🇫🇷</div>
-
-            <h2 style={{
-              fontFamily: 'var(--font-bebas)',
-              fontWeight: 400,
-              fontSize: 'clamp(1.8rem,4vw,3rem)',
-              lineHeight: 0.95, letterSpacing: '0.04em',
-              color: '#fff', margin: '0 0 12px',
-            }}>
-              DALILI T&apos;ACCOMPAGNE<br />
-              <span style={{ color: 'rgba(255,255,255,0.4)' }}>À CHAQUE ÉTAPE.</span>
-            </h2>
-
-            <p style={{
-              fontFamily: 'var(--font-dm-sans)',
-              fontWeight: 300,
-              fontSize: 'clamp(0.85rem,1.2vw,0.97rem)',
-              lineHeight: 1.75, color: 'rgba(255,255,255,0.45)',
-              maxWidth: 440, margin: '0 auto clamp(24px,3vw,32px)',
-            }}>
-              Visa, logement, banque, CAF — Dalili guide les étudiants internationaux
-              pas à pas dans leurs démarches en France.
-            </p>
-
-            <Link
-              href="/#waitlist"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: 'clamp(12px,2vw,16px) clamp(24px,4vw,36px)',
-                background: '#014DF8',
-                borderRadius: 100,
-                fontFamily: 'var(--font-montserrat)',
-                fontSize: '0.68rem', fontWeight: 700,
-                letterSpacing: '0.14em', textTransform: 'uppercase',
-                color: '#fff', textDecoration: 'none',
-                boxShadow: '0 0 24px rgba(1,77,248,0.5), 0 8px 32px rgba(0,0,0,0.3)',
-                transition: 'box-shadow 0.25s, transform 0.25s',
-              }}
-            >
-              Rejoindre la waitlist Dalili →
-            </Link>
-          </div>
+          <WaitlistCTA />
 
           {/* Back to blog */}
           <div style={{ textAlign: 'center', marginTop: 32 }}>
