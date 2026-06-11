@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const FROM     = "Dalili <onboarding@resend.dev>";
+const FROM     = "Dalili <bonjour@dalili.study>";
 const ADMIN    = "boyayman388@gmail.com";
 
 export async function POST(request: NextRequest) {
