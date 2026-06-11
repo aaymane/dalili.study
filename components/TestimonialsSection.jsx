@@ -205,7 +205,7 @@ export default function TestimonialsSection() {
                 marginBottom: 8,
                 userSelect: 'none',
                 letterSpacing: '-0.02em',
-              }}>"</div>
+              }}>&ldquo;</div>
 
               {/* ── Quote text ── */}
               <p style={{
