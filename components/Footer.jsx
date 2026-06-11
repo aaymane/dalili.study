@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const ROW1_ITEMS = [
   'DALILI', '✦', 'TON GUIDE EN FRANCE', '✦', 'MENTORS', '✦',
-  'COMMUNAUTÉ', '✦', 'DÉMARCHES', '✦', 'IOS & ANDROID', '✦',
+  'COMMUNAUTÉ', '✦', 'DÉMARCHES', '✦',
 ];
 
 const ROW2_ITEMS = [

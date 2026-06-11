@@ -78,7 +78,9 @@ export default function ClientHomePage() {
             <SectionDivider />
             <BlogPreviewSection />
             <SectionDivider />
-            <EmailCapture />
+            <div id="waitlist">
+              <EmailCapture />
+            </div>
           </main>
 
           <Footer />

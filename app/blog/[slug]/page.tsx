@@ -35,7 +35,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         publishedTime: fm.date,
         authors: [fm.author],
         url: `${siteUrl}/blog/${params.slug}`,
-        ...(fm.ogImage ? { images: [{ url: `${siteUrl}${fm.ogImage}`, width: 1200, height: 630 }] } : {}),
       },
       twitter: {
         card: 'summary_large_image',
@@ -60,6 +59,12 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   const { frontmatter: fm, content: mdxSource } = post;
   const cat      = CATEGORY_COLORS[fm.category] ?? CATEGORY_COLORS.Visa;
   const headings = extractHeadings(mdxSource);
+
+  // Related posts: prefer same category, fill from others if needed
+  const allPosts   = getAllPosts();
+  const samecat    = allPosts.filter(p => p.slug !== params.slug && p.category === fm.category);
+  const others     = allPosts.filter(p => p.slug !== params.slug && p.category !== fm.category);
+  const related    = [...samecat, ...others].slice(0, 2);
 
   // MdxComponents.jsx infers each component's parameter type from destructuring,
   // making optional HTML attributes (children, id, href) appear required.
@@ -95,7 +100,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       logo: { '@type': 'ImageObject', url: `${siteUrl}/dalili-logo.svg` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/blog/${params.slug}` },
-    ...(fm.ogImage ? { image: `${siteUrl}${fm.ogImage}` } : {}),
+    image: `${siteUrl}/blog/${params.slug}/opengraph-image`,
   };
 
   return (
@@ -241,6 +246,139 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           </aside>
         </div>
 
+        {/* ── Articles similaires ── */}
+        {related.length > 0 && (
+          <div style={{
+            maxWidth: 1100, margin: '0 auto',
+            padding: '0 clamp(16px,5vw,80px) clamp(48px,7vw,80px)',
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 14,
+              marginBottom: 32,
+            }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
+              <span style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.58rem', fontWeight: 700,
+                letterSpacing: '0.22em', textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.28)',
+                whiteSpace: 'nowrap',
+              }}>Articles similaires</span>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px,100%), 1fr))',
+              gap: 'clamp(14px,2.5vw,26px)',
+            }}>
+              {related.map(rpost => {
+                const rcat = CATEGORY_COLORS[rpost.category] ?? CATEGORY_COLORS.Visa;
+                return (
+                  <Link
+                    key={rpost.slug}
+                    href={`/blog/${rpost.slug}`}
+                    style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}
+                  >
+                    <article
+                      className="blog-card"
+                      style={{
+                        '--accent-rgb': rcat.accentRgb,
+                        flex: 1, display: 'flex', flexDirection: 'column',
+                        padding: 'clamp(24px,3.5vw,36px)',
+                        background: `linear-gradient(160deg, rgba(${rcat.accentRgb},0.07) 0%, rgba(1,4,16,0.97) 60%)`,
+                        borderWidth: 1, borderStyle: 'solid',
+                        borderColor: `rgba(${rcat.accentRgb},0.18)`,
+                        borderRadius: 22,
+                        backdropFilter: 'blur(18px)',
+                        WebkitBackdropFilter: 'blur(18px)',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                        position: 'relative', overflow: 'hidden',
+                      } as React.CSSProperties}
+                    >
+                      <div style={{
+                        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+                        background: `linear-gradient(90deg, transparent, ${rcat.accent}, transparent)`,
+                      }} />
+
+                      <div style={{
+                        display: 'flex', alignItems: 'center',
+                        justifyContent: 'space-between', gap: 10,
+                        marginBottom: 18,
+                      }}>
+                        <div style={{
+                          display: 'flex', alignItems: 'center', gap: 6,
+                          padding: '4px 10px',
+                          border: `1px solid rgba(${rcat.accentRgb},0.3)`,
+                          borderRadius: 100,
+                          background: `rgba(${rcat.accentRgb},0.08)`,
+                        }}>
+                          <div style={{
+                            width: 4, height: 4, borderRadius: '50%',
+                            background: rcat.accent, flexShrink: 0,
+                          }} />
+                          <span style={{
+                            fontFamily: 'var(--font-montserrat)',
+                            fontSize: '0.5rem', fontWeight: 700,
+                            letterSpacing: '0.16em', textTransform: 'uppercase',
+                            color: rcat.accent,
+                          }}>{rpost.category}</span>
+                        </div>
+                        <span style={{
+                          fontFamily: 'var(--font-montserrat)',
+                          fontSize: '0.5rem', fontWeight: 600,
+                          letterSpacing: '0.1em', textTransform: 'uppercase',
+                          color: 'rgba(255,255,255,0.25)',
+                        }}>{rpost.readTime} de lecture</span>
+                      </div>
+
+                      <h2 style={{
+                        fontFamily: 'var(--font-bebas)',
+                        fontWeight: 400,
+                        fontSize: 'clamp(1.5rem,2.5vw,2rem)',
+                        lineHeight: 1.0, letterSpacing: '0.03em',
+                        color: '#fff',
+                        margin: '0 0 12px',
+                      }}>{rpost.title}</h2>
+
+                      <p style={{
+                        fontFamily: 'var(--font-dm-sans)',
+                        fontWeight: 300, fontSize: '0.875rem',
+                        lineHeight: 1.72, color: 'rgba(255,255,255,0.42)',
+                        margin: '0 0 auto', paddingBottom: 20,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      } as React.CSSProperties}>{rpost.excerpt}</p>
+
+                      <div style={{
+                        display: 'flex', alignItems: 'center',
+                        justifyContent: 'space-between',
+                        paddingTop: 16,
+                        borderTop: '1px solid rgba(255,255,255,0.06)',
+                      }}>
+                        <span style={{
+                          fontFamily: 'var(--font-montserrat)',
+                          fontSize: '0.52rem', fontWeight: 600,
+                          letterSpacing: '0.1em', textTransform: 'uppercase',
+                          color: 'rgba(255,255,255,0.22)',
+                        }}>{formatDate(rpost.date)}</span>
+                        <span style={{
+                          fontFamily: 'var(--font-montserrat)',
+                          fontSize: '0.58rem', fontWeight: 700,
+                          letterSpacing: '0.12em', textTransform: 'uppercase',
+                          color: rcat.accent,
+                        }}>Lire l&apos;article →</span>
+                      </div>
+                    </article>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* ── End-of-article CTA ── */}
         <div style={{
           maxWidth: 780, margin: '0 auto',
@@ -288,7 +426,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             </p>
 
             <Link
-              href="/#main-content"
+              href="/#waitlist"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: 'clamp(12px,2vw,16px) clamp(24px,4vw,36px)',

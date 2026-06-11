@@ -106,6 +106,7 @@ export default function RootLayout({
       className={`${montserrat.variable} ${bebasNeue.variable} ${dmSans.variable}`}
     >
       <head>
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
