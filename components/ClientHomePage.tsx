@@ -11,8 +11,9 @@ const StarCanvas      = dynamic(() => import('./StarCanvas'),      { ssr: false 
 const HeroSection     = dynamic(() => import('./HeroSection'),     { ssr: false }) as React.ComponentType<{ revealed: boolean }>;
 const ProblemSection  = dynamic(() => import('./ProblemSection'),  { ssr: false });
 const JourneySection  = dynamic(() => import('./JourneySection'),  { ssr: false });
-const FeaturesSection = dynamic(() => import('./FeaturesSection'), { ssr: false });
-const EmailCapture    = dynamic(() => import('./EmailCapture'),    { ssr: false });
+const FeaturesSection       = dynamic(() => import('./FeaturesSection'),       { ssr: false });
+const TestimonialsSection   = dynamic(() => import('./TestimonialsSection'),   { ssr: false });
+const EmailCapture          = dynamic(() => import('./EmailCapture'),          { ssr: false });
 const Footer          = dynamic(() => import('./Footer'),          { ssr: false });
 
 export default function ClientHomePage() {
@@ -42,6 +43,7 @@ export default function ClientHomePage() {
             <ProblemSection />
             <JourneySection />
             <FeaturesSection />
+            <TestimonialsSection />
             <EmailCapture />
           </main>
 
