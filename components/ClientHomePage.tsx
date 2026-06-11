@@ -14,6 +14,7 @@ const JourneySection  = dynamic(() => import('./JourneySection'),  { ssr: false 
 const FeaturesSection       = dynamic(() => import('./FeaturesSection'),       { ssr: false });
 const TestimonialsSection   = dynamic(() => import('./TestimonialsSection'),   { ssr: false });
 const PartnersSection       = dynamic(() => import('./PartnersSection'),       { ssr: false });
+const FAQSection            = dynamic(() => import('./FAQSection'),            { ssr: false });
 const EmailCapture          = dynamic(() => import('./EmailCapture'),          { ssr: false });
 const Footer          = dynamic(() => import('./Footer'),          { ssr: false });
 
@@ -46,6 +47,7 @@ export default function ClientHomePage() {
             <FeaturesSection />
             <TestimonialsSection />
             <PartnersSection />
+            <FAQSection />
             <EmailCapture />
           </main>
 

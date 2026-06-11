@@ -197,6 +197,21 @@ body {
   will-change: transform;
 }
 
+/* ─── FAQ two-column → single-column on mobile ──────────────── */
+
+.faq-layout {
+  grid-template-columns: clamp(200px, 28%, 320px) 1fr;
+}
+
+@media (max-width: 767px) {
+  .faq-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .faq-header-col {
+    position: static !important;
+  }
+}
+
 /* ─── Journey timeline ───────────────────────────────────────── */
 
 .journey-scroll {
