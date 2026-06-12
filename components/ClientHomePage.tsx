@@ -31,7 +31,6 @@ const StarCanvas      = dynamic(() => import('./StarCanvas'),      { ssr: false 
 const HeroSection     = dynamic(() => import('./HeroSection'),     { ssr: false }) as React.ComponentType<{ revealed: boolean }>;
 const ProblemSection  = dynamic(() => import('./ProblemSection'),  { ssr: false });
 const JourneySection  = dynamic(() => import('./JourneySection'),  { ssr: false });
-const DALILIMockup    = dynamic(() => import('./DALILIMockup'),    { ssr: false });
 const FeaturesSection       = dynamic(() => import('./FeaturesSection'),       { ssr: false });
 const TestimonialsSection   = dynamic(() => import('./TestimonialsSection'),   { ssr: false });
 const PartnersSection       = dynamic(() => import('./PartnersSection'),       { ssr: false });
@@ -68,8 +67,6 @@ export default function ClientHomePage() {
             <ProblemSection />
             <SectionDivider />
             <JourneySection />
-            <SectionDivider />
-            <DALILIMockup />
             <SectionDivider />
             <FeaturesSection />
             <SectionDivider />

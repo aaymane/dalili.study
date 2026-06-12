@@ -146,8 +146,8 @@ export default function DALILIPhones() {
   const [active, setActive] = useState(0);
   // 'mobile' | 'tablet' | 'desktop'
   const [bp, setBp]     = useState('desktop');
-  // computed mobile phone width (min(280, 85vw) in px)
-  const [mobileW, setMobileW] = useState(280);
+  // computed mobile phone width: min(260px, 65vw, fits-55vh)
+  const [mobileW, setMobileW] = useState(220);
 
   const containerRef = useRef(null);
   const innerRefs    = useRef([null, null]);
@@ -157,11 +157,16 @@ export default function DALILIPhones() {
   useEffect(() => { activeRef.current = active; }, [active]);
 
   // Breakpoint + mobile phone width
+  // Width = min(260px, 65vw, width-that-fits-55vh) so the phone
+  // never overflows the container on any phone screen size.
   useEffect(() => {
     const update = () => {
-      const w = window.innerWidth;
-      setBp(w < 768 ? 'mobile' : w < 1024 ? 'tablet' : 'desktop');
-      setMobileW(Math.min(280, Math.floor(w * 0.85)));
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      setBp(vw < 768 ? 'mobile' : vw < 1024 ? 'tablet' : 'desktop');
+      const byWidth  = Math.min(260, Math.floor(vw * 0.65));
+      const byHeight = Math.floor((vh * 0.55) / RATIO); // phone height ≤ 55vh
+      setMobileW(Math.min(byWidth, byHeight));
     };
     update();
     window.addEventListener('resize', update, { passive: true });
@@ -241,16 +246,26 @@ export default function DALILIPhones() {
         onTouchEnd={onTouchEnd}
         style={{
           width: '100%',
-          padding: '40px 20px 0',
+          padding: '24px 16px 16px',
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          maxHeight: '70vh',
+          overflow: 'hidden',
           pointerEvents: 'auto',
         }}
       >
         {/* Phone slot — first is in-flow (sets height), second overlaid */}
-        <div style={{ position: 'relative', width: mobileW, height: phoneH, flexShrink: 0 }}>
+        <div style={{
+          position: 'relative',
+          width: mobileW,
+          height: phoneH,
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
           {PHONES.map((phone, i) => (
             <div
               key={phone.id}

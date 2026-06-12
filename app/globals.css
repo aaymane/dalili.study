@@ -260,13 +260,15 @@ body {
    Tablet  (768-1023): 420px left column, stacked layout.
    Desktop (1024+):    480px left column, stacked layout.         */
 .hero-phones-wrap {
-  /* Mobile — visible, full width, centered */
+  /* Mobile — visible, full width, centered, auto height */
   display: block;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
   z-index: 8;
   width: 100%;
+  min-height: auto;
+  /* padding/overflow handled by the inner component container */
 }
 @media (min-width: 768px) {
   .hero-phones-wrap {
