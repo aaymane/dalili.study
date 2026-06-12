@@ -96,12 +96,12 @@ export default function HeroSection({ revealed = false }) {
       },
     });
 
-    // 2a. Badge pill fades in on desktop — appears as plane arrives
-    if (!mobile && heroBadgeRef.current) {
+    // 2a. Badge pill fades in — appears as plane arrives (desktop + mobile)
+    if (heroBadgeRef.current) {
       gsap.to(heroBadgeRef.current, {
         opacity: 1, y: 0,
         duration: 0.8, ease: 'power2.out',
-        delay: 0.9,
+        delay: mobile ? 1.4 : 0.9,
       });
     }
 
