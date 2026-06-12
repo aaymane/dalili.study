@@ -8,42 +8,27 @@ const SCREENS = [
 ];
 
 function PhysicalButtons() {
-  const btn = (style) => (
-    <div aria-hidden="true" style={{
-      position: 'absolute',
-      background: 'linear-gradient(180deg, #2e2e32 0%, #1e1e20 50%, #2a2a2e 100%)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.5)',
-      borderRadius: 3,
-      ...style,
-    }} />
-  );
-
+  const s = { position: 'absolute', background: '#2a2a2a' };
   return (
     <>
-      {/* Mute switch */}
-      {btn({ left: -4, top: 68, width: 4, height: 26, borderRadius: '3px 0 0 3px' })}
-      {/* Vol+ */}
-      {btn({ left: -4, top: 108, width: 4, height: 42, borderRadius: '3px 0 0 3px' })}
-      {/* Vol- */}
-      {btn({ left: -4, top: 162, width: 4, height: 42, borderRadius: '3px 0 0 3px' })}
-      {/* Power */}
-      {btn({ right: -4, top: 124, width: 4, height: 58, borderRadius: '0 3px 3px 0' })}
+      <div aria-hidden="true" style={{ ...s, left: -3.5, top: 130, width: 3.5, height: 28,  borderRadius: '2px 0 0 2px' }} />
+      <div aria-hidden="true" style={{ ...s, left: -3.5, top: 172, width: 3.5, height: 56,  borderRadius: '2px 0 0 2px' }} />
+      <div aria-hidden="true" style={{ ...s, left: -3.5, top: 240, width: 3.5, height: 56,  borderRadius: '2px 0 0 2px' }} />
+      <div aria-hidden="true" style={{ ...s, right: -3.5, top: 190, width: 3.5, height: 84, borderRadius: '0 2px 2px 0' }} />
     </>
   );
 }
 
 export default function DALILIPhones() {
   const [active, setActive] = useState(0);
-  const outerRef = useRef(null); // pointer-events layer
-  const tiltRef  = useRef(null); // JS tilt + phonesRotateY CSS animation
+  const outerRef = useRef(null);
+  const tiltRef  = useRef(null);
 
-  // Auto-switch every 3.8 s
   useEffect(() => {
     const id = setInterval(() => setActive(a => (a + 1) % 2), 3800);
     return () => clearInterval(id);
   }, []);
 
-  // Mouse-tilt: pause CSS rotateY animation, apply rotateX/Y via JS, reset on leave
   useEffect(() => {
     const outer = outerRef.current;
     const tilt  = tiltRef.current;
@@ -86,29 +71,23 @@ export default function DALILIPhones() {
   }, []);
 
   return (
-    /* Perspective parent — pointer events re-enabled so tilt works */
     <div
       ref={outerRef}
-      style={{
-        perspective: '1000px',
-        display: 'inline-block',
-        pointerEvents: 'auto',
-      }}
+      style={{ perspective: '1000px', display: 'inline-block', pointerEvents: 'auto' }}
     >
       {/* JS-tilt target + slow rotateY CSS animation */}
       <div
         ref={tiltRef}
-        style={{
-          transformStyle: 'preserve-3d',
-          animation: 'phonesRotateY 6s ease-in-out infinite alternate',
-        }}
+        style={{ transformStyle: 'preserve-3d', animation: 'phonesRotateY 6s ease-in-out infinite alternate' }}
       >
-        {/* Float up/down CSS animation */}
+        {/* Float animation layer */}
         <div style={{
           animation: 'phonesFloat 3s ease-in-out infinite alternate',
           display: 'flex',
-          alignItems: 'flex-end',
-          gap: 14,
+          gap: 32,
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: 640,
           transformStyle: 'preserve-3d',
         }}>
           {SCREENS.map((screen, i) => {
@@ -118,42 +97,47 @@ export default function DALILIPhones() {
                 key={i}
                 style={{
                   transition: 'transform 0.5s cubic-bezier(.4,0,.2,1), opacity 0.5s cubic-bezier(.4,0,.2,1)',
-                  transform: isActive ? 'scale(1)' : 'scale(0.87)',
-                  opacity:   isActive ? 1 : 0.32,
+                  transform: isActive ? 'scale(1) translateY(0)' : 'scale(0.88) translateY(16px)',
+                  opacity: isActive ? 1 : 0.45,
                   transformOrigin: 'bottom center',
                 }}
               >
-                {/* iPhone chassis — dark titanium */}
+                {/* iPhone shell */}
                 <div style={{
-                  width: 130,
-                  height: 280,
-                  borderRadius: 52,
-                  background: 'linear-gradient(145deg, #404044 0%, #2e2e32 22%, #1c1c1e 52%, #26262a 78%, #343438 100%)',
+                  width: 280,
+                  height: 607,
+                  borderRadius: 55,
+                  padding: 12,
+                  background: 'linear-gradient(145deg, #3a3a3a 0%, #1a1a1a 40%, #0d0d0d 70%, #2a2a2a 100%)',
                   boxShadow: [
-                    '0 0 0 0.5px rgba(255,255,255,0.14)',
-                    '0 0 0 1px rgba(0,0,0,0.85)',
-                    '0 36px 80px rgba(0,0,0,0.72)',
-                    '0 8px 28px rgba(0,0,0,0.55)',
-                    'inset 0 1.5px 0 rgba(255,255,255,0.1)',
-                    'inset 0 -1px 0 rgba(0,0,0,0.55)',
-                    'inset 1px 0 0 rgba(255,255,255,0.04)',
-                    'inset -1px 0 0 rgba(0,0,0,0.25)',
+                    '0 0 0 1px rgba(255,255,255,0.12)',
+                    '0 40px 100px rgba(0,0,0,0.8)',
+                    'inset 0 1px 0 rgba(255,255,255,0.15)',
                   ].join(', '),
                   position: 'relative',
-                  padding: 7,
                   boxSizing: 'border-box',
                   userSelect: 'none',
                 }}>
+                  {/* Inner bezel ring */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 5,
+                    borderRadius: 51,
+                    background: 'linear-gradient(160deg, #181818, #080808)',
+                    zIndex: 0,
+                  }} />
+
                   <PhysicalButtons />
 
-                  {/* Screen bezel */}
+                  {/* Screen */}
                   <div style={{
                     width: '100%',
                     height: '100%',
-                    borderRadius: 40,
+                    borderRadius: 44,
                     overflow: 'hidden',
                     background: '#000',
                     position: 'relative',
+                    zIndex: 1,
                   }}>
                     <img
                       src={screen.src}
@@ -163,9 +147,10 @@ export default function DALILIPhones() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        objectPosition: 'top',
-                        borderRadius: 40,
+                        objectPosition: 'top center',
                         display: 'block',
+                        opacity: 1,
+                        filter: 'none',
                         pointerEvents: 'none',
                       }}
                     />
@@ -173,27 +158,27 @@ export default function DALILIPhones() {
                     {/* Dynamic Island */}
                     <div aria-hidden="true" style={{
                       position: 'absolute',
-                      top: 10,
+                      top: 12,
                       left: '50%',
                       transform: 'translateX(-50%)',
-                      width: 62,
-                      height: 17,
+                      width: 110,
+                      height: 34,
                       background: '#000',
-                      borderRadius: 100,
-                      zIndex: 5,
+                      borderRadius: 20,
+                      zIndex: 10,
                     }} />
 
                     {/* Home indicator */}
                     <div aria-hidden="true" style={{
                       position: 'absolute',
-                      bottom: 6,
+                      bottom: 8,
                       left: '50%',
                       transform: 'translateX(-50%)',
-                      width: 52,
-                      height: 3.5,
-                      background: 'rgba(255,255,255,0.3)',
+                      width: 120,
+                      height: 5,
+                      background: 'rgba(255,255,255,0.35)',
                       borderRadius: 100,
-                      zIndex: 5,
+                      zIndex: 10,
                     }} />
                   </div>
                 </div>

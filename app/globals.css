@@ -234,8 +234,9 @@ body {
   .hero-cards-badge {
     display: block;
     position: absolute;
-    left: 40px;
-    top: calc(50% - 192px);
+    left: 50%;
+    top: calc(50% - 350px);
+    transform: translateX(-50%);
     z-index: 9;
     pointer-events: none;
     user-select: none;
@@ -243,11 +244,13 @@ body {
 }
 
 /* ── Phone mockup column positioning ─────────────────────────── */
+/* Phones are 640px wide (two 280px phones + 32px gap).
+   Center the block horizontally, vertically centered in viewport. */
 .hero-phones-wrap {
   display: none;
-  left: 40px;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   z-index: 8;
 }
 @media (min-width: 768px) {
