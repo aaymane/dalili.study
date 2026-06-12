@@ -96,12 +96,12 @@ export default function HeroSection({ revealed = false }) {
       },
     });
 
-    // 2a. Badge pill fades in — appears as plane arrives (desktop + mobile)
-    if (heroBadgeRef.current) {
+    // 2a. Badge pill fades in on tablet/desktop — mobile badge is inside DALILIPhones
+    if (!mobile && heroBadgeRef.current) {
       gsap.to(heroBadgeRef.current, {
         opacity: 1, y: 0,
         duration: 0.8, ease: 'power2.out',
-        delay: mobile ? 1.4 : 0.9,
+        delay: 0.9,
       });
     }
 

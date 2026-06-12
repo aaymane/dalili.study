@@ -226,55 +226,62 @@ body {
   50%       { transform: translateY(-8px); }
 }
 
-/* "Bientôt disponible" badge — below the phones mockup, 32px gap */
-/* Desktop: aligned with the 480px phone column (left: 24px), centered inside it.
-   phones wrapper bottom = 50% + 300px (600px/2); badge top = that + 32px margin. */
+/* ── "Bientôt disponible" badge ──────────────────────────────────
+   Mobile:  hidden here — BadgePill is rendered inside DALILIPhones
+            so it flows naturally below the phone + dots.
+   Tablet:  below 500px container  → top = 50% + 250px + 32px = 50% + 282px
+   Desktop: below 600px container  → top = 50% + 300px + 32px = 50% + 332px  */
 .hero-cards-badge {
+  display: none; /* mobile: hidden (badge lives inside DALILIPhones) */
   position: absolute;
   z-index: 9;
   pointer-events: none;
   user-select: none;
-  /* Mobile: centered horizontally, below the midpoint */
-  left: 50%;
-  transform: translateX(-50%);
-  top: 65%;
-  display: flex;
-  justify-content: center;
 }
 @media (min-width: 768px) {
   .hero-cards-badge {
-    left: 24px;
-    top: calc(50% + 332px);
-    transform: none;
-    width: 480px;
+    display: flex;
     justify-content: center;
+    left: 24px;
+    width: 420px;           /* matches tablet phones wrapper */
+    top: calc(50% + 282px); /* 500px container / 2 + 32px margin */
+  }
+}
+@media (min-width: 1024px) {
+  .hero-cards-badge {
+    width: 480px;           /* matches desktop phones wrapper */
+    top: calc(50% + 332px); /* 600px container / 2 + 32px margin */
   }
 }
 
-/* ── Left-panel phone wrapper ────────────────────────────────── */
-/* Fixed 480px column anchored to the left edge.
-   Container inside uses position:relative + height:600px so the
-   absolutely-positioned phones don't collapse it.
-   480px ensures the stacked phones overlap correctly:
-     back  (240px): left = 5% = 24px  → right edge 264px
-     front (270px): left = calc(95%-270px) = 186px → right edge 456px
-     overlap zone: 186–264px (78px) */
+/* ── Phone mockup wrapper — responsive left panel ────────────────
+   Mobile  (<768):  full viewport width, vertically centered,
+                    component renders phone + dots + badge in flow.
+   Tablet  (768-1023): 420px left column, stacked layout.
+   Desktop (1024+):    480px left column, stacked layout.         */
 .hero-phones-wrap {
-  display: none;
-  left: 24px;
+  /* Mobile — visible, full width, centered */
+  display: block;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
   z-index: 8;
-  width: 480px;
+  width: 100%;
 }
 @media (min-width: 768px) {
   .hero-phones-wrap {
-    display: block;
+    left: 24px;
+    width: 420px;
+  }
+}
+@media (min-width: 1024px) {
+  .hero-phones-wrap {
+    width: 480px;
   }
 }
 
-/* Float keyframe — translateY only so it never conflicts with
-   the rotate/scale CSS transitions on the inner phone div. */
+/* Float keyframe — translateY only; never conflicts with the
+   rotate/scale CSS transitions on the inner phone div.          */
 @keyframes phoneFloat {
   0%, 100% { transform: translateY(0px);   }
   50%       { transform: translateY(-14px); }
