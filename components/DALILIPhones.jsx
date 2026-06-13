@@ -1,64 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
 
 const RATIO = 607 / 280; // iPhone height/width ratio
-
-// ── Shared badge pill (same styling as heroBadgeRef in HeroSection) ──────────
-function BadgePill() {
-  return (
-    <div style={{
-      display: 'inline-flex', alignItems: 'center', gap: 8,
-      padding: '7px 16px',
-      border: '1px solid rgba(77,143,255,0.28)',
-      borderRadius: 100,
-      background: 'rgba(1,77,248,0.07)',
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
-      boxShadow: '0 0 20px rgba(1,77,248,0.18), inset 0 1px 0 rgba(255,255,255,0.05)',
-    }}>
-      <div style={{
-        width: 5, height: 5, borderRadius: '50%',
-        background: '#4d8fff',
-        boxShadow: '0 0 8px #4d8fff, 0 0 18px rgba(77,143,255,0.55)',
-        animation: 'badgeGlow 3s ease-in-out infinite',
-      }} />
-      <span style={{
-        fontFamily: 'var(--font-montserrat)',
-        fontSize: '0.52rem', fontWeight: 700,
-        letterSpacing: '0.18em', textTransform: 'uppercase',
-        color: 'rgba(77,143,255,0.85)',
-        whiteSpace: 'nowrap',
-      }}>✦ Bientôt disponible</span>
-    </div>
-  );
-}
-
-// ── Dot pagination (mobile) ───────────────────────────────────────────────────
-function DotsNav({ active, total, onDotClick }) {
-  return (
-    <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 20, pointerEvents: 'auto' }}>
-      {Array.from({ length: total }, (_, i) => (
-        <div
-          key={i}
-          role="button"
-          tabIndex={0}
-          aria-label={`Écran ${i + 1}`}
-          onClick={() => onDotClick(i)}
-          style={{
-            width: i === active ? 22 : 8,
-            height: 8,
-            borderRadius: 4,
-            background: i === active ? '#4d8fff' : 'rgba(255,255,255,0.25)',
-            boxShadow: i === active ? '0 0 8px rgba(77,143,255,0.6)' : 'none',
-            transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
-            cursor: 'pointer',
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 // ── Proportionally-scaled iPhone chassis ─────────────────────────────────────
 function PhoneShell({ width, src, alt }) {
@@ -142,44 +87,89 @@ const SWAP_TR   = 'transform 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.6s cubic-
 const POS_TR    = 'left 0.6s cubic-bezier(0.4,0,0.2,1), top 0.6s cubic-bezier(0.4,0,0.2,1)';
 
 // ── Main component ────────────────────────────────────────────────────────────
-export default function DALILIPhones() {
+export default function DALILIPhones({ revealed = true }) {
   const [active, setActive] = useState(0);
-  // 'mobile' | 'tablet' | 'desktop'
-  const [bp, setBp]     = useState('desktop');
-  // computed mobile phone width: min(260px, 65vw, fits-55vh)
-  const [mobileW, setMobileW] = useState(220);
+  const [bp, setBp] = useState('desktop');
 
-  const containerRef = useRef(null);
-  const innerRefs    = useRef([null, null]);
-  const activeRef    = useRef(0);
-  const touchStartX  = useRef(null);
+  const containerRef   = useRef(null);
+  const innerRefs      = useRef([null, null]);
+  const activeRef      = useRef(0);
+
+  // Mobile cinematic refs — outer: scroll parallax, inner: entry + float
+  const phone1OuterRef = useRef(null);
+  const phone2OuterRef = useRef(null);
+  const phone1InnerRef = useRef(null);
+  const phone2InnerRef = useRef(null);
 
   useEffect(() => { activeRef.current = active; }, [active]);
 
-  // Breakpoint + mobile phone width
+  // Breakpoint detection
   useEffect(() => {
     const update = () => {
       const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      if (vw < 768) {
-        setBp('mobile');
-        // 220px as specified; clamp by height so it never overflows on very small screens
-        const byHeight = Math.floor((vh * 0.52) / RATIO);
-        setMobileW(Math.min(220, byHeight));
-      } else {
-        setBp(vw < 1024 ? 'tablet' : 'desktop');
-      }
+      setBp(vw < 768 ? 'mobile' : vw < 1024 ? 'tablet' : 'desktop');
     };
     update();
     window.addEventListener('resize', update, { passive: true });
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Auto-switch every 3.8 s
+  // Auto-switch every 3.8s — tablet/desktop only (mobile shows both phones)
   useEffect(() => {
+    if (bp === 'mobile') return;
     const id = setInterval(() => setActive(a => (a + 1) % 2), 3800);
     return () => clearInterval(id);
-  }, []);
+  }, [bp]);
+
+  // Mobile entry animation — flies in once logo reveal completes
+  useEffect(() => {
+    if (bp !== 'mobile' || !revealed) return;
+    const p1 = phone1InnerRef.current;
+    const p2 = phone2InnerRef.current;
+    if (!p1 || !p2) return;
+
+    // Start off-screen
+    gsap.set(p1, { x: '-120%', rotate: -15, opacity: 0 });
+    gsap.set(p2, { x: '120%',  rotate: 15,  opacity: 0 });
+
+    // Spring fly-in, then continuous float
+    gsap.to(p1, {
+      x: 0, rotate: -6, opacity: 1,
+      duration: 0.9, ease: 'back.out(1.7)', delay: 0.1,
+      onComplete: () => {
+        gsap.to(p1, { y: -12, duration: 1.75, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      },
+    });
+    gsap.to(p2, {
+      x: 0, rotate: 6, opacity: 1,
+      duration: 0.9, ease: 'back.out(1.7)', delay: 0.2,
+      onComplete: () => {
+        gsap.to(p2, { y: -16, duration: 2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.5 });
+      },
+    });
+
+    return () => {
+      gsap.killTweensOf(p1);
+      gsap.killTweensOf(p2);
+    };
+  }, [bp, revealed]);
+
+  // Mobile scroll parallax — phones drift up and diverge, fade as hero scrolls out
+  useEffect(() => {
+    if (bp !== 'mobile') return;
+    const onScroll = () => {
+      const p1 = phone1OuterRef.current;
+      const p2 = phone2OuterRef.current;
+      if (!p1 || !p2) return;
+      const progress = Math.min(window.scrollY / window.innerHeight, 1);
+      const yShift   = -progress * 80;
+      const fade     = Math.max(0, 1 - progress * 2);
+      gsap.set(p1, { y: yShift, x: -progress * 15, opacity: fade });
+      gsap.set(p2, { y: yShift, x:  progress * 15, opacity: fade });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [bp]);
 
   // Mouse parallax — desktop only, single attachment, reads activeRef at call time
   useEffect(() => {
@@ -227,54 +217,29 @@ export default function DALILIPhones() {
     };
   }, []);
 
-  // Swipe handlers (mobile)
-  const onTouchStart = useCallback((e) => {
-    touchStartX.current = e.touches[0].clientX;
-  }, []);
-  const onTouchEnd = useCallback((e) => {
-    if (touchStartX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    touchStartX.current = null;
-    if (Math.abs(dx) > 40) setActive(a => (a + 1) % 2);
-  }, []);
 
-  // ── MOBILE RENDER ─────────────────────────────────────────────────────────
+  // ── MOBILE RENDER — cinematic two-phone layout ───────────────────────────
   if (bp === 'mobile') {
     return (
-      <div
-        ref={containerRef}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-          paddingTop: 20,
-          gap: 0,
-          pointerEvents: 'auto',
-        }}
-      >
-        {/* One phone at a time — inactive is display:none */}
-        {PHONES.map((phone, i) => (
-          <div
-            key={phone.id}
-            style={{
-              display: i === active ? 'block' : 'none',
-              animation: 'mobileFloat 3.5s ease-in-out infinite',
-            }}
-          >
-            <PhoneShell width={mobileW} src={phone.src} alt={phone.alt} />
+      <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100%' }}>
+        {/* Phone 1 — splash screen, left side, back */}
+        <div
+          ref={phone1OuterRef}
+          style={{ position: 'absolute', left: -10, bottom: 0, width: 180, zIndex: 1 }}
+        >
+          <div ref={phone1InnerRef}>
+            <PhoneShell width={180} src={PHONES[1].src} alt={PHONES[1].alt} />
           </div>
-        ))}
+        </div>
 
-        {/* Dot navigation */}
-        <DotsNav active={active} total={PHONES.length} onDotClick={setActive} />
-
-        {/* Badge — hero-section badge is hidden on mobile via CSS;
-            render it here so it flows naturally below dots */}
-        <div style={{ marginTop: 12 }}>
-          <BadgePill />
+        {/* Phone 2 — home screen, right side, front */}
+        <div
+          ref={phone2OuterRef}
+          style={{ position: 'absolute', right: -10, bottom: 0, width: 200, zIndex: 2 }}
+        >
+          <div ref={phone2InnerRef}>
+            <PhoneShell width={200} src={PHONES[0].src} alt={PHONES[0].alt} />
+          </div>
         </div>
       </div>
     );

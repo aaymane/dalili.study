@@ -41,21 +41,14 @@ export default function HeroSection({ revealed = false }) {
       sectionRef.current.style.height = mobile ? '100svh' : '420vh';
     }
 
-    if (planeRef.current) {
-      if (mobile) {
-        // Background decoration — centered, half-size, low opacity, static
-        gsap.set(planeRef.current, {
-          xPercent: -50, yPercent: -50,
-          x: 0, y: 0, scale: 0.5, rotate: 0, opacity: 0.25,
-        });
-      } else {
-        // Desktop: off-screen above-right, ready to swoop in
-        gsap.set(planeRef.current, {
-          xPercent: -50, yPercent: -50,
-          x: W * 0.55, y: -H * 0.65,
-          rotate: -8, opacity: 0,
-        });
-      }
+    if (planeRef.current && !mobile) {
+      // Desktop: off-screen above-right, ready to swoop in.
+      // Mobile: plane hidden via CSS (display:none), no GSAP needed.
+      gsap.set(planeRef.current, {
+        xPercent: -50, yPercent: -50,
+        x: W * 0.55, y: -H * 0.65,
+        rotate: -8, opacity: 0,
+      });
     }
 
     // Mobile: text visible immediately. Desktop: hidden until scroll-reveal.
@@ -430,7 +423,7 @@ export default function HeroSection({ revealed = false }) {
 
         {/* ── Phone mockup — replaces card column; hero-chip-wrap keeps scroll-fade ── */}
         <div className="hero-chip-wrap hero-phones-wrap" aria-hidden="true">
-          <DALILIPhones />
+          <DALILIPhones revealed={revealed} />
         </div>
 
         {/* Paris skyline — fades out on scroll before text appears (no overlap ever) */}

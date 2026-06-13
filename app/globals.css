@@ -227,53 +227,68 @@ body {
 }
 
 /* ── "Bientôt disponible" badge ──────────────────────────────────
-   Mobile:  hidden here — BadgePill is rendered inside DALILIPhones
-            so it flows naturally below the phone + dots.
-   Tablet:  below 500px container  → top = 50% + 250px + 32px = 50% + 282px
-   Desktop: below 600px container  → top = 50% + 300px + 32px = 50% + 332px  */
+   Mobile:  bottom-centered, absolute, z-10.
+   Tablet:  left-column, below phones.
+   Desktop: left-column, below phones.                           */
 .hero-cards-badge {
-  display: none; /* mobile: hidden (badge lives inside DALILIPhones) */
+  display: none;
   position: absolute;
-  z-index: 9;
+  z-index: 10;
   pointer-events: none;
   user-select: none;
+}
+@media (max-width: 767px) {
+  .hero-cards-badge {
+    display: flex !important;
+    left: 50%;
+    top: auto;
+    bottom: 20px;
+    width: auto;
+    transform: translateX(-50%);
+  }
 }
 @media (min-width: 768px) {
   .hero-cards-badge {
     display: flex;
     justify-content: center;
     left: 24px;
-    width: 420px;           /* matches tablet phones wrapper */
-    top: calc(50% + 282px); /* 500px container / 2 + 32px margin */
+    width: 420px;
+    top: calc(50% + 282px);
   }
 }
 @media (min-width: 1024px) {
   .hero-cards-badge {
-    width: 480px;           /* matches desktop phones wrapper */
-    top: calc(50% + 332px); /* 600px container / 2 + 32px margin */
+    width: 480px;
+    top: calc(50% + 332px);
   }
 }
 
 /* ── Phone mockup wrapper ────────────────────────────────────────
-   Mobile  (<768):  220px, in flex flow, centered. z-index 2.
+   Mobile  (<768):  absolute, covers lower 65vh, phones inside.
    Tablet  (768-1023): absolutely positioned 420px left column.
    Desktop (1024+):    480px left column.                        */
 .hero-phones-wrap {
-  /* Mobile: relative so it participates in the flex-column flow */
-  position: relative;
-  width: 220px;
-  margin: 0 auto;
-  z-index: 2; /* above plane (0) and skyline, below text (10) */
+  /* Mobile: full-width bottom-anchored container for cinematic phones */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 65vh;
+  margin: 0;
+  z-index: 5;
   pointer-events: none;
 }
 @media (min-width: 768px) {
   .hero-phones-wrap {
     position: absolute;
+    bottom: auto;
     left: 24px;
     right: auto;
     top: 50%;
     transform: translateY(-50%);
     width: 420px;
+    height: auto;
     z-index: 8;
     margin: 0;
     pointer-events: none;
@@ -285,21 +300,14 @@ body {
   }
 }
 
-/* Float keyframe — desktop, translateY only */
+/* Float keyframe — desktop stacked phones, translateY only */
 @keyframes phoneFloat {
   0%, 100% { transform: translateY(0px);   }
   50%       { transform: translateY(-14px); }
 }
 
-/* Mobile float — vertical only, no tilt */
-@keyframes mobileFloat {
-  0%, 100% { transform: translateY(0px);   }
-  50%       { transform: translateY(-10px); }
-}
-
-/* Scroll-fade selector — no positioning needed here (phones-wrap handles it) */
+/* Scroll-fade selector — no positioning (phones-wrap handles it) */
 .hero-chip-wrap {
-  z-index: 8;
   pointer-events: none;
 }
 
@@ -415,33 +423,24 @@ input[type="email"]:focus {
   .navbar     { padding: 0 20px !important; height: 64px !important; }
   .navbar-cta { padding: 10px 18px !important; font-size: 0.74rem !important; letter-spacing: 0.04em !important; }
 
-  /* ── Hero plane — background decoration on mobile ───────── */
-  .hero-plane-wrap {
-    width:   min(96vw, 420px) !important;
-    height:  min(60vw, 262px) !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-  }
+  /* ── Hero plane — hidden on mobile (phones replace it) ─────── */
+  .hero-plane-wrap { display: none !important; }
 
-  /* ── Hero sticky inner — flex-column, phone is the only flow item ─ */
-  .hero-sticky-inner {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+  /* ── Hero sticky inner — block on mobile (children are absolute) ─ */
+  .hero-sticky-inner { display: block; }
 
-  /* ── Hero text — absolute overlay at top, above phone and plane ─── */
-  /* Text is visible immediately on mobile (no scroll reveal).         */
+  /* ── Hero text — top overlay, above both phones and badge ───── */
   .hero-text-offset {
     position: absolute !important;
-    top: 72px; /* clear the 64px navbar */
-    left: 0;
-    width: 100%;
+    top: 140px;
+    left: 20px;
+    right: 20px;
+    width: auto !important;
     transform: none;
     z-index: 10;
     pointer-events: none;
   }
-  .hero-text-wrap  { padding: 0 16px !important; }
+  .hero-text-wrap  { padding: 0 !important; }
   .hero-badge      { padding: 6px 14px !important; margin-bottom: 18px !important; max-width: 90vw !important; }
   .hero-badge-text { font-size: 0.5rem !important; letter-spacing: 0.12em !important; }
   .hero-subtitle   { font-size: 0.84rem !important; line-height: 1.65 !important; }
