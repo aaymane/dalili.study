@@ -79,7 +79,7 @@ export default function Footer() {
         {/* Logo mark */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Image
-            src="/dalili-logo.svg"
+            src="/images/logo-dalili.svg"
             alt="DALILI"
             width={24}
             height={24}

@@ -48,7 +48,7 @@ export default function Navbar() {
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <Image
-          src="/dalili-logo.svg"
+          src="/images/logo-dalili.svg"
           alt="DALILI"
           data-navbar-logo="true"
           width={32}
