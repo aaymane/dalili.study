@@ -136,42 +136,43 @@ export default function HeroSection({ revealed = false }) {
       );
 
       if (!mobile) {
-        // Skyline + horizon glow + badge → fade early (background elements)
-        const bgFade = [skylineWrap.current, horizonGlow.current, heroBadgeRef.current].filter(Boolean);
-        if (bgFade.length) {
-          gsap.fromTo(bgFade,
-            { opacity: 1 },
-            {
-              opacity: 0,
-              ease: 'power2.in',
-              scrollTrigger: {
-                trigger: section,
-                start: 'top top',
-                end: '+= 320',
-                scrub: true,
-              },
-            }
-          );
+        // Background elements (skyline, glow, badge) → fade in first 320px of scroll.
+        // gsap.to + immediateRender:false = nothing touched until trigger actually fires,
+        // so these elements stay at their natural CSS state on page load.
+        const bgEls = [skylineWrap.current, horizonGlow.current, heroBadgeRef.current].filter(Boolean);
+        if (bgEls.length) {
+          gsap.to(bgEls, {
+            opacity: 0,
+            ease: 'power2.in',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: 'top top',
+              end: '+= 320',
+              scrub: true,
+            },
+          });
         }
 
-        // Phones → fade + drift upward as the plane sweeps past them.
-        // Plane reaches the phone column (left ~18% of screen) at roughly 60% of vh scrolled.
+        // Phones → fade out as the plane sweeps past the left column.
+        // CRITICAL: use gsap.to (not fromTo) + immediateRender:false so GSAP does NOT
+        // touch the element on mount. fromTo with scrub applies the "from" values
+        // immediately, which overrides the CSS transform:translateY(-50%) on
+        // .hero-phones-wrap and pushes the phones off-screen inside overflow:hidden.
+        // Only animating opacity (no y) avoids all CSS-transform conflicts.
         const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
         if (chipEls.length) {
-          gsap.fromTo(chipEls,
-            { opacity: 1, y: 0 },
-            {
-              opacity: 0,
-              y: -36,
-              ease: 'power2.inOut',
-              scrollTrigger: {
-                trigger: section,
-                start: `top top+=${Math.round(H * 0.58)}`,
-                end:   `top top+=${Math.round(H * 0.92)}`,
-                scrub: 1.5,
-              },
-            }
-          );
+          gsap.to(chipEls, {
+            opacity: 0,
+            ease: 'power2.inOut',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: `top top+=${Math.round(H * 0.58)}`,
+              end:   `top top+=${Math.round(H * 0.92)}`,
+              scrub: 1.5,
+            },
+          });
         }
       } else {
         // Mobile: badge fades out in sync with phones (phones fade by scrollY = H/2)
