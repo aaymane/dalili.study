@@ -3,9 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
-const RATIO = 607 / 280; // iPhone height/width ratio
+const RATIO = 607 / 280;
 
-// ── Proportionally-scaled iPhone chassis ─────────────────────────────────────
 function PhoneShell({ width, src, alt }) {
   const h   = Math.round(width * RATIO);
   const pad = Math.round(12  * width / 280);
@@ -34,7 +33,8 @@ function PhoneShell({ width, src, alt }) {
       background: 'linear-gradient(145deg, #3a3a3a 0%, #1a1a1a 40%, #0d0d0d 70%, #2a2a2a 100%)',
       boxShadow: [
         '0 0 0 1px rgba(255,255,255,0.12)',
-        '0 40px 100px rgba(0,0,0,0.8)',
+        '0 50px 120px rgba(0,0,0,0.9)',
+        '0 20px 40px rgba(0,0,0,0.6)',
         'inset 0 1px 0 rgba(255,255,255,0.15)',
       ].join(', '),
       position: 'relative', boxSizing: 'border-box', userSelect: 'none',
@@ -72,13 +72,11 @@ function PhoneShell({ width, src, alt }) {
   );
 }
 
-// ── Phone data ────────────────────────────────────────────────────────────────
 const PHONES = [
   { id: 'home',   src: '/images/dalili-home.jpg',   alt: "Dalili — écran d'accueil"    },
   { id: 'splash', src: '/images/dalili-splash.jpg', alt: 'Dalili — écran de lancement' },
 ];
 
-// Stacked layout helpers (tablet + desktop)
 function frontPos(w)  { return { left: `calc(95% - ${w}px)`, top: 0,  zIndex: 2 }; }
 function backPos()    { return { left: '5%',                  top: 40, zIndex: 1 }; }
 const FRONT_STY = { transform: 'scale(1) rotate(2deg)',     opacity: 1   };
@@ -86,20 +84,29 @@ const BACK_STY  = { transform: 'scale(0.88) rotate(-4deg)', opacity: 0.5 };
 const SWAP_TR   = 'transform 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.6s cubic-bezier(0.4,0,0.2,1)';
 const POS_TR    = 'left 0.6s cubic-bezier(0.4,0,0.2,1), top 0.6s cubic-bezier(0.4,0,0.2,1)';
 
-// ── Main component ────────────────────────────────────────────────────────────
+// Phone sizes for mobile layout
+const P1_W = 152; // left phone (splash)
+const P2_W = 172; // right phone (home) — slightly larger, front
+// Heights derived from RATIO
+const P1_H = Math.round(P1_W * RATIO); // ~329px
+const P2_H = Math.round(P2_W * RATIO); // ~373px
+
 export default function DALILIPhones({ revealed = true }) {
   const [active, setActive] = useState(0);
-  const [bp, setBp] = useState('desktop');
+  const [bp, setBp]         = useState('desktop');
 
   const containerRef   = useRef(null);
   const innerRefs      = useRef([null, null]);
   const activeRef      = useRef(0);
 
-  // Mobile cinematic refs — outer: scroll parallax, inner: entry + float
+  // Mobile: outer = scroll parallax, inner = entry + float
   const phone1OuterRef = useRef(null);
   const phone2OuterRef = useRef(null);
   const phone1InnerRef = useRef(null);
   const phone2InnerRef = useRef(null);
+  const glow1Ref       = useRef(null);
+  const glow2Ref       = useRef(null);
+  const groundGlowRef  = useRef(null);
 
   useEffect(() => { activeRef.current = active; }, [active]);
 
@@ -114,66 +121,106 @@ export default function DALILIPhones({ revealed = true }) {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Auto-switch every 3.8s — tablet/desktop only (mobile shows both phones)
+  // Auto-switch — tablet/desktop only
   useEffect(() => {
     if (bp === 'mobile') return;
     const id = setInterval(() => setActive(a => (a + 1) % 2), 3800);
     return () => clearInterval(id);
   }, [bp]);
 
-  // Mobile entry animation — rises from below once logo reveal completes
+  // Mobile: cinematic entry → continuous float
   useEffect(() => {
     if (bp !== 'mobile' || !revealed) return;
     const p1 = phone1InnerRef.current;
     const p2 = phone2InnerRef.current;
+    const g1 = glow1Ref.current;
+    const g2 = glow2Ref.current;
     if (!p1 || !p2) return;
 
-    // Start off-screen below viewport, already rotated to final tilt
-    gsap.set(p1, { y: '120vh', rotate: -6, opacity: 0 });
-    gsap.set(p2, { y: '120vh', rotate:  6, opacity: 0 });
+    // Start: blurred, scaled down, below resting pos, at their final rotations
+    gsap.set(p1, { y: 90, scale: 0.80, opacity: 0, filter: 'blur(22px)', rotation: -8 });
+    gsap.set(p2, { y: 100, scale: 0.80, opacity: 0, filter: 'blur(22px)', rotation: 5 });
+    if (g1) gsap.set(g1, { opacity: 0, scale: 0.5 });
+    if (g2) gsap.set(g2, { opacity: 0, scale: 0.5 });
 
-    // Cinematic rise from below (matches desktop plane entrance feel)
+    // Phone 1 — premium rise + blur clear
     gsap.to(p1, {
-      y: 0, opacity: 0.75,
-      duration: 1.2, ease: 'expo.out', delay: 0,
+      y: 0, scale: 1, opacity: 1, filter: 'blur(0px)',
+      duration: 1.6, ease: 'power4.out', delay: 0.08,
       onComplete: () => {
-        gsap.to(p1, { y: -12, duration: 1.75, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+        // Breathing: y + rotation oscillation, different frequency to phone 2
+        gsap.to(p1, {
+          y: -15, rotation: -5.5, scale: 1.016,
+          duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1,
+        });
       },
     });
+
+    // Phone 2 — staggered entry, slightly delayed
     gsap.to(p2, {
-      y: 0, opacity: 1,
-      duration: 1.2, ease: 'expo.out', delay: 0.15,
+      y: 0, scale: 1, opacity: 1, filter: 'blur(0px)',
+      duration: 1.6, ease: 'power4.out', delay: 0.22,
       onComplete: () => {
-        gsap.to(p2, { y: -16, duration: 2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.5 });
+        gsap.to(p2, {
+          y: -20, rotation: 7.5, scale: 1.014,
+          duration: 4.0, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.4,
+        });
       },
     });
+
+    // Glow entries + pulse loops
+    if (g1) {
+      gsap.to(g1, {
+        opacity: 1, scale: 1, duration: 2.2, ease: 'power2.out', delay: 0.35,
+        onComplete: () => {
+          gsap.to(g1, {
+            opacity: 0.52, scale: 1.35,
+            duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1,
+          });
+        },
+      });
+    }
+    if (g2) {
+      gsap.to(g2, {
+        opacity: 1, scale: 1, duration: 2.2, ease: 'power2.out', delay: 0.48,
+        onComplete: () => {
+          gsap.to(g2, {
+            opacity: 0.42, scale: 1.25,
+            duration: 3.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.0,
+          });
+        },
+      });
+    }
 
     return () => {
       gsap.killTweensOf(p1);
       gsap.killTweensOf(p2);
+      if (g1) gsap.killTweensOf(g1);
+      if (g2) gsap.killTweensOf(g2);
     };
   }, [bp, revealed]);
 
-  // Mobile scroll parallax — phones drift up and fade before text appears
+  // Mobile: scroll parallax — phones exit upward before text appears
   useEffect(() => {
     if (bp !== 'mobile') return;
     const onScroll = () => {
-      const p1 = phone1OuterRef.current;
-      const p2 = phone2OuterRef.current;
-      if (!p1 || !p2) return;
+      const o1 = phone1OuterRef.current;
+      const o2 = phone2OuterRef.current;
+      const gg = groundGlowRef.current;
+      if (!o1 || !o2) return;
       const scrollY = window.scrollY;
       const vh      = window.innerHeight;
-      // Fade fully out by scrollY = vh/2 (when text scroll-trigger begins)
-      const fade    = Math.max(0, 1 - (scrollY / vh) * 2);
-      const yShift  = -(scrollY * 0.5);
-      gsap.set(p1, { y: yShift, opacity: fade });
-      gsap.set(p2, { y: yShift, opacity: fade });
+      const fade    = Math.max(0, 1 - (scrollY / vh) * 2.2);
+      const yShift  = -(scrollY * 0.6);
+      gsap.set(o1, { y: yShift, opacity: fade });
+      gsap.set(o2, { y: yShift, opacity: fade });
+      if (gg) gsap.set(gg, { opacity: fade * 0.9 });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [bp]);
 
-  // Mouse parallax — desktop only, single attachment, reads activeRef at call time
+  // Mouse parallax — desktop only
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -219,30 +266,112 @@ export default function DALILIPhones({ revealed = true }) {
     };
   }, []);
 
-
-  // ── MOBILE RENDER — cinematic two-phone layout ───────────────────────────
+  // ── MOBILE RENDER ─────────────────────────────────────────────────────────
   if (bp === 'mobile') {
+    // Horizontal: pair centered at x=50%
+    //   phone1 center → 50% - 90px  ∴ left = 50% - 90 - P1_W/2
+    //   phone2 center → 50% + 88px  ∴ left = 50% + 88 - P2_W/2
+    // Vertical: each phone independently centered, phone1 sits 18px lower
+    //   phone1: top = 50% - P1_H/2 + 18
+    //   phone2: top = 50% - P2_H/2
+    const p1Left = `calc(50% - ${90 + Math.round(P1_W / 2)}px)`;
+    const p2Left = `calc(50% + ${88 - Math.round(P2_W / 2)}px)`;
+    const p1Top  = `calc(50% - ${Math.round(P1_H / 2) - 18}px)`;
+    const p2Top  = `calc(50% - ${Math.round(P2_H / 2)}px)`;
+
     return (
       <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100%' }}>
-        {/* Phone 1 — splash screen, left side, back */}
+
+        {/* Ground reflection glow — phones float above this */}
+        <div
+          ref={groundGlowRef}
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            bottom: '24%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '82%',
+            height: 80,
+            background: 'radial-gradient(ellipse at center, rgba(1,77,248,0.22) 0%, transparent 70%)',
+            filter: 'blur(30px)',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+
+        {/* Phone 1 — left, splash screen, back layer */}
         <div
           ref={phone1OuterRef}
-          style={{ position: 'absolute', left: -8, bottom: 40, width: 170, zIndex: 1 }}
+          style={{
+            position: 'absolute',
+            left: p1Left,
+            top: p1Top,
+            zIndex: 2,
+            willChange: 'transform, opacity',
+          }}
         >
-          <div ref={phone1InnerRef}>
-            <PhoneShell width={170} src={PHONES[1].src} alt={PHONES[1].alt} />
+          {/* Ambient glow behind this phone */}
+          <div
+            ref={glow1Ref}
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 240, height: 350,
+              background: 'radial-gradient(ellipse at 45% 50%, rgba(1,77,248,0.28) 0%, rgba(77,143,255,0.06) 55%, transparent 72%)',
+              borderRadius: '50%',
+              filter: 'blur(42px)',
+              pointerEvents: 'none',
+              zIndex: -1,
+            }}
+          />
+          {/* Float + rotation + blur layer */}
+          <div
+            ref={phone1InnerRef}
+            style={{ willChange: 'transform, opacity, filter', display: 'inline-block' }}
+          >
+            <PhoneShell width={P1_W} src={PHONES[1].src} alt={PHONES[1].alt} />
           </div>
         </div>
 
-        {/* Phone 2 — home screen, right side, front */}
+        {/* Phone 2 — right, home screen, front layer */}
         <div
           ref={phone2OuterRef}
-          style={{ position: 'absolute', right: -8, bottom: 20, width: 195, zIndex: 2 }}
+          style={{
+            position: 'absolute',
+            left: p2Left,
+            top: p2Top,
+            zIndex: 3,
+            willChange: 'transform, opacity',
+          }}
         >
-          <div ref={phone2InnerRef}>
-            <PhoneShell width={195} src={PHONES[0].src} alt={PHONES[0].alt} />
+          {/* Ambient glow behind this phone */}
+          <div
+            ref={glow2Ref}
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 270, height: 395,
+              background: 'radial-gradient(ellipse at 55% 50%, rgba(77,143,255,0.22) 0%, rgba(1,77,248,0.07) 55%, transparent 72%)',
+              borderRadius: '50%',
+              filter: 'blur(48px)',
+              pointerEvents: 'none',
+              zIndex: -1,
+            }}
+          />
+          {/* Float + rotation + blur layer */}
+          <div
+            ref={phone2InnerRef}
+            style={{ willChange: 'transform, opacity, filter', display: 'inline-block' }}
+          >
+            <PhoneShell width={P2_W} src={PHONES[0].src} alt={PHONES[0].alt} />
           </div>
         </div>
+
       </div>
     );
   }
