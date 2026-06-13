@@ -97,6 +97,14 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
       return;
     }
 
+    // Internal navigation sets this flag so animation is skipped.
+    // On a real page refresh the flag is absent → animation plays.
+    if (sessionStorage.getItem('skipIntro')) {
+      sessionStorage.removeItem('skipIntro');
+      cb.current();
+      return;
+    }
+
     // Compute responsive sizes once, before the overlay appears.
     // React batches this with setShow so the first render already has correct sizes.
     setSizes(computeSizes());

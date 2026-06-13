@@ -1,10 +1,17 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function Navbar() {
   const navRef = useRef(null);
+  const router = useRouter();
+
+  function handleLogoClick() {
+    sessionStorage.setItem('skipIntro', 'true');
+    router.push('/');
+  }
 
   useEffect(() => {
     function onScroll() {
@@ -46,7 +53,10 @@ export default function Navbar() {
       }}
     >
       {/* Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div
+        onClick={handleLogoClick}
+        style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}
+      >
         <Image
           src="/images/logo-dalili.svg"
           alt="DALILI"
