@@ -67,9 +67,9 @@ export default function ProblemSection() {
     const ctx = gsap.context(() => {
       gsap.to(chars, {
         yPercent: 0,
-        duration: 0.9, ease: 'power4.out',
-        stagger: { each: 0.025, from: 'start' },
-        scrollTrigger: { trigger: title, start: 'top 80%', toggleActions: 'play none none none' },
+        duration: 0.5, ease: 'power4.out',
+        stagger: { each: 0.016, from: 'start' },
+        scrollTrigger: { trigger: title, start: 'top 90%', toggleActions: 'play none none none' },
       });
     }, title);
 
@@ -89,11 +89,11 @@ export default function ProblemSection() {
 
         gsap.to(obj, {
           val: numericValue,
-          duration: 1.8,
+          duration: 1.0,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 82%',
+            start: 'top 92%',
             toggleActions: 'play none none none',
           },
           onUpdate() {
@@ -121,11 +121,11 @@ export default function ProblemSection() {
         const fromX = isMobile ? 0 : (i % 2 === 0 ? -60 : 60);
 
         gsap.from(card, {
-          x: fromX, y: isMobile ? 50 : 30,
+          x: fromX, y: isMobile ? 30 : 20,
           opacity: 0,
-          duration: 1.0, ease: 'power3.out',
-          delay: isMobile ? 0 : i * 0.12,
-          scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' },
+          duration: 0.5, ease: 'power3.out',
+          delay: isMobile ? 0 : i * 0.06,
+          scrollTrigger: { trigger: card, start: 'top 93%', toggleActions: 'play none none none' },
         });
 
         // Idle float

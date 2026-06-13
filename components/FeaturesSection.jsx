@@ -75,9 +75,9 @@ export default function FeaturesSection() {
     const ctx = gsap.context(() => {
       gsap.to(chars, {
         yPercent: 0,
-        duration: 0.9, ease: 'power4.out',
-        stagger: { each: 0.025, from: 'start' },
-        scrollTrigger: { trigger: title, start: 'top 80%', toggleActions: 'play none none none' },
+        duration: 0.5, ease: 'power4.out',
+        stagger: { each: 0.016, from: 'start' },
+        scrollTrigger: { trigger: title, start: 'top 90%', toggleActions: 'play none none none' },
       });
     }, title);
 
@@ -96,9 +96,9 @@ export default function FeaturesSection() {
 
         // Scroll entrance
         gsap.from(card, {
-          y: 70, opacity: 0, duration: 0.95, ease: 'power3.out',
-          delay: i * 0.14,
-          scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' },
+          y: 40, opacity: 0, duration: 0.45, ease: 'power3.out',
+          delay: i * 0.06,
+          scrollTrigger: { trigger: card, start: 'top 93%', toggleActions: 'play none none none' },
         });
 
         // Idle float — starts immediately (GSAP handles compose with entrance)

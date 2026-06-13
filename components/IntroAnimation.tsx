@@ -62,11 +62,11 @@ function FlyingShape({
       initial={{ x: ix, y: iy, rotate: ir, scale: 1.85, opacity: 0 }}
       animate={{ x: 0,  y: 0,  rotate: 0,  scale: 1,    opacity: 1 }}
       transition={{
-        x:       { duration: 0.70, delay, ease: SNAP },
-        y:       { duration: 0.70, delay, ease: SNAP },
-        rotate:  { duration: 0.70, delay, ease: SNAP },
-        scale:   { duration: 0.66, delay, ease: EXPO_OUT },
-        opacity: { duration: 0.20, delay },
+        x:       { duration: 0.38, delay, ease: SNAP },
+        y:       { duration: 0.38, delay, ease: SNAP },
+        rotate:  { duration: 0.38, delay, ease: SNAP },
+        scale:   { duration: 0.36, delay, ease: EXPO_OUT },
+        opacity: { duration: 0.14, delay },
       }}
     >
       <svg
@@ -111,10 +111,10 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
     setShow(true);
 
     const T = [
-      setTimeout(() => setPhase('impact'), 720),
-      setTimeout(() => setPhase('logo'),  1020),
-      setTimeout(() => setPhase('text'),  1320),
-      setTimeout(() => { cb.current(); setShow(false); }, 2650),
+      setTimeout(() => setPhase('impact'), 380),
+      setTimeout(() => setPhase('logo'),   580),
+      setTimeout(() => setPhase('text'),   780),
+      setTimeout(() => { cb.current(); setShow(false); }, 1680),
     ];
     return () => T.forEach(clearTimeout);
   }, []);
@@ -178,8 +178,8 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
                     zIndex: 0,
                   }}
                   initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: [0.6, 1, 0.6], scale: [0.9, 1.18, 0.9] }}
-                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={{ opacity: [0.6, 1, 0.6], scale: [0.9, 1.14, 0.9] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
                 />
               )}
             </AnimatePresence>
@@ -273,7 +273,7 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
                 exit={{ opacity: 0, y: -6, transition: { duration: 0.22 } }}
                 variants={{
                   hidden: {},
-                  show: { transition: { staggerChildren: 0.082 } },
+                  show: { transition: { staggerChildren: 0.05 } },
                 }}
               >
                 {'DALILI'.split('').map((ch, i) => (
@@ -283,7 +283,7 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
                       hidden: { opacity: 0, y: 14, filter: 'blur(6px)' },
                       show: {
                         opacity: 1, y: 0, filter: 'blur(0px)',
-                        transition: { duration: 0.44, ease: EXPO_OUT },
+                        transition: { duration: 0.28, ease: EXPO_OUT },
                       },
                     }}
                     style={{

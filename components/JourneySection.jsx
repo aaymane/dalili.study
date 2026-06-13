@@ -59,15 +59,15 @@ const NODE_D = 56;
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.13, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.07, delayChildren: 0.05 },
   },
 };
 
 const stepVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1, y: 0,
-    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -142,9 +142,9 @@ export default function JourneySection() {
         textAlign: 'center',
       }}>
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Badge */}
           <div style={{
@@ -219,7 +219,7 @@ export default function JourneySection() {
               aria-hidden="true"
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : { scaleY: 0 }}
-              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
               style={trackLineMobile}
             />
           ) : (
@@ -227,7 +227,7 @@ export default function JourneySection() {
               aria-hidden="true"
               initial={{ scaleX: 0 }}
               animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
               style={trackLineDesktop}
             />
           )}

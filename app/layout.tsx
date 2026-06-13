@@ -107,6 +107,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+        <link rel="preload" href="/images/logo-dalili.svg" as="image" type="image/svg+xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

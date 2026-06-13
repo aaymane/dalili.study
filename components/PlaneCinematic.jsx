@@ -259,6 +259,7 @@ const PlaneCinematic = forwardRef(function PlaneCinematic(
         display: 'block',
         width: '100%',
         height: '100%',
+        willChange: 'transform',
       }}
     />
   );

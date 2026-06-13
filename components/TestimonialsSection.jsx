@@ -54,13 +54,13 @@ const SOCIAL_PROOF = [
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.16, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 };
 
 const cardVariants = {
-  hidden:   { opacity: 0, y: 52, scale: 0.96 },
+  hidden:   { opacity: 0, y: 28, scale: 0.97 },
   visible:  { opacity: 1, y: 0,  scale: 1,
-    transition: { duration: 0.82, ease: [0.22, 1, 0.36, 1] } },
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
 };
 
 export default function TestimonialsSection() {
@@ -96,9 +96,9 @@ export default function TestimonialsSection() {
 
         {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           style={{ textAlign: 'center', marginBottom: 'clamp(48px,8vw,96px)' }}
         >
           <div style={{
@@ -328,9 +328,9 @@ export default function TestimonialsSection() {
 
         {/* ── Social proof pills ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1], delay: 0.62 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.28 }}
           style={{
             display: 'flex',
             alignItems: 'center',

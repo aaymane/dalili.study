@@ -77,7 +77,7 @@ export default function HeroSection({ revealed = false }) {
         xPercent: -50, yPercent: -50,
         x: W * 0.26, y: -H * 0.18,
         rotate: 5, opacity: 1,
-        duration: 1.7, ease: 'power3.out',
+        duration: 1.0, ease: 'power3.out',
         onComplete: () => {
           gsap.to(plane, {
             xPercent: -50, yPercent: -50,
@@ -98,8 +98,8 @@ export default function HeroSection({ revealed = false }) {
       if (heroBadgeRef.current) {
         gsap.to(heroBadgeRef.current, {
           opacity: 1, y: 0,
-          duration: 0.8, ease: 'power2.out',
-          delay: 0.9,
+          duration: 0.5, ease: 'power2.out',
+          delay: 0.4,
         });
       }
     }

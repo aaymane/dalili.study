@@ -66,12 +66,12 @@ const ctaUnderlineVariants = {
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.14, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
 };
 
 const itemVariants = {
-  hidden:  { opacity: 0, y: 44 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] } },
+  hidden:  { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
 };
 
 export default function BlogPreviewSection() {
