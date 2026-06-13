@@ -37,8 +37,9 @@ export default function HeroSection({ revealed = false }) {
     const mobile = W < 768;
 
     if (sectionRef.current) {
-      // Mobile: single viewport (no scroll theatre). Desktop: 420vh scroll space.
-      sectionRef.current.style.height = mobile ? '100svh' : '420vh';
+      // Mobile: 200vh — phones fill first screen, text scroll-reveals in second.
+      // Desktop: 420vh for the full cinematic scroll sequence.
+      sectionRef.current.style.height = mobile ? '200vh' : '420vh';
     }
 
     if (planeRef.current && !mobile) {
@@ -51,9 +52,10 @@ export default function HeroSection({ revealed = false }) {
       });
     }
 
-    // Mobile: text visible immediately. Desktop: hidden until scroll-reveal.
-    if (textRef.current) gsap.set(textRef.current, { opacity: mobile ? 1 : 0 });
-    // Desktop badge starts hidden; mobile badge lives inside DALILIPhones.
+    // Text hidden until scroll-reveal on both mobile and desktop.
+    if (textRef.current) gsap.set(textRef.current, { opacity: 0 });
+    // Desktop badge starts hidden. Mobile badge (heroBadgeRef) is shown via CSS,
+    // starts visible, and fades with phones via scroll trigger in revealed effect.
     if (!mobile && heroBadgeRef.current) gsap.set(heroBadgeRef.current, { opacity: 0, y: 10 });
   }, []);
 
@@ -69,47 +71,39 @@ export default function HeroSection({ revealed = false }) {
     const H      = window.innerHeight;
     const mobile = W < 768;
 
-    // Mobile: no scroll animations. Text is already visible (set in init effect).
-    // Plane is already positioned as background decoration. Just return.
-    if (mobile) return;
-
-    // 1. Plane swoops in from off-screen (1.7s entrance)
-    //    onComplete: set up scroll exit AFTER entrance so they never conflict
-    gsap.to(plane, {
-      xPercent: -50, yPercent: -50,
-      x:      mobile ? 0       : W * 0.26,
-      y:      mobile ? -H * 0.2 : -H * 0.18,
-      rotate: mobile ? 2 : 5,
-      opacity: 1,
-      duration: 1.7, ease: 'power3.out',
-      onComplete: () => {
-        // Scroll-driven diagonal exit — set up AFTER entrance so there's no tween conflict
-        gsap.to(plane, {
-          xPercent: -50, yPercent: -50,
-          x:       mobile ? -W * 0.7 : -W * 0.62,
-          y:       mobile ?  H * 0.25 :  H * 0.38,
-          rotate: -6, opacity: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top top',
-            end:   '55% bottom',
-            scrub: 2,
-          },
-        });
-      },
-    });
-
-    // 2a. Badge pill fades in on tablet/desktop — mobile badge is inside DALILIPhones
-    if (!mobile && heroBadgeRef.current) {
-      gsap.to(heroBadgeRef.current, {
-        opacity: 1, y: 0,
-        duration: 0.8, ease: 'power2.out',
-        delay: 0.9,
+    if (!mobile) {
+      // 1. Plane swoops in from off-screen (1.7s entrance)
+      gsap.to(plane, {
+        xPercent: -50, yPercent: -50,
+        x: W * 0.26, y: -H * 0.18,
+        rotate: 5, opacity: 1,
+        duration: 1.7, ease: 'power3.out',
+        onComplete: () => {
+          gsap.to(plane, {
+            xPercent: -50, yPercent: -50,
+            x: -W * 0.62, y: H * 0.38,
+            rotate: -6, opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top top',
+              end:   '55% bottom',
+              scrub: 2,
+            },
+          });
+        },
       });
+
+      // Badge pill fades in on desktop
+      if (heroBadgeRef.current) {
+        gsap.to(heroBadgeRef.current, {
+          opacity: 1, y: 0,
+          duration: 0.8, ease: 'power2.out',
+          delay: 0.9,
+        });
+      }
     }
 
-    // 3. Text + phones/skyline scroll animations in context for proper cleanup
     const ctx = gsap.context(() => {
 
       // Text container fades in
@@ -119,8 +113,8 @@ export default function HeroSection({ revealed = false }) {
           opacity: 1, ease: 'none',
           scrollTrigger: {
             trigger: section,
-            start: mobile ? '28% center' : '32% center',
-            end:   mobile ? '44% center' : '46% center',
+            start: mobile ? '50% center' : '32% center',
+            end:   mobile ? '60% center' : '46% center',
             scrub: true,
           },
         },
@@ -134,35 +128,53 @@ export default function HeroSection({ revealed = false }) {
           y: 0, opacity: 1, ease: 'none',
           scrollTrigger: {
             trigger: section,
-            start: mobile ? '42% center' : '44% center',
-            end:   mobile ? '52% center' : '54% center',
+            start: mobile ? '54% center' : '44% center',
+            end:   mobile ? '64% center' : '54% center',
             scrub: true,
           },
         },
       );
 
-      // ── Phones + skyline + horizon glow fade OUT before text arrives
-      // fromTo with explicit opacity:1 → scrub reversal correctly restores on scroll-back
-      const chipEls    = Array.from(section.querySelectorAll('.hero-chip-wrap'));
-      const fadeTargets = chipEls.filter(Boolean);
-      if (skylineWrap.current)  fadeTargets.push(skylineWrap.current);
-      if (horizonGlow.current)  fadeTargets.push(horizonGlow.current);
-      if (heroBadgeRef.current) fadeTargets.push(heroBadgeRef.current);
+      if (!mobile) {
+        // Desktop: phones + skyline + horizon glow fade OUT before text arrives
+        const chipEls    = Array.from(section.querySelectorAll('.hero-chip-wrap'));
+        const fadeTargets = chipEls.filter(Boolean);
+        if (skylineWrap.current)  fadeTargets.push(skylineWrap.current);
+        if (horizonGlow.current)  fadeTargets.push(horizonGlow.current);
+        if (heroBadgeRef.current) fadeTargets.push(heroBadgeRef.current);
 
-      if (fadeTargets.length) {
-        gsap.fromTo(fadeTargets,
-          { opacity: 1 },
-          {
-            opacity: 0,
-            ease: 'power2.in',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top top',
-              end: `+=${mobile ? 200 : 320}`,
-              scrub: true,
-            },
-          }
-        );
+        if (fadeTargets.length) {
+          gsap.fromTo(fadeTargets,
+            { opacity: 1 },
+            {
+              opacity: 0,
+              ease: 'power2.in',
+              scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: '+= 320',
+                scrub: true,
+              },
+            }
+          );
+        }
+      } else {
+        // Mobile: badge fades out in sync with phones (phones fade by scrollY = H/2)
+        if (heroBadgeRef.current) {
+          gsap.fromTo(heroBadgeRef.current,
+            { opacity: 1 },
+            {
+              opacity: 0,
+              ease: 'power2.in',
+              scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: `+=${Math.round(H * 0.5)}`,
+                scrub: true,
+              },
+            }
+          );
+        }
       }
 
       // Per-character curtain reveal
@@ -180,8 +192,8 @@ export default function HeroSection({ revealed = false }) {
           stagger: { each: 0.028, from: 'start' },
           scrollTrigger: {
             trigger: section,
-            start: `${(mobile ? 30 : 33) + i * offset}% center`,
-            end:   `${(mobile ? 44 : 47) + i * offset}% center`,
+            start: `${(mobile ? 52 : 33) + i * offset}% center`,
+            end:   `${(mobile ? 66 : 47) + i * offset}% center`,
             scrub: 1.0,
           },
         });

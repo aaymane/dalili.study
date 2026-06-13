@@ -121,28 +121,28 @@ export default function DALILIPhones({ revealed = true }) {
     return () => clearInterval(id);
   }, [bp]);
 
-  // Mobile entry animation — flies in once logo reveal completes
+  // Mobile entry animation — rises from below once logo reveal completes
   useEffect(() => {
     if (bp !== 'mobile' || !revealed) return;
     const p1 = phone1InnerRef.current;
     const p2 = phone2InnerRef.current;
     if (!p1 || !p2) return;
 
-    // Start off-screen
-    gsap.set(p1, { x: '-120%', rotate: -15, opacity: 0 });
-    gsap.set(p2, { x: '120%',  rotate: 15,  opacity: 0 });
+    // Start off-screen below viewport, already rotated to final tilt
+    gsap.set(p1, { y: '120vh', rotate: -6, opacity: 0 });
+    gsap.set(p2, { y: '120vh', rotate:  6, opacity: 0 });
 
-    // Spring fly-in, then continuous float
+    // Cinematic rise from below (matches desktop plane entrance feel)
     gsap.to(p1, {
-      x: 0, rotate: -6, opacity: 1,
-      duration: 0.9, ease: 'back.out(1.7)', delay: 0.1,
+      y: 0, opacity: 0.75,
+      duration: 1.2, ease: 'expo.out', delay: 0,
       onComplete: () => {
         gsap.to(p1, { y: -12, duration: 1.75, ease: 'sine.inOut', yoyo: true, repeat: -1 });
       },
     });
     gsap.to(p2, {
-      x: 0, rotate: 6, opacity: 1,
-      duration: 0.9, ease: 'back.out(1.7)', delay: 0.2,
+      y: 0, opacity: 1,
+      duration: 1.2, ease: 'expo.out', delay: 0.15,
       onComplete: () => {
         gsap.to(p2, { y: -16, duration: 2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.5 });
       },
@@ -154,18 +154,20 @@ export default function DALILIPhones({ revealed = true }) {
     };
   }, [bp, revealed]);
 
-  // Mobile scroll parallax — phones drift up and diverge, fade as hero scrolls out
+  // Mobile scroll parallax — phones drift up and fade before text appears
   useEffect(() => {
     if (bp !== 'mobile') return;
     const onScroll = () => {
       const p1 = phone1OuterRef.current;
       const p2 = phone2OuterRef.current;
       if (!p1 || !p2) return;
-      const progress = Math.min(window.scrollY / window.innerHeight, 1);
-      const yShift   = -progress * 80;
-      const fade     = Math.max(0, 1 - progress * 2);
-      gsap.set(p1, { y: yShift, x: -progress * 15, opacity: fade });
-      gsap.set(p2, { y: yShift, x:  progress * 15, opacity: fade });
+      const scrollY = window.scrollY;
+      const vh      = window.innerHeight;
+      // Fade fully out by scrollY = vh/2 (when text scroll-trigger begins)
+      const fade    = Math.max(0, 1 - (scrollY / vh) * 2);
+      const yShift  = -(scrollY * 0.5);
+      gsap.set(p1, { y: yShift, opacity: fade });
+      gsap.set(p2, { y: yShift, opacity: fade });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -225,20 +227,20 @@ export default function DALILIPhones({ revealed = true }) {
         {/* Phone 1 — splash screen, left side, back */}
         <div
           ref={phone1OuterRef}
-          style={{ position: 'absolute', left: -10, bottom: 0, width: 180, zIndex: 1 }}
+          style={{ position: 'absolute', left: -8, bottom: 40, width: 170, zIndex: 1 }}
         >
           <div ref={phone1InnerRef}>
-            <PhoneShell width={180} src={PHONES[1].src} alt={PHONES[1].alt} />
+            <PhoneShell width={170} src={PHONES[1].src} alt={PHONES[1].alt} />
           </div>
         </div>
 
         {/* Phone 2 — home screen, right side, front */}
         <div
           ref={phone2OuterRef}
-          style={{ position: 'absolute', right: -10, bottom: 0, width: 200, zIndex: 2 }}
+          style={{ position: 'absolute', right: -8, bottom: 20, width: 195, zIndex: 2 }}
         >
           <div ref={phone2InnerRef}>
-            <PhoneShell width={200} src={PHONES[0].src} alt={PHONES[0].alt} />
+            <PhoneShell width={195} src={PHONES[0].src} alt={PHONES[0].alt} />
           </div>
         </div>
       </div>

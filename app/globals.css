@@ -426,19 +426,21 @@ input[type="email"]:focus {
   /* ── Hero plane — hidden on mobile (phones replace it) ─────── */
   .hero-plane-wrap { display: none !important; }
 
-  /* ── Hero sticky inner — block on mobile (children are absolute) ─ */
-  .hero-sticky-inner { display: block; }
+  /* ── Hero sticky inner — flex centered on mobile ── */
+  .hero-sticky-inner { display: flex; align-items: center; justify-content: center; }
 
-  /* ── Hero text — top overlay, above both phones and badge ───── */
+  /* ── Hero text — centered in flex container ── */
   .hero-text-offset {
-    position: absolute !important;
-    top: 140px;
-    left: 20px;
-    right: 20px;
-    width: auto !important;
+    position: relative !important;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100% !important;
     transform: none;
     z-index: 10;
     pointer-events: none;
+    text-align: center;
+    padding: 0 24px;
   }
   .hero-text-wrap  { padding: 0 !important; }
   .hero-badge      { padding: 6px 14px !important; margin-bottom: 18px !important; max-width: 90vw !important; }
