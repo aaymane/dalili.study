@@ -157,16 +157,18 @@ export default function DALILIPhones() {
   useEffect(() => { activeRef.current = active; }, [active]);
 
   // Breakpoint + mobile phone width
-  // Width = min(260px, 65vw, width-that-fits-55vh) so the phone
-  // never overflows the container on any phone screen size.
   useEffect(() => {
     const update = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      setBp(vw < 768 ? 'mobile' : vw < 1024 ? 'tablet' : 'desktop');
-      const byWidth  = Math.min(160, Math.floor(vw * 0.42)); // fits 160px container
-      const byHeight = Math.floor((vh * 0.55) / RATIO);       // never taller than 55vh
-      setMobileW(Math.min(byWidth, byHeight));
+      if (vw < 768) {
+        setBp('mobile');
+        // 220px as specified; clamp by height so it never overflows on very small screens
+        const byHeight = Math.floor((vh * 0.52) / RATIO);
+        setMobileW(Math.min(220, byHeight));
+      } else {
+        setBp(vw < 1024 ? 'tablet' : 'desktop');
+      }
     };
     update();
     window.addEventListener('resize', update, { passive: true });
@@ -238,53 +240,39 @@ export default function DALILIPhones() {
 
   // ── MOBILE RENDER ─────────────────────────────────────────────────────────
   if (bp === 'mobile') {
-    const phoneH = Math.round(mobileW * RATIO);
     return (
       <div
         ref={containerRef}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         style={{
-          width: '100%',
-          padding: '4px 4px 4px',
-          boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          width: '100%',
+          paddingTop: 20,
+          gap: 0,
           pointerEvents: 'auto',
         }}
       >
-        {/* Phone slot — first is in-flow (sets height), second overlaid */}
-        <div style={{
-          position: 'relative',
-          width: mobileW,
-          height: phoneH,
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          {PHONES.map((phone, i) => (
-            <div
-              key={phone.id}
-              style={{
-                position: i === 0 ? 'relative' : 'absolute',
-                top: 0, left: 0,
-                opacity: i === active ? 1 : 0,
-                transition: 'opacity 0.5s cubic-bezier(0.4,0,0.2,1)',
-                pointerEvents: i === active ? 'auto' : 'none',
-              }}
-            >
-              <PhoneShell width={mobileW} src={phone.src} alt={phone.alt} />
-            </div>
-          ))}
-        </div>
+        {/* One phone at a time — inactive is display:none */}
+        {PHONES.map((phone, i) => (
+          <div
+            key={phone.id}
+            style={{
+              display: i === active ? 'block' : 'none',
+              animation: 'mobileFloat 3.5s ease-in-out infinite',
+            }}
+          >
+            <PhoneShell width={mobileW} src={phone.src} alt={phone.alt} />
+          </div>
+        ))}
 
         {/* Dot navigation */}
         <DotsNav active={active} total={PHONES.length} onDotClick={setActive} />
 
-        {/* Badge — the hero-section badge is hidden on mobile via CSS,
-            so we render it here to keep it in the natural document flow */}
+        {/* Badge — hero-section badge is hidden on mobile via CSS;
+            render it here so it flows naturally below dots */}
         <div style={{ marginTop: 12 }}>
           <BadgePill />
         </div>

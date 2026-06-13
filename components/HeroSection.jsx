@@ -36,25 +36,32 @@ export default function HeroSection({ revealed = false }) {
     const H      = window.innerHeight;
     const mobile = W < 768;
 
-    // Adjust section scroll distance for mobile (300vh) vs desktop (420vh)
     if (sectionRef.current) {
-      sectionRef.current.style.height = `${mobile ? 300 : 420}vh`;
+      // Mobile: single viewport (no scroll theatre). Desktop: 420vh scroll space.
+      sectionRef.current.style.height = mobile ? '100svh' : '420vh';
     }
 
     if (planeRef.current) {
-      // ── Coordinate system:
-      //   wrapper: position:absolute left:50% top:50%
-      //   xPercent:-50 yPercent:-50  →  element IS centered at (W/2, H/2) when x=0,y=0
-      //   So x=0 means "centered" on mobile, NOT W*0.5 !
-      gsap.set(planeRef.current, {
-        xPercent: -50, yPercent: -50,
-        x:  mobile ? 0       : W * 0.55,   // mobile: centered | desktop: right half
-        y:  mobile ? -H * 0.7 : -H * 0.65, // start above viewport
-        rotate: -8, opacity: 0,
-      });
+      if (mobile) {
+        // Background decoration — centered, half-size, low opacity, static
+        gsap.set(planeRef.current, {
+          xPercent: -50, yPercent: -50,
+          x: 0, y: 0, scale: 0.5, rotate: 0, opacity: 0.25,
+        });
+      } else {
+        // Desktop: off-screen above-right, ready to swoop in
+        gsap.set(planeRef.current, {
+          xPercent: -50, yPercent: -50,
+          x: W * 0.55, y: -H * 0.65,
+          rotate: -8, opacity: 0,
+        });
+      }
     }
-    if (textRef.current)   gsap.set(textRef.current,   { opacity: 0 });
-    if (heroBadgeRef.current) gsap.set(heroBadgeRef.current, { opacity: 0, y: 10 });
+
+    // Mobile: text visible immediately. Desktop: hidden until scroll-reveal.
+    if (textRef.current) gsap.set(textRef.current, { opacity: mobile ? 1 : 0 });
+    // Desktop badge starts hidden; mobile badge lives inside DALILIPhones.
+    if (!mobile && heroBadgeRef.current) gsap.set(heroBadgeRef.current, { opacity: 0, y: 10 });
   }, []);
 
   // ── Entrance + scroll animations (run once logo disappears)
@@ -68,6 +75,10 @@ export default function HeroSection({ revealed = false }) {
     const W      = window.innerWidth;
     const H      = window.innerHeight;
     const mobile = W < 768;
+
+    // Mobile: no scroll animations. Text is already visible (set in init effect).
+    // Plane is already positioned as background decoration. Just return.
+    if (mobile) return;
 
     // 1. Plane swoops in from off-screen (1.7s entrance)
     //    onComplete: set up scroll exit AFTER entrance so they never conflict

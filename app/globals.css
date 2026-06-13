@@ -255,15 +255,15 @@ body {
 }
 
 /* ── Phone mockup wrapper ────────────────────────────────────────
-   Mobile  (<768):  in document flow, 160px centered, z-index 1.
+   Mobile  (<768):  220px, in flex flow, centered. z-index 2.
    Tablet  (768-1023): absolutely positioned 420px left column.
    Desktop (1024+):    480px left column.                        */
 .hero-phones-wrap {
-  /* Mobile: relative so it participates in flex-column flow */
+  /* Mobile: relative so it participates in the flex-column flow */
   position: relative;
-  width: 160px;
+  width: 220px;
   margin: 0 auto;
-  z-index: 1; /* behind plane (z-index:4) and text (z-index:10) */
+  z-index: 2; /* above plane (0) and skyline, below text (10) */
   pointer-events: none;
 }
 @media (min-width: 768px) {
@@ -285,11 +285,16 @@ body {
   }
 }
 
-/* Float keyframe — translateY only; never conflicts with the
-   rotate/scale CSS transitions on the inner phone div.          */
+/* Float keyframe — desktop, translateY only */
 @keyframes phoneFloat {
   0%, 100% { transform: translateY(0px);   }
   50%       { transform: translateY(-14px); }
+}
+
+/* Mobile float — vertical only, no tilt */
+@keyframes mobileFloat {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-10px); }
 }
 
 /* Scroll-fade selector — no positioning needed here (phones-wrap handles it) */
@@ -410,31 +415,31 @@ input[type="email"]:focus {
   .navbar     { padding: 0 20px !important; height: 64px !important; }
   .navbar-cta { padding: 10px 18px !important; font-size: 0.74rem !important; letter-spacing: 0.04em !important; }
 
-  /* ── Hero plane ──────────────────────────────────────────── */
-  /* Width = 96vw, height = 60vw (16:9 aspect), capped nicely  */
+  /* ── Hero plane — background decoration on mobile ───────── */
   .hero-plane-wrap {
-    width:  min(96vw, 420px) !important;
-    height: min(60vw, 262px) !important;
+    width:   min(96vw, 420px) !important;
+    height:  min(60vw, 262px) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
   }
 
-  /* ── Hero sticky inner — flex-column so phone sits in flow ─── */
+  /* ── Hero sticky inner — flex-column, phone is the only flow item ─ */
   .hero-sticky-inner {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px 16px;
-    gap: 24px;
-    box-sizing: border-box;
   }
 
-  /* ── Hero text — absolute so it doesn't push phone in flex flow ─ */
-  /* Keeps the existing -5vh upward nudge for when text reveals.     */
+  /* ── Hero text — absolute overlay at top, above phone and plane ─── */
+  /* Text is visible immediately on mobile (no scroll reveal).         */
   .hero-text-offset {
     position: absolute !important;
-    top: 50%;
+    top: 72px; /* clear the 64px navbar */
     left: 0;
     width: 100%;
-    transform: translateY(calc(-50% - 5vh));
+    transform: none;
+    z-index: 10;
+    pointer-events: none;
   }
   .hero-text-wrap  { padding: 0 16px !important; }
   .hero-badge      { padding: 6px 14px !important; margin-bottom: 18px !important; max-width: 90vw !important; }
