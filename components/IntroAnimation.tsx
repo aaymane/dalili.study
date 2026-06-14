@@ -26,11 +26,10 @@ const S1 = 'M45.83,124.17h-13.08s-12.61,12.62-12.61,12.62l6.87,6.9,10.2-10.03c.9
 const S2 = 'M66.99,125.02l-14.38-16.39-26.56-.04-2.49,2.55L.19,134.62l21.05,23.8h13.08s12.61-12.62,12.61-12.62l-6.87-6.9-10.2,10.03c-.93.48-3.49.48-4.16-.29l-11.98-13.73,12.33-12.45c1.41-1.43,2.43-2.99,4.05-4.34h16.74c1.73,1.43,2.84,2.99,4.25,4.58l15.26,17.25c.28.32.46.55.73.65-.03-5.2-.05-10.39-.08-15.59Z';
 
 type Sizes = {
-  logo:    number; // logo container px
-  shock:   number; // shockwave final radius px (half of diameter)
-  flyX:    number; // shape initial x offset
-  flyY:    number; // shape initial y offset
-  glowIn:  number; // glow inset (negative px)
+  logo:   number;
+  flyX:   number;
+  flyY:   number;
+  glowIn: number;
 };
 
 function computeSizes(): Sizes {
@@ -40,7 +39,6 @@ function computeSizes(): Sizes {
   const logo = Math.round(Math.min(vmin * 0.28, 200));
   return {
     logo,
-    shock:  Math.round(vmin * 0.88),
     flyX:   Math.round(vw * 1.6),
     flyY:   Math.round(vh * 1.6),
     glowIn: Math.round(logo * 0.16),
@@ -86,7 +84,7 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
   const [show,  setShow]  = useState(false);
   const [phase, setPhase] = useState<Phase>('flying');
   const [sizes, setSizes] = useState<Sizes>({
-    logo: 200, shock: 320, flyX: 1800, flyY: 1200, glowIn: 32,
+    logo: 200, flyX: 1800, flyY: 1200, glowIn: 32,
   });
   const cb = useRef(onComplete);
   useEffect(() => { cb.current = onComplete; }, [onComplete]);
@@ -236,33 +234,8 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
             )}
           </AnimatePresence>
 
-          {/* ── Shockwave ring — diameter scales with viewport ─────────────── */}
-          <AnimatePresence>
-            {phase === 'impact' && (
-              <motion.span
-                key="shock"
-                aria-hidden="true"
-                style={{
-                  position: 'absolute',
-                  borderRadius: '50%',
-                  border: '2px solid rgba(147,197,253,0.8)',
-                  pointerEvents: 'none',
-                  zIndex: 15,
-                }}
-                initial={{ width: 0, height: 0, marginLeft: 0, marginTop: 0, opacity: 0 }}
-                animate={{
-                  width:      sizes.shock * 2,
-                  height:     sizes.shock * 2,
-                  marginLeft: -sizes.shock,
-                  marginTop:  -sizes.shock,
-                  opacity: [0, 0.85, 0],
-                }}
-                transition={{ duration: 0.68, ease: [0.2, 1, 0.8, 1] }}
-              />
-            )}
-          </AnimatePresence>
 
-          {/* ── "DALILI" letter-by-letter stagger ─────────────────────────── */}
+{/* ── "DALILI" letter-by-letter stagger ─────────────────────────── */}
           <AnimatePresence>
             {phase === 'text' && (
               <motion.div
