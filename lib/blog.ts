@@ -23,10 +23,16 @@ export interface Heading {
 }
 
 export const CATEGORY_COLORS: Record<string, { accent: string; accentRgb: string }> = {
-  Banque:   { accent: '#22C55E', accentRgb: '34,197,94' },
-  Logement: { accent: '#EFB370', accentRgb: '239,179,112' },
-  Visa:     { accent: '#4d8fff', accentRgb: '77,143,255' },
-  Permis:   { accent: '#7C3AED', accentRgb: '124,58,237' },
+  Banque:         { accent: '#22C55E', accentRgb: '34,197,94' },
+  Logement:       { accent: '#EFB370', accentRgb: '239,179,112' },
+  Visa:           { accent: '#4d8fff', accentRgb: '77,143,255' },
+  Permis:         { accent: '#7C3AED', accentRgb: '124,58,237' },
+  Emploi:         { accent: '#F59E0B', accentRgb: '245,158,11' },
+  'Vie étudiante':{ accent: '#06B6D4', accentRgb: '6,182,212' },
+  Finances:       { accent: '#10B981', accentRgb: '16,185,129' },
+  Démarches:      { accent: '#A855F7', accentRgb: '168,85,247' },
+  Santé:          { accent: '#F43F5E', accentRgb: '244,63,94' },
+  CAF:            { accent: '#E879F9', accentRgb: '232,121,249' },
 };
 
 export function getAllPosts(): PostMeta[] {

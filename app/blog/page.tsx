@@ -5,24 +5,24 @@ import { getAllPosts, CATEGORY_COLORS, formatDate } from '@/lib/blog';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Blog — Guides pour étudiants internationaux en France',
-  description: 'Guides pratiques sur le visa étudiant, le logement, la CAF, le compte bancaire et toutes les démarches administratives pour étudier en France.',
+  title: 'Blog — Guides pour étudiants maghrébins en France 2026 | Dalili',
+  description: 'Guides pratiques visa, logement, CAF, compte bancaire et toutes les démarches — écrits par et pour les étudiants marocains, algériens, tunisiens et égyptiens en France.',
   alternates: {
     canonical: `${SITE_URL}/blog`,
   },
   openGraph: {
-    title: 'Blog — Guides pour étudiants internationaux en France',
-    description: 'Guides pratiques sur le visa étudiant, le logement, la CAF, le compte bancaire et toutes les démarches administratives pour étudier en France.',
+    title: 'Guides pour étudiants maghrébins en France | Dalili',
+    description: 'Visa étudiant, logement, CAF, banque, OFII : guides pratiques pour les étudiants du Maghreb en France.',
     url: `${SITE_URL}/blog`,
     siteName: 'Dalili',
     type: 'website',
-    images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630, alt: 'Dalili Blog — Guides étudiants internationaux' }],
+    images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630, alt: 'Dalili Blog — Guides étudiants maghrébins en France' }],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@dalilistudy',
-    title: 'Blog — Guides pour étudiants internationaux en France',
-    description: 'Guides pratiques sur le visa étudiant, le logement, la CAF, le compte bancaire et toutes les démarches administratives pour étudier en France.',
+    title: 'Guides pour étudiants maghrébins en France | Dalili',
+    description: 'Visa étudiant, logement, CAF, banque, OFII : guides pratiques pour les étudiants du Maghreb en France.',
     images: [`${SITE_URL}/og-image.jpg`],
   },
 };
@@ -81,8 +81,8 @@ export default function BlogPage() {
             maxWidth: 'min(500px,88vw)',
             lineHeight: 1.75, margin: 0,
           }}>
-            Toutes les réponses aux questions que se posent les étudiants internationaux en France.
-            Des guides écrits par des gens qui sont passés par là.
+            Guides pratiques pour les étudiants marocains, algériens, tunisiens et égyptiens.
+            Écrits par des gens qui sont passés par là — avec les vraies démarches, pas la version officielle.
           </p>
         </div>
 

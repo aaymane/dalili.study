@@ -1,106 +1,243 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
+
+const NAV_LINKS = [
+  { label: 'Guides',      href: '/guides' },
+  { label: 'Universités', href: '/universites' },
+  { label: 'Villes',      href: '/villes' },
+  { label: 'Blog',        href: '/blog' },
+  { label: 'À propos',   href: '/a-propos' },
+];
 
 export default function Navbar() {
-  const navRef = useRef(null);
-  const router = useRouter();
+  const navRef  = useRef(null);
+  const router  = useRouter();
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
-  function handleLogoClick() {
-    sessionStorage.setItem('skipIntro', 'true');
-    router.push('/');
-  }
+  // Close menu on route change
+  useEffect(() => { setIsOpen(false); }, [pathname]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  // Scroll-based backdrop
   useEffect(() => {
     function onScroll() {
       if (!navRef.current) return;
       if (window.scrollY > 50) {
-        navRef.current.style.backdropFilter = 'blur(20px)';
+        navRef.current.style.backdropFilter    = 'blur(20px)';
         navRef.current.style.webkitBackdropFilter = 'blur(20px)';
-        navRef.current.style.background = 'rgba(1,5,16,0.85)';
-        navRef.current.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+        navRef.current.style.background        = 'rgba(1,5,16,0.92)';
+        navRef.current.style.borderBottom      = '1px solid rgba(255,255,255,0.07)';
       } else {
-        navRef.current.style.backdropFilter = 'none';
+        navRef.current.style.backdropFilter    = 'none';
         navRef.current.style.webkitBackdropFilter = 'none';
-        navRef.current.style.background = 'transparent';
-        navRef.current.style.borderBottom = '1px solid transparent';
+        navRef.current.style.background        = 'transparent';
+        navRef.current.style.borderBottom      = '1px solid transparent';
       }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  return (
-    <nav
-      ref={navRef}
-      className="navbar"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        height: 64,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 32px',
-        transition: 'background 0.4s ease, backdrop-filter 0.4s ease, border-bottom 0.4s ease',
-        background: 'transparent',
-        borderBottom: '1px solid transparent',
-      }}
-    >
-      {/* Logo */}
-      <div
-        onClick={handleLogoClick}
-        style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}
-      >
-        <Image
-          src="/images/logo-dalili.svg"
-          alt="DALILI"
-          data-navbar-logo="true"
-          width={32}
-          height={32}
-          style={{ display: 'block', width: 32, height: 32 }}
-        />
-        <span style={{
-          fontFamily: 'var(--font-montserrat)',
-          fontWeight: 900,
-          fontSize: '1rem',
-          color: '#fff',
-          letterSpacing: '0.15em',
-        }}>
-          DALILI
-        </span>
-      </div>
+  function handleLogoClick() {
+    sessionStorage.setItem('skipIntro', 'true');
+    router.push('/');
+  }
 
-      {/* CTA */}
-      <a
-        href="#early-access"
-        className="navbar-cta"
+  const isHome  = pathname === '/';
+  const ctaHref = isHome ? '#waitlist' : '/#waitlist';
+
+  return (
+    <>
+      <nav
+        ref={navRef}
+        className="dalili-navbar"
         style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          padding: '10px 24px',
-          background: '#014df8',
-          color: '#fff',
-          borderRadius: 100,
-          fontFamily: 'var(--font-montserrat)',
-          fontWeight: 600,
-          fontSize: '0.8rem',
-          letterSpacing: '0.05em',
-          textDecoration: 'none',
-          transition: 'opacity 0.2s ease, transform 0.2s ease',
-          pointerEvents: 'auto',
-          whiteSpace: 'nowrap',
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
+          height: 64,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 clamp(20px, 4vw, 40px)',
+          transition: 'background 0.4s ease, backdrop-filter 0.4s ease, border-bottom 0.4s ease',
+          background: 'transparent',
+          borderBottom: '1px solid transparent',
         }}
-        onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'scale(1.03)'; }}
-        onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1)'; }}
       >
-        Rejoindre la liste
-      </a>
-    </nav>
+        {/* ── Logo ── */}
+        <div
+          onClick={handleLogoClick}
+          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', zIndex: 1001, flexShrink: 0 }}
+        >
+          <Image src="/images/logo-dalili.svg" alt="DALILI" data-navbar-logo="true" width={32} height={32} style={{ width: 32, height: 32 }} />
+          <span style={{
+            fontFamily: 'var(--font-montserrat)', fontWeight: 900,
+            fontSize: '0.95rem', color: '#fff', letterSpacing: '0.15em',
+          }}>DALILI</span>
+        </div>
+
+        {/* ── Desktop nav links ── */}
+        <div className="nav-links-desktop" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(18px,2.5vw,32px)' }}>
+          {NAV_LINKS.map(link => {
+            const active = pathname === link.href || pathname.startsWith(link.href + '/');
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                style={{
+                  fontFamily: 'var(--font-montserrat)', fontWeight: 600,
+                  fontSize: '0.67rem', letterSpacing: '0.13em', textTransform: 'uppercase',
+                  color: active ? '#4d8fff' : 'rgba(255,255,255,0.52)',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease',
+                  position: 'relative',
+                }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.color = '#fff'; }}
+                onMouseLeave={e => { if (!active) e.currentTarget.style.color = 'rgba(255,255,255,0.52)'; }}
+              >
+                {link.label}
+                {active && (
+                  <span style={{
+                    position: 'absolute', bottom: -4, left: 0, right: 0, height: 1,
+                    background: 'rgba(77,143,255,0.6)', borderRadius: 1,
+                  }} />
+                )}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* ── Right side: CTA + Hamburger ── */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+          <a
+            href={ctaHref}
+            className="nav-cta-desktop"
+            style={{
+              display: 'inline-flex', alignItems: 'center',
+              padding: '9px 22px',
+              background: '#014df8', color: '#fff',
+              borderRadius: 100,
+              fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+              fontSize: '0.67rem', letterSpacing: '0.08em',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s, transform 0.2s',
+              whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '0.82'; e.currentTarget.style.transform = 'scale(1.03)'; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '1';    e.currentTarget.style.transform = 'scale(1)'; }}
+          >
+            Rejoindre
+          </a>
+
+          {/* Hamburger — mobile only (shown via CSS) */}
+          <button
+            onClick={() => setIsOpen(o => !o)}
+            className="nav-hamburger"
+            aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={isOpen}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: 8, zIndex: 1001,
+              display: 'none', // overridden in mobile CSS
+              flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5,
+            }}
+          >
+            {[0, 1, 2].map(i => (
+              <span key={i} style={{
+                display: 'block', width: 22, height: 2,
+                background: '#fff', borderRadius: 2,
+                transition: 'transform 0.28s ease, opacity 0.2s ease',
+                transform: isOpen
+                  ? i === 0 ? 'translateY(7px) rotate(45deg)'
+                  : i === 2 ? 'translateY(-7px) rotate(-45deg)'
+                  : 'scaleX(0)'
+                  : 'none',
+                opacity: (isOpen && i === 1) ? 0 : 1,
+              }} />
+            ))}
+          </button>
+        </div>
+      </nav>
+
+      {/* ── Mobile full-screen menu overlay ── */}
+      <div
+        className="nav-mobile-menu"
+        aria-hidden={!isOpen}
+        style={{
+          position: 'fixed', top: 64, left: 0, right: 0, bottom: 0,
+          zIndex: 998,
+          background: 'rgba(1,4,14,0.98)',
+          backdropFilter: 'blur(28px)',
+          WebkitBackdropFilter: 'blur(28px)',
+          display: 'flex', flexDirection: 'column',
+          padding: 'clamp(32px,6vw,52px) clamp(24px,6vw,48px)',
+          opacity: isOpen ? 1 : 0,
+          transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
+          pointerEvents: isOpen ? 'auto' : 'none',
+          transition: 'opacity 0.28s ease, transform 0.28s ease',
+          overflowY: 'auto',
+        }}
+      >
+        {/* Accueil */}
+        <div
+          onClick={handleLogoClick}
+          style={{
+            fontFamily: 'var(--font-bebas)',
+            fontSize: 'clamp(2.4rem,8vw,3.2rem)', letterSpacing: '0.04em',
+            color: pathname === '/' ? '#4d8fff' : 'rgba(255,255,255,0.88)',
+            cursor: 'pointer', paddingBottom: 18,
+            borderBottom: '1px solid rgba(255,255,255,0.07)',
+            marginBottom: 18, lineHeight: 1,
+          }}
+        >
+          Accueil
+        </div>
+
+        {NAV_LINKS.map(link => {
+          const active = pathname === link.href || pathname.startsWith(link.href + '/');
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                fontFamily: 'var(--font-bebas)',
+                fontSize: 'clamp(2.4rem,8vw,3.2rem)', letterSpacing: '0.04em',
+                color: active ? '#4d8fff' : 'rgba(255,255,255,0.88)',
+                textDecoration: 'none', lineHeight: 1,
+                paddingBottom: 18,
+                borderBottom: '1px solid rgba(255,255,255,0.07)',
+                marginBottom: 18, display: 'block',
+              }}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+
+        <div style={{ marginTop: 'auto', paddingTop: 32 }}>
+          <a
+            href={ctaHref}
+            style={{
+              display: 'block', textAlign: 'center',
+              padding: '16px 32px',
+              background: '#014df8', color: '#fff',
+              borderRadius: 100,
+              fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+              fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase',
+              textDecoration: 'none',
+            }}
+          >
+            Rejoindre la liste d&apos;attente
+          </a>
+        </div>
+      </div>
+    </>
   );
 }

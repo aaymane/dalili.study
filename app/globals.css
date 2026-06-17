@@ -2,6 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Server-component hover classes (no JS handlers) ────────── */
+.sc-card-hover {
+  transition: border-color 0.25s ease, transform 0.2s ease;
+}
+.sc-card-hover:hover {
+  border-color: rgba(var(--hover-rgb), 0.36) !important;
+  transform: translateY(-3px);
+}
+.sc-card-hover-amber {
+  transition: border-color 0.25s ease, transform 0.2s ease;
+}
+.sc-card-hover-amber:hover {
+  border-color: rgba(239, 179, 112, 0.32) !important;
+  transform: translateY(-3px);
+}
+.sc-link-blue {
+  transition: border-color 0.2s, color 0.2s;
+}
+.sc-link-blue:hover {
+  border-color: rgba(77, 143, 255, 0.28) !important;
+  color: #fff !important;
+}
+.sc-link-orange {
+  transition: border-color 0.2s, color 0.2s;
+}
+.sc-link-orange:hover {
+  border-color: rgba(239, 179, 112, 0.22) !important;
+  color: #fff !important;
+}
+.sc-link-orange-bg {
+  transition: border-color 0.2s, background 0.2s;
+}
+.sc-link-orange-bg:hover {
+  border-color: rgba(239, 179, 112, 0.22) !important;
+  background: rgba(239, 179, 112, 0.04) !important;
+}
+
 @property --border-angle {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -433,6 +470,21 @@ input[type="email"]:focus {
 }
 
 /* ─── Mobile responsive ─────────────────────────────────────── */
+
+/* ─── Nav responsive ───────────────────────────────────────── */
+
+/* Desktop: show links + CTA, hide hamburger + mobile menu */
+@media (min-width: 768px) {
+  .nav-hamburger   { display: none !important; }
+  .nav-mobile-menu { display: none !important; }
+}
+
+/* Mobile: hide links + CTA, show hamburger */
+@media (max-width: 767px) {
+  .nav-links-desktop { display: none !important; }
+  .nav-cta-desktop   { display: none !important; }
+  .nav-hamburger     { display: flex !important; }
+}
 
 @media (max-width: 767px) {
 

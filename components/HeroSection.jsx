@@ -367,7 +367,7 @@ export default function HeroSection({ revealed = false }) {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}>
-              ✦ APP MOBILE &nbsp;·&nbsp; IOS &amp; ANDROID &nbsp;·&nbsp; BIENTÔT
+              ✦ GUIDES POUR ÉTUDIANTS MAGHRÉBINS &nbsp;·&nbsp; MAROC · ALGÉRIE · TUNISIE
             </span>
           </div>
 
@@ -412,9 +412,9 @@ export default function HeroSection({ revealed = false }) {
               lineHeight: 1.75,
             }}
           >
-            L&apos;application qui accompagne les étudiants
+            Guides pratiques, démarches administratives et conseils
             <span className="hero-br"><br /></span>
-            {' '}internationaux à chaque étape de leur aventure.
+            {' '}— par des étudiants qui sont passés par là.
           </p>
         </div>
         </div>{/* /hero-text-offset */}

@@ -63,6 +63,29 @@ export default function ClientHomePage() {
           <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
             {/* Pass revealed so plane entrance is synced with logo disappearance */}
             <HeroSection revealed={revealed} />
+
+            {/* Trust bar */}
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              gap: 'clamp(16px,3vw,40px)',
+              padding: 'clamp(14px,2vw,20px) clamp(16px,5vw,40px)',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              flexWrap: 'wrap',
+            }}>
+              {[
+                { value: '23', label: 'guides publiés' },
+                { value: '4', label: 'universités couvertes' },
+                { value: '4', label: 'villes décryptées' },
+                { value: '200+', label: 'étudiants inscrits' },
+              ].map(stat => (
+                <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.5vw,1.8rem)', letterSpacing: '0.06em', color: '#4d8fff', lineHeight: 1 }}>{stat.value}</span>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.52rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+
             <SectionDivider />
             <ProblemSection />
             <SectionDivider />
