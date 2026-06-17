@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import AboutJoinForm from '@/components/AboutJoinForm';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -242,7 +243,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* CTA */}
+        {/* CTA join */}
         <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 clamp(16px,5vw,40px)' }}>
           <div style={{
             padding: 'clamp(32px,5vw,56px)',
@@ -252,40 +253,12 @@ export default function AboutPage() {
             textAlign: 'center',
           }}>
             <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2.5rem,6vw,4.5rem)', lineHeight: 0.9, letterSpacing: '0.04em', color: '#fff', margin: '0 0 16px' }}>
-              COMMENCER<br /><span style={{ color: 'rgba(255,255,255,0.3)' }}>AVEC DALILI.</span>
+              ON COMMENCE<br /><span style={{ color: 'rgba(255,255,255,0.3)' }}>ENSEMBLE ?</span>
             </h2>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.9rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, margin: '0 0 32px' }}>
-              Explorez nos guides, choisissez votre ville et préparez votre arrivée — sans mauvaises surprises.
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.9rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, margin: '0 0 28px' }}>
+              Laisse ton email — on te prévient dès qu&apos;un nouveau guide sort.
             </p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/guides" style={{
-                display: 'inline-block',
-                padding: '13px 28px',
-                background: '#014df8',
-                color: '#fff',
-                fontFamily: 'var(--font-montserrat)',
-                fontWeight: 700,
-                fontSize: '0.7rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                borderRadius: 100,
-                textDecoration: 'none',
-              }}>Voir les guides</Link>
-              <Link href="/blog" style={{
-                display: 'inline-block',
-                padding: '13px 28px',
-                background: 'rgba(255,255,255,0.05)',
-                color: 'rgba(255,255,255,0.7)',
-                fontFamily: 'var(--font-montserrat)',
-                fontWeight: 700,
-                fontSize: '0.7rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                borderRadius: 100,
-                border: '1px solid rgba(255,255,255,0.1)',
-                textDecoration: 'none',
-              }}>Lire le blog</Link>
-            </div>
+            <AboutJoinForm />
           </div>
         </div>
       </main>

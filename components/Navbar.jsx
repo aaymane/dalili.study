@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const NAV_LINKS = [
-  { label: 'Guides',      href: '/guides' },
   { label: 'Universités', href: '/universites' },
   { label: 'Villes',      href: '/villes' },
   { label: 'Blog',        href: '/blog' },

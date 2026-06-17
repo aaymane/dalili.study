@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from './Navbar';
+
+const INTRO_KEY = 'dalili_intro_done';
 
 function SectionDivider() {
   return (
@@ -41,14 +43,25 @@ const Footer          = dynamic(() => import('./Footer'),          { ssr: false 
 
 export default function ClientHomePage() {
   const [revealed, setRevealed] = useState(false);
-  // useCallback keeps the same reference across re-renders —
-  // without this, every parent render creates a new fn → LogoReveal's useEffect
-  // sees a dep change → tl.kill() is called mid-animation → black screen forever.
-  const handleRevealComplete = useCallback(() => setRevealed(true), []);
+  const [skipIntro, setSkipIntro] = useState(false);
+
+  // Skip intro animation on back-navigation / soft re-renders.
+  // Only show it once per browser session (clears on tab close / hard refresh).
+  useEffect(() => {
+    if (sessionStorage.getItem(INTRO_KEY)) {
+      setRevealed(true);
+      setSkipIntro(true);
+    }
+  }, []);
+
+  const handleRevealComplete = useCallback(() => {
+    sessionStorage.setItem(INTRO_KEY, '1');
+    setRevealed(true);
+  }, []);
 
   return (
     <>
-      <IntroAnimation onComplete={handleRevealComplete} />
+      {!skipIntro && <IntroAnimation onComplete={handleRevealComplete} />}
 
       {/* Lenis enabled only after logo reveal (avoids freeze/conflict) */}
       <LenisProvider enabled={revealed}>
