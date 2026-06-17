@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
@@ -20,6 +20,7 @@ const LINES = [
 ];
 
 export default function HeroSection({ revealed = false }) {
+  const [isMobile, setIsMobile] = useState(null);
   const sectionRef        = useRef(null);
   const planeRef          = useRef(null);
   const textRef           = useRef(null);
@@ -35,6 +36,7 @@ export default function HeroSection({ revealed = false }) {
     const W      = window.innerWidth;
     const H      = window.innerHeight;
     const mobile = W < 768;
+    setIsMobile(mobile);
 
     if (sectionRef.current) {
       // Mobile: 200vh — phones fill first screen, text scroll-reveals in second.
@@ -321,7 +323,7 @@ export default function HeroSection({ revealed = false }) {
             willChange: 'transform',
           }}
         >
-          <PlaneCinematic />
+          {isMobile === false && <PlaneCinematic />}
         </div>
 
         {/* ── TEXT LAYER

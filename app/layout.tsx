@@ -29,7 +29,7 @@ const dmSans = DM_Sans({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#010510",
+  themeColor: "#014DF8",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -76,26 +76,26 @@ export const metadata: Metadata = {
     siteName: "Dalili",
     locale: "fr_FR",
     type: "website",
+    images: [
+      {
+        url: `${SITE_URL}/og-image.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Dalili — Guide des étudiants internationaux en France",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@dalilistudy",
+    creator: "@dalilistudy",
     title: "Dalili — Guide des étudiants internationaux en France",
     description:
       "L'application qui accompagne les étudiants internationaux à chaque étape de leur aventure en France.",
-    creator: "@dalili_app",
+    images: [`${SITE_URL}/og-image.jpg`],
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Dalili",
-  url: SITE_URL,
-  description:
-    "Dalili accompagne les étudiants internationaux à leur arrivée en France : visa, logement, CAF, mentors étudiants et démarches simplifiées.",
-  logo: `${SITE_URL}/dalili-logo.svg`,
-  sameAs: [],
-};
 
 export default function RootLayout({
   children,
@@ -108,10 +108,7 @@ export default function RootLayout({
       <head>
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="preload" href="/images/logo-dalili.svg" as="image" type="image/svg+xml" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <link rel="preload" href="/plane-parts/fichier1.webp" as="image" type="image/webp" media="(min-width: 768px)" />
       </head>
       <body className="bg-[#010510] text-white antialiased overflow-x-hidden">
         {/* Skip to main content — screen readers & keyboard users */}

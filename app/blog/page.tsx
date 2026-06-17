@@ -2,9 +2,29 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPosts, CATEGORY_COLORS, formatDate } from '@/lib/blog';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+
 export const metadata: Metadata = {
   title: 'Blog — Guides pour étudiants internationaux en France',
   description: 'Guides pratiques sur le visa étudiant, le logement, la CAF, le compte bancaire et toutes les démarches administratives pour étudier en France.',
+  alternates: {
+    canonical: `${SITE_URL}/blog`,
+  },
+  openGraph: {
+    title: 'Blog — Guides pour étudiants internationaux en France',
+    description: 'Guides pratiques sur le visa étudiant, le logement, la CAF, le compte bancaire et toutes les démarches administratives pour étudier en France.',
+    url: `${SITE_URL}/blog`,
+    siteName: 'Dalili',
+    type: 'website',
+    images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630, alt: 'Dalili Blog — Guides étudiants internationaux' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@dalilistudy',
+    title: 'Blog — Guides pour étudiants internationaux en France',
+    description: 'Guides pratiques sur le visa étudiant, le logement, la CAF, le compte bancaire et toutes les démarches administratives pour étudier en France.',
+    images: [`${SITE_URL}/og-image.jpg`],
+  },
 };
 
 export default function BlogPage() {
@@ -66,12 +86,8 @@ export default function BlogPage() {
           </p>
         </div>
 
-        {/* ── Grid ── */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px,100%), 1fr))',
-          gap: 'clamp(14px,2.5vw,26px)',
-        }}>
+        {/* ── Grid — 3 cols desktop / 2 tablet / 1 mobile ── */}
+        <div className="blog-index-grid">
           {posts.map(post => {
             const cat = CATEGORY_COLORS[post.category] ?? CATEGORY_COLORS.Visa;
             return (

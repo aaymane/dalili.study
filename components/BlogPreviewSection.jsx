@@ -163,7 +163,7 @@ export default function BlogPreviewSection() {
                 letterSpacing: '0.16em', textTransform: 'uppercase',
                 color: 'rgba(77,143,255,0.65)',
               }}>
-                Voir tous les articles
+                Voir tous les guides
               </span>
               <span style={{ color: 'rgba(77,143,255,0.5)', fontSize: '0.8rem' }}>→</span>
             </motion.div>

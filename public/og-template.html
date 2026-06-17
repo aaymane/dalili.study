@@ -1,0 +1,231 @@
+<!--
+  DALILI — OG Image Template (1200×630)
+  ======================================
+  HOW TO PRODUCE og-image.jpg:
+  1. Open this file in Chrome (File → Open, or serve with: npx serve public)
+  2. Open DevTools → set viewport to exactly 1200×630 px
+     (DevTools → toggle device toolbar → custom size 1200 × 630)
+  3. Screenshot with: Cmd+Shift+P → "Capture screenshot" (not full-page)
+  4. Save the result as /public/og-image.jpg
+  5. Optionally compress with: npx @squoosh/cli --mozjpeg '{"quality":85}' og-image.png
+
+  This static image is the fallback for the homepage and the blog index.
+  Per-article OG images are generated dynamically by:
+    app/blog/[slug]/opengraph-image.tsx  (Next.js ImageResponse, 1200×630)
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1200" />
+  <title>Dalili OG Image</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #0a0f1e;
+      font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      position: relative;
+    }
+
+    /* ── Radial glow — top-left blue */
+    .glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 15% 45%, rgba(1, 77, 248, 0.28) 0%, transparent 58%);
+    }
+
+    /* ── Subtle dot grid overlay */
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+
+    /* ── Top accent line */
+    .accent-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        #014DF8 30%,
+        rgba(255,255,255,0.7) 50%,
+        #014DF8 70%,
+        transparent 100%
+      );
+    }
+
+    /* ── Right-edge gradient */
+    .right-fade {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 360px;
+      background: linear-gradient(270deg, rgba(1,77,248,0.10) 0%, transparent 100%);
+    }
+
+    /* ── Content wrapper */
+    .content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 54px 72px 52px;
+    }
+
+    /* ── Header row */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #014DF8;
+      box-shadow: 0 0 14px #014DF8;
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 22px;
+      background: rgba(1, 77, 248, 0.12);
+      border: 1.5px solid rgba(1, 77, 248, 0.45);
+      border-radius: 100px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #014DF8;
+    }
+
+    .badge-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #014DF8;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    /* ── Main heading */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .headline {
+      font-size: 72px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      max-width: 880px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Tagline */
+    .tagline {
+      font-size: 22px;
+      font-weight: 500;
+      color: #014DF8;
+      letter-spacing: 0.04em;
+      max-width: 680px;
+      line-height: 1.5;
+    }
+
+    /* ── Footer */
+    .footer-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin-bottom: 22px;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-domain {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.32);
+      letter-spacing: 0.04em;
+    }
+
+    .footer-sub {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(1, 77, 248, 0.65);
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="grid"></div>
+  <div class="accent-bar"></div>
+  <div class="right-fade"></div>
+
+  <div class="content">
+    <div class="header">
+      <div class="brand">
+        <div class="brand-dot"></div>
+        <span class="brand-name">DALILI</span>
+      </div>
+      <div class="badge">
+        <div class="badge-dot"></div>
+        <span class="badge-label">Guide Étudiant</span>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="headline">
+        Le guide des étudiants<br />
+        <span style="color: rgba(255,255,255,0.45);">internationaux en France.</span>
+      </div>
+      <div class="tagline">
+        Le guide des étudiants internationaux en France
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+    <div class="footer">
+      <span class="footer-domain">dalili.study</span>
+      <span class="footer-sub">Visa · Logement · CAF · Démarches</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -9,7 +9,7 @@
 import { useEffect, useRef, forwardRef } from 'react';
 
 const PlaneCinematic = forwardRef(function PlaneCinematic(
-  { src = '/plane-parts/fichier1.png', hasAlpha = true },
+  { src = '/plane-parts/fichier1.webp', hasAlpha = true },
   ref
 ) {
   const canvasRef = useRef(null);

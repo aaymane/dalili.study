@@ -147,6 +147,22 @@ body {
   will-change: transform;
 }
 
+/* ─── Blog index grid — 3 cols → 2 → 1 ─────────────────────── */
+
+.blog-index-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 2.5vw, 26px);
+}
+
+@media (max-width: 768px) {
+  .blog-index-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .blog-index-grid { grid-template-columns: 1fr; }
+}
+
 /* ─── Blog listing cards ─────────────────────────────────────── */
 
 .blog-card {

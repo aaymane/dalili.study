@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
-import { getAllPosts, getRawPost, extractHeadings, CATEGORY_COLORS, formatDate } from '@/lib/blog';
+import { getAllPosts, getRawPost, extractHeadings, extractFaqItems, CATEGORY_COLORS, formatDate } from '@/lib/blog';
 import mdxComponents, { Callout } from '@/components/blog/MdxComponents';
 import WaitlistCTA from '@/components/blog/WaitlistCTA';
 import { notFound } from 'next/navigation';
@@ -22,7 +22,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   try {
     const { frontmatter: fm } = getRawPost(params.slug);
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili-waitlist.vercel.app';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+    const ogImageUrl = `${siteUrl}/blog/${params.slug}/opengraph-image`;
     return {
       title: fm.title,
       description: fm.description,
@@ -36,11 +37,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         publishedTime: fm.date,
         authors: [fm.author],
         url: `${siteUrl}/blog/${params.slug}`,
+        images: [{ url: ogImageUrl, width: 1200, height: 630, alt: fm.title }],
       },
       twitter: {
         card: 'summary_large_image',
+        site: '@dalilistudy',
         title: fm.title,
         description: fm.description,
+        images: [ogImageUrl],
       },
     };
   } catch {
@@ -85,7 +89,10 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     },
   });
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili-waitlist.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+
+  // ── JSON-LD schemas ───────────────────────────────────────────────
+
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -93,23 +100,69 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     description: fm.description,
     datePublished: fm.date,
     dateModified: fm.date,
-    author: { '@type': 'Organization', name: 'Dalili', url: siteUrl },
+    author: { '@type': 'Person', name: fm.author, url: siteUrl },
     publisher: {
       '@type': 'Organization',
       name: 'Dalili',
-      url: siteUrl,
-      logo: { '@type': 'ImageObject', url: `${siteUrl}/dalili-logo.svg` },
+      logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/blog/${params.slug}` },
-    image: `${siteUrl}/blog/${params.slug}/opengraph-image`,
+    image: `${siteUrl}/og-image.jpg`,
   };
+
+  const faqItems = extractFaqItems(mdxSource);
+  const faqSchema = faqItems.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  } : null;
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: 'Blog',    item: `${siteUrl}/blog` },
+      { '@type': 'ListItem', position: 3, name: fm.title,  item: `${siteUrl}/blog/${params.slug}` },
+    ],
+  };
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`\n[Dalili JSON-LD] /blog/${params.slug}`);
+    console.log('── Article ──');
+    console.log(JSON.stringify(articleSchema, null, 2));
+    if (faqSchema) {
+      console.log(`── FAQ (${faqItems.length} questions) ──`);
+      console.log(JSON.stringify(faqSchema, null, 2));
+    } else {
+      console.log('── FAQ — aucune section FAQ trouvée, schema omis ──');
+    }
+    console.log('── Breadcrumb ──');
+    console.log(JSON.stringify(breadcrumbSchema, null, 2));
+  }
 
   return (
     <>
-      {/* JSON-LD Article schema — server-rendered for SEO */}
+      {/* Article JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      {/* FAQ JSON-LD — only rendered when article has a FAQ section */}
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {/* Breadcrumb JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Reading progress bar (client) */}

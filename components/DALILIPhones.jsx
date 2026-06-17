@@ -330,7 +330,7 @@ export default function DALILIPhones({ revealed = true }) {
           {/* Float + rotation + blur layer */}
           <div
             ref={phone1InnerRef}
-            style={{ willChange: 'transform, opacity, filter', display: 'inline-block' }}
+            style={{ willChange: 'transform, opacity', display: 'inline-block' }}
           >
             <PhoneShell width={P1_W} src={PHONES[1].src} alt={PHONES[1].alt} />
           </div>
@@ -366,7 +366,7 @@ export default function DALILIPhones({ revealed = true }) {
           {/* Float + rotation + blur layer */}
           <div
             ref={phone2InnerRef}
-            style={{ willChange: 'transform, opacity, filter', display: 'inline-block' }}
+            style={{ willChange: 'transform, opacity', display: 'inline-block' }}
           >
             <PhoneShell width={P2_W} src={PHONES[0].src} alt={PHONES[0].alt} />
           </div>

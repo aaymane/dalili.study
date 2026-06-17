@@ -79,3 +79,92 @@ export function formatDate(iso: string): string {
     day: 'numeric', month: 'long', year: 'numeric',
   });
 }
+
+// ── FAQ extraction for JSON-LD ────────────────────────────────────
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+// Strip common markdown syntax to produce plain text suitable for schema.org
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) → text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')        // **bold** → bold
+    .replace(/\*([^*]+)\*/g, '$1')            // *italic* → italic
+    .replace(/`([^`]+)`/g, '$1')              // `code` → code
+    .trim();
+}
+
+/**
+ * Extracts FAQ question/answer pairs from raw MDX content.
+ *
+ * Looks for a heading matching /FAQ/i (## or ###), then within that section
+ * recognises questions in two formats:
+ *   1. Bold line:   **Question ?**
+ *   2. Sub-heading: ### Question ?
+ *
+ * The answer is the first non-empty paragraph that follows each question.
+ * Returns an empty array when no FAQ section exists (schema is omitted).
+ */
+export function extractFaqItems(mdxContent: string): FaqItem[] {
+  const lines = mdxContent.split('\n');
+
+  // Find the FAQ section boundaries
+  let faqStart = -1;
+  let faqEnd = lines.length;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (faqStart === -1 && /^#{2,3}\s+.*faq/i.test(line)) {
+      faqStart = i + 1;
+    } else if (faqStart !== -1 && /^## [^#]/.test(line)) {
+      faqEnd = i;
+      break;
+    }
+  }
+
+  if (faqStart === -1) return [];
+
+  const faqLines = lines.slice(faqStart, faqEnd);
+  const items: FaqItem[] = [];
+  let i = 0;
+
+  const isBoldQ   = (l: string) => /^\*\*(.+[?？])\s*\*\*\s*$/.test(l);
+  const isHeadQ   = (l: string) => /^#{2,3}\s+(.+[?？])\s*$/.test(l);
+  const isQuestion = (l: string) => isBoldQ(l) || isHeadQ(l);
+
+  const extractQ  = (l: string): string => {
+    const bm = l.match(/^\*\*(.+[?？])\s*\*\*\s*$/);
+    const hm = l.match(/^#{2,3}\s+(.+[?？])\s*$/);
+    return (bm?.[1] ?? hm?.[1] ?? '').trim();
+  };
+
+  while (i < faqLines.length) {
+    const line = faqLines[i];
+    if (!isQuestion(line)) { i++; continue; }
+
+    const questionText = extractQ(line);
+    i++;
+
+    // Collect the first paragraph after the question
+    const parts: string[] = [];
+    while (i < faqLines.length) {
+      if (isQuestion(faqLines[i])) break;
+      const t = faqLines[i].trim();
+      if (t) {
+        parts.push(t);
+      } else if (parts.length > 0) {
+        break; // blank line after content = end of paragraph
+      }
+      i++;
+    }
+
+    if (parts.length > 0) {
+      items.push({ question: questionText, answer: stripMarkdown(parts.join(' ')) });
+    }
+  }
+
+  return items;
+}

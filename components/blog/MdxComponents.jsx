@@ -1,6 +1,8 @@
 // Server-safe MDX component overrides — no 'use client', no hooks
 // Styles the rendered MDX prose to match the site's dark cinematic aesthetic
 
+import RelatedArticles from './RelatedArticles';
+
 const ACCENT = '#4d8fff';
 const ACCENT_BRIGHT = '#014DF8';
 
@@ -241,6 +243,8 @@ const mdxComponents = {
 
   // Expose Callout for use in MDX
   Callout,
+  // Expose RelatedArticles for use in MDX
+  RelatedArticles,
 };
 
 export default mdxComponents;

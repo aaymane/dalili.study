@@ -200,7 +200,7 @@ export default async function OgImage({ params }: { params: { slug: string } }) 
             color: 'rgba(255,255,255,0.32)',
             letterSpacing: '0.04em',
           }}>
-            dalili-waitlist.vercel.app
+            dalili.study
           </span>
           <span style={{
             fontSize: 15,

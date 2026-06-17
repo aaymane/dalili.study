@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
 
                 <!-- CTA -->
                 <div style="text-align:center;margin-bottom:32px">
-                  <a href="https://dalili-waitlist.vercel.app/blog" style="display:inline-block;background:#014df8;color:#fff;text-decoration:none;padding:14px 32px;border-radius:100px;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase">
+                  <a href="https://dalili.study/blog" style="display:inline-block;background:#014df8;color:#fff;text-decoration:none;padding:14px 32px;border-radius:100px;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase">
                     Lire nos guides →
                   </a>
                 </div>
@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
               <!-- Footer -->
               <div style="background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);padding:20px 40px;text-align:center">
                 <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.22);letter-spacing:0.04em">
-                  Tu reçois cet email car tu t'es inscrit(e) sur dalili-waitlist.vercel.app
+                  Tu reçois cet email car tu t'es inscrit(e) sur dalili.study
                 </p>
               </div>
             </div>
