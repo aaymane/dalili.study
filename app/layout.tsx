@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { Analytics } from "@vercel/analytics/next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 
@@ -121,6 +122,7 @@ export default function RootLayout({
         </a>
         <Navbar />
         {children}
+        <Analytics />
       </body>
     </html>
   );
