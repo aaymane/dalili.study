@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const ARTICLES = [
   {
@@ -76,7 +76,6 @@ const itemVariants = {
 
 export default function BlogPreviewSection() {
   const sectionRef = useRef(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.12 });
 
   return (
     <section
@@ -106,7 +105,8 @@ export default function BlogPreviewSection() {
         {/* ── Header row ── */}
         <motion.div
           initial={{ opacity: 0, y: 26 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           style={{
             display: 'flex',
@@ -149,7 +149,8 @@ export default function BlogPreviewSection() {
           <Link href="/blog" style={{ textDecoration: 'none' }}>
             <motion.div
               initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ delay: 0.35, duration: 0.6 }}
               style={{
                 display: 'flex', alignItems: 'center', gap: 8,
@@ -174,7 +175,8 @@ export default function BlogPreviewSection() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px,100%), 1fr))',
@@ -461,7 +463,8 @@ export default function BlogPreviewSection() {
         {/* ── Bottom CTA strip ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
           style={{
             marginTop: 'clamp(28px,5vw,48px)',

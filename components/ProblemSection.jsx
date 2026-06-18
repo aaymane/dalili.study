@@ -237,7 +237,7 @@ export default function ProblemSection() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
         {/* ── Section header */}
-        <div style={{ textAlign: 'center', marginBottom: 'clamp(48px,8vw,100px)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(32px,5vw,64px)' }}>
 
           {/* Tag badge */}
           <div style={{

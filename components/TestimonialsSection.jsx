@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const TESTIMONIALS = [
   {
@@ -65,7 +65,6 @@ const cardVariants = {
 
 export default function TestimonialsSection() {
   const sectionRef = useRef(null);
-  const inView     = useInView(sectionRef, { once: true, amount: 0.15 });
 
   return (
     <section
@@ -97,9 +96,10 @@ export default function TestimonialsSection() {
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          style={{ textAlign: 'center', marginBottom: 'clamp(48px,8vw,96px)' }}
+          style={{ textAlign: 'center', marginBottom: 'clamp(32px,5vw,64px)' }}
         >
           <div style={{
             display: 'inline-flex', marginBottom: 20,
@@ -143,7 +143,8 @@ export default function TestimonialsSection() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px,100%), 1fr))',
@@ -329,7 +330,8 @@ export default function TestimonialsSection() {
         {/* ── Social proof pills ── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.28 }}
           style={{
             display: 'flex',

@@ -99,7 +99,7 @@ export default function BlogPage() {
         {/* ── Cluster navigation ── */}
         <div style={{
           display: 'flex', flexWrap: 'wrap', gap: 10,
-          marginBottom: 'clamp(40px,6vw,64px)',
+          marginBottom: 'clamp(20px,4vw,40px)',
         }}>
           {clusterKeys.map(key => {
             const def = CLUSTER_DEFINITIONS[key];
@@ -130,7 +130,7 @@ export default function BlogPage() {
 
         {/* ── Guides essentiels ── */}
         {featured.length > 0 && (
-          <div style={{ marginBottom: 'clamp(48px,8vw,80px)' }}>
+          <div style={{ marginBottom: 'clamp(24px,4vw,48px)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
               <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
               <span style={{

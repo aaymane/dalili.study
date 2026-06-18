@@ -240,8 +240,8 @@ body {
   font-weight: 700;
   font-size: clamp(1.2rem, 3vw, 1.6rem);
   color: #fff;
-  margin: 3rem 0 1rem;
-  padding-top: 2rem;
+  margin: 1.75rem 0 0.75rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(239,179,112,0.12);
   letter-spacing: 0.01em;
 }
@@ -251,7 +251,7 @@ body {
   font-weight: 700;
   font-size: 1rem;
   color: #EFB370;
-  margin: 2rem 0 0.75rem;
+  margin: 1.25rem 0 0.5rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -335,7 +335,7 @@ body {
 .city-mdx-body hr {
   border: none;
   border-top: 1px solid rgba(255,255,255,0.08);
-  margin: 3rem 0;
+  margin: 1.5rem 0;
 }
 
 .city-mdx-body em {

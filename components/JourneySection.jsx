@@ -138,12 +138,13 @@ export default function JourneySection() {
         maxWidth: 1200,
         margin: '0 auto',
         padding: '0 clamp(16px,5vw,80px)',
-        marginBottom: 'clamp(48px,8vw,96px)',
+        marginBottom: 'clamp(32px,5vw,64px)',
         textAlign: 'center',
       }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Badge */}
@@ -204,7 +205,8 @@ export default function JourneySection() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
           style={{
             display: 'flex',
             flexDirection: isMobile ? 'column' : 'row',

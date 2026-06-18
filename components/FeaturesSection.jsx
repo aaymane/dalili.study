@@ -214,7 +214,7 @@ export default function FeaturesSection() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Section title */}
-        <div style={{ textAlign: 'center', marginBottom: 'clamp(48px,8vw,100px)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(32px,5vw,64px)' }}>
           <div style={{
             display: 'inline-flex', marginBottom: 20,
             padding: '5px 16px',
