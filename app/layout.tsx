@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import StarCanvas from "@/components/StarCanvas";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 
@@ -113,12 +114,11 @@ export default function RootLayout({
       </head>
       <body className="bg-[#010510] text-white antialiased overflow-x-hidden">
         {/* Skip to main content — screen readers & keyboard users */}
-        <a
-          href="#main-content"
-          className="skip-link"
-        >
+        <a href="#main-content" className="skip-link">
           Aller au contenu principal
         </a>
+        {/* Fixed background — mounted once, shared across all pages, zero re-init cost */}
+        <StarCanvas />
         <Navbar />
         {children}
       </body>

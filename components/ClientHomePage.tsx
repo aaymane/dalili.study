@@ -28,7 +28,6 @@ function SectionDivider() {
 // Lenis only starts AFTER intro animation to avoid GSAP ticker conflicts
 const LenisProvider   = dynamic(() => import('./LenisProvider'),   { ssr: false });
 const IntroAnimation  = dynamic(() => import('./IntroAnimation'),  { ssr: false }) as React.ComponentType<{ onComplete: () => void }>;
-const StarCanvas      = dynamic(() => import('./StarCanvas'),      { ssr: false });
 const HeroSection     = dynamic(() => import('./HeroSection'),     { ssr: false }) as React.ComponentType<{ revealed: boolean }>;
 const ProblemSection  = dynamic(() => import('./ProblemSection'),  { ssr: false });
 const JourneySection  = dynamic(() => import('./JourneySection'),  { ssr: false });
@@ -69,7 +68,6 @@ export default function ClientHomePage() {
           transition: 'opacity 0.45s ease',
           minHeight: '100vh',
         }}>
-          <StarCanvas />
 
           <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
             {/* Pass revealed so plane entrance is synced with logo disappearance */}
