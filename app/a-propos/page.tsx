@@ -67,7 +67,7 @@ export default function AboutPage() {
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh', overflow: 'hidden' }}>
 
         {/* Hero section */}
-        <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 clamp(16px,5vw,40px)', marginBottom: 'clamp(80px,12vw,140px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)', marginBottom: 'clamp(80px,12vw,140px)' }}>
 
           {/* Breadcrumb */}
           <nav style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 48, flexWrap: 'wrap' }}>
@@ -124,7 +124,7 @@ export default function AboutPage() {
         </div>
 
         {/* Story section */}
-        <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 clamp(16px,5vw,40px)', marginBottom: 'clamp(80px,12vw,120px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)', marginBottom: 'clamp(80px,12vw,120px)' }}>
           <div style={{ display: 'inline-flex', marginBottom: 32, padding: '4px 14px', border: '1px solid rgba(77,143,255,0.22)', borderRadius: 100, background: 'rgba(77,143,255,0.05)' }}>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>L&apos;origine</span>
           </div>
@@ -152,7 +152,7 @@ export default function AboutPage() {
         </div>
 
         {/* Founders */}
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,5vw,60px)', marginBottom: 'clamp(80px,12vw,120px)' }}>
+        <div style={{ maxWidth: 1300, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)', marginBottom: 'clamp(80px,12vw,120px)' }}>
           <div style={{ display: 'inline-flex', marginBottom: 40, padding: '4px 14px', border: '1px solid rgba(77,143,255,0.22)', borderRadius: 100, background: 'rgba(77,143,255,0.05)' }}>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>L&apos;équipe</span>
           </div>
@@ -202,7 +202,7 @@ export default function AboutPage() {
         </div>
 
         {/* Mission */}
-        <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 clamp(16px,5vw,40px)', marginBottom: 'clamp(80px,12vw,120px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)', marginBottom: 'clamp(80px,12vw,120px)' }}>
           <div style={{ display: 'inline-flex', marginBottom: 32, padding: '4px 14px', border: '1px solid rgba(77,143,255,0.22)', borderRadius: 100, background: 'rgba(77,143,255,0.05)' }}>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Notre mission</span>
           </div>
@@ -244,7 +244,7 @@ export default function AboutPage() {
         </div>
 
         {/* CTA join */}
-        <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 clamp(16px,5vw,40px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
           <div style={{
             padding: 'clamp(32px,5vw,56px)',
             background: 'linear-gradient(135deg, rgba(1,77,248,0.08) 0%, rgba(1,4,16,0.95) 60%)',

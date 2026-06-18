@@ -42,7 +42,7 @@ export default function SenegalPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
-        <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 clamp(16px,5vw,40px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
 
           {/* Breadcrumb */}
           <nav style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 40, flexWrap: 'wrap' }}>

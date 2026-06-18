@@ -174,7 +174,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
         {/* ── Article hero ── */}
         <header style={{
-          padding: 'clamp(48px,8vw,96px) clamp(16px,5vw,80px) clamp(40px,6vw,72px)',
+          padding: 'clamp(48px,8vw,96px) clamp(16px,2vw,32px) clamp(40px,6vw,72px)',
           position: 'relative', overflow: 'hidden',
           borderBottom: '1px solid rgba(255,255,255,0.05)',
         }}>
@@ -187,7 +187,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             pointerEvents: 'none',
           }} />
 
-          <div style={{ maxWidth: 780, margin: '0 auto', position: 'relative' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto', position: 'relative' }}>
             {/* Breadcrumb */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 28 }}>
               <Link href="/" style={{
@@ -311,8 +311,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
         {/* ── Content + ToC layout ── */}
         <div style={{
-          maxWidth: 1100, margin: '0 auto',
-          padding: 'clamp(40px,6vw,72px) clamp(16px,5vw,80px)',
+          maxWidth: 1300, margin: '0 auto',
+          padding: 'clamp(40px,6vw,72px) clamp(16px,2vw,32px)',
           display: 'grid',
           gridTemplateColumns: '1fr clamp(200px,22%,260px)',
           gap: 'clamp(32px,5vw,80px)',
@@ -334,8 +334,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         {/* ── Articles similaires ── */}
         {related.length > 0 && (
           <div style={{
-            maxWidth: 1100, margin: '0 auto',
-            padding: '0 clamp(16px,5vw,80px) clamp(48px,7vw,80px)',
+            maxWidth: 1300, margin: '0 auto',
+            padding: '0 clamp(16px,2vw,32px) clamp(48px,7vw,80px)',
           }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: 14,
@@ -466,8 +466,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
         {/* ── End-of-article CTA ── */}
         <div style={{
-          maxWidth: 780, margin: '0 auto',
-          padding: '0 clamp(16px,5vw,80px) clamp(40px,6vw,72px)',
+          maxWidth: 900, margin: '0 auto',
+          padding: '0 clamp(16px,2vw,32px) clamp(40px,6vw,72px)',
         }}>
           <WaitlistCTA />
 

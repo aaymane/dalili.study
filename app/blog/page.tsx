@@ -34,7 +34,7 @@ export default function BlogPage() {
 
   return (
     <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 clamp(16px,5vw,80px)' }}>
+      <div style={{ maxWidth: 1440, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
 
         {/* ── Header ── */}
         <div style={{ marginBottom: 'clamp(48px,8vw,96px)' }}>
