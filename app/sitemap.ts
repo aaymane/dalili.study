@@ -120,6 +120,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+    // ── Checklist PDF page (priority 0.8) ───────────────────────
+    {
+      url: `${SITE_URL}/checklist`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
     // ── Static pages (priority 0.7) ──────────────────────────────
     {
       url: `${SITE_URL}/a-propos`,

@@ -3,6 +3,10 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
 
+  experimental: {
+    serverComponentsExternalPackages: ['@react-pdf/renderer'],
+  },
+
   compiler: {
     removeConsole: true,
   },

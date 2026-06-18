@@ -96,6 +96,43 @@ export default function BlogPage() {
           </p>
         </div>
 
+        {/* ── Checklist CTA ── */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          flexWrap: 'wrap', gap: 16,
+          padding: 'clamp(16px,2.5vw,24px) clamp(20px,3vw,32px)',
+          background: 'linear-gradient(135deg, rgba(1,77,248,0.12) 0%, rgba(1,4,16,0.95) 70%)',
+          border: '1px solid rgba(1,77,248,0.25)',
+          borderRadius: 16,
+          marginBottom: 'clamp(20px,3vw,36px)',
+        }}>
+          <div>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)', margin: '0 0 6px' }}>
+              Ressource gratuite
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.95rem', color: '#fff', margin: 0 }}>
+              📋 Checklist Complète Arrivée en France 2026 — PDF gratuit
+            </p>
+          </div>
+          <Link href="/checklist" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '10px 22px',
+            background: '#014DF8',
+            borderRadius: 8,
+            textDecoration: 'none',
+            fontFamily: 'var(--font-montserrat)',
+            fontWeight: 700,
+            fontSize: '0.65rem',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: '#fff',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
+          }}>
+            Télécharger →
+          </Link>
+        </div>
+
         {/* ── Cluster navigation ── */}
         <div style={{
           display: 'flex', flexWrap: 'wrap', gap: 10,

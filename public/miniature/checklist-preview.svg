@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0f1e"/>
+      <stop offset="100%" style="stop-color:#050914"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#014DF8;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#014DF8"/>
+      <stop offset="100%" style="stop-color:#014DF8;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#014DF8;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:#010410;stop-opacity:0.97"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+
+  <!-- Blue glow orb -->
+  <ellipse cx="600" cy="315" rx="320" ry="280" fill="rgba(1,77,248,0.06)"/>
+
+  <!-- Top accent line -->
+  <rect x="0" y="0" width="1200" height="3" fill="url(#accent)"/>
+
+  <!-- DALILI badge top-left -->
+  <rect x="60" y="48" width="110" height="28" rx="14" fill="rgba(1,77,248,0.15)" stroke="rgba(1,77,248,0.4)" stroke-width="1"/>
+  <text x="115" y="67" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="rgba(77,143,255,0.9)" text-anchor="middle" letter-spacing="2">DALILI</text>
+
+  <!-- "PDF GRATUIT" badge top-right -->
+  <rect x="1030" y="48" width="110" height="28" rx="14" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.35)" stroke-width="1"/>
+  <text x="1085" y="67" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="rgba(52,211,153,0.9)" text-anchor="middle" letter-spacing="1.5">PDF GRATUIT</text>
+
+  <!-- Main headline -->
+  <text x="600" y="200" font-family="Helvetica, Arial, sans-serif" font-size="82" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="3">CHECKLIST</text>
+  <text x="600" y="285" font-family="Helvetica, Arial, sans-serif" font-size="72" font-weight="900" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="3">ARRIVÉE EN FRANCE</text>
+  <text x="600" y="358" font-family="Helvetica, Arial, sans-serif" font-size="72" font-weight="900" fill="#014DF8" text-anchor="middle" letter-spacing="3">2026</text>
+
+  <!-- Divider -->
+  <rect x="480" y="380" width="240" height="1" fill="rgba(255,255,255,0.1)"/>
+
+  <!-- Sub copy -->
+  <text x="600" y="414" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="rgba(255,255,255,0.45)" text-anchor="middle">28 points essentiels · Visa · CAF · Logement · Sécurité sociale</text>
+
+  <!-- Three section pills -->
+  <rect x="170" y="450" width="220" height="36" rx="18" fill="rgba(77,143,255,0.1)" stroke="rgba(77,143,255,0.25)" stroke-width="1"/>
+  <text x="280" y="473" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="rgba(77,143,255,0.85)" text-anchor="middle" letter-spacing="1">✈️  Avant le départ</text>
+
+  <rect x="490" y="450" width="220" height="36" rx="18" fill="rgba(1,77,248,0.1)" stroke="rgba(1,77,248,0.3)" stroke-width="1"/>
+  <text x="600" y="473" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="rgba(100,140,255,0.85)" text-anchor="middle" letter-spacing="1">🏠  À l'arrivée</text>
+
+  <rect x="810" y="450" width="220" height="36" rx="18" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.25)" stroke-width="1"/>
+  <text x="920" y="473" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="rgba(52,211,153,0.85)" text-anchor="middle" letter-spacing="1">📋  3 premiers mois</text>
+
+  <!-- URL watermark -->
+  <text x="600" y="576" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="rgba(77,143,255,0.5)" text-anchor="middle" letter-spacing="2">dalili.study</text>
+</svg>

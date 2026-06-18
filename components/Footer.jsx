@@ -107,7 +107,25 @@ export default function Footer() {
           © {new Date().getFullYear()} Dalili. Tous droits réservés.
         </p>
 
-        <div className="footer-links" style={{ display: 'flex', gap: 24 }}>
+        <div className="footer-links" style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <Link
+            href="/checklist"
+            style={{
+              fontFamily: 'var(--font-dm-sans)',
+              fontSize: '0.72rem',
+              color: 'rgba(77,143,255,0.7)',
+              textDecoration: 'none',
+              letterSpacing: '0.04em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 5,
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = 'rgba(77,143,255,1)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(77,143,255,0.7)'; }}
+          >
+            📋 Checklist PDF
+          </Link>
           {[
             { label: 'Mentions légales',  href: '/mentions-legales' },
             { label: 'Confidentialité',   href: '/confidentialite'  },
