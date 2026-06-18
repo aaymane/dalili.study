@@ -22,6 +22,7 @@ export interface City {
   transportName: string;
   cafUrl: string;
   relatedArticles: { slug: string; title: string }[];
+  thumbnail: string;
 }
 
 export const CITIES: Record<string, City> = {
@@ -79,6 +80,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement en France depuis l\'étranger' },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
     ],
+    thumbnail: '/images/villes/bordeaux.webp',
   },
 
   'etudier-a-paris': {
@@ -136,6 +138,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'etudier-paris-etudiant-etranger-guide', title: 'Étudier à Paris en tant qu\'étudiant étranger' },
       { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement depuis l\'étranger' },
     ],
+    thumbnail: '/images/villes/paris.webp',
   },
 
   'etudier-a-nantes': {
@@ -187,6 +190,7 @@ export const CITIES: Record<string, City> = {
     relatedArticles: [
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
     ],
+    thumbnail: '/images/villes/nantes.webp',
   },
 
   'etudier-a-lyon': {
@@ -241,6 +245,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
       { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement depuis l\'étranger' },
     ],
+    thumbnail: '/images/villes/lyon.webp',
   },
 };
 

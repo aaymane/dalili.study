@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getCity, getAllCitySlugs } from '@/lib/cities';
 import RelatedArticles from '@/components/blog/RelatedArticles';
+import { BLUR_DATA } from '@/lib/blur-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -88,7 +90,22 @@ export default function VillePage({ params }: { params: { slug: string } }) {
               Étudier à<br />{city.name}
             </h1>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '1.05rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, margin: '0 0 0' }}>{city.tagline}</p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '1.05rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, margin: '0 0 32px' }}>{city.tagline}</p>
+
+            {/* Cover thumbnail */}
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(239,179,112,0.18)', boxShadow: '0 24px 80px rgba(0,0,0,0.55)' }}>
+              <Image
+                src={city.thumbnail}
+                alt={`Étudier à ${city.name}`}
+                fill
+                sizes="(max-width:900px) 100vw, 860px"
+                style={{ objectFit: 'cover' }}
+                placeholder="blur"
+                blurDataURL={BLUR_DATA[city.thumbnail]}
+                priority
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(1,4,16,0.4) 100%)' }} />
+            </div>
           </div>
 
           {/* ── Coût de la vie ── */}

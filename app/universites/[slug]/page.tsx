@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getUniversity, getAllUniversitySlugs } from '@/lib/universities';
 import RelatedArticles from '@/components/blog/RelatedArticles';
+import { BLUR_DATA } from '@/lib/blur-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -91,9 +93,24 @@ export default function UniversityPage({ params }: { params: { slug: string } })
               {uni.name}
             </h1>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '1rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '1rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: '0 0 32px' }}>
               Guide complet pour les étudiants marocains, algériens, tunisiens et égyptiens qui souhaitent intégrer {uni.name}.
             </p>
+
+            {/* Cover thumbnail */}
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 16, overflow: 'hidden', border: `1px solid rgba(${ACCENT},0.18)`, boxShadow: '0 24px 80px rgba(0,0,0,0.55)' }}>
+              <Image
+                src={uni.thumbnail}
+                alt={uni.name}
+                fill
+                sizes="(max-width:900px) 100vw, 860px"
+                style={{ objectFit: 'cover' }}
+                placeholder="blur"
+                blurDataURL={BLUR_DATA[uni.thumbnail]}
+                priority
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(1,4,16,0.4) 100%)' }} />
+            </div>
           </div>
 
           {/* ── Informations clés ── */}

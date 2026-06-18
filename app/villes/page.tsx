@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CITIES } from '@/lib/cities';
+import { BLUR_DATA } from '@/lib/blur-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -25,6 +27,8 @@ const jsonLd = {
   ],
 };
 
+const ACCENT = { rgb: '239,179,112', hex: '#EFB370' };
+
 export default function VillesPage() {
   const cities = Object.values(CITIES);
 
@@ -37,8 +41,15 @@ export default function VillesPage() {
 
           {/* Header */}
           <div style={{ marginBottom: 'clamp(48px,8vw,80px)' }}>
-            <div style={{ display: 'inline-flex', marginBottom: 20, padding: '5px 16px', border: '1px solid rgba(239,179,112,0.3)', borderRadius: 100, background: 'rgba(239,179,112,0.06)' }}>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(239,179,112,0.85)' }}>
+            <Link href="/" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: `rgba(${ACCENT.rgb},0.7)`, textDecoration: 'none', marginBottom: 28,
+            }}>← Retour à l&apos;accueil</Link>
+
+            <div style={{ display: 'inline-flex', marginBottom: 20, padding: '5px 16px', border: `1px solid rgba(${ACCENT.rgb},0.3)`, borderRadius: 100, background: `rgba(${ACCENT.rgb},0.06)` }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: `rgba(${ACCENT.rgb},0.85)` }}>
                 {cities.length} villes couvertes
               </span>
             </div>
@@ -54,72 +65,96 @@ export default function VillesPage() {
             </p>
           </div>
 
-          {/* Comparison table — desktop */}
-          <div style={{ marginBottom: 56, overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-dm-sans)', minWidth: 600 }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  {['Ville', 'Budget min.', 'Budget max.', 'Studio privé', 'CROUS'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', textAlign: 'left', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.52rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {cities.map(city => (
-                  <tr key={city.slug} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    <td style={{ padding: '14px 16px' }}>
-                      <Link href={`/villes/${city.slug}`} style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.875rem', color: '#fff', textDecoration: 'none' }}>
-                        {city.name}
-                      </Link>
-                    </td>
-                    <td style={{ padding: '14px 16px', fontSize: '0.875rem', color: '#10B981', fontWeight: 600 }}>{city.monthlyBudgetMin}€</td>
-                    <td style={{ padding: '14px 16px', fontSize: '0.875rem', color: 'rgba(255,255,255,0.6)' }}>{city.monthlyBudgetMax}€</td>
-                    <td style={{ padding: '14px 16px', fontSize: '0.875rem', color: 'rgba(255,255,255,0.6)' }}>{city.costStudio}</td>
-                    <td style={{ padding: '14px 16px', fontSize: '0.875rem', color: 'rgba(255,255,255,0.6)' }}>{city.costCrous}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* City cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px,100%), 1fr))', gap: 'clamp(14px,2.5vw,22px)' }}>
-            {cities.map(city => (
-              <Link key={city.slug} href={`/villes/${city.slug}`} style={{ textDecoration: 'none' }}>
-                <div
-                  className="sc-card-hover-amber"
+          {/* Cards grid — 3 col desktop / 2 tablet / 1 mobile */}
+          <div className="blog-index-grid">
+            {cities.map((city, idx) => (
+              <Link
+                key={city.slug}
+                href={`/villes/${city.slug}`}
+                style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}
+              >
+                <article
+                  className="blog-card"
                   style={{
-                    height: '100%',
-                    padding: 'clamp(24px,3vw,32px)',
-                    background: 'linear-gradient(145deg, rgba(239,179,112,0.06) 0%, rgba(1,4,16,0.97) 65%)',
-                    border: '1px solid rgba(239,179,112,0.14)',
-                    borderRadius: 20,
+                    '--accent-rgb': ACCENT.rgb,
+                    flex: 1, display: 'flex', flexDirection: 'column',
+                    background: `linear-gradient(160deg, rgba(${ACCENT.rgb},0.07) 0%, rgba(1,4,16,0.97) 60%)`,
+                    borderWidth: 1, borderStyle: 'solid',
+                    borderColor: `rgba(${ACCENT.rgb},0.18)`,
+                    borderRadius: 22,
+                    backdropFilter: 'blur(18px)',
+                    WebkitBackdropFilter: 'blur(18px)',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                     position: 'relative', overflow: 'hidden',
-                    }}
-                                                    >
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(239,179,112,0.6), transparent)' }} />
+                  } as React.CSSProperties}
+                >
+                  {/* Top accent line */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, ${ACCENT.hex}, transparent)`, zIndex: 1 }} />
 
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.52rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#EFB370', padding: '3px 9px', border: '1px solid rgba(239,179,112,0.28)', borderRadius: 100, background: 'rgba(239,179,112,0.08)' }}>{city.region}</span>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: '0.8rem', color: '#10B981' }}>{city.monthlyBudgetMin}€<span style={{ fontWeight: 400, fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)' }}>/mois</span></span>
+                  {/* Thumbnail */}
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
+                    <Image
+                      src={city.thumbnail}
+                      alt={`Étudier à ${city.name}`}
+                      fill
+                      sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
+                      style={{ objectFit: 'cover' }}
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA[city.thumbnail]}
+                      priority={idx < 3}
+                      loading={idx < 3 ? 'eager' : 'lazy'}
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to bottom, transparent 50%, rgba(1,4,16,0.75) 100%)` }} />
                   </div>
 
-                  <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2.2rem,4vw,3rem)', lineHeight: 0.9, letterSpacing: '0.03em', color: '#fff', margin: '0 0 8px' }}>{city.name}</h2>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.82rem', color: 'rgba(255,255,255,0.38)', margin: '0 0 20px', lineHeight: 1.6 }}>{city.tagline}</p>
+                  {/* Card body */}
+                  <div style={{ padding: 'clamp(20px,3vw,28px)', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    {/* Badge + budget */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 14 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 10px', border: `1px solid rgba(${ACCENT.rgb},0.3)`, borderRadius: 100, background: `rgba(${ACCENT.rgb},0.08)` }}>
+                        <div style={{ width: 4, height: 4, borderRadius: '50%', background: ACCENT.hex, flexShrink: 0 }} />
+                        <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: ACCENT.hex }}>Ville</span>
+                      </div>
+                      <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: '0.82rem', color: '#10B981' }}>
+                        {city.monthlyBudgetMin}€<span style={{ fontWeight: 400, fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)' }}>/mois</span>
+                      </span>
+                    </div>
 
-                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
-                    {[`${city.students.toLocaleString('fr-FR')} étudiants`, city.transportName].map(tag => (
-                      <span key={tag} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.48rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)', padding: '4px 8px', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6 }}>{tag}</span>
-                    ))}
+                    {/* Title */}
+                    <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.8rem,3vw,2.4rem)', lineHeight: 0.95, letterSpacing: '0.03em', color: '#fff', margin: '0 0 10px' }}>
+                      {city.name}
+                    </h2>
+
+                    {/* Tagline */}
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.875rem', lineHeight: 1.65, color: 'rgba(255,255,255,0.42)', margin: '0 0 auto', paddingBottom: 18, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>
+                      {city.tagline}
+                    </p>
+
+                    {/* Tags */}
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
+                      {[`${(city.students / 1000).toFixed(0)}k étudiants`, city.region].map(tag => (
+                        <span key={tag} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.46rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.32)', padding: '3px 8px', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 6 }}>{tag}</span>
+                      ))}
+                    </div>
+
+                    {/* Footer */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                      <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)' }}>
+                        CROUS · {city.costCrous.split('–')[0].trim()}
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: ACCENT.hex }}>
+                        Explorer →
+                      </span>
+                    </div>
                   </div>
-
-                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#EFB370' }}>
-                    Explorer la ville →
-                  </span>
-                </div>
+                </article>
               </Link>
             ))}
           </div>
+
+          <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.875rem', color: 'rgba(255,255,255,0.3)' }}>
+            D&apos;autres villes arrivent bientôt — <Link href="/blog" style={{ color: `rgba(${ACCENT.rgb},0.6)`, textDecoration: 'none' }}>consulter tous les guides</Link>
+          </p>
         </div>
       </main>
     </>

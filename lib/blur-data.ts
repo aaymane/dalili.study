@@ -23,4 +23,13 @@ export const BLUR_DATA: Record<string, string> = {
   "/images/blog/visa-algerie.webp": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADwAQCdASoQAAkABUB8JbACdAEJIHTgeAAA/s3rfabJ0DiCL7vq8n/zeFubyWoieNVVSYz0u54AHjViheLqQbhY4TrLCDwCIEphvxAKWAA=",
   "/images/blog/visa-maroc.webp": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADwAQCdASoQAAkABUB8JbACdAELTcTYbyAA/tvdXyvDVnByZvWPdtZjlYgv/zkZpHztUC4QKhsOVKyD0dTSsqaM4AA=",
   "/images/blog/visa-tout-savoir.webp": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACwAQCdASoQAAkABUB8JbACdACRcDgAAP7bxkckciLLd36HIs716TbuP8Y+CFeuYbnBsJIlxvT4xbWDjRqLIVGrS4keCc6fuAA="
+,
+  "/images/villes/bordeaux.webp": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAACwAQCdASoQAAkABUB8JagCdAEOGZyAAP3juKT6QLVHcJgGMLtNtTRzsgyLQgwOFQv1vKa5EsA20nczsSD6lfMLYAAAAA==",
+  "/images/villes/paris.webp": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAQCdASoQAAkABUB8JYgCdAD5gPxmcAAA/pTZTah6H8lGy+5uo82jN9ktyTIPDd4jVTx8Xm2tQXzgAAA=",
+  "/images/villes/nantes.webp": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAkABUB8JbACdAC9xSztAAAA/rI4zAsIRNO05q9t0gm2/z5rIGu2GUwJyI2NooCL62QmQK/g0iOzARgY6F2jwxYQAA==",
+  "/images/villes/lyon.webp": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACwAQCdASoQAAkABUB8JYgC7ACd/keAAPzZcESR+wwWFDPgFxJVBSSR5tHY4Z/rUxnsOpsTBirFVcbBeDHYtEAA",
+  "/images/universites/bordeaux.webp": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAwAgCdASoQAAkABUB8JZACsAEVZ8WQZ17oAAD5YfWuy08hKQFn17YtQsZMZtvlz77AKtQoaQdDpDRsHAvsQwAA",
+  "/images/universites/lille.webp": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAACwAQCdASoQAAkABUB8JYwC7AC2mK/wAP6oeOTaUwwYFsmDezgMrGl44SfCUQb1J0JdbCa6IKJTd5a54AA=",
+  "/images/universites/nantes.webp": "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAADQAQCdASoQAAkABUB8JZwAAuLgCgnpAADidf88A4BvOmMyQnlW6x5AQzS/ba5WCOv//4X6m3QAAA==",
+  "/images/universites/sorbonne.webp": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAACwAQCdASoQAAkABUB8JYwCw7Ci+pYoAP5oUsnrXCD6rwMfeOeGqvdpmt0MQG80UZQUSPO1cCHkf0zR89cAAA=="
 };

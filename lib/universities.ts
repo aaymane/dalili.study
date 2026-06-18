@@ -22,6 +22,7 @@ export interface University {
   crousUrl: string;
   campusFranceUrl: string;
   relatedArticles: { slug: string; title: string }[];
+  thumbnail: string;
 }
 
 export const UNIVERSITIES: Record<string, University> = {
@@ -70,6 +71,7 @@ export const UNIVERSITIES: Record<string, University> = {
       { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement en France depuis l\'étranger' },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget étudiant étranger en France 2026' },
     ],
+    thumbnail: '/images/universites/bordeaux.webp',
   },
 
   'universite-de-nantes': {
@@ -111,6 +113,7 @@ export const UNIVERSITIES: Record<string, University> = {
     relatedArticles: [
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget étudiant étranger en France 2026' },
     ],
+    thumbnail: '/images/universites/nantes.webp',
   },
 
   'universite-de-lille': {
@@ -153,6 +156,7 @@ export const UNIVERSITIES: Record<string, University> = {
     relatedArticles: [
       { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement en France depuis l\'étranger' },
     ],
+    thumbnail: '/images/universites/lille.webp',
   },
 
   'sorbonne-universite': {
@@ -197,6 +201,7 @@ export const UNIVERSITIES: Record<string, University> = {
       { slug: 'etudier-paris-etudiant-etranger-guide', title: 'Étudier à Paris en tant qu\'étudiant étranger' },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget étudiant étranger en France 2026' },
     ],
+    thumbnail: '/images/universites/sorbonne.webp',
   },
 };
 
