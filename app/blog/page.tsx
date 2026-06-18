@@ -38,7 +38,6 @@ const FEATURED_SLUGS = [
 export default function BlogPage() {
   const posts = getAllPosts();
   const featured = FEATURED_SLUGS.map(slug => posts.find(p => p.slug === slug)).filter(Boolean) as typeof posts;
-  const gridPosts = posts.filter(p => !FEATURED_SLUGS.includes(p.slug));
   const clusterKeys = Object.keys(CLUSTER_DEFINITIONS);
 
   return (
