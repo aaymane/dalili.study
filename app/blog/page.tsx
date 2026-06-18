@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAllPosts, CATEGORY_COLORS, formatDate } from '@/lib/blog';
+import { BLUR_DATA } from '@/lib/blur-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -135,7 +136,9 @@ export default function BlogPage() {
                         fill
                         sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
                         style={{ objectFit: 'cover' }}
-                        priority={false}
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA[post.thumbnail] ?? BLUR_DATA[Object.keys(BLUR_DATA)[0]]}
+                        loading="lazy"
                       />
                       <div style={{
                         position: 'absolute', inset: 0,

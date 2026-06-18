@@ -189,11 +189,11 @@ export default function Navbar() {
           onClick={handleLogoClick}
           style={{
             fontFamily: 'var(--font-bebas)',
-            fontSize: 'clamp(2.4rem,8vw,3.2rem)', letterSpacing: '0.04em',
+            fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
             color: pathname === '/' ? '#4d8fff' : 'rgba(255,255,255,0.88)',
-            cursor: 'pointer', paddingBottom: 18,
+            cursor: 'pointer', paddingBottom: 16,
             borderBottom: '1px solid rgba(255,255,255,0.07)',
-            marginBottom: 18, lineHeight: 1,
+            marginBottom: 16, lineHeight: 1,
           }}
         >
           Accueil
@@ -207,12 +207,12 @@ export default function Navbar() {
               href={link.href}
               style={{
                 fontFamily: 'var(--font-bebas)',
-                fontSize: 'clamp(2.4rem,8vw,3.2rem)', letterSpacing: '0.04em',
+                fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
                 color: active ? '#4d8fff' : 'rgba(255,255,255,0.88)',
                 textDecoration: 'none', lineHeight: 1,
-                paddingBottom: 18,
+                paddingBottom: 16,
                 borderBottom: '1px solid rgba(255,255,255,0.07)',
-                marginBottom: 18, display: 'block',
+                marginBottom: 16, display: 'block',
               }}
             >
               {link.label}
@@ -223,6 +223,7 @@ export default function Navbar() {
         <div style={{ marginTop: 'auto', paddingTop: 32 }}>
           <a
             href={ctaHref}
+            onClick={() => setIsOpen(false)}
             style={{
               display: 'block', textAlign: 'center',
               padding: '16px 32px',

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { BLUR_DATA } from '@/lib/blur-data';
 import dynamic from 'next/dynamic';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
@@ -295,6 +296,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                   fill
                   sizes="(max-width:900px) 100vw, 780px"
                   style={{ objectFit: 'cover' }}
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA[fm.thumbnail] ?? BLUR_DATA[Object.keys(BLUR_DATA)[0]]}
                   priority
                 />
                 <div style={{

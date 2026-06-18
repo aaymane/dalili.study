@@ -1,0 +1,26 @@
+// Auto-generated — do not edit manually
+export const BLUR_DATA: Record<string, string> = {
+  "/images/blog/alternance.webp": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAkABUB8JbACdAEK6rr7TmAA/s3wzy71aHAZFO0JiGb7MbKqyEBUbFXAHuwq6ISoVZsFtDg3MZZtSI5YJ9Spwj0AAA==",
+  "/images/blog/bourses.webp": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADwAQCdASoQAAkABUB8JbACdAEetV+DUjgA/ryW3EwBPtSxEPCczApzV8rYqVflABBQ857trXw/EhKRh9m0S1IQcve7V6D4aKL0AAAA",
+  "/images/blog/budget.webp": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADQAQCdASoQAAkABUB8JagCdADQxiRTwAD+zgDGneukQOQJD2FfImfuMECokoEhj1hT/yXhbEE7jCkajecAzkJsvopyD4BM4zT4HtAA",
+  "/images/blog/caf.webp": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAQAgCdASoQAAkABUB8JbACdAYrdwC7MjGoAP7PcJuOqs0JXyzkNrMx9WpA//AxsRIImUZWqNzcl3/DT8EM/G8S5ZXE2/O+BAA=",
+  "/images/blog/campusfrance-maroc.webp": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAQCdASoQAAkABUB8JbACdACoNdqWAAD+zet9qOexyUn+/ySvTBgyaJmuAg4MHxLDjlAp4XINAekgSU3YB384R8KYAAAA",
+  "/images/blog/compte-bancaire.webp": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAQCdASoQAAkABUB8JbACdAC/sdkAAP68geyTKtJ6Z8tIx4MkXprHAhS6lrnAmFMkkcZX2n1yFjg5o0A8HIHOgttRsiwufGQQiAAA",
+  "/images/blog/compte-sans-adresse.webp": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAQAgCdASoQAAkABUB8JbACdAEWMjG6UVoAAP68geyTKzaH+4SwpPCA+drHpCCS4LSyXm5cuYU0ZUI2KK9I8cw5vDaWYmWq4hV4AAAA",
+  "/images/blog/crous.webp": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoQAAkABUB8JbACdADHv+MKkwAA/tveK5nRsdcp+/lOkkY1OPyH/ZoNbq280V6ktYvCcwR+LWFz3ak6By0wPo1YqAA=",
+  "/images/blog/delai-visa.webp": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADwAQCdASoQAAkABUB8JbACdADp8TWtBjAA/tvdTI0NBbM4vWaUHnbBEWHts4oJc+Op8pxRqJMsZ2Ifhi9IFLKl6OmoVYke814iTV30rt/HUAAA",
+  "/images/blog/garant.webp": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAwAgCdASoQAAkABUB8JbACdAEejjPP6ruTAAD+vJbcV5iJBKd2prevxJE1AKckCT+mLd579xcO7x1VUUUdf483vbk58nQA",
+  "/images/blog/logement-etranger.webp": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADwAQCdASoQAAkABUB8JZACdAEKowiDv4AA/s9wsrnDSHS+aJblOaVuZKE84JZ6HAxG4LGUQdI9npuB8Sv+cYVLC7WqYrgA",
+  "/images/blog/medecin.webp": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAgCdASoQAAkABUB8JbACdAEN1zqcWA4AAP7Pc7/xCSZYjLUowfO+/EAXcdJRFvMa/yBTv0d2b0mgtSreU6CXag5ssQAA",
+  "/images/blog/paris.webp": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAkABUB8JbACdAEKVv8YxYAA/s9wsryo1b+I+fflqr9pOco12G6LCwBAeBCLjsIR5NoBa6+XSF5IPBsKkBDrgG4AAA==",
+  "/images/blog/residence-vs-appart.webp": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADwAQCdASoQAAkABUB8JYgCdADRER3oTQAA/s9wsrrj0CSKY8hBBPQHtOeiR6u0anOa0BUp5HtctdqPipDYkaJK8AA=",
+  "/images/blog/securite-sociale.webp": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAgCdASoQAAkABUB8JbACdAEVm3pW3GrgAP7b4C2fnMKl0XCVazv1MFY6RrpxtOAFB9zd8WUmCmAFmGNlqylXa04NAAAA",
+  "/images/blog/stage.webp": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAgCdASoQAAkABUB8JbACdADpLwS8ilwAAP7N6WNS4BNSMw5iNM22S6G+MU+pGZ4XhVqaEFCB8Q9MiuC/59I2ZzwRAAAA",
+  "/images/blog/systeme-universitaire.webp": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAAAwAgCdASoQAAkABUB8JaACdAEUq/VnY9n9AAD+2sNSUZiZFqQq3EYcAjXIMbp5vIzw46AJlAXzNwrjJiKPJkYwnCishaGenDSGZ7IAAAA=",
+  "/images/blog/titre-sejour.webp": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADQAQCdASoQAAkABUB8JbACdAELk9lSiAD+28i8YzbIknsJ6FSZyAGLO4HrVMhEQbdPGZh/PLuoUaRhrdUI1b/XlOky8fJEAl8Rd4lAAAA=",
+  "/images/blog/transport.webp": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAwAgCdASoQAAkABUB8JbACdAEQgVZwMJisAAD+zfDPMTgTV0GWGWVyMJ2YtPbLf/nAbnNaApKiirJj7VRqxMkJEnKg9uUzicAAAA==",
+  "/images/blog/travailler.webp": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAQAgCdASoQAAkABUB8JbACdAEKmODvcTwAAP7N632m0GtP+FQVpOTpMm03K6VGDuKpFun2NOCzPuCECQf4ho7t3CuFhfYLxuiAAA==",
+  "/images/blog/visa-algerie.webp": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADwAQCdASoQAAkABUB8JbACdAEJIHTgeAAA/s3rfabJ0DiCL7vq8n/zeFubyWoieNVVSYz0u54AHjViheLqQbhY4TrLCDwCIEphvxAKWAA=",
+  "/images/blog/visa-maroc.webp": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADwAQCdASoQAAkABUB8JbACdAELTcTYbyAA/tvdXyvDVnByZvWPdtZjlYgv/zkZpHztUC4QKhsOVKyD0dTSsqaM4AA=",
+  "/images/blog/visa-tout-savoir.webp": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACwAQCdASoQAAkABUB8JbACdACRcDgAAP7bxkckciLLd36HIs716TbuP8Y+CFeuYbnBsJIlxvT4xbWDjRqLIVGrS4keCc6fuAA="
+};
