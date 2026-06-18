@@ -2,11 +2,12 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { ShieldCheck, Home, Landmark, ClipboardList, GraduationCap } from 'lucide-react';
 
 const STEPS = [
   {
     number: '01',
-    icon: '🛂',
+    Icon: ShieldCheck,
     title: 'Visa',
     subtitle: 'Ton passeport pour la France',
     desc: 'Campus France, visa long séjour, validation OFII. Dalili te prépare chaque document requis avant le départ.',
@@ -15,7 +16,7 @@ const STEPS = [
   },
   {
     number: '02',
-    icon: '🏠',
+    Icon: Home,
     title: 'Logement',
     subtitle: 'Trouve ton chez-toi',
     desc: 'CROUS, résidences privées, colocation — compare tes options et monte ton dossier de location sans stress.',
@@ -24,7 +25,7 @@ const STEPS = [
   },
   {
     number: '03',
-    icon: '🏦',
+    Icon: Landmark,
     title: 'Banque',
     subtitle: 'Ouvre ton compte en 48h',
     desc: 'Sans compte bancaire français, impossible de signer un bail ou toucher des aides. On t\'explique la marche à suivre.',
@@ -33,7 +34,7 @@ const STEPS = [
   },
   {
     number: '04',
-    icon: '📋',
+    Icon: ClipboardList,
     title: 'CAF',
     subtitle: "Jusqu'à 200€/mois",
     desc: 'Tu as droit à des aides au logement. Dalili te guide pour déposer ton dossier CAF correctement et ne rien rater.',
@@ -42,7 +43,7 @@ const STEPS = [
   },
   {
     number: '05',
-    icon: '👩‍🎓',
+    Icon: GraduationCap,
     title: 'Mentor',
     subtitle: 'Un étudiant pour toi',
     desc: 'Un mentor Dalili qui est passé par là t\'accompagne, répond à tes questions et t\'évite les erreurs coûteuses.',
@@ -265,17 +266,15 @@ export default function JourneySection() {
                     'inset 0 1px 0 rgba(255,255,255,0.12)',
                   ].join(', '),
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.5rem',
                   flexShrink: 0,
                   position: 'relative', zIndex: 2,
                   marginBottom: isMobile ? 0 : 28,
                   backdropFilter: 'blur(8px)',
                   WebkitBackdropFilter: 'blur(8px)',
                   cursor: 'default',
-                  // Subtle idle pulse via boxShadow — driven by CSS animation class
                 }}
               >
-                <span style={{ lineHeight: 1 }}>{step.icon}</span>
+                <step.Icon size={24} color={step.accent} strokeWidth={1.5} />
 
                 {/* Step number dot — sits outside node on the right/bottom */}
                 <div style={{

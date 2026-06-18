@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Plane, Home, ClipboardList, CreditCard, Banknote, BookOpen, MapPin } from 'lucide-react';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -99,7 +100,7 @@ const jsonLd = [
 const PHASES = [
   {
     num: '01',
-    emoji: '✈️',
+    Icon: Plane,
     title: 'Avant le départ',
     subtitle: '4 mois minimum avant ton vol',
     accent: '77,143,255',
@@ -120,7 +121,7 @@ const PHASES = [
   },
   {
     num: '02',
-    emoji: '🏠',
+    Icon: Home,
     title: "À l'arrivée en France",
     subtitle: 'Semaine 1 à mois 3 — priorités absolues',
     accent: '1,77,248',
@@ -140,7 +141,7 @@ const PHASES = [
   },
   {
     num: '03',
-    emoji: '📋',
+    Icon: ClipboardList,
     title: 'Dans les 3 premiers mois',
     subtitle: 'Consolide ta situation administrative',
     accent: '16,185,129',
@@ -159,11 +160,11 @@ const PHASES = [
 ];
 
 const RELATED = [
-  { href: '/blog/visa-etudiant-france-maroc-2026', label: 'Guide complet visa étudiant France depuis le Maroc 2026', icon: '🇲🇦' },
-  { href: '/blog/visa-etudiant-france-algerie-2026', label: "Visa étudiant France depuis l'Algérie 2026 — tout savoir", icon: '🇩🇿' },
-  { href: '/blog/titre-sejour-etudiant-france-renouvellement', label: 'Titre de séjour étudiant — renouvellement complet', icon: '🆔' },
-  { href: '/blog/caf-etudiant-etranger-delais-documents-erreurs', label: 'CAF étudiant étranger — délais, documents et erreurs', icon: '💶' },
-  { href: '/pays/etudier-en-france-depuis-le-maroc', label: 'Étudier en France depuis le Maroc — démarches et délais', icon: '📚' },
+  { href: '/blog/visa-etudiant-france-maroc-2026', label: 'Guide complet visa étudiant France depuis le Maroc 2026', Icon: MapPin },
+  { href: '/blog/visa-etudiant-france-algerie-2026', label: "Visa étudiant France depuis l'Algérie 2026 — tout savoir", Icon: MapPin },
+  { href: '/blog/titre-sejour-etudiant-france-renouvellement', label: 'Titre de séjour étudiant — renouvellement complet', Icon: CreditCard },
+  { href: '/blog/caf-etudiant-etranger-delais-documents-erreurs', label: 'CAF étudiant étranger — délais, documents et erreurs', Icon: Banknote },
+  { href: '/pays/etudier-en-france-depuis-le-maroc', label: 'Étudier en France depuis le Maroc — démarches et délais', Icon: BookOpen },
 ];
 
 const FAQ_ITEMS = [
@@ -328,8 +329,8 @@ export default function ChecklistPage() {
               {PHASES.map(phase => (
                 <div key={phase.num}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 22 }}>
-                    <div style={{ width: 44, height: 44, borderRadius: 12, background: `rgba(${phase.accent},0.1)`, border: `1px solid rgba(${phase.accent},0.22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 20 }}>
-                      {phase.emoji}
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: `rgba(${phase.accent},0.1)`, border: `1px solid rgba(${phase.accent},0.22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <phase.Icon size={20} color={`rgb(${phase.accent})`} strokeWidth={1.5} />
                     </div>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
@@ -422,7 +423,7 @@ export default function ChecklistPage() {
               {RELATED.map(link => (
                 <Link key={link.href} href={link.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: 'clamp(13px,2vw,17px) clamp(16px,2.5vw,22px)', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 13, textDecoration: 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                    <span style={{ fontSize: 17, flexShrink: 0 }}>{link.icon}</span>
+                    <link.Icon size={16} color="rgba(77,143,255,0.6)" strokeWidth={1.5} style={{ flexShrink: 0 }} />
                     <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.78rem,1.1vw,0.88rem)', fontWeight: 500, color: 'rgba(255,255,255,0.55)', lineHeight: 1.4 }}>{link.label}</span>
                   </div>
                   <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>

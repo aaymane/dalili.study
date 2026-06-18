@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FileText, UserRoundX, Languages } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,7 +18,7 @@ const PAIN_POINTS = [
     desc: 'Visa, OFII, CAF, CROUS, sécurité sociale étudiante… Dès ton arrivée, une quinzaine de démarches obligatoires t\'attendent — chacune avec ses délais, ses formulaires, ses pièges.',
     accent: '#FF4D4D',
     accentRgb: '255,77,77',
-    icon: '📋',
+    Icon: FileText,
     tag: '01',
   },
   {
@@ -30,7 +31,7 @@ const PAIN_POINTS = [
     desc: "68 % des étudiants étrangers déclarent manquer d'accompagnement dans leurs démarches administratives. Sans mentor ni réseau local, chaque blocage prend des semaines.",
     accent: '#FF8C00',
     accentRgb: '255,140,0',
-    icon: '🫥',
+    Icon: UserRoundX,
     tag: '02',
   },
   {
@@ -43,7 +44,7 @@ const PAIN_POINTS = [
     desc: 'Contrats, convocations, formulaires officiels — tout arrive dans une langue que tu maîtrises peut-être pas encore. Chaque document incompris peut coûter : refus, pénalité, dossier bloqué.',
     accent: '#FFCC00',
     accentRgb: '255,204,0',
-    icon: '🔤',
+    Icon: Languages,
     tag: '03',
   },
 ];
@@ -390,11 +391,10 @@ export default function ProblemSection() {
                   border: `1px solid rgba(${point.accentRgb},0.28)`,
                   borderRadius: 16,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.75rem',
                   boxShadow: `0 0 20px rgba(${point.accentRgb},0.5), 0 0 40px rgba(${point.accentRgb},0.2)`,
                   flexShrink: 0,
                 }}>
-                  <span aria-hidden="true" style={{ display: 'block', lineHeight: 1 }}>{point.icon}</span>
+                  <point.Icon size={28} color={point.accent} strokeWidth={1.5} aria-hidden="true" />
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>

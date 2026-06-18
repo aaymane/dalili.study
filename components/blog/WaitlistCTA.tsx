@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Globe, CheckCircle2, X } from 'lucide-react';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -53,7 +54,11 @@ export default function WaitlistCTA() {
           background: 'linear-gradient(90deg, transparent, rgba(1,77,248,0.7), rgba(77,143,255,0.9), rgba(1,77,248,0.7), transparent)',
         }} />
 
-        <div style={{ fontSize: '2rem', marginBottom: 12 }}>🇫🇷</div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(1,77,248,0.12)', border: '1px solid rgba(1,77,248,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Globe size={22} color="#4d8fff" strokeWidth={1.5} />
+          </div>
+        </div>
 
         <h2 style={{
           fontFamily: 'var(--font-bebas)',
@@ -141,16 +146,17 @@ export default function WaitlistCTA() {
                 border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: '50%',
                 color: 'rgba(255,255,255,0.5)',
-                fontSize: 16, cursor: 'pointer',
-                fontFamily: 'system-ui',
+                cursor: 'pointer',
               }}
             >
-              ✕
+              <X size={15} strokeWidth={2} />
             </button>
 
             {status === 'success' ? (
               <div style={{ textAlign: 'center', padding: '16px 0' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>🎉</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+                  <CheckCircle2 size={48} color="#22C55E" strokeWidth={1.5} />
+                </div>
                 <h3 style={{
                   fontFamily: 'var(--font-bebas)',
                   fontSize: 'clamp(1.8rem,4vw,2.4rem)',

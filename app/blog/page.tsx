@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { FileText } from 'lucide-react';
 import { getAllPosts, CLUSTER_DEFINITIONS } from '@/lib/blog';
 import SearchableBlogGrid from '@/components/blog/SearchableBlogGrid';
 
@@ -110,7 +111,7 @@ export default function BlogPage() {
               Ressource gratuite
             </p>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.95rem', color: '#fff', margin: 0 }}>
-              📋 Checklist Complète Arrivée en France 2026 — PDF gratuit
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, verticalAlign: 'middle' }}><FileText size={15} strokeWidth={2} color="#4d8fff" /> Checklist Complète Arrivée en France 2026 — PDF gratuit</span>
             </p>
           </div>
           <Link href="/checklist" style={{

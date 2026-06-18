@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { FileText } from 'lucide-react';
 
 const ROW1_ITEMS = [
   'DALILI', '✦', 'TON GUIDE EN FRANCE', '✦', 'MENTORS', '✦',
@@ -124,7 +125,7 @@ export default function Footer() {
             onMouseEnter={e => { e.currentTarget.style.color = 'rgba(77,143,255,1)'; }}
             onMouseLeave={e => { e.currentTarget.style.color = 'rgba(77,143,255,0.7)'; }}
           >
-            📋 Checklist PDF
+            <FileText size={13} strokeWidth={2} style={{ flexShrink: 0 }} /> Checklist PDF
           </Link>
           {[
             { label: 'Mentions légales',  href: '/mentions-legales' },

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FileText } from 'lucide-react';
 
 const NAV_LINKS = [
   { label: 'Universités', href: '/universites' },
@@ -144,7 +145,7 @@ export default function Navbar() {
               e.currentTarget.style.color = 'rgba(77,143,255,0.9)';
             }}
           >
-            <span style={{ fontSize: 11 }}>📋</span>
+            <FileText size={13} strokeWidth={2} />
             Checklist PDF
           </Link>
 
@@ -266,7 +267,7 @@ export default function Navbar() {
             marginBottom: 16, display: 'block',
           }}
         >
-          📋 Checklist PDF
+          Checklist PDF
         </Link>
 
         <div style={{ marginTop: 'auto', paddingTop: 32 }}>
