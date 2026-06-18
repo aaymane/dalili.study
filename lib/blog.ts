@@ -35,7 +35,6 @@ export const CLUSTER_DEFINITIONS: Record<string, { label: string; description: s
 export const CLUSTER_MAP: Record<string, string> = {
   'campusfrance-maroc-guide-complet':                   'visa',
   'delai-visa-etudiant-france-tout-savoir':             'visa',
-  'visa-etudiant-france-algerie-2026':                  'visa',
   'visa-etudiant-france-maroc-2026':                    'visa',
   'visa-etudiant-france-tout-savoir-avant-partir':      'visa',
   'garant-logement-etudiant-etranger-france':           'logement',
