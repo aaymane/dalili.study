@@ -24,6 +24,7 @@ export const CLUSTER_DEFINITIONS: Record<string, { label: string; description: s
   'demarches':     { label: 'Démarches',             description: 'Titre de séjour, OFII, renouvellement', color: '#A855F7', accentRgb: '168,85,247' },
   'algerie':       { label: 'Depuis l\'Algérie',     description: 'Campus France Algérie, visa, vie étudiante', color: '#34D399', accentRgb: '52,211,153' },
   'senegal':       { label: 'Depuis le Sénégal',     description: 'Campus France Sénégal, visa, bourses', color: '#FB923C', accentRgb: '251,146,60' },
+  'maroc':         { label: 'Depuis le Maroc',       description: 'TCF, Campus France Maroc, visa étudiant', color: '#C8102E', accentRgb: '200,16,46' },
 };
 
 export const CATEGORY_COLORS: Record<string, { accent: string; accentRgb: string }> = {

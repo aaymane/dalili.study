@@ -9,9 +9,7 @@ const POSTS_DIR = path.join(process.cwd(), 'content', 'blog');
 import type { PostMeta } from './blog-client';
 
 export const CLUSTER_MAP: Record<string, string> = {
-  'campusfrance-maroc-guide-complet':                   'visa',
   'delai-visa-etudiant-france-tout-savoir':             'visa',
-  'visa-etudiant-france-maroc-2026':                    'visa',
   'visa-etudiant-france-tout-savoir-avant-partir':      'visa',
   'garant-logement-etudiant-etranger-france':           'logement',
   'logement-crous-etudiant-etranger-demande':           'logement',
@@ -35,6 +33,12 @@ export const CLUSTER_MAP: Record<string, string> = {
   'contester-refus-visa-campus-france':                 'visa',
   'droits-etudiant-etranger-france-guide-complet':      'vie-etudiante',
   'litige-universite-etudiant-etranger':                'vie-etudiante',
+  // Maroc cluster
+  'campusfrance-maroc-guide-complet':                   'maroc',
+  'visa-etudiant-france-maroc-2026':                    'maroc',
+  'tcf-maroc-2026-guide-complet':                       'maroc',
+  'comment-preparer-tcf-30-jours-etudiant-maroc':       'maroc',
+  'calendrier-tcf-maroc-2026-dates-sessions':           'maroc',
   // Algérie cluster
   'visa-etudiant-france-algerie-2026':                  'algerie',
   'campusfrance-algerie-guide-entretien-2026':          'algerie',

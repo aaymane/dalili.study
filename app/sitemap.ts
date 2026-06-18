@@ -3,16 +3,22 @@ import { getAllPosts } from '@/lib/blog';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dalili.study';
 
+const HIGH_PRIORITY_SLUGS = new Set([
+  'tcf-maroc-2026-guide-complet',
+  'comment-preparer-tcf-30-jours-etudiant-maroc',
+  'calendrier-tcf-maroc-2026-dates-sessions',
+]);
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
   const now = new Date();
 
-  // ── Blog articles (priority 0.7, use updatedDate when available) ──
+  // ── Blog articles (priority 0.7 for standard, 0.8 for high-priority) ──
   const articles: MetadataRoute.Sitemap = posts.map(post => ({
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: post.updatedDate ? new Date(post.updatedDate) : new Date(post.date),
     changeFrequency: 'monthly',
-    priority: 0.7,
+    priority: HIGH_PRIORITY_SLUGS.has(post.slug) ? 0.8 : 0.7,
   }));
 
   return [
