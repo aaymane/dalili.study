@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getAllPosts, CATEGORY_COLORS, formatDate } from '@/lib/blog';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
@@ -117,6 +118,31 @@ export default function BlogPage() {
                     position: 'absolute', top: 0, left: 0, right: 0, height: 2,
                     background: `linear-gradient(90deg, transparent, ${cat.accent}, transparent)`,
                   }} />
+
+                  {/* Thumbnail */}
+                  {post.thumbnail && (
+                    <div style={{
+                      position: 'relative', width: 'calc(100% + clamp(48px,7vw,72px))',
+                      marginLeft: 'calc(-1 * clamp(24px,3.5vw,36px))',
+                      marginTop: 'calc(-1 * clamp(24px,3.5vw,36px))',
+                      marginBottom: 20,
+                      aspectRatio: '16/9',
+                      overflow: 'hidden',
+                    }}>
+                      <Image
+                        src={post.thumbnail}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
+                        style={{ objectFit: 'cover' }}
+                        priority={false}
+                      />
+                      <div style={{
+                        position: 'absolute', inset: 0,
+                        background: `linear-gradient(to bottom, transparent 55%, rgba(1,4,16,0.85) 100%)`,
+                      }} />
+                    </div>
+                  )}
 
                   {/* Category + read time */}
                   <div style={{

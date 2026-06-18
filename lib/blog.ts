@@ -14,6 +14,7 @@ export interface PostMeta {
   excerpt: string;
   author: string;
   ogImage?: string;
+  thumbnail?: string;
 }
 
 export interface Heading {

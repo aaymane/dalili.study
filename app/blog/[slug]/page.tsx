@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
@@ -107,7 +108,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/blog/${params.slug}` },
-    image: `${siteUrl}/og-image.jpg`,
+    image: fm.thumbnail ? `${siteUrl}${fm.thumbnail}` : `${siteUrl}/og-image.jpg`,
   };
 
   const faqItems = extractFaqItems(mdxSource);
@@ -253,6 +254,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               flexWrap: 'wrap', gap: 20,
               paddingTop: 20,
               borderTop: `1px solid rgba(${cat.accentRgb},0.15)`,
+              marginBottom: fm.thumbnail ? 'clamp(32px,5vw,52px)' : 0,
             }}>
               <span style={{
                 fontFamily: 'var(--font-montserrat)',
@@ -275,6 +277,32 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 color: cat.accent,
               }}>{fm.readTime} de lecture</span>
             </div>
+
+            {/* Cover thumbnail */}
+            {fm.thumbnail && (
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                aspectRatio: '16/9',
+                borderRadius: 16,
+                overflow: 'hidden',
+                border: `1px solid rgba(${cat.accentRgb},0.18)`,
+                boxShadow: `0 24px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04)`,
+              }}>
+                <Image
+                  src={fm.thumbnail}
+                  alt={fm.title}
+                  fill
+                  sizes="(max-width:900px) 100vw, 780px"
+                  style={{ objectFit: 'cover' }}
+                  priority
+                />
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: `linear-gradient(to bottom, transparent 60%, rgba(1,4,16,0.4) 100%)`,
+                }} />
+              </div>
+            )}
           </div>
         </header>
 
