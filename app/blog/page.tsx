@@ -90,7 +90,7 @@ export default function BlogPage() {
 
         {/* ── Grid — 3 cols desktop / 2 tablet / 1 mobile ── */}
         <div className="blog-index-grid">
-          {posts.map(post => {
+          {posts.map((post, idx) => {
             const cat = CATEGORY_COLORS[post.category] ?? CATEGORY_COLORS.Visa;
             return (
               <Link
@@ -134,11 +134,12 @@ export default function BlogPage() {
                         src={post.thumbnail}
                         alt={post.title}
                         fill
-                        sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
+                        sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 400px"
                         style={{ objectFit: 'cover' }}
                         placeholder="blur"
                         blurDataURL={BLUR_DATA[post.thumbnail] ?? BLUR_DATA[Object.keys(BLUR_DATA)[0]]}
-                        loading="lazy"
+                        priority={idx < 3}
+                        loading={idx < 3 ? 'eager' : 'lazy'}
                       />
                       <div style={{
                         position: 'absolute', inset: 0,

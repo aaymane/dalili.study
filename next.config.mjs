@@ -8,21 +8,16 @@ const nextConfig = {
   },
 
   images: {
-    // Serve AVIF first (smallest), fallback to WebP
+    // AVIF first (40% smaller than WebP), fallback WebP
     formats: ['image/avif', 'image/webp'],
-    // Cache optimized images for 30 days
-    minimumCacheTTL: 2592000,
-    // Device widths for responsive srcset
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 64, 128, 256, 384],
-  },
-
-  // Trim unused locales from bundle
-  i18n: undefined,
-
-  // Enable HTTP/2 server push hints
-  experimental: {
-    optimizeCss: false, // requires critters — disable if not installed
+    // Cache optimized images 60 days
+    minimumCacheTTL: 5184000,
+    // Only generate sizes we actually use
+    deviceSizes: [640, 828, 1080, 1200, 1920],
+    imageSizes: [320, 480, 640, 800],
+    // No domains needed (local /public only)
+    dangerouslyAllowSVG: false,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 };
 
