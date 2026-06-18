@@ -79,7 +79,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   // making optional HTML attributes (children, id, href) appear required.
   // The runtime types are correct — cast to suppress the false TS error.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const components = { ...mdxComponents, Callout } as any;
+  const components = { ...mdxComponents, Callout, WaitlistCTA } as any;
 
   const { content } = await compileMDX({
     source: mdxSource,

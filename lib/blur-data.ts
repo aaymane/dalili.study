@@ -30,5 +30,9 @@ export const BLUR_DATA: Record<string, string> = {
   "/images/universites/bordeaux.webp": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoQAAkABUB8JZACsACqzPHiAAD+a/URcEhgbnDMrQ4uuo3Zy7qMULlgy0AAAA==",
   "/images/universites/lille.webp": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADwAQCdASoQAAkABUB8JYwC7AECkwG1YEAA/oaFe7aL5QPCjYZe33e0yzVqW+TI0HJ7oAAA",
   "/images/universites/nantes.webp": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAABQAQCdASoQAAkABUB8JZwAAAAAAPlaLlQfbW39tl5fkKarzcKEpJBmK4wEAAAA",
-  "/images/universites/sorbonne.webp": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAABwAQCdASoQAAkABUB8JQBWAArHgAD+mPiy8wL84T0aSOwlO6F4/47o2SzK20cO9vqoiogA"
+  "/images/universites/sorbonne.webp": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAABwAQCdASoQAAkABUB8JQBWAArHgAD+mPiy8wL84T0aSOwlO6F4/47o2SzK20cO9vqoiogA",
+  "/images/blog/visale-refuse.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/refus-visa-france.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/droits-etudiant-etranger.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/litige-universite.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC"
 };

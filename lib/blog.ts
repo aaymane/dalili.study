@@ -54,6 +54,10 @@ export const CLUSTER_MAP: Record<string, string> = {
   'medecin-traitant-france-etudiant-etranger':          'sante',
   'securite-sociale-etudiante-france-inscription':      'sante',
   'titre-sejour-etudiant-france-renouvellement':        'demarches',
+  'visale-refuse-proprietaire-que-faire':               'logement',
+  'contester-refus-visa-campus-france':                 'visa',
+  'droits-etudiant-etranger-france-guide-complet':      'vie-etudiante',
+  'litige-universite-etudiant-etranger':                'vie-etudiante',
 };
 
 export interface Heading {
