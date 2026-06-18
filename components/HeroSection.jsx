@@ -25,7 +25,7 @@ export default function HeroSection({ revealed = false }) {
   const planeRef          = useRef(null);
   const textRef           = useRef(null);
   const linesRef          = useRef([]);
-  const badgeRef          = useRef(null);
+  const badgeRef          = useRef(null); // kept — still in GSAP array (filter(Boolean) handles null)
   const subRef            = useRef(null);
   const skylineWrap  = useRef(null); // fades out before text appears
   const horizonGlow  = useRef(null); // the blue ellipse following the plane — fades on scroll
@@ -343,33 +343,6 @@ export default function HeroSection({ revealed = false }) {
             willChange: 'transform',
           }}
         >
-          {/* Badge */}
-          <div
-            ref={badgeRef}
-            className="hero-badge"
-            style={{
-              display: 'inline-flex', marginBottom: 32,
-              padding: '7px 18px',
-              border: '1px solid rgba(255,255,255,0.12)',
-              borderRadius: 100,
-              backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
-              background: 'rgba(255,255,255,0.04)',
-              animation: 'badgeGlow 4s ease-in-out infinite',
-              maxWidth: '92vw',
-            }}
-          >
-            <span className="hero-badge-text" style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.6rem', letterSpacing: '0.2em',
-              color: 'rgba(255,255,255,0.45)',
-              textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}>
-              ✦ GUIDES POUR ÉTUDIANTS MAGHRÉBINS &nbsp;·&nbsp; MAROC · ALGÉRIE · TUNISIE
-            </span>
-          </div>
 
           {/* Title */}
           <h1 style={{
