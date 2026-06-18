@@ -1,12 +1,43 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import fs from 'fs';
+import path from 'path';
 import { notFound } from 'next/navigation';
+import { compileMDX } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
 import { getUniversity, getAllUniversitySlugs } from '@/lib/universities';
+import { extractFaqItems } from '@/lib/blog';
 import RelatedArticles from '@/components/blog/RelatedArticles';
 import { BLUR_DATA } from '@/lib/blur-data';
+import mdxComponents from '@/components/blog/MdxComponents';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+const ACCENT = '77,143,255';
+
+const UNI_SEO: Record<string, { title: string; description: string; ogDescription: string }> = {
+  'universite-de-bordeaux': {
+    title: 'Université de Bordeaux : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour intégrer l\'Université de Bordeaux : frais d\'inscription, bourses, logement CROUS, campus, débouchés professionnels. Conseils pour étudiants marocains, algériens et tunisiens.',
+    ogDescription: 'Tout ce qu\'un étudiant marocain ou algérien doit savoir avant d\'intégrer l\'Université de Bordeaux — frais, bourses, logement, vie étudiante et carrière.',
+  },
+  'sorbonne-universite': {
+    title: 'Sorbonne Université : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Sorbonne Université : admission, frais, logement à Paris, bourses, vie étudiante et débouchés. Le guide le plus complet pour étudiants maghrébins.',
+    ogDescription: 'Sorbonne Université, top 100 mondial — guide pratique et honnête pour les étudiants marocains, algériens et tunisiens qui veulent intégrer la plus ancienne université de France.',
+  },
+  'universite-de-nantes': {
+    title: 'Nantes Université : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Nantes Université : admission, frais, logement, CHU, Airbus, stages et vie étudiante nantaise. Guide dédié aux étudiants maghrébins.',
+    ogDescription: 'Nantes Université, meilleure ville de France pour la qualité de vie — guide pratique complet pour intégrer l\'université et réussir à Nantes.',
+  },
+  'universite-de-lille': {
+    title: 'Université de Lille : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à l\'Université de Lille : budget le plus bas de France, logement, médecine, position européenne, communauté maghrébine et débouchés.',
+    ogDescription: 'Université de Lille, 75 000 étudiants, 580€/mois de budget — le guide complet pour les étudiants marocains, algériens et tunisiens qui veulent étudier dans la ville la plus abordable de France.',
+  },
+};
 
 export async function generateStaticParams() {
   return getAllUniversitySlugs().map(slug => ({ slug }));
@@ -15,21 +46,24 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const uni = getUniversity(params.slug);
   if (!uni) return {};
-  const title = `${uni.name} : guide étudiant international 2026 | Dalili`;
-  const description = `Tout savoir sur ${uni.name} : frais d'inscription, logement CROUS, budget mensuel à ${uni.city}, programmes et avis d'étudiants.`;
+  const seo = UNI_SEO[params.slug];
+  const title = seo?.title ?? `${uni.name} : guide étudiant international 2026 | Dalili`;
+  const description = seo?.description ?? `Tout savoir sur ${uni.name} : frais d'inscription, logement CROUS, budget mensuel à ${uni.city}, programmes et avis.`;
+  const ogDescription = seo?.ogDescription ?? description;
   return {
     title,
     description,
     alternates: { canonical: `${SITE_URL}/universites/${params.slug}` },
     openGraph: {
-      title, description, url: `${SITE_URL}/universites/${params.slug}`,
-      siteName: 'Dalili', type: 'website',
-      images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 }],
+      title,
+      description: ogDescription,
+      url: `${SITE_URL}/universites/${params.slug}`,
+      siteName: 'Dalili',
+      type: 'article',
+      images: [{ url: `${SITE_URL}${uni.thumbnail}`, width: 1200, height: 675 }],
     },
   };
 }
-
-const ACCENT = '77,143,255';
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -39,11 +73,33 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function UniversityPage({ params }: { params: { slug: string } }) {
+export default async function UniversityPage({ params }: { params: { slug: string } }) {
   const uni = getUniversity(params.slug);
   if (!uni) notFound();
 
-  const jsonLd = {
+  // Load MDX long-form content if available
+  const mdxPath = path.join(process.cwd(), 'content', 'universites', `${params.slug}.mdx`);
+  let mdxContent: React.ReactElement | null = null;
+  let faqItems: { question: string; answer: string }[] = [];
+
+  if (fs.existsSync(mdxPath)) {
+    const raw = fs.readFileSync(mdxPath, 'utf8');
+    faqItems = extractFaqItems(raw);
+    const { content } = await compileMDX({
+      source: raw,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      components: mdxComponents as any,
+      options: {
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+          rehypePlugins: [rehypeSlug],
+        },
+      },
+    });
+    mdxContent = content;
+  }
+
+  const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
@@ -57,14 +113,49 @@ export default function UniversityPage({ params }: { params: { slug: string } })
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
     name: uni.name,
-    address: { '@type': 'PostalAddress', addressLocality: uni.city, addressRegion: uni.region, addressCountry: 'FR' },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: uni.city,
+      addressRegion: uni.region,
+      addressCountry: 'FR',
+    },
     url: uni.websiteUrl,
+    numberOfStudents: uni.students,
+    image: `${SITE_URL}${uni.thumbnail}`,
+    description: UNI_SEO[params.slug]?.description ?? `Guide pour étudier à ${uni.name}`,
   };
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${uni.name} : guide complet étudiant étranger 2026`,
+    description: UNI_SEO[params.slug]?.description ?? `Guide pour étudier à ${uni.name}`,
+    image: `${SITE_URL}${uni.thumbnail}`,
+    author: { '@type': 'Organization', name: 'Dalili', url: SITE_URL },
+    publisher: { '@type': 'Organization', name: 'Dalili', url: SITE_URL },
+    datePublished: '2026-01-01',
+    dateModified: '2026-06-18',
+    mainEntityOfPage: `${SITE_URL}/universites/${params.slug}`,
+  };
+
+  const faqSchema = faqItems.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      }
+    : null;
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(eduSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
@@ -209,13 +300,22 @@ export default function UniversityPage({ params }: { params: { slug: string } })
             </div>
           </section>
 
-          {/* ── Avis Dalili ── */}
+          {/* ── Avis Dalili (résumé court de lib/universities.ts) ── */}
           <section style={{ marginBottom: 56 }}>
             <div style={{ padding: 'clamp(24px,3vw,36px)', background: 'rgba(1,77,248,0.06)', border: '1px solid rgba(77,143,255,0.2)', borderRadius: 20 }}>
               <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#4d8fff', margin: '0 0 16px' }}>★ Avis Dalili</p>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.78)', lineHeight: 1.75, margin: 0 }}>{uni.avis}</p>
             </div>
           </section>
+
+          {/* ── Long-form MDX content ── */}
+          {mdxContent && (
+            <section style={{ marginBottom: 56 }}>
+              <div className="city-mdx-body">
+                {mdxContent}
+              </div>
+            </section>
+          )}
 
           {/* ── Liens officiels ── */}
           <section style={{ marginBottom: 56 }}>
@@ -237,8 +337,7 @@ export default function UniversityPage({ params }: { params: { slug: string } })
                   fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', fontWeight: 500,
                   color: 'rgba(255,255,255,0.72)', textDecoration: 'none',
                   transition: 'border-color 0.2s ease, color 0.2s ease',
-                }}
-                                                >
+                }}>
                   <span>{link.label}</span>
                   <span style={{ color: '#4d8fff', flexShrink: 0 }}>↗</span>
                 </a>
