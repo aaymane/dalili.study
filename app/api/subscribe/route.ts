@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FROM     = "Dalili <bonjour@dalili.study>";
@@ -13,6 +14,16 @@ export async function POST(request: NextRequest) {
 
     if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json({ ok: false, error: "Email invalide." }, { status: 400 });
+    }
+
+    // ── Save to Supabase ─────────────────────────────────────────────────────
+    const { error: dbError } = await supabaseAdmin
+      .from("waitlist")
+      .upsert({ email, source }, { onConflict: "email", ignoreDuplicates: true });
+
+    if (dbError) {
+      console.error("[subscribe] Supabase error:", dbError.message);
+      // Non-blocking: don't fail the request if DB is down — email still sends
     }
 
     const apiKey = process.env.RESEND_API_KEY;
