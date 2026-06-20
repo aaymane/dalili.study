@@ -379,7 +379,7 @@ export default function HeroSection({ revealed = false }) {
               fontFamily: 'var(--font-dm-sans)',
               fontWeight: 400,
               fontSize: 'clamp(0.82rem, 1.3vw, 1.05rem)',
-              color: 'rgba(255,255,255,0.42)',
+              color: 'rgba(255,255,255,0.62)',
               maxWidth: 'min(440px, 88vw)',
               margin: '0 auto',
               lineHeight: 1.75,

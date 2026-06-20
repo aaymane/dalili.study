@@ -54,15 +54,14 @@ function FlyingShape({
     <motion.div
       aria-hidden="true"
       style={{ position: 'absolute', inset: 0 }}
-      initial={{ x: ix, y: iy, rotate: ir, scale: 1.85, opacity: 0, filter: 'blur(18px)' }}
-      animate={{ x: 0,  y: 0,  rotate: 0,  scale: 1,    opacity: 1, filter: 'blur(0px)' }}
+      initial={{ x: ix, y: iy, rotate: ir, scale: 1.85, opacity: 0 }}
+      animate={{ x: 0,  y: 0,  rotate: 0,  scale: 1,    opacity: 1 }}
       transition={{
         x:       { duration: 0.72, delay, ease: SNAP },
         y:       { duration: 0.72, delay, ease: SNAP },
         rotate:  { duration: 0.72, delay, ease: SNAP },
         scale:   { duration: 0.68, delay, ease: EXPO_OUT },
         opacity: { duration: 0.22, delay },
-        filter:  { duration: 0.60, delay: delay + 0.10, ease: 'easeOut' },
       }}
     >
       <svg
@@ -118,10 +117,10 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
           scale: [1, 1.08, 0.95, 1.03, 1],
           transition: { duration: 0.55, times: [0, 0.18, 0.45, 0.70, 1], ease: 'easeOut' },
         });
-      }, 720),
-      setTimeout(() => setPhase('logo'),  1020),
-      setTimeout(() => setPhase('text'),  1320),
-      setTimeout(() => { cb.current(); setShow(false); }, 2650),
+      }, 620),
+      setTimeout(() => setPhase('logo'),   860),
+      setTimeout(() => setPhase('text'),  1020),
+      setTimeout(() => { cb.current(); setShow(false); }, 2100),
     ];
     return () => T.forEach(clearTimeout);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -261,10 +260,10 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
                     <motion.span
                       key={i}
                       variants={{
-                        hidden: { opacity: 0, y: 14, filter: 'blur(6px)' },
+                        hidden: { opacity: 0, y: 14 },
                         show: {
-                          opacity: 1, y: 0, filter: 'blur(0px)',
-                          transition: { duration: 0.44, ease: EXPO_OUT },
+                          opacity: 1, y: 0,
+                          transition: { duration: 0.38, ease: EXPO_OUT },
                         },
                       }}
                       style={{

@@ -114,7 +114,7 @@ export default function Footer() {
             style={{
               fontFamily: 'var(--font-dm-sans)',
               fontSize: '0.8rem',
-              color: 'rgba(77,143,255,0.8)',
+              color: '#4d8fff',
               textDecoration: 'none',
               letterSpacing: '0.04em',
               display: 'flex',
