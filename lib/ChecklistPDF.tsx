@@ -45,7 +45,7 @@ const S = StyleSheet.create({
   logoDot:  { width: 8, height: 8, borderRadius: 4, backgroundColor: BLUE, marginRight: 7 },
   logoText: { color: WHITE, fontSize: 15, fontFamily: 'Helvetica-Bold', letterSpacing: 2 },
   logoUrl:  { color: LIGHT, fontSize: 7.5, marginLeft: 1, marginTop: 2 },
-  pageNum:  { color: FAINT, fontSize: 7.5, fontFamily: 'Helvetica-Bold' },
+  pageNum:  { color: FAINT, fontSize: 7.5, fontFamily: 'Helvetica-Bold', marginRight: 2 },
 
   // ── Page title block ──
   pageBadge: {
@@ -143,7 +143,13 @@ const S = StyleSheet.create({
     padding: 11,
     marginBottom: 14,
   },
-  tipIcon: { color: LIGHT, fontSize: 12, marginRight: 9, marginTop: -1 },
+  tipAccent: {
+    width: 3,
+    borderRadius: 2,
+    backgroundColor: BLUE,
+    marginRight: 10,
+    flexShrink: 0,
+  },
   tipText: { flex: 1, color: DIM, fontSize: 7.5, lineHeight: 1.65, fontFamily: 'Helvetica' },
   tipBold: { color: WHITE, fontFamily: 'Helvetica-Bold' },
 
@@ -266,10 +272,10 @@ function Item({
   );
 }
 
-function Tip({ icon, children }: { icon: string; children: React.ReactNode }) {
+function Tip({ children }: { children: React.ReactNode }) {
   return (
     <View style={S.tip}>
-      <Text style={S.tipIcon}>{icon}</Text>
+      <View style={S.tipAccent} />
       <View style={{ flex: 1 }}>{children}</View>
     </View>
   );
@@ -300,7 +306,7 @@ export function ChecklistPDF() {
           Complète cette liste avant de quitter ton pays
         </Text>
 
-        <Tip icon="💡">
+        <Tip>
           <Text style={S.tipText}>
             <Text style={S.tipBold}>Conseil clé : </Text>
             Commence tes démarches au moins 4 mois à l&apos;avance.
@@ -361,7 +367,7 @@ export function ChecklistPDF() {
           {'A faire dans les 48h et les 3 premiers mois'}
         </Text>
 
-        <Tip icon="⚠️">
+        <Tip>
           <Text style={S.tipText}>
             <Text style={S.tipBold}>URGENT : </Text>
             La validation VLS-TS est obligatoire dans les 3 mois.
@@ -438,7 +444,7 @@ export function ChecklistPDF() {
           {"Ne laisse pas traîner ces démarches"}
         </Text>
 
-        <Tip icon="✅">
+        <Tip>
           <Text style={S.tipText}>
             <Text style={S.tipBold}>Tu y es presque ! </Text>
             Ces démarches sont moins urgentes mais essentielles.
