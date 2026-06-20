@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 type Status = 'pending' | 'invited' | 'converted' | 'unsubscribed';
 
@@ -22,17 +22,11 @@ interface Stats {
   last_30_days: number;
 }
 
-const STATUS_COLORS: Record<Status, string> = {
-  pending:      'rgba(77,143,255,0.15)',
-  invited:      'rgba(99,230,182,0.15)',
-  converted:    'rgba(180,130,255,0.15)',
-  unsubscribed: 'rgba(255,255,255,0.06)',
-};
-const STATUS_TEXT: Record<Status, string> = {
-  pending:      '#4d8fff',
-  invited:      '#63e6b6',
-  converted:    '#b482ff',
-  unsubscribed: 'rgba(255,255,255,0.3)',
+const STATUS_CFG: Record<Status, { bg: string; text: string; dot: string; label: string }> = {
+  pending:      { bg: 'rgba(1,77,248,0.12)',    text: '#4d8fff', dot: '#4d8fff', label: 'En attente' },
+  invited:      { bg: 'rgba(52,211,153,0.12)',  text: '#34d399', dot: '#34d399', label: 'Invité' },
+  converted:    { bg: 'rgba(167,139,250,0.12)', text: '#a78bfa', dot: '#a78bfa', label: 'Converti' },
+  unsubscribed: { bg: 'rgba(255,255,255,0.05)', text: 'rgba(255,255,255,0.3)', dot: 'rgba(255,255,255,0.2)', label: 'Désabonné' },
 };
 
 function fmt(iso: string) {
@@ -42,45 +36,232 @@ function fmt(iso: string) {
   });
 }
 
+function fmtShort(iso: string) {
+  return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+}
+
+function AnimatedNumber({ value }: { value: number }) {
+  const [display, setDisplay] = useState(0);
+  const raf = useRef<number>(0);
+
+  useEffect(() => {
+    const start = display;
+    const end   = value;
+    const dur   = 800;
+    const t0    = performance.now();
+
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(Math.round(start + (end - start) * eased));
+      if (p < 1) raf.current = requestAnimationFrame(tick);
+    };
+
+    raf.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf.current);
+  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return <>{display.toLocaleString('fr-FR')}</>;
+}
+
+// ── Login ──────────────────────────────────────────────────────────────────────
+function LoginScreen({ onAuth }: { onAuth: (token: string) => void }) {
+  const [token, setToken]   = useState('');
+  const [error, setError]   = useState('');
+  const [loading, setLoad]  = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => { inputRef.current?.focus(); }, []);
+
+  const submit = async () => {
+    if (!token.trim() || loading) return;
+    setLoad(true); setError('');
+    const res = await fetch('/api/admin/waitlist', {
+      headers: { 'x-admin-token': token.trim() },
+    });
+    if (res.status === 401) { setError('Token invalide.'); setLoad(false); return; }
+    onAuth(token.trim());
+  };
+
+  return (
+    <div style={{
+      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: '#010510', fontFamily: 'var(--font-dm-sans)',
+      backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(1,77,248,0.14) 0%, transparent 60%)',
+    }}>
+      {/* Grid pattern */}
+      <div style={{
+        position: 'fixed', inset: 0, pointerEvents: 'none',
+        backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px)',
+        backgroundSize: '60px 60px',
+        maskImage: 'radial-gradient(ellipse 60% 50% at 50% 50%,black 20%,transparent 80%)',
+      }} />
+
+      <div style={{ width: '100%', maxWidth: 400, padding: '0 24px', position: 'relative' }}>
+        {/* Logo */}
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 8,
+          }}>
+            <div style={{
+              width: 8, height: 8, borderRadius: '50%', background: '#014df8',
+              boxShadow: '0 0 16px rgba(1,77,248,0.8)',
+            }} />
+            <span style={{
+              fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 20,
+              letterSpacing: '0.24em', color: '#fff',
+            }}>DALILI</span>
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.28)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            Admin Access
+          </div>
+        </div>
+
+        {/* Card */}
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 20, padding: 32,
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04) inset',
+        }}>
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>
+              Token d&apos;accès
+            </label>
+            <input
+              ref={inputRef}
+              type="password"
+              placeholder="••••••••••••••••••••••••••••••••"
+              value={token}
+              onChange={e => { setToken(e.target.value); setError(''); }}
+              onKeyDown={e => e.key === 'Enter' && submit()}
+              style={{
+                width: '100%', boxSizing: 'border-box',
+                padding: '13px 16px',
+                background: 'rgba(255,255,255,0.04)',
+                border: `1px solid ${error ? 'rgba(255,80,80,0.4)' : 'rgba(255,255,255,0.09)'}`,
+                borderRadius: 12, color: '#fff', fontSize: 15,
+                outline: 'none', letterSpacing: '0.08em',
+                transition: 'border-color 0.2s',
+              }}
+              onFocus={e => { if (!error) e.currentTarget.style.borderColor = 'rgba(1,77,248,0.5)'; }}
+              onBlur={e => { e.currentTarget.style.borderColor = error ? 'rgba(255,80,80,0.4)' : 'rgba(255,255,255,0.09)'; }}
+            />
+            {error && (
+              <div style={{ color: '#f87171', fontSize: 12, marginTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#f87171', flexShrink: 0, display: 'inline-block' }} />
+                {error}
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={submit}
+            disabled={loading}
+            style={{
+              width: '100%', padding: '13px 0',
+              background: loading ? 'rgba(1,77,248,0.3)' : 'linear-gradient(135deg,#014df8 0%,#0052cc 100%)',
+              border: 'none', borderRadius: 12,
+              color: '#fff', fontSize: 13, fontWeight: 600,
+              cursor: loading ? 'default' : 'pointer',
+              letterSpacing: '0.08em', textTransform: 'uppercase',
+              boxShadow: loading ? 'none' : '0 8px 32px rgba(1,77,248,0.35)',
+              transition: 'all 0.2s',
+            }}
+          >
+            {loading ? 'Vérification…' : 'Accéder au dashboard'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Stat Card ─────────────────────────────────────────────────────────────────
+function StatCard({ label, value, sub, accent = '#4d8fff', trend }: {
+  label: string; value: number; sub?: string; accent?: string; trend?: number;
+}) {
+  return (
+    <div style={{
+      background: 'rgba(255,255,255,0.025)',
+      border: '1px solid rgba(255,255,255,0.07)',
+      borderRadius: 16, padding: '22px 24px',
+      position: 'relative', overflow: 'hidden',
+      transition: 'border-color 0.2s',
+    }}
+      onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.13)')}
+      onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}
+    >
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${accent}55,transparent)` }} />
+      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>
+        {label}
+      </div>
+      <div style={{ fontSize: 32, fontWeight: 700, color: '#fff', lineHeight: 1, marginBottom: sub ? 6 : 0 }}>
+        <AnimatedNumber value={value} />
+      </div>
+      {sub && (
+        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 4 }}>{sub}</div>
+      )}
+      {trend !== undefined && (
+        <div style={{ position: 'absolute', top: 22, right: 22, fontSize: 12, color: trend >= 0 ? '#34d399' : '#f87171', fontWeight: 600 }}>
+          {trend >= 0 ? '+' : ''}{trend}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Status Badge ──────────────────────────────────────────────────────────────
+function StatusBadge({ status }: { status: Status }) {
+  const c = STATUS_CFG[status];
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      padding: '4px 10px',
+      background: c.bg, borderRadius: 100,
+      fontSize: 11, color: c.text, fontWeight: 500, letterSpacing: '0.04em',
+      whiteSpace: 'nowrap',
+    }}>
+      <span style={{ width: 5, height: 5, borderRadius: '50%', background: c.dot, flexShrink: 0 }} />
+      {c.label}
+    </span>
+  );
+}
+
+// ── Main Dashboard ─────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const [token,    setToken]    = useState('');
   const [authed,   setAuthed]   = useState(false);
-  const [error,    setError]    = useState('');
   const [entries,  setEntries]  = useState<Entry[]>([]);
   const [stats,    setStats]    = useState<Stats | null>(null);
   const [count,    setCount]    = useState(0);
   const [page,     setPage]     = useState(0);
   const [filter,   setFilter]   = useState<Status | ''>('');
+  const [search,   setSearch]   = useState('');
   const [loading,  setLoading]  = useState(false);
   const [updating, setUpdating] = useState<string | null>(null);
 
-  const fetchData = useCallback(async (tk: string, pg = 0, st = filter) => {
+  const fetchData = useCallback(async (tk: string, pg = 0, st: Status | '' = '', q = '') => {
     setLoading(true);
     const params = new URLSearchParams({ page: String(pg), limit: '50' });
     if (st) params.set('status', st);
+    if (q)  params.set('search', q);
 
     const res = await fetch(`/api/admin/waitlist?${params}`, {
       headers: { 'x-admin-token': tk },
     });
-
-    if (res.status === 401) { setError('Token invalide.'); setAuthed(false); setLoading(false); return; }
-
     const json = await res.json();
     setEntries(json.data ?? []);
     setCount(json.count ?? 0);
     setStats(json.stats ?? null);
     setLoading(false);
-  }, [filter]);
+  }, []);
 
-  const login = async () => {
-    if (!token.trim()) return;
-    setError('');
-    const res = await fetch('/api/admin/waitlist', {
-      headers: { 'x-admin-token': token.trim() },
-    });
-    if (res.status === 401) { setError('Token invalide.'); return; }
+  const handleAuth = async (tk: string) => {
+    setToken(tk);
     setAuthed(true);
-    await fetchData(token.trim(), 0, filter);
+    await fetchData(tk, 0, '', '');
   };
 
   const updateStatus = async (id: string, status: Status) => {
@@ -95,7 +276,7 @@ export default function AdminPage() {
   };
 
   const remove = async (id: string) => {
-    if (!confirm('Supprimer cet email ?')) return;
+    if (!confirm('Supprimer cet inscrit de la waitlist ?')) return;
     await fetch('/api/admin/waitlist', {
       method: 'DELETE',
       headers: { 'content-type': 'application/json', 'x-admin-token': token },
@@ -106,309 +287,324 @@ export default function AdminPage() {
   };
 
   const applyFilter = (f: Status | '') => {
-    setFilter(f);
-    setPage(0);
-    fetchData(token, 0, f);
+    setFilter(f); setPage(0);
+    fetchData(token, 0, f, search);
   };
 
   const exportCsv = () => {
-    const csv = [
-      'email,source,status,date',
-      ...entries.map(e =>
-        `${e.email},${e.source},${e.status},"${fmt(e.created_at)}"`
-      ),
-    ].join('\n');
+    const rows = [
+      ['Email', 'Source', 'Statut', 'Date inscription'],
+      ...entries.map(e => [e.email, e.source, e.status, fmt(e.created_at)]),
+    ];
+    const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    a.download = `dalili-waitlist-${new Date().toISOString().slice(0,10)}.csv`;
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+    a.download = `dalili-waitlist-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
   };
 
-  // ── Login screen ────────────────────────────────────────────────────────────
-  if (!authed) return (
-    <div style={{
-      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#010510', fontFamily: 'var(--font-dm-sans)',
-    }}>
-      <div style={{
-        width: '100%', maxWidth: 400, padding: 40,
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: 20,
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <div style={{
-            fontFamily: 'var(--font-montserrat)', fontWeight: 900,
-            fontSize: 24, letterSpacing: '0.2em', color: '#fff', marginBottom: 8,
-          }}>DALILI</div>
-          <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>Admin — Waitlist</div>
-        </div>
+  if (!authed) return <LoginScreen onAuth={handleAuth} />;
 
-        <input
-          type="password"
-          placeholder="Admin token"
-          value={token}
-          onChange={e => setToken(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && login()}
-          style={{
-            width: '100%', boxSizing: 'border-box',
-            padding: '12px 16px',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 10, color: '#fff', fontSize: 14,
-            outline: 'none', marginBottom: error ? 8 : 16,
-          }}
-        />
+  const totalPages = Math.ceil(count / 50);
 
-        {error && (
-          <div style={{ color: '#ff6b6b', fontSize: 12, marginBottom: 12 }}>{error}</div>
-        )}
-
-        <button
-          onClick={login}
-          style={{
-            width: '100%', padding: '12px 0',
-            background: 'linear-gradient(135deg,#014df8,#0052cc)',
-            border: 'none', borderRadius: 10,
-            color: '#fff', fontSize: 14, fontWeight: 600,
-            cursor: 'pointer', letterSpacing: '0.04em',
-          }}
-        >
-          Connexion
-        </button>
-      </div>
-    </div>
-  );
-
-  // ── Dashboard ────────────────────────────────────────────────────────────────
   return (
     <div style={{
       minHeight: '100vh', background: '#010510',
       fontFamily: 'var(--font-dm-sans)', color: '#fff',
-      padding: 'clamp(24px,4vw,48px)',
+      backgroundImage: 'radial-gradient(ellipse 70% 40% at 50% 0%, rgba(1,77,248,0.08) 0%, transparent 60%)',
     }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
-        <div>
-          <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 22, letterSpacing: '0.2em', color: '#fff' }}>
-            DALILI — Admin
-          </div>
-          <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13, marginTop: 4 }}>Waitlist Dashboard</div>
-        </div>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button
-            onClick={exportCsv}
-            style={{
-              padding: '9px 20px',
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 8, color: 'rgba(255,255,255,0.7)',
-              fontSize: 13, cursor: 'pointer',
-            }}
-          >
-            Exporter CSV
-          </button>
-          <button
-            onClick={() => fetchData(token, page, filter)}
-            style={{
-              padding: '9px 20px',
-              background: 'rgba(1,77,248,0.12)',
-              border: '1px solid rgba(1,77,248,0.3)',
-              borderRadius: 8, color: '#4d8fff',
-              fontSize: 13, cursor: 'pointer',
-            }}
-          >
-            Actualiser
-          </button>
-        </div>
-      </div>
+      {/* Grid overlay */}
+      <div style={{
+        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
+        backgroundImage: 'linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px)',
+        backgroundSize: '60px 60px',
+        maskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%,black 0%,transparent 80%)',
+      }} />
 
-      {/* Stats cards */}
-      {stats && (
+      <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(24px,4vw,52px)' }}>
+
+        {/* ── Header ── */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 44, flexWrap: 'wrap', gap: 20 }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+              <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#014df8', boxShadow: '0 0 12px rgba(1,77,248,0.8)' }} />
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 18, letterSpacing: '0.22em', color: '#fff' }}>
+                DALILI
+              </span>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em' }}>/</span>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>Waitlist</span>
+            </div>
+            <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: 12, letterSpacing: '0.04em' }}>
+              {count > 0 ? `${count} inscrits` : 'Dashboard admin'}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <button onClick={exportCsv} style={{
+              display: 'flex', alignItems: 'center', gap: 7,
+              padding: '9px 18px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.09)', borderRadius: 10,
+              color: 'rgba(255,255,255,0.55)', fontSize: 12, cursor: 'pointer',
+              letterSpacing: '0.04em', transition: 'all 0.2s',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)'; }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Exporter CSV
+            </button>
+            <button onClick={() => fetchData(token, page, filter, search)} style={{
+              display: 'flex', alignItems: 'center', gap: 7,
+              padding: '9px 18px',
+              background: 'rgba(1,77,248,0.1)',
+              border: '1px solid rgba(1,77,248,0.28)', borderRadius: 10,
+              color: '#4d8fff', fontSize: 12, cursor: 'pointer',
+              letterSpacing: '0.04em', transition: 'all 0.2s',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(1,77,248,0.18)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(1,77,248,0.1)'; }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+              </svg>
+              Actualiser
+            </button>
+          </div>
+        </div>
+
+        {/* ── Stats ── */}
+        {stats && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))',
+            gap: 14, marginBottom: 40,
+          }}>
+            <StatCard label="Total inscrits"    value={stats.total}       accent="#4d8fff" />
+            <StatCard label="En attente"        value={stats.pending}     accent="#4d8fff"  sub={`${stats.total > 0 ? Math.round(stats.pending / stats.total * 100) : 0}% du total`} />
+            <StatCard label="Invités"           value={stats.invited}     accent="#34d399" />
+            <StatCard label="Convertis"         value={stats.converted}   accent="#a78bfa" />
+            <StatCard label="7 derniers jours"  value={stats.last_7_days} accent="#fbbf24" />
+            <StatCard label="30 derniers jours" value={stats.last_30_days} accent="#f472b6" />
+          </div>
+        )}
+
+        {/* ── Search + Filters ── */}
+        <div style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+          {/* Search */}
+          <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 200 }}>
+            <svg style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.2)' }}
+              width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="text"
+              placeholder="Rechercher un email…"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && fetchData(token, 0, filter, search)}
+              style={{
+                width: '100%', boxSizing: 'border-box',
+                paddingLeft: 36, paddingRight: 14, paddingTop: 9, paddingBottom: 9,
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 10, color: '#fff', fontSize: 13,
+                outline: 'none',
+              }}
+            />
+          </div>
+
+          {/* Filter pills */}
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {(['', 'pending', 'invited', 'converted', 'unsubscribed'] as const).map(f => (
+              <button
+                key={f || 'all'}
+                onClick={() => applyFilter(f as Status | '')}
+                style={{
+                  padding: '7px 16px',
+                  background: filter === f ? 'rgba(1,77,248,0.16)' : 'rgba(255,255,255,0.04)',
+                  border: `1px solid ${filter === f ? 'rgba(1,77,248,0.4)' : 'rgba(255,255,255,0.07)'}`,
+                  borderRadius: 100, color: filter === f ? '#4d8fff' : 'rgba(255,255,255,0.4)',
+                  fontSize: 12, cursor: 'pointer', fontWeight: 500, letterSpacing: '0.04em',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {f === '' ? 'Tous' : STATUS_CFG[f as Status].label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Table ── */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))',
-          gap: 16, marginBottom: 36,
+          background: 'rgba(255,255,255,0.02)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          borderRadius: 18, overflow: 'hidden',
         }}>
-          {[
-            { label: 'Total inscrits',   value: stats.total,      color: '#fff' },
-            { label: 'En attente',       value: stats.pending,    color: '#4d8fff' },
-            { label: 'Invités',          value: stats.invited,    color: '#63e6b6' },
-            { label: 'Convertis',        value: stats.converted,  color: '#b482ff' },
-            { label: '7 derniers jours', value: stats.last_7_days, color: '#ffd166' },
-            { label: '30 derniers jours',value: stats.last_30_days, color: 'rgba(255,255,255,0.5)' },
-          ].map(({ label, value, color }) => (
-            <div key={label} style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.07)',
-              borderRadius: 14, padding: '20px 22px',
-            }}>
-              <div style={{ fontSize: 28, fontWeight: 700, color, marginBottom: 4 }}>
-                {value ?? 0}
+          {/* Table head */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 110px 120px 150px 130px',
+            gap: 12, padding: '12px 24px',
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            background: 'rgba(255,255,255,0.02)',
+          }}>
+            {['Email', 'Source', 'Statut', 'Inscrit le', 'Actions'].map(h => (
+              <span key={h} style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
+                {h}
+              </span>
+            ))}
+          </div>
+
+          {/* Loading */}
+          {loading && (
+            <div style={{ padding: '48px 0', textAlign: 'center' }}>
+              <div style={{ display: 'inline-flex', gap: 6 }}>
+                {[0,1,2].map(i => (
+                  <div key={i} style={{
+                    width: 6, height: 6, borderRadius: '50%', background: '#014df8',
+                    animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
+                  }} />
+                ))}
               </div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em' }}>
-                {label}
+              <style>{`@keyframes bounce { 0%,80%,100%{transform:scale(0.6);opacity:0.3} 40%{transform:scale(1);opacity:1} }`}</style>
+            </div>
+          )}
+
+          {/* Empty */}
+          {!loading && entries.length === 0 && (
+            <div style={{ padding: '64px 0', textAlign: 'center' }}>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.18)', letterSpacing: '0.04em' }}>
+                Aucun inscrit trouvé.
+              </div>
+            </div>
+          )}
+
+          {/* Rows */}
+          {!loading && entries.map((e, i) => (
+            <div
+              key={e.id}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 110px 120px 150px 130px',
+                gap: 12, padding: '13px 24px', alignItems: 'center',
+                borderBottom: i < entries.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                opacity: updating === e.id ? 0.35 : 1,
+                transition: 'background 0.15s, opacity 0.2s',
+              }}
+              onMouseEnter={el => (el.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
+              onMouseLeave={el => (el.currentTarget.style.background = 'transparent')}
+            >
+              {/* Email */}
+              <div style={{ overflow: 'hidden' }}>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.82)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {e.email}
+                </div>
+              </div>
+
+              {/* Source */}
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>
+                {e.source}
+              </div>
+
+              {/* Status */}
+              <div>
+                <StatusBadge status={e.status} />
+              </div>
+
+              {/* Date */}
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)' }}>
+                {fmtShort(e.created_at)}
+              </div>
+
+              {/* Actions */}
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                <select
+                  value={e.status}
+                  onChange={ev => updateStatus(e.id, ev.target.value as Status)}
+                  style={{
+                    flex: 1, padding: '5px 8px',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.09)',
+                    borderRadius: 7, color: 'rgba(255,255,255,0.6)',
+                    fontSize: 11, cursor: 'pointer',
+                    outline: 'none',
+                  }}
+                >
+                  <option value="pending">pending</option>
+                  <option value="invited">invited</option>
+                  <option value="converted">converted</option>
+                  <option value="unsubscribed">unsubscribed</option>
+                </select>
+                <button
+                  onClick={() => remove(e.id)}
+                  title="Supprimer"
+                  style={{
+                    width: 28, height: 28, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(239,68,68,0.07)',
+                    border: '1px solid rgba(239,68,68,0.15)',
+                    color: 'rgba(239,68,68,0.5)', cursor: 'pointer',
+                    transition: 'all 0.15s', flexShrink: 0,
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.15)'; e.currentTarget.style.color = '#ef4444'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.07)'; e.currentTarget.style.color = 'rgba(239,68,68,0.5)'; }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
               </div>
             </div>
           ))}
         </div>
-      )}
 
-      {/* Filters */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
-        {(['', 'pending', 'invited', 'converted', 'unsubscribed'] as const).map(f => (
-          <button
-            key={f || 'all'}
-            onClick={() => applyFilter(f as Status | '')}
-            style={{
-              padding: '6px 16px',
-              background: filter === f ? 'rgba(1,77,248,0.18)' : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${filter === f ? 'rgba(1,77,248,0.4)' : 'rgba(255,255,255,0.08)'}`,
-              borderRadius: 100, color: filter === f ? '#4d8fff' : 'rgba(255,255,255,0.45)',
-              fontSize: 12, cursor: 'pointer', fontWeight: 500,
-            }}
-          >
-            {f || 'Tous'} {f === '' && count > 0 ? `(${count})` : ''}
-          </button>
-        ))}
-      </div>
-
-      {/* Table */}
-      <div style={{
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.07)',
-        borderRadius: 16, overflow: 'hidden',
-      }}>
-        {/* Table header */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 120px 90px 180px 160px',
-          gap: 16, padding: '12px 20px',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-          color: 'rgba(255,255,255,0.3)', fontSize: 11,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-        }}>
-          <span>Email</span>
-          <span>Source</span>
-          <span>Statut</span>
-          <span>Date</span>
-          <span>Actions</span>
-        </div>
-
-        {loading && (
-          <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.25)', fontSize: 14 }}>
-            Chargement…
+        {/* ── Pagination ── */}
+        {totalPages > 1 && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, marginTop: 28 }}>
+            <button
+              disabled={page === 0}
+              onClick={() => { const p = page - 1; setPage(p); fetchData(token, p, filter, search); }}
+              style={{
+                padding: '8px 20px',
+                background: page === 0 ? 'transparent' : 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 9, color: page === 0 ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.55)',
+                fontSize: 12, cursor: page === 0 ? 'default' : 'pointer',
+                transition: 'all 0.15s',
+              }}
+            >
+              ← Précédent
+            </button>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>
+              {page + 1} / {totalPages}
+            </span>
+            <button
+              disabled={(page + 1) * 50 >= count}
+              onClick={() => { const p = page + 1; setPage(p); fetchData(token, p, filter, search); }}
+              style={{
+                padding: '8px 20px',
+                background: (page + 1) * 50 >= count ? 'transparent' : 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 9, color: (page + 1) * 50 >= count ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.55)',
+                fontSize: 12, cursor: (page + 1) * 50 >= count ? 'default' : 'pointer',
+                transition: 'all 0.15s',
+              }}
+            >
+              Suivant →
+            </button>
           </div>
         )}
 
-        {!loading && entries.length === 0 && (
-          <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.25)', fontSize: 14 }}>
-            Aucun inscrit trouvé.
+        {/* ── Footer ── */}
+        <div style={{ marginTop: 52, textAlign: 'center' }}>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.12)', letterSpacing: '0.08em' }}>
+            DALILI Admin · Session sécurisée
           </div>
-        )}
-
-        {!loading && entries.map((e, i) => (
-          <div
-            key={e.id}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 120px 90px 180px 160px',
-              gap: 16, padding: '13px 20px', alignItems: 'center',
-              borderBottom: i < entries.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
-              opacity: updating === e.id ? 0.4 : 1,
-              transition: 'opacity 0.2s',
-            }}
-          >
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {e.email}
-            </span>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.04em' }}>
-              {e.source}
-            </span>
-            <span>
-              <span style={{
-                display: 'inline-block',
-                padding: '3px 10px',
-                background: STATUS_COLORS[e.status],
-                borderRadius: 100, fontSize: 11,
-                color: STATUS_TEXT[e.status],
-                fontWeight: 500, letterSpacing: '0.04em',
-              }}>
-                {e.status}
-              </span>
-            </span>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
-              {fmt(e.created_at)}
-            </span>
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-              <select
-                value={e.status}
-                onChange={ev => updateStatus(e.id, ev.target.value as Status)}
-                style={{
-                  padding: '4px 8px',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 6, color: 'rgba(255,255,255,0.6)',
-                  fontSize: 11, cursor: 'pointer', flex: 1,
-                }}
-              >
-                <option value="pending">pending</option>
-                <option value="invited">invited</option>
-                <option value="converted">converted</option>
-                <option value="unsubscribed">unsubscribed</option>
-              </select>
-              <button
-                onClick={() => remove(e.id)}
-                style={{
-                  padding: '4px 10px',
-                  background: 'rgba(255,80,80,0.08)',
-                  border: '1px solid rgba(255,80,80,0.18)',
-                  borderRadius: 6, color: 'rgba(255,100,100,0.7)',
-                  fontSize: 11, cursor: 'pointer',
-                }}
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
-      {count > 50 && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 24 }}>
-          <button
-            disabled={page === 0}
-            onClick={() => { const p = page - 1; setPage(p); fetchData(token, p, filter); }}
-            style={{
-              padding: '8px 20px',
-              background: page === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 8, color: page === 0 ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.6)',
-              fontSize: 13, cursor: page === 0 ? 'default' : 'pointer',
-            }}
-          >
-            ← Précédent
-          </button>
-          <span style={{ padding: '8px 12px', color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>
-            Page {page + 1} / {Math.ceil(count / 50)}
-          </span>
-          <button
-            disabled={(page + 1) * 50 >= count}
-            onClick={() => { const p = page + 1; setPage(p); fetchData(token, p, filter); }}
-            style={{
-              padding: '8px 20px',
-              background: (page + 1) * 50 >= count ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 8,
-              color: (page + 1) * 50 >= count ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.6)',
-              fontSize: 13, cursor: (page + 1) * 50 >= count ? 'default' : 'pointer',
-            }}
-          >
-            Suivant →
-          </button>
         </div>
-      )}
+
+      </div>
     </div>
   );
 }

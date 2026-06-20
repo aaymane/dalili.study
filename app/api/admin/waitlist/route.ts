@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
   const page   = Math.max(0, parseInt(searchParams.get("page") ?? "0", 10));
   const limit  = Math.min(100, parseInt(searchParams.get("limit") ?? "50", 10));
   const status = searchParams.get("status");
+  const search = searchParams.get("search");
 
   let query = supabaseAdmin
     .from("waitlist")
@@ -28,6 +29,7 @@ export async function GET(request: NextRequest) {
     .range(page * limit, (page + 1) * limit - 1);
 
   if (status) query = query.eq("status", status);
+  if (search) query = query.ilike("email", `%${search}%`);
 
   const { data, error, count } = await query;
 
