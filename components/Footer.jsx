@@ -31,7 +31,7 @@ function MarqueeRow({ items, reverse = false, speed = 40 }) {
             style={{
               whiteSpace: 'nowrap',
               padding: '0 1rem',
-              color: reverse ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.18)',
+              color: reverse ? 'rgba(255,255,255,0.60)' : 'rgba(255,255,255,0.55)',
               fontFamily: reverse ? 'var(--font-montserrat)' : 'var(--font-bebas)',
               fontWeight: reverse ? 400 : 400,
               fontSize: reverse ? '0.72rem' : '1.2rem',
@@ -113,8 +113,8 @@ export default function Footer() {
             href="/checklist"
             style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '0.72rem',
-              color: 'rgba(77,143,255,0.7)',
+              fontSize: '0.8rem',
+              color: 'rgba(77,143,255,0.8)',
               textDecoration: 'none',
               letterSpacing: '0.04em',
               display: 'flex',
@@ -123,7 +123,7 @@ export default function Footer() {
               transition: 'color 0.2s ease',
             }}
             onMouseEnter={e => { e.currentTarget.style.color = 'rgba(77,143,255,1)'; }}
-            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(77,143,255,0.7)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(77,143,255,0.8)'; }}
           >
             <FileText size={13} strokeWidth={2} style={{ flexShrink: 0 }} /> Checklist PDF
           </Link>

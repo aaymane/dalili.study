@@ -81,12 +81,12 @@ const PHONES = [
   { id: 'splash', src: '/images/dalili-splash.jpg', alt: 'Dalili — écran de lancement' },
 ];
 
-function frontPos(w)  { return { left: `calc(95% - ${w}px)`, top: 0,  zIndex: 2 }; }
-function backPos()    { return { left: '5%',                  top: 40, zIndex: 1 }; }
+function frontPos(w)  { return { transform: `translateX(calc(95% - ${w}px))`, zIndex: 2 }; }
+function backPos()    { return { transform: 'translate(5%, 40px)',             zIndex: 1 }; }
 const FRONT_STY = { transform: 'scale(1) rotate(2deg)',     opacity: 1   };
 const BACK_STY  = { transform: 'scale(0.88) rotate(-4deg)', opacity: 0.5 };
 const SWAP_TR   = 'transform 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.6s cubic-bezier(0.4,0,0.2,1)';
-const POS_TR    = 'left 0.6s cubic-bezier(0.4,0,0.2,1), top 0.6s cubic-bezier(0.4,0,0.2,1)';
+const POS_TR    = 'transform 0.6s cubic-bezier(0.4,0,0.2,1)';
 
 // Phone sizes for mobile layout
 const P1_W = 152; // left phone (splash)
@@ -409,21 +409,25 @@ export default function DALILIPhones({ revealed = true }) {
             key={phone.id}
             style={{
               position: 'absolute',
-              left: pos.left, top: pos.top, zIndex: pos.zIndex,
+              left: 0, top: 0,
+              transform: pos.transform,
+              zIndex: pos.zIndex,
               transition: POS_TR,
-              animation: `phoneFloat 4s ease-in-out infinite ${i === 1 ? '0.8s' : '0s'}`,
             }}
           >
-            <div
-              ref={el => { innerRefs.current[i] = el; }}
-              style={{
-                transform: sty.transform, opacity: sty.opacity,
-                transition: SWAP_TR,
-                transformOrigin: 'bottom center',
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              <PhoneShell width={phone.width} src={phone.src} alt={phone.alt} priority={i === 0} />
+            {/* Separate float wrapper so phoneFloat doesn't conflict with POS_TR transform */}
+            <div style={{ animation: `phoneFloat 4s ease-in-out infinite ${i === 1 ? '0.8s' : '0s'}` }}>
+              <div
+                ref={el => { innerRefs.current[i] = el; }}
+                style={{
+                  transform: sty.transform, opacity: sty.opacity,
+                  transition: SWAP_TR,
+                  transformOrigin: 'bottom center',
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                <PhoneShell width={phone.width} src={phone.src} alt={phone.alt} priority={i === 0} />
+              </div>
             </div>
           </div>
         );

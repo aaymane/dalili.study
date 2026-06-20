@@ -377,7 +377,7 @@ export default function HeroSection({ revealed = false }) {
             className="hero-subtitle"
             style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontWeight: 300,
+              fontWeight: 400,
               fontSize: 'clamp(0.82rem, 1.3vw, 1.05rem)',
               color: 'rgba(255,255,255,0.42)',
               maxWidth: 'min(440px, 88vw)',

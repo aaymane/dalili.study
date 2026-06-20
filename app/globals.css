@@ -591,8 +591,8 @@ input[type="email"]:focus {
 /* ─── Badge shimmer ─────────────────────────────────────────── */
 
 @keyframes badgeGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(1,77,248,0); }
-  50%       { box-shadow: 0 0 20px 4px rgba(1,77,248,0.15); }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
 }
 
 @keyframes spin {

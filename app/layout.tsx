@@ -10,8 +10,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
-  weight: ["400", "600", "700", "900"],   // only weights actually used; saves 3 font files
-  display: "swap",
+  weight: ["400", "600", "700", "900"],
+  display: "optional",
   preload: true,
 });
 
@@ -19,7 +19,7 @@ const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   variable: "--font-bebas",
   weight: "400",
-  display: "swap",
+  display: "optional",
   preload: true,
 });
 
@@ -27,8 +27,8 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
   weight: ["300", "400", "500", "600"],
-  display: "swap",
-  preload: false,
+  display: "optional",
+  preload: true,
 });
 
 export const viewport: Viewport = {
