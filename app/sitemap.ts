@@ -23,6 +23,19 @@ const HIGH_PRIORITY_SLUGS = new Set([
   'caf-etudiant-etranger-delais-documents-erreurs',
   // Banque
   'ouvrir-compte-bancaire-etudiant-etranger-2026',
+  // Pays — guides par nationalité
+  'etudier-en-france-depuis-tunisie',
+  'etudier-en-france-depuis-cote-ivoire',
+  'etudier-en-france-depuis-cameroun',
+  // Études & filières
+  'frais-scolarite-universite-france-etudiant-etranger-2026',
+  'medecine-france-etudiant-etranger-guide-complet',
+  'informatique-france-etudiant-etranger',
+  // Campus France & démarches
+  'lettre-motivation-campus-france-exemple-2026',
+  'delf-dalf-vs-tcf-etudiant-etranger-france',
+  'parcoursup-etudiant-etranger-guide-2026',
+  'ofii-validation-visa-etudiant-france-guide',
 ]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -104,6 +117,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified:    now,
       changeFrequency: 'monthly',
       priority:        0.95,
+    },
+    {
+      url:             `${SITE_URL}/pays/etudier-en-france-depuis-tunisie`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+    {
+      url:             `${SITE_URL}/pays/etudier-en-france-depuis-cote-ivoire`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+    {
+      url:             `${SITE_URL}/pays/etudier-en-france-depuis-cameroun`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
     },
 
     // ── Checklist PDF — page conversion principale ───────────────
