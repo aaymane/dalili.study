@@ -47,6 +47,21 @@ export const CLUSTER_MAP: Record<string, string> = {
   'visa-etudiant-france-senegal-2026':                  'senegal',
   'campusfrance-senegal-guide-inscription-dakar':       'senegal',
   'budget-etudiant-senegalais-france-2026':             'senegal',
+  // Tunisie cluster
+  'etudier-en-france-depuis-tunisie':                   'tunisie',
+  // Côte d'Ivoire cluster
+  'etudier-en-france-depuis-cote-ivoire':               'cote-ivoire',
+  // Cameroun cluster
+  'etudier-en-france-depuis-cameroun':                  'cameroun',
+  // Articles généraux visa-campus-france
+  'lettre-motivation-campus-france-exemple-2026':       'visa-campus-france',
+  'delf-dalf-vs-tcf-etudiant-etranger-france':          'visa-campus-france',
+  'parcoursup-etudiant-etranger-guide-2026':            'visa-campus-france',
+  'ofii-validation-visa-etudiant-france-guide':         'visa-campus-france',
+  // Articles études
+  'frais-scolarite-universite-france-etudiant-etranger-2026': 'banque',
+  'medecine-france-etudiant-etranger-guide-complet':    'vie-etudiante',
+  'informatique-france-etudiant-etranger':              'vie-etudiante',
 };
 
 export interface Heading {

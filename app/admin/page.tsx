@@ -88,8 +88,8 @@ function LoginScreen({ onAuth }: { onAuth: (token: string) => void }) {
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: '#010510', fontFamily: 'var(--font-dm-sans)',
       backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(1,77,248,0.14) 0%, transparent 60%)',
+      padding: '24px',
     }}>
-      {/* Grid pattern */}
       <div style={{
         position: 'fixed', inset: 0, pointerEvents: 'none',
         backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px)',
@@ -97,27 +97,17 @@ function LoginScreen({ onAuth }: { onAuth: (token: string) => void }) {
         maskImage: 'radial-gradient(ellipse 60% 50% at 50% 50%,black 20%,transparent 80%)',
       }} />
 
-      <div style={{ width: '100%', maxWidth: 400, padding: '0 24px', position: 'relative' }}>
-        {/* Logo */}
+      <div style={{ width: '100%', maxWidth: 400, position: 'relative' }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 8,
-          }}>
-            <div style={{
-              width: 8, height: 8, borderRadius: '50%', background: '#014df8',
-              boxShadow: '0 0 16px rgba(1,77,248,0.8)',
-            }} />
-            <span style={{
-              fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 20,
-              letterSpacing: '0.24em', color: '#fff',
-            }}>DALILI</span>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#014df8', boxShadow: '0 0 16px rgba(1,77,248,0.8)' }} />
+            <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 20, letterSpacing: '0.24em', color: '#fff' }}>DALILI</span>
           </div>
           <div style={{ color: 'rgba(255,255,255,0.28)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
             Admin Access
           </div>
         </div>
 
-        {/* Card */}
         <div style={{
           background: 'rgba(255,255,255,0.03)',
           border: '1px solid rgba(255,255,255,0.08)',
@@ -200,9 +190,7 @@ function StatCard({ label, value, sub, accent = '#4d8fff', trend }: {
       <div style={{ fontSize: 32, fontWeight: 700, color: '#fff', lineHeight: 1, marginBottom: sub ? 6 : 0 }}>
         <AnimatedNumber value={value} />
       </div>
-      {sub && (
-        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 4 }}>{sub}</div>
-      )}
+      {sub && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 4 }}>{sub}</div>}
       {trend !== undefined && (
         <div style={{ position: 'absolute', top: 22, right: 22, fontSize: 12, color: trend >= 0 ? '#34d399' : '#f87171', fontWeight: 600 }}>
           {trend >= 0 ? '+' : ''}{trend}
@@ -313,18 +301,127 @@ export default function AdminPage() {
       fontFamily: 'var(--font-dm-sans)', color: '#fff',
       backgroundImage: 'radial-gradient(ellipse 70% 40% at 50% 0%, rgba(1,77,248,0.08) 0%, transparent 60%)',
     }}>
-      {/* Grid overlay */}
-      <div style={{
-        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
-        backgroundImage: 'linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px)',
-        backgroundSize: '60px 60px',
-        maskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%,black 0%,transparent 80%)',
-      }} />
+      <style>{`
+        .admin-grid-overlay {
+          position: fixed; inset: 0; pointer-events: none; z-index: 0;
+          background-image: linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);
+          background-size: 60px 60px;
+          mask-image: radial-gradient(ellipse 80% 60% at 50% 0%,black 0%,transparent 80%);
+        }
+        .admin-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 44px;
+          flex-wrap: wrap;
+          gap: 20px;
+        }
+        .admin-header-btns {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        }
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 14px;
+          margin-bottom: 40px;
+        }
+        .filter-outer {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 24px;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+        .filter-pills-wrap {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          padding-bottom: 2px;
+        }
+        .filter-pills {
+          display: flex;
+          gap: 6px;
+          flex-wrap: nowrap;
+        }
+        .table-head {
+          display: grid;
+          grid-template-columns: 1fr 110px 120px 150px 130px;
+          gap: 12px;
+          padding: 12px 24px;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.02);
+        }
+        .table-row {
+          display: grid;
+          grid-template-columns: 1fr 110px 120px 150px 130px;
+          gap: 12px;
+          padding: 13px 24px;
+          align-items: center;
+          transition: background 0.15s, opacity 0.2s;
+        }
+        .table-row:hover { background: rgba(255,255,255,0.02); }
+        .mobile-label {
+          display: none;
+          font-size: 10px;
+          color: rgba(255,255,255,0.25);
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+        }
+        @media (max-width: 700px) {
+          .admin-header {
+            flex-direction: column;
+            margin-bottom: 28px;
+          }
+          .admin-header-btns {
+            width: 100%;
+          }
+          .admin-header-btns button {
+            flex: 1;
+            justify-content: center;
+          }
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+          }
+          .filter-outer {
+            flex-direction: column;
+            align-items: stretch;
+          }
+          .filter-pills-wrap {
+            width: 100%;
+          }
+          .table-head {
+            display: none !important;
+          }
+          .table-row {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 16px 18px !important;
+          }
+          .mobile-label {
+            display: block;
+          }
+          .row-actions-wrap {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+          }
+          .row-actions-wrap select {
+            flex: 1;
+          }
+        }
+      `}</style>
 
-      <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(24px,4vw,52px)' }}>
+      <div className="admin-grid-overlay" />
+
+      <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(20px, 4vw, 52px)' }}>
 
         {/* ── Header ── */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 44, flexWrap: 'wrap', gap: 20 }}>
+        <div className="admin-header">
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
               <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#014df8', boxShadow: '0 0 12px rgba(1,77,248,0.8)' }} />
@@ -339,7 +436,7 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <div className="admin-header-btns">
             <button onClick={exportCsv} style={{
               display: 'flex', alignItems: 'center', gap: 7,
               padding: '9px 18px',
@@ -377,22 +474,18 @@ export default function AdminPage() {
 
         {/* ── Stats ── */}
         {stats && (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))',
-            gap: 14, marginBottom: 40,
-          }}>
-            <StatCard label="Total inscrits"    value={stats.total}       accent="#4d8fff" />
-            <StatCard label="En attente"        value={stats.pending}     accent="#4d8fff"  sub={`${stats.total > 0 ? Math.round(stats.pending / stats.total * 100) : 0}% du total`} />
-            <StatCard label="Invités"           value={stats.invited}     accent="#34d399" />
-            <StatCard label="Convertis"         value={stats.converted}   accent="#a78bfa" />
-            <StatCard label="7 derniers jours"  value={stats.last_7_days} accent="#fbbf24" />
+          <div className="stats-grid">
+            <StatCard label="Total inscrits"    value={stats.total}        accent="#4d8fff" />
+            <StatCard label="En attente"        value={stats.pending}      accent="#4d8fff" sub={`${stats.total > 0 ? Math.round(stats.pending / stats.total * 100) : 0}% du total`} />
+            <StatCard label="Invités"           value={stats.invited}      accent="#34d399" />
+            <StatCard label="Convertis"         value={stats.converted}    accent="#a78bfa" />
+            <StatCard label="7 derniers jours"  value={stats.last_7_days}  accent="#fbbf24" />
             <StatCard label="30 derniers jours" value={stats.last_30_days} accent="#f472b6" />
           </div>
         )}
 
         {/* ── Search + Filters ── */}
-        <div style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div className="filter-outer">
           {/* Search */}
           <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 200 }}>
             <svg style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.2)' }}
@@ -417,23 +510,25 @@ export default function AdminPage() {
           </div>
 
           {/* Filter pills */}
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-            {(['', 'pending', 'invited', 'converted', 'unsubscribed'] as const).map(f => (
-              <button
-                key={f || 'all'}
-                onClick={() => applyFilter(f as Status | '')}
-                style={{
-                  padding: '7px 16px',
-                  background: filter === f ? 'rgba(1,77,248,0.16)' : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${filter === f ? 'rgba(1,77,248,0.4)' : 'rgba(255,255,255,0.07)'}`,
-                  borderRadius: 100, color: filter === f ? '#4d8fff' : 'rgba(255,255,255,0.4)',
-                  fontSize: 12, cursor: 'pointer', fontWeight: 500, letterSpacing: '0.04em',
-                  transition: 'all 0.15s',
-                }}
-              >
-                {f === '' ? 'Tous' : STATUS_CFG[f as Status].label}
-              </button>
-            ))}
+          <div className="filter-pills-wrap">
+            <div className="filter-pills">
+              {(['', 'pending', 'invited', 'converted', 'unsubscribed'] as const).map(f => (
+                <button
+                  key={f || 'all'}
+                  onClick={() => applyFilter(f as Status | '')}
+                  style={{
+                    padding: '7px 16px',
+                    background: filter === f ? 'rgba(1,77,248,0.16)' : 'rgba(255,255,255,0.04)',
+                    border: `1px solid ${filter === f ? 'rgba(1,77,248,0.4)' : 'rgba(255,255,255,0.07)'}`,
+                    borderRadius: 100, color: filter === f ? '#4d8fff' : 'rgba(255,255,255,0.4)',
+                    fontSize: 12, cursor: 'pointer', fontWeight: 500, letterSpacing: '0.04em',
+                    transition: 'all 0.15s', whiteSpace: 'nowrap',
+                  }}
+                >
+                  {f === '' ? 'Tous' : STATUS_CFG[f as Status].label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -443,14 +538,8 @@ export default function AdminPage() {
           border: '1px solid rgba(255,255,255,0.07)',
           borderRadius: 18, overflow: 'hidden',
         }}>
-          {/* Table head */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 110px 120px 150px 130px',
-            gap: 12, padding: '12px 24px',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
-            background: 'rgba(255,255,255,0.02)',
-          }}>
+          {/* Table head — hidden on mobile */}
+          <div className="table-head">
             {['Email', 'Source', 'Statut', 'Inscrit le', 'Actions'].map(h => (
               <span key={h} style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
                 {h}
@@ -486,16 +575,11 @@ export default function AdminPage() {
           {!loading && entries.map((e, i) => (
             <div
               key={e.id}
+              className="table-row"
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 110px 120px 150px 130px',
-                gap: 12, padding: '13px 24px', alignItems: 'center',
                 borderBottom: i < entries.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
                 opacity: updating === e.id ? 0.35 : 1,
-                transition: 'background 0.15s, opacity 0.2s',
               }}
-              onMouseEnter={el => (el.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
-              onMouseLeave={el => (el.currentTarget.style.background = 'transparent')}
             >
               {/* Email */}
               <div style={{ overflow: 'hidden' }}>
@@ -505,27 +589,30 @@ export default function AdminPage() {
               </div>
 
               {/* Source */}
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>
-                {e.source}
+              <div>
+                <span className="mobile-label">Source</span>
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>{e.source}</span>
               </div>
 
               {/* Status */}
               <div>
+                <span className="mobile-label">Statut</span>
                 <StatusBadge status={e.status} />
               </div>
 
               {/* Date */}
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)' }}>
-                {fmtShort(e.created_at)}
+              <div>
+                <span className="mobile-label">Inscrit le</span>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)' }}>{fmtShort(e.created_at)}</span>
               </div>
 
               {/* Actions */}
-              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <div className="row-actions-wrap">
                 <select
                   value={e.status}
                   onChange={ev => updateStatus(e.id, ev.target.value as Status)}
                   style={{
-                    flex: 1, padding: '5px 8px',
+                    padding: '5px 8px',
                     background: 'rgba(255,255,255,0.05)',
                     border: '1px solid rgba(255,255,255,0.09)',
                     borderRadius: 7, color: 'rgba(255,255,255,0.6)',
