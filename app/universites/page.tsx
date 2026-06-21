@@ -6,12 +6,12 @@ import SearchableUniversitesGrid from '@/components/universites/SearchableUniver
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: '9 universités françaises pour étudiants étrangers : guide complet 2026 | Dalili',
-  description: 'Comparez 9 universités françaises : frais de scolarité hors UE, budget mensuel, logement CROUS, programmes phares. Bordeaux, Sorbonne, Lyon 1, Toulouse 3, Montpellier, Strasbourg, Aix-Marseille, Lille, Nantes.',
+  title: '14 universités françaises pour étudiants étrangers : guide complet 2026 | Dalili',
+  description: 'Comparez 14 universités françaises : frais de scolarité hors UE, budget mensuel, logement CROUS, programmes phares. Bordeaux, Sorbonne, Lyon 1, Toulouse 3, Montpellier, Strasbourg, Aix-Marseille, Lille, Nantes, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon.',
   alternates: { canonical: `${SITE_URL}/universites` },
   openGraph: {
-    title: '9 universités françaises pour étudiants étrangers 2026 | Dalili',
-    description: 'Guide complet des universités françaises : Bordeaux, Sorbonne, Lyon 1, Toulouse 3, Montpellier, Strasbourg, Aix-Marseille, Lille, Nantes. Frais, logement, vie étudiante.',
+    title: '14 universités françaises pour étudiants étrangers 2026 | Dalili',
+    description: 'Guide complet des universités françaises : Bordeaux, Sorbonne, Lyon 1, Toulouse 3, Montpellier, Strasbourg, Aix-Marseille, Lille, Nantes, Nice, Rennes, Grenoble, Clermont, Dijon. Frais, logement, vie étudiante.',
     url: `${SITE_URL}/universites`,
     siteName: 'Dalili', type: 'website',
     images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 }],
@@ -39,6 +39,11 @@ const COMPARISON = [
   { slug: 'universite-de-montpellier',name: 'Montpellier', spec: 'Médecine · Pharmacie · Droit', budget: '650–1 050 €', classement: '601–650', note: '4,5/5' },
   { slug: 'universite-de-strasbourg', name: 'Strasbourg',  spec: 'Droit EU · Sciences Po · Chimie', budget: '650–1 000 €', classement: '301–350', note: '4/5' },
   { slug: 'aix-marseille-universite', name: 'Aix-Marseille', spec: 'Médecine · Droit · Sciences', budget: '660–1 100 €', classement: '401–450', note: '4/5' },
+  { slug: 'universite-cote-azur',      name: 'Nice (UCA)',   spec: 'IA · Maths · Droit international', budget: '750–1 200 €', classement: '601–800', note: '4/5' },
+  { slug: 'universite-rennes-1',       name: 'Rennes',       spec: 'Cybersécurité · Droit · Médecine', budget: '600–950 €', classement: '801–1000', note: '4/5' },
+  { slug: 'universite-grenoble-alpes', name: 'Grenoble',     spec: 'Physique · Énergie · Ingénierie', budget: '620–1 000 €', classement: '601–800', note: '4,5/5' },
+  { slug: 'universite-clermont-auvergne', name: 'Clermont',  spec: 'Chimie · Médecine · Michelin', budget: '500–800 €', classement: 'Non classée', note: '3,5/5' },
+  { slug: 'universite-bourgogne',      name: 'Dijon',        spec: 'Droit du vin · Agronomie · Droit', budget: '550–850 €', classement: 'Non classée', note: '3,5/5' },
 ];
 
 export default function UniversitesPage() {

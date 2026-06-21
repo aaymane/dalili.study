@@ -62,6 +62,31 @@ const UNI_SEO: Record<string, { title: string; description: string; ogDescriptio
     description: 'Guide complet pour étudier à Aix-Marseille Université : la plus grande université francophone du monde, 80 000 étudiants, médecine, droit, logement, communauté maghrébine. Guide complet.',
     ogDescription: 'Aix-Marseille Université, plus grande université francophone — guide pratique pour les étudiants marocains et africains : intégration, budget, campus dispersés et vie méditerranéenne.',
   },
+  'universite-cote-azur': {
+    title: "Université Côte d'Azur : guide étudiant étranger 2026 | Dalili",
+    description: "Guide complet pour étudier à l'Université Côte d'Azur à Nice : label IdEx, Sophia Antipolis, frais d'inscription, logement, budget 750-1200€/mois, stages tech. Guide pour étudiants marocains et algériens.",
+    ogDescription: "UCA Nice, label IdEx et Sophia Antipolis à 20 min — guide pratique pour les étudiants maghrébins : admission Campus France, frais, logement tendu et accès aux entreprises tech.",
+  },
+  'universite-rennes-1': {
+    title: 'Université de Rennes : guide étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à l'Université de Rennes : capitale française de la cybersécurité, label Bienvenue en France ⭐⭐⭐, budget 600-950€/mois, IRISA, Orange Cyberdefense. Guide pour étudiants maghrébins.",
+    ogDescription: "Université de Rennes, capital française de la cybersécurité — guide pratique : IRISA, Thales, Orange Cyberdefense, budget ultra-abordable et label Bienvenue en France ⭐⭐⭐.",
+  },
+  'universite-grenoble-alpes': {
+    title: 'Université Grenoble Alpes : guide étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à l'Université Grenoble Alpes : label IdEx, campus ILL/ESRF/CEA uniques en Europe, Schneider Electric, STMicro, Alpes à 30 min. Budget 620-1000€/mois. Guide pour étudiants maghrébins.",
+    ogDescription: "UGA Grenoble, le campus scientifique le plus équipé d&apos;Europe (ILL, ESRF, CEA) — guide pratique pour les étudiants en physique, ingénierie et IA qui veulent étudier en France.",
+  },
+  'universite-clermont-auvergne': {
+    title: 'Université Clermont Auvergne : guide étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à l'Université Clermont Auvergne : la moins chère de France (500€/mois), label IdEx, Michelin siège mondial, logement CROUS 150€. Guide pour étudiants marocains et algériens.",
+    ogDescription: "UCA Clermont, la moins chère de France — 500€/mois budget réel, label IdEx, Michelin sur le campus. Guide pratique pour les étudiants maghrébins avec un budget serré.",
+  },
+  'universite-bourgogne': {
+    title: 'Université de Bourgogne Dijon : guide étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à l'Université de Bourgogne à Dijon : droit viti-vinicole unique au monde, AgroSup Dijon, budget 550-850€/mois, patrimoine UNESCO. Guide pour étudiants maghrébins.",
+    ogDescription: "Université de Bourgogne, droit viti-vinicole unique en France — guide pratique : AgroSup Dijon, budget parmi les plus bas, Dijon UNESCO et 1h35 de Paris en TGV.",
+  },
 };
 
 export async function generateStaticParams() {
