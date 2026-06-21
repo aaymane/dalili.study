@@ -39,7 +39,13 @@ const BlogPreviewSection    = dynamic(() => import('./BlogPreviewSection'),    {
 const EmailCapture          = dynamic(() => import('./EmailCapture'),          { ssr: false });
 const Footer          = dynamic(() => import('./Footer'),          { ssr: false });
 
-export default function ClientHomePage() {
+interface HomePageProps {
+  guidesCount: number;
+  universitesCount: number;
+  villesCount: number;
+}
+
+export default function ClientHomePage({ guidesCount, universitesCount, villesCount }: HomePageProps) {
   const [revealed, setRevealed] = useState(false);
   const [skipIntro, setSkipIntro] = useState(false);
 
@@ -83,9 +89,9 @@ export default function ClientHomePage() {
               flexWrap: 'wrap',
             }}>
               {[
-                { value: '23', label: 'guides publiés' },
-                { value: '4', label: 'universités couvertes' },
-                { value: '4', label: 'villes décryptées' },
+                { value: String(guidesCount), label: 'guides publiés' },
+                { value: String(universitesCount), label: 'universités couvertes' },
+                { value: String(villesCount), label: 'villes décryptées' },
                 { value: '200+', label: 'étudiants inscrits' },
               ].map(stat => (
                 <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

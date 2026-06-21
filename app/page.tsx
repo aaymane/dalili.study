@@ -1,5 +1,8 @@
 import ClientHomePage from '@/components/ClientHomePage';
 import { FAQ_ITEMS } from '@/lib/faq-data';
+import { getAllPosts } from '@/lib/blog';
+import { UNIVERSITIES } from '@/lib/universities';
+import { CITIES } from '@/lib/cities';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -25,6 +28,10 @@ const orgSchema = {
 };
 
 export default function Home() {
+  const guidesCount = getAllPosts().length;
+  const universitesCount = Object.keys(UNIVERSITIES).length;
+  const villesCount = Object.keys(CITIES).length;
+
   return (
     <>
       <script
@@ -35,7 +42,11 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
-      <ClientHomePage />
+      <ClientHomePage
+        guidesCount={guidesCount}
+        universitesCount={universitesCount}
+        villesCount={villesCount}
+      />
     </>
   );
 }
