@@ -7,23 +7,23 @@ import SearchableBlogGrid from '@/components/blog/SearchableBlogGrid';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Blog — Guides pour étudiants maghrébins en France 2026 | Dalili',
+  title: 'Blog — Guides pour étudiants internationaux en France 2026 | Dalili',
   description: 'Guides pratiques visa, logement, CAF, compte bancaire et toutes les démarches — écrits par et pour les étudiants marocains, algériens, tunisiens et égyptiens en France.',
   alternates: {
     canonical: `${SITE_URL}/blog`,
   },
   openGraph: {
-    title: 'Guides pour étudiants maghrébins en France | Dalili',
+    title: 'Guides pour étudiants internationaux en France | Dalili',
     description: 'Visa étudiant, logement, CAF, banque, OFII : guides pratiques pour les étudiants du Maghreb en France.',
     url: `${SITE_URL}/blog`,
     siteName: 'Dalili',
     type: 'website',
-    images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630, alt: 'Dalili Blog — Guides étudiants maghrébins en France' }],
+    images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630, alt: 'Dalili Blog — Guides étudiants internationaux en France' }],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@dalilistudy',
-    title: 'Guides pour étudiants maghrébins en France | Dalili',
+    title: 'Guides pour étudiants internationaux en France | Dalili',
     description: 'Visa étudiant, logement, CAF, banque, OFII : guides pratiques pour les étudiants du Maghreb en France.',
     images: [`${SITE_URL}/og-image.jpg`],
   },
