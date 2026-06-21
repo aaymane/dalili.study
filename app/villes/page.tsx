@@ -6,12 +6,12 @@ import SearchableVillesGrid from '@/components/villes/SearchableVillesGrid';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: '9 villes universitaires en France pour étudiants étrangers 2026 | Dalili',
-  description: 'Comparez 9 villes universitaires françaises : Bordeaux, Paris, Lyon, Nantes, Toulouse, Montpellier, Strasbourg, Lille, Marseille. Coût de la vie, logement, budget mensuel et avis honnêtes.',
+  title: '14 villes universitaires en France pour étudiants étrangers 2026 | Dalili',
+  description: 'Comparez 14 villes universitaires françaises : Paris, Lyon, Bordeaux, Toulouse, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon et plus. Coût de la vie, logement, budget mensuel et avis honnêtes.',
   alternates: { canonical: `${SITE_URL}/villes` },
   openGraph: {
-    title: '9 villes universitaires en France pour étudiants étrangers | Dalili',
-    description: 'Bordeaux, Lyon, Toulouse, Montpellier, Marseille, Strasbourg, Lille, Nantes, Paris — tout comparer avant de choisir votre ville d\'études.',
+    title: '14 villes universitaires en France pour étudiants étrangers | Dalili',
+    description: 'Paris, Lyon, Bordeaux, Toulouse, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon — comparez toutes les villes avant de choisir.',
     url: `${SITE_URL}/villes`, siteName: 'Dalili', type: 'website',
     images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 }],
   },

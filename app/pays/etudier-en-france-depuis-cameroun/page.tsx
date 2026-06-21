@@ -77,7 +77,7 @@ export default function CamerounPage() {
               <tbody>
                 <Row label="Campus France Yaoundé" value="IFC, 140 avenue Ahmadou Ahidjo — campusfrance.yde@ifcameroun.com" />
                 <Row label="Campus France Douala" value="IFC, 61 bis bd de la Liberté, Akwa — campusfrance.dla@ifcameroun.com" />
-                <Row label="Frais dossier CEF" value="75 000 FCFA (~115 €)" />
+                <Row label="Frais dossier CEF" value="85 000 FCFA + 16 000 TLS = 101 000 FCFA (~155 €)" />
                 <Row label="Site officiel Campus France Cameroun" value="cameroun.campusfrance.org" />
                 <Row label="Ambassade de France à Yaoundé" value="Rue Joseph Essono Balla — cm.ambafrance.org" />
               </tbody>

@@ -61,6 +61,31 @@ const CITY_SEO: Record<string, { title: string; description: string; ogDescripti
     description: 'Guide complet pour étudier à Marseille : Aix-Marseille Université, budget, logement, quartiers, communauté maghrébine et soleil méditerranéen. Mis à jour 2026.',
     ogDescription: 'Marseille, porte de la Méditerranée et ville avec la plus grande communauté maghrébine de France — guide pratique pour étudier à Marseille.',
   },
+  'etudier-a-nice': {
+    title: "Étudier à Nice : guide complet étudiant étranger 2026 | Dalili",
+    description: "Guide complet pour étudier à Nice : Université Côte d'Azur (IdEx), budget, logement, Côte d'Azur, aéroport international et stages à Sophia Antipolis. Mis à jour 2026.",
+    ogDescription: "Nice, la Côte d'Azur et l'UCA label d'excellence — guide pratique pour étudier à Nice en tant qu'étudiant marocain, algérien ou tunisien.",
+  },
+  'etudier-a-rennes': {
+    title: 'Étudier à Rennes : guide complet étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à Rennes : Université de Rennes, INSA, budget abordable, logement CROUS, French Tech et vie étudiante bretonne. Mis à jour 2026.",
+    ogDescription: "Rennes, capitale étudiante de Bretagne — guide pratique pour étudier à Rennes avec un budget maîtrisé quand on vient du Maghreb ou d'Afrique.",
+  },
+  'etudier-a-grenoble': {
+    title: 'Étudier à Grenoble : guide complet étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à Grenoble : Grenoble INP, Université Grenoble Alpes, CEA, STMicroelectronics, budget, logement et ski dans les Alpes. Mis à jour 2026.",
+    ogDescription: "Grenoble, capitale mondiale des sciences et de la recherche — guide pratique pour étudier à Grenoble en ingénierie, physique et informatique.",
+  },
+  'etudier-a-clermont-ferrand': {
+    title: 'Étudier à Clermont-Ferrand : guide complet étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à Clermont-Ferrand : Université Clermont Auvergne, Michelin, budget le plus bas de France, logement CROUS et volcans d'Auvergne. Mis à jour 2026.",
+    ogDescription: "Clermont-Ferrand, la ville universitaire la moins chère de France — guide pratique pour étudier avec un budget serré et des entreprises mondiales sur le campus.",
+  },
+  'etudier-a-dijon': {
+    title: 'Étudier à Dijon : guide complet étudiant étranger 2026 | Dalili',
+    description: "Guide complet pour étudier à Dijon : Université de Bourgogne, droit, agronomie, budget abordable, logement et centre historique classé UNESCO. Mis à jour 2026.",
+    ogDescription: "Dijon, capitale des Ducs de Bourgogne et ville étudiante méconnue — guide pratique pour étudier à Dijon en droit, sciences et agronomie.",
+  },
 };
 
 export async function generateStaticParams() {
