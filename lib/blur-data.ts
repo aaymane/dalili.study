@@ -50,5 +50,9 @@ export const BLUR_DATA: Record<string, string> = {
   "/images/blog/algerie-temoignages.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
   "/images/blog/senegal-visa.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
   "/images/blog/senegal-campusfrance.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
-  "/images/blog/senegal-budget.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC"
+  "/images/blog/senegal-budget.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/securite-sociale-css-etudiant-etranger.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/ecole-privee-reconnue-etat.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/arnaques-etudes-france-etranger.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/ecole-privee-vs-universite-publique.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC"
 };
