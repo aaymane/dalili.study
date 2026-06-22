@@ -28,6 +28,37 @@ const jsonLd = {
   ],
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Comment s\'inscrire à Campus France depuis le Maroc ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour s\'inscrire à Campus France depuis le Maroc, rendez-vous sur maroc.campusfrance.org et créez un compte EduFrance. Remplissez votre dossier en ligne avec votre projet d\'études, vos relevés de notes et choisissez jusqu\'à 12 établissements. Les frais de dossier sont de 1 900 MAD.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quels documents faut-il pour le visa étudiant depuis le Maroc ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour le visa étudiant France depuis le Maroc, il faut : un passeport valide, le baccalauréat marocain, les relevés de notes post-bac, une lettre d\'admission d\'un établissement français, des justificatifs de ressources (615 €/mois minimum), une assurance voyage et le reçu des frais de visa (50 €).',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien de temps dure la procédure Campus France Maroc ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La procédure Campus France Maroc dure en général 5 à 10 semaines en période normale : 3 à 6 semaines pour le traitement du dossier et l\'entretien, puis 2 à 4 semaines pour l\'instruction consulaire. En période estivale (juin–août), les délais peuvent atteindre 10 à 14 semaines.',
+      },
+    },
+  ],
+};
+
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -41,6 +72,7 @@ export default function MarocPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>

@@ -28,6 +28,37 @@ const jsonLd = {
   ],
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Comment s\'inscrire à Campus France depuis le Cameroun ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour s\'inscrire à Campus France depuis le Cameroun, rendez-vous sur cameroun.campusfrance.org. La procédure CEF est obligatoire avec deux bureaux : Yaoundé et Douala. Les étudiants anglophones avec un GCE A-Level doivent faire évaluer leurs équivalences dans le dossier CEF.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quels documents faut-il pour le visa étudiant depuis le Cameroun ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour le visa étudiant France depuis le Cameroun, il faut : un passeport valide, l\'attestation Campus France Cameroun favorable, le BAC camerounais ou GCE A-Level, les relevés de notes, une lettre d\'admission française, des justificatifs de ressources et les frais de visa (50 €). Les documents en anglais doivent être traduits pour les étudiants anglophones.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien de temps dure la procédure Campus France Cameroun ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La procédure Campus France Cameroun dure en général 6 à 12 semaines : 3 à 6 semaines pour le dossier CEF et l\'entretien à Yaoundé ou Douala, puis 3 à 6 semaines pour l\'instruction consulaire. Les étudiants anglophones doivent prévoir un délai supplémentaire pour la traduction des documents.',
+      },
+    },
+  ],
+};
+
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -41,6 +72,7 @@ export default function CamerounPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>

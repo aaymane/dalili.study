@@ -28,6 +28,37 @@ const jsonLd = {
   ],
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Comment s\'inscrire à Campus France depuis la Côte d\'Ivoire ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour s\'inscrire à Campus France depuis la Côte d\'Ivoire, rendez-vous sur cotedivoire.campusfrance.org. La procédure CEF est obligatoire : créez votre dossier en ligne, soumettez vos documents et passez l\'entretien au bureau de Campus France Abidjan (Cocody).',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quels documents faut-il pour le visa étudiant depuis la Côte d\'Ivoire ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour le visa étudiant France depuis la Côte d\'Ivoire, il faut : un passeport valide, l\'attestation Campus France Abidjan favorable, le baccalauréat ivoirien, les relevés de notes post-bac, une lettre d\'admission française, des justificatifs de ressources financières et les frais de visa (50 €).',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien de temps dure la procédure Campus France Côte d\'Ivoire ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La procédure Campus France Côte d\'Ivoire dure en général 6 à 12 semaines : 3 à 6 semaines pour le dossier CEF et l\'entretien à Abidjan, puis 3 à 6 semaines pour l\'instruction consulaire au Consulat général de France à Abidjan.',
+      },
+    },
+  ],
+};
+
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -41,6 +72,7 @@ export default function CoteIvoirePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>

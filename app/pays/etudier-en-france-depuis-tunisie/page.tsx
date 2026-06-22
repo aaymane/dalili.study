@@ -28,6 +28,37 @@ const jsonLd = {
   ],
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Comment s\'inscrire à Campus France depuis la Tunisie ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour s\'inscrire à Campus France depuis la Tunisie, rendez-vous sur tn.campusfrance.org. La Tunisie est soumise à la procédure CEF obligatoire. L\'entretien se déroule à Tunis ou à Sfax. Les frais de dossier CEF sont d\'environ 70 TND.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quels documents faut-il pour le visa étudiant depuis la Tunisie ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour le visa étudiant France depuis la Tunisie, il faut : un passeport valide, l\'attestation Campus France Tunis favorable, le baccalauréat tunisien, les relevés de notes, une lettre d\'admission d\'un établissement français, des justificatifs de ressources, une assurance voyage et les frais de visa (50 €).',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien de temps dure la procédure Campus France Tunisie ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La procédure Campus France Tunisie dure en général 6 à 10 semaines : 3 à 5 semaines pour le traitement du dossier et l\'entretien CEF, puis 3 à 5 semaines pour l\'instruction consulaire à Tunis. Les délais sont plus longs de juin à septembre.',
+      },
+    },
+  ],
+};
+
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -41,6 +72,7 @@ export default function TunisiePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>

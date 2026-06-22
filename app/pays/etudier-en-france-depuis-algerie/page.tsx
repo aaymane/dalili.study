@@ -28,6 +28,37 @@ const jsonLd = {
   ],
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Comment s\'inscrire à Campus France depuis l\'Algérie ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour s\'inscrire à Campus France depuis l\'Algérie, rendez-vous sur algerie.campusfrance.org et créez votre dossier CEF en ligne. L\'entretien se déroule à Alger (25 chemin Sfindja) ou à Oran. Les frais de dossier sont d\'environ 85 €.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quels documents faut-il pour le visa étudiant depuis l\'Algérie ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour le visa étudiant France depuis l\'Algérie, il faut : un passeport valide, l\'attestation Campus France CEF favorable, le baccalauréat algérien traduit en français, les relevés de notes, une lettre d\'admission, des justificatifs de ressources et les frais de visa (50 €). Les documents en arabe doivent être traduits par un traducteur assermenté.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien de temps dure la procédure visa étudiant depuis l\'Algérie ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La procédure depuis l\'Algérie dure en général 8 à 14 semaines : 4 à 6 semaines pour Campus France CEF, puis 4 à 8 semaines de délai VFS Global pour le visa consulaire. En été, les délais peuvent atteindre 16 semaines. Il est recommandé de commencer en novembre pour une rentrée en septembre.',
+      },
+    },
+  ],
+};
+
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -41,6 +72,7 @@ export default function AlgeriePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>

@@ -28,6 +28,37 @@ const jsonLd = {
   ],
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Comment s\'inscrire à Campus France depuis le Sénégal ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour s\'inscrire à Campus France depuis le Sénégal, rendez-vous sur senegal.campusfrance.org et créez votre dossier CEF. L\'entretien se déroule à Dakar. La procédure CEF est obligatoire avant tout dépôt de visa.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quels documents faut-il pour le visa étudiant depuis le Sénégal ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Pour le visa étudiant France depuis le Sénégal, il faut : un passeport valide, l\'attestation Campus France Sénégal favorable, le baccalauréat sénégalais, les relevés de notes, une lettre d\'admission d\'un établissement français, des justificatifs de ressources (615 €/mois minimum) et le paiement des frais de visa (50 €).',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien de temps dure la procédure Campus France Sénégal ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La procédure Campus France Sénégal dure en général 6 à 12 semaines : 3 à 5 semaines pour le dossier et l\'entretien CEF à Dakar, puis 3 à 7 semaines pour l\'instruction consulaire. Il est recommandé de commencer 6 mois avant la rentrée souhaitée.',
+      },
+    },
+  ],
+};
+
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -41,6 +72,7 @@ export default function SenegalPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
