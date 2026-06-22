@@ -4,6 +4,17 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 
 type Status = 'pending' | 'invited' | 'converted' | 'unsubscribed';
 
+interface SimulateurData {
+  ville: string;
+  logement: string;
+  niveau: string;
+  pays: string;
+  bourse: string;
+  budget_estime: number;
+  caf_estimee: number;
+  reste: number;
+}
+
 interface Entry {
   id: string;
   email: string;
@@ -11,6 +22,7 @@ interface Entry {
   status: Status;
   created_at: string;
   metadata: Record<string, unknown>;
+  simulateur_data?: SimulateurData | null;
 }
 
 interface Stats {
@@ -364,7 +376,7 @@ export default function AdminPage() {
         .mobile-label {
           display: none;
           font-size: 10px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.55);
           letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-bottom: 4px;
@@ -591,7 +603,14 @@ export default function AdminPage() {
               {/* Source */}
               <div>
                 <span className="mobile-label">Source</span>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>{e.source}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>{e.source}</span>
+                  {e.source === 'simulateur' && e.simulateur_data && (
+                    <span style={{ fontSize: 10, color: 'rgba(77,143,255,0.7)', letterSpacing: '0.04em' }}>
+                      {e.simulateur_data.ville} · {e.simulateur_data.budget_estime}€
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Status */}

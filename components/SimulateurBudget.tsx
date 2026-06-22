@@ -12,48 +12,48 @@ type CityData = {
 };
 
 const CITIES: CityData[] = [
-  { slug: 'etudier-a-bordeaux',       name: 'Bordeaux',          crous: [180,380], coloc: [350,520], studio: [490,750],  habitant: [290,430], transport: 25, food: 260 },
-  { slug: 'etudier-a-paris',          name: 'Paris',             crous: [280,500], coloc: [600,950], studio: [950,1500], habitant: [500,750], transport: 29, food: 350 },
-  { slug: 'etudier-a-nantes',         name: 'Nantes',            crous: [180,350], coloc: [320,490], studio: [440,680],  habitant: [270,400], transport: 22, food: 220 },
-  { slug: 'etudier-a-lyon',           name: 'Lyon',              crous: [200,400], coloc: [380,560], studio: [520,800],  habitant: [320,480], transport: 30, food: 260 },
-  { slug: 'etudier-a-toulouse',       name: 'Toulouse',          crous: [200,400], coloc: [350,520], studio: [480,700],  habitant: [300,450], transport: 28, food: 230 },
-  { slug: 'etudier-a-marseille',      name: 'Marseille',         crous: [180,380], coloc: [350,520], studio: [480,700],  habitant: [290,440], transport: 30, food: 250 },
-  { slug: 'etudier-a-nice',           name: 'Nice',              crous: [200,420], coloc: [450,650], studio: [600,900],  habitant: [390,580], transport: 30, food: 290 },
-  { slug: 'etudier-a-rennes',         name: 'Rennes',            crous: [180,370], coloc: [320,470], studio: [430,620],  habitant: [270,400], transport: 26, food: 210 },
-  { slug: 'etudier-a-grenoble',       name: 'Grenoble',          crous: [180,380], coloc: [330,500], studio: [450,650],  habitant: [280,420], transport: 28, food: 220 },
-  { slug: 'etudier-a-clermont-ferrand', name: 'Clermont-Ferrand', crous: [150,320], coloc: [270,400], studio: [350,520],  habitant: [220,340], transport: 22, food: 200 },
-  { slug: 'etudier-a-montpellier',    name: 'Montpellier',       crous: [180,380], coloc: [360,530], studio: [500,720],  habitant: [300,450], transport: 26, food: 240 },
-  { slug: 'etudier-a-strasbourg',     name: 'Strasbourg',        crous: [190,380], coloc: [340,500], studio: [480,680],  habitant: [290,430], transport: 29, food: 240 },
-  { slug: 'etudier-a-lille',          name: 'Lille',             crous: [170,360], coloc: [310,460], studio: [420,620],  habitant: [260,390], transport: 27, food: 210 },
-  { slug: 'etudier-a-dijon',          name: 'Dijon',             crous: [170,340], coloc: [290,430], studio: [380,550],  habitant: [240,360], transport: 24, food: 200 },
+  { slug: 'etudier-a-bordeaux',         name: 'Bordeaux',           crous: [180,380], coloc: [350,520], studio: [490,750],  habitant: [290,430], transport: 25, food: 260 },
+  { slug: 'etudier-a-paris',            name: 'Paris',              crous: [280,500], coloc: [600,950], studio: [950,1500], habitant: [500,750], transport: 29, food: 350 },
+  { slug: 'etudier-a-nantes',           name: 'Nantes',             crous: [180,350], coloc: [320,490], studio: [440,680],  habitant: [270,400], transport: 22, food: 220 },
+  { slug: 'etudier-a-lyon',             name: 'Lyon',               crous: [200,400], coloc: [380,560], studio: [520,800],  habitant: [320,480], transport: 30, food: 260 },
+  { slug: 'etudier-a-toulouse',         name: 'Toulouse',           crous: [200,400], coloc: [350,520], studio: [480,700],  habitant: [300,450], transport: 28, food: 230 },
+  { slug: 'etudier-a-marseille',        name: 'Marseille',          crous: [180,380], coloc: [350,520], studio: [480,700],  habitant: [290,440], transport: 30, food: 250 },
+  { slug: 'etudier-a-nice',             name: 'Nice',               crous: [200,420], coloc: [450,650], studio: [600,900],  habitant: [390,580], transport: 30, food: 290 },
+  { slug: 'etudier-a-rennes',           name: 'Rennes',             crous: [180,370], coloc: [320,470], studio: [430,620],  habitant: [270,400], transport: 26, food: 210 },
+  { slug: 'etudier-a-grenoble',         name: 'Grenoble',           crous: [180,380], coloc: [330,500], studio: [450,650],  habitant: [280,420], transport: 28, food: 220 },
+  { slug: 'etudier-a-clermont-ferrand', name: 'Clermont-Ferrand',   crous: [150,320], coloc: [270,400], studio: [350,520],  habitant: [220,340], transport: 22, food: 200 },
+  { slug: 'etudier-a-montpellier',      name: 'Montpellier',        crous: [180,380], coloc: [360,530], studio: [500,720],  habitant: [300,450], transport: 26, food: 240 },
+  { slug: 'etudier-a-strasbourg',       name: 'Strasbourg',         crous: [190,380], coloc: [340,500], studio: [480,680],  habitant: [290,430], transport: 29, food: 240 },
+  { slug: 'etudier-a-lille',            name: 'Lille',              crous: [170,360], coloc: [310,460], studio: [420,620],  habitant: [260,390], transport: 27, food: 210 },
+  { slug: 'etudier-a-dijon',            name: 'Dijon',              crous: [170,340], coloc: [290,430], studio: [380,550],  habitant: [240,360], transport: 24, food: 200 },
 ];
 
 const mid = (range: [number, number]) => Math.round((range[0] + range[1]) / 2);
 
 const TUITION_MONTHLY: Record<string, number> = {
-  'licence': Math.round(2895 / 10),
-  'master':  Math.round(3941 / 10),
-  'doctorat': 40,
+  licence:  Math.round(2895 / 10),
+  master:   Math.round(3941 / 10),
+  doctorat: 40,
 };
 
 const CAF_ESTIMATE: Record<string, { min: number; max: number }> = {
-  'crous':    { min: 150, max: 200 },
-  'coloc':    { min: 100, max: 180 },
-  'studio':   { min: 80,  max: 200 },
-  'habitant': { min: 0,   max: 80  },
+  crous:    { min: 150, max: 200 },
+  coloc:    { min: 100, max: 180 },
+  studio:   { min: 80,  max: 200 },
+  habitant: { min: 0,   max: 80  },
 };
 
 const BOURSE_NOTE: Record<string, string> = {
-  'pays':   'Ta bourse nationale couvre tes frais de scolarité — la CAF française reste accessible selon ta situation.',
-  'eiffel': 'La bourse Eiffel (~1 181 €/mois) couvre la majorité de tes dépenses. Tu peux compléter avec la CAF.',
-  'aucune': 'Sans bourse, pense à demander la CAF dès ton arrivée et à vérifier ta situation CSS si tes revenus sont < 868 €/mois.',
+  pays:   'Ta bourse nationale couvre tes frais de scolarité — la CAF française reste accessible selon ta situation.',
+  eiffel: 'La bourse Eiffel (~1 181 €/mois) couvre la majorité de tes dépenses. Tu peux compléter avec la CAF.',
+  aucune: 'Sans bourse, pense à demander la CAF dès ton arrivée et à vérifier ta situation CSS si tes revenus sont < 868 €/mois.',
 };
 
 const STEPS = ['Ville', 'Logement', 'Niveau', 'Origine', 'Bourse'];
 
 type Answers = { ville: string; logement: string; niveau: string; pays: string; bourse: string };
 
-// ── Styles helpers ────────────────────────────────────────────────────────
+// ── Style helpers ─────────────────────────────────────────────────────────
 const card = (selected: boolean): React.CSSProperties => ({
   padding: 'clamp(12px,2vw,18px) clamp(14px,2vw,20px)',
   borderRadius: 14,
@@ -74,50 +74,74 @@ const dot = (selected: boolean): React.CSSProperties => ({
   transition: 'all 0.18s ease',
 });
 
+// ── Component ─────────────────────────────────────────────────────────────
 export default function SimulateurBudget() {
-  const [step, setStep] = useState(0);
+  // steps: 0-4 = questions, 5 = email capture, 6 = results
+  const [step,    setStep]    = useState(0);
   const [visible, setVisible] = useState(true);
   const [answers, setAnswers] = useState<Answers>({ ville: '', logement: '', niveau: '', pays: '', bourse: '' });
-  const [email, setEmail] = useState('');
-  const [emailDone, setEmailDone] = useState(false);
+  const [email,   setEmail]   = useState('');
+  const [sending, setSending] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   const STEP_KEYS: (keyof Answers)[] = ['ville', 'logement', 'niveau', 'pays', 'bourse'];
-  const currentKey = STEP_KEYS[step];
-  const canNext = step < 5 && answers[currentKey] !== '';
+  const currentKey = STEP_KEYS[step] as keyof Answers | undefined;
+  const canNext = step < 5 && currentKey !== undefined && answers[currentKey] !== '';
 
+  // ── Budget calculation ────────────────────────────────────────────────
+  const city     = CITIES.find(c => c.slug === answers.ville);
+  const logement = answers.logement as 'crous' | 'coloc' | 'studio' | 'habitant';
+  const niveau   = answers.niveau   as 'licence' | 'master' | 'doctorat';
+
+  const housing   = city && logement ? mid(city[logement]) : 0;
+  const transport = city ? city.transport : 0;
+  const food      = city ? city.food : 0;
+  const tuition   = TUITION_MONTHLY[niveau] ?? 0;
+  const total     = housing + transport + food + 30 + 20 + 80 + tuition;
+
+  const cafMin = logement ? CAF_ESTIMATE[logement]?.min ?? 0 : 0;
+  const cafMax = logement ? CAF_ESTIMATE[logement]?.max ?? 0 : 0;
+  const cafMid = Math.round((cafMin + cafMax) / 2);
+  const reste  = Math.max(0, total - cafMid);
+
+  const bourseNote = BOURSE_NOTE[answers.bourse] ?? '';
+
+  // ── Navigation helpers ────────────────────────────────────────────────
   const transition = (fn: () => void) => {
     setVisible(false);
     setTimeout(() => { fn(); setVisible(true); }, 180);
   };
 
-  const goNext = () => { if (step < 4) transition(() => setStep(s => s + 1)); else transition(() => setStep(5)); };
-  const goBack = () => { if (step > 0) transition(() => setStep(s => s - 1)); };
-  const goReset = () => transition(() => { setStep(0); setAnswers({ ville: '', logement: '', niveau: '', pays: '', bourse: '' }); setEmail(''); setEmailDone(false); });
+  const goNext  = () => { if (step < 4) transition(() => setStep(s => s + 1)); else transition(() => setStep(5)); };
+  const goBack  = () => { if (step > 0) transition(() => setStep(s => s - 1)); };
+  const goReset = () => transition(() => { setStep(0); setAnswers({ ville: '', logement: '', niveau: '', pays: '', bourse: '' }); setEmail(''); setEmailSent(false); setSending(false); });
+  const select  = (key: keyof Answers, val: string) => setAnswers(a => ({ ...a, [key]: val }));
 
-  const select = (key: keyof Answers, val: string) => setAnswers(a => ({ ...a, [key]: val }));
+  // ── Email submission ──────────────────────────────────────────────────
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.includes('@') || sending) return;
+    setSending(true);
+    try {
+      await fetch('/api/simulateur', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          email, ville: answers.ville, logement: answers.logement,
+          niveau: answers.niveau, pays: answers.pays, bourse: answers.bourse,
+          housing, food, transport, tuition, total, cafMid, reste,
+        }),
+      });
+      setEmailSent(true);
+    } catch {
+      // Non-blocking — always proceed to results
+    } finally {
+      setSending(false);
+      transition(() => setStep(6));
+    }
+  };
 
-  // ── Budget calculation ──────────────────────────────────────────────────
-  const city = CITIES.find(c => c.slug === answers.ville);
-  const logement = answers.logement as 'crous' | 'coloc' | 'studio' | 'habitant';
-  const niveau   = answers.niveau as 'licence' | 'master' | 'doctorat';
-
-  const housing   = city && logement ? mid(city[logement]) : 0;
-  const transport = city ? city.transport : 0;
-  const food      = city ? city.food : 0;
-  const phone     = 30;
-  const sante     = 20;
-  const loisirs   = 80;
-  const tuition   = TUITION_MONTHLY[niveau] ?? 0;
-  const total     = housing + transport + food + phone + sante + loisirs + tuition;
-
-  const cafMin = logement ? CAF_ESTIMATE[logement]?.min ?? 0 : 0;
-  const cafMax = logement ? CAF_ESTIMATE[logement]?.max ?? 0 : 0;
-  const cafMid = Math.round((cafMin + cafMax) / 2);
-  const reste  = total - cafMid;
-
-  const bourseNote = BOURSE_NOTE[answers.bourse] ?? '';
-
-  // ── Keyboard shortcut: Enter to proceed ────────────────────────────────
+  // ── Keyboard shortcut ────────────────────────────────────────────────
   useEffect(() => {
     const handle = (e: KeyboardEvent) => { if (e.key === 'Enter' && canNext) goNext(); };
     window.addEventListener('keydown', handle);
@@ -125,10 +149,11 @@ export default function SimulateurBudget() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canNext, step]);
 
-  // ── Render ──────────────────────────────────────────────────────────────
+  // ── Render ───────────────────────────────────────────────────────────
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 clamp(16px,3vw,24px)' }}>
 
+      {/* ── Questions (steps 0-4) ── */}
       {step < 5 && (
         <>
           {/* Progress bar */}
@@ -169,15 +194,37 @@ export default function SimulateurBudget() {
                 boxShadow: canNext ? '0 4px 24px rgba(1,77,248,0.35)' : 'none',
               }}
             >
-              {step === 4 ? 'Voir mes résultats →' : 'Suivant →'}
+              {step === 4 ? 'Voir mon budget →' : 'Suivant →'}
             </button>
           </div>
         </>
       )}
 
-      {/* ── Results ──────────────────────────────────────────────────────── */}
+      {/* ── Email capture (step 5) ── */}
       {step === 5 && (
         <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(8px)', transition: 'opacity 0.18s ease, transform 0.18s ease' }}>
+          <EmailCaptureStep
+            email={email}
+            setEmail={setEmail}
+            sending={sending}
+            onSubmit={handleEmailSubmit}
+            city={city}
+            total={total}
+          />
+        </div>
+      )}
+
+      {/* ── Results (step 6) ── */}
+      {step === 6 && (
+        <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(8px)', transition: 'opacity 0.18s ease, transform 0.18s ease' }}>
+          {emailSent && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 18px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 12, marginBottom: 24 }}>
+              <span style={{ color: '#22C55E', fontSize: '1rem' }}>📧</span>
+              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.75)' }}>
+                Budget envoyé sur <strong style={{ color: '#fff' }}>{email}</strong> — vérifie ta boîte (et les spams) !
+              </span>
+            </div>
+          )}
           <ResultsPanel
             city={city}
             housing={housing}
@@ -191,14 +238,116 @@ export default function SimulateurBudget() {
             logement={logement}
             bourseNote={bourseNote}
             answers={answers}
-            email={email}
-            setEmail={setEmail}
-            emailDone={emailDone}
-            setEmailDone={setEmailDone}
             onReset={goReset}
           />
         </div>
       )}
+    </div>
+  );
+}
+
+// ── Email capture step ────────────────────────────────────────────────────
+function EmailCaptureStep({
+  email, setEmail, sending, onSubmit, city, total,
+}: {
+  email: string; setEmail: (v: string) => void;
+  sending: boolean; onSubmit: (e: React.FormEvent) => void;
+  city: CityData | undefined; total: number;
+}) {
+  return (
+    <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto' }}>
+
+      {/* Illustration — big number */}
+      <div style={{ marginBottom: 32 }}>
+        <div style={{
+          display: 'inline-flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          width: 120, height: 120, borderRadius: '50%',
+          background: 'radial-gradient(circle at 50% 40%, rgba(1,77,248,0.25) 0%, rgba(1,77,248,0.06) 100%)',
+          border: '1px solid rgba(77,143,255,0.25)',
+          boxShadow: '0 0 48px rgba(1,77,248,0.2)',
+          marginBottom: 0,
+        }}>
+          <span style={{ fontSize: '2.6rem' }}>🎉</span>
+        </div>
+      </div>
+
+      {/* Preview of budget */}
+      {city && total > 0 && (
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '8px 20px', background: 'rgba(1,77,248,0.08)', border: '1px solid rgba(77,143,255,0.2)', borderRadius: 100, marginBottom: 20 }}>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
+            Budget estimé à {city.name}
+          </span>
+          <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: '1.1rem', letterSpacing: '0.04em', color: '#4d8fff' }}>
+            {total} €/mois
+          </span>
+        </div>
+      )}
+
+      <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2rem,5vw,2.8rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 16px', lineHeight: 1.1 }}>
+        Ton budget est prêt !
+      </h2>
+
+      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.9rem,1.8vw,1rem)', color: 'rgba(255,255,255,0.55)', margin: '0 0 36px', lineHeight: 1.75, maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
+        Entre ton email pour recevoir ton estimation complète en PDF + tous les guides dont tu as besoin pour préparer ton arrivée en France.
+      </p>
+
+      <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder="ton@email.com"
+          required
+          autoFocus
+          disabled={sending}
+          style={{
+            width: '100%', maxWidth: 420, boxSizing: 'border-box',
+            padding: '15px 20px', borderRadius: 12,
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.14)',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '1rem',
+            color: '#fff', outline: 'none',
+            transition: 'border-color 0.2s',
+          }}
+          onFocus={e => (e.currentTarget.style.borderColor = 'rgba(77,143,255,0.5)')}
+          onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)')}
+        />
+
+        <button
+          type="submit"
+          disabled={sending || !email.includes('@')}
+          style={{
+            width: '100%', maxWidth: 420,
+            padding: '15px 28px', borderRadius: 12,
+            background: (sending || !email.includes('@'))
+              ? 'rgba(255,255,255,0.07)'
+              : 'linear-gradient(135deg,#014DF8,#4d8fff)',
+            border: 'none',
+            cursor: (sending || !email.includes('@')) ? 'not-allowed' : 'pointer',
+            fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+            fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: (sending || !email.includes('@')) ? 'rgba(255,255,255,0.3)' : '#fff',
+            transition: 'all 0.2s ease',
+            boxShadow: (sending || !email.includes('@')) ? 'none' : '0 4px 28px rgba(1,77,248,0.4)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+          }}
+        >
+          {sending ? (
+            <>
+              <span style={{ display: 'inline-block', width: 16, height: 16, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+              Préparation de ton budget…
+            </>
+          ) : (
+            'Recevoir mon budget gratuit →'
+          )}
+        </button>
+
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
+        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', margin: 0 }}>
+          Gratuit · Pas de spam · Tu peux te désabonner à tout moment
+        </p>
+      </form>
     </div>
   );
 }
@@ -245,10 +394,10 @@ function StepContent({ step, answers, select }: {
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[
-          { val: 'crous', label: 'Résidence CROUS', note: 'Le moins cher — places limitées, à demander très tôt' },
-          { val: 'coloc', label: 'Colocation', note: 'Bon compromis budget/indépendance — très répandu chez les étudiants' },
-          { val: 'studio', label: 'Studio privé', note: 'Plus cher mais plus de liberté — idéal si tu travailles' },
-          { val: 'habitant', label: 'Chez l\'habitant', note: 'Rare en France — coût variable, peu d\'offres sur le marché' },
+          { val: 'crous',    label: 'Résidence CROUS',   note: 'Le moins cher — places limitées, à demander très tôt' },
+          { val: 'coloc',    label: 'Colocation',         note: 'Bon compromis budget/indépendance — très répandu chez les étudiants' },
+          { val: 'studio',   label: 'Studio privé',       note: 'Plus cher mais plus de liberté — idéal si tu travailles' },
+          { val: 'habitant', label: "Chez l'habitant",    note: "Rare en France — coût variable, peu d'offres sur le marché" },
         ].map(o => (
           <button key={o.val} onClick={() => select('logement', o.val)} style={card(answers.logement === o.val)}>
             <div style={dot(answers.logement === o.val)} />
@@ -272,9 +421,9 @@ function StepContent({ step, answers, select }: {
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[
-          { val: 'licence', label: 'Licence (L1, L2, L3)', note: '2 895 €/an — soit ~290 €/mois (source : campusfrance.org 2025-2026)' },
-          { val: 'master',  label: 'Master (M1, M2)',      note: '3 941 €/an — soit ~394 €/mois (source : campusfrance.org 2025-2026)' },
-          { val: 'doctorat', label: 'Doctorat',            note: '~400 €/an — frais proches du tarif national' },
+          { val: 'licence',  label: 'Licence (L1, L2, L3)', note: '2 895 €/an — soit ~290 €/mois (source : campusfrance.org 2025-2026)' },
+          { val: 'master',   label: 'Master (M1, M2)',       note: '3 941 €/an — soit ~394 €/mois (source : campusfrance.org 2025-2026)' },
+          { val: 'doctorat', label: 'Doctorat',              note: '~400 €/an — frais proches du tarif national' },
         ].map(o => (
           <button key={o.val} onClick={() => select('niveau', o.val)} style={card(answers.niveau === o.val)}>
             <div style={dot(answers.niveau === o.val)} />
@@ -298,13 +447,13 @@ function StepContent({ step, answers, select }: {
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 10 }}>
         {[
-          { val: 'maroc',      label: '🇲🇦 Maroc' },
-          { val: 'algerie',    label: '🇩🇿 Algérie' },
-          { val: 'tunisie',    label: '🇹🇳 Tunisie' },
-          { val: 'senegal',    label: '🇸🇳 Sénégal' },
-          { val: 'cote-ivoire', label: "🇨🇮 Côte d'Ivoire" },
-          { val: 'cameroun',   label: '🇨🇲 Cameroun' },
-          { val: 'autre',      label: '🌍 Autre pays' },
+          { val: 'maroc',        label: '🇲🇦 Maroc' },
+          { val: 'algerie',      label: '🇩🇿 Algérie' },
+          { val: 'tunisie',      label: '🇹🇳 Tunisie' },
+          { val: 'senegal',      label: '🇸🇳 Sénégal' },
+          { val: 'cote-ivoire',  label: "🇨🇮 Côte d'Ivoire" },
+          { val: 'cameroun',     label: '🇨🇲 Cameroun' },
+          { val: 'autre',        label: '🌍 Autre pays' },
         ].map(o => (
           <button key={o.val} onClick={() => select('pays', o.val)} style={{ ...card(answers.pays === o.val), justifyContent: 'flex-start' }}>
             <div style={dot(answers.pays === o.val)} />
@@ -329,7 +478,7 @@ function StepContent({ step, answers, select }: {
         {[
           { val: 'pays',   label: 'Boursier du gouvernement de mon pays', note: 'Bourse nationale (BGE, AMCI, MESRS…)' },
           { val: 'eiffel', label: 'Bourse Eiffel (gouvernement français)', note: '~1 181 €/mois, couvre la grande majorité des dépenses' },
-          { val: 'aucune', label: 'Aucune bourse actuellement', note: 'Tu finances tes études toi-même ou via ta famille' },
+          { val: 'aucune', label: 'Aucune bourse actuellement',            note: 'Tu finances tes études toi-même ou via ta famille' },
         ].map(o => (
           <button key={o.val} onClick={() => select('bourse', o.val)} style={card(answers.bourse === o.val)}>
             <div style={dot(answers.bourse === o.val)} />
@@ -349,25 +498,22 @@ function StepContent({ step, answers, select }: {
 // ── Results panel ─────────────────────────────────────────────────────────
 function ResultsPanel({
   city, housing, food, transport, tuition, total,
-  cafMin, cafMax, reste, logement, bourseNote, answers,
-  email, setEmail, emailDone, setEmailDone, onReset,
+  cafMin, cafMax, reste, logement, bourseNote, answers, onReset,
 }: {
   city: CityData | undefined;
   housing: number; food: number; transport: number; tuition: number; total: number;
   cafMin: number; cafMax: number; reste: number;
   logement: string; bourseNote: string;
   answers: Answers;
-  email: string; setEmail: (v: string) => void;
-  emailDone: boolean; setEmailDone: (v: boolean) => void;
   onReset: () => void;
 }) {
   const PAYS_GUIDE: Record<string, { label: string; slug: string }> = {
-    'maroc':       { label: 'Étudier depuis le Maroc', slug: 'etudier-en-france-depuis-le-maroc' },
-    'algerie':     { label: 'Étudier depuis l\'Algérie', slug: 'etudier-en-france-depuis-algerie' },
-    'tunisie':     { label: 'Étudier depuis la Tunisie', slug: 'etudier-en-france-depuis-tunisie' },
-    'senegal':     { label: 'Étudier depuis le Sénégal', slug: 'etudier-en-france-depuis-senegal' },
-    'cote-ivoire': { label: 'Étudier depuis la Côte d\'Ivoire', slug: 'etudier-en-france-depuis-cote-ivoire' },
-    'cameroun':    { label: 'Étudier depuis le Cameroun', slug: 'etudier-en-france-depuis-cameroun' },
+    maroc:       { label: 'Étudier depuis le Maroc',        slug: 'etudier-en-france-depuis-le-maroc' },
+    algerie:     { label: "Étudier depuis l'Algérie",       slug: 'etudier-en-france-depuis-algerie' },
+    tunisie:     { label: 'Étudier depuis la Tunisie',      slug: 'etudier-en-france-depuis-tunisie' },
+    senegal:     { label: 'Étudier depuis le Sénégal',      slug: 'etudier-en-france-depuis-senegal' },
+    'cote-ivoire': { label: "Étudier depuis la Côte d'Ivoire", slug: 'etudier-en-france-depuis-cote-ivoire' },
+    cameroun:    { label: 'Étudier depuis le Cameroun',     slug: 'etudier-en-france-depuis-cameroun' },
   };
   const paysGuide = PAYS_GUIDE[answers.pays];
 
@@ -377,11 +523,6 @@ function ResultsPanel({
       <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: accent ? '#fff' : 'rgba(255,255,255,0.82)' }}>{value}</span>
     </div>
   );
-
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.includes('@')) setEmailDone(true);
-  };
 
   return (
     <div>
@@ -408,7 +549,7 @@ function ResultsPanel({
         {row(`Loyer (${logement === 'crous' ? 'CROUS' : logement === 'coloc' ? 'colocation' : logement === 'studio' ? 'studio privé' : "chez l'habitant"})`, `${housing} €`)}
         {row('Frais de scolarité (mensuel)', `${tuition} €`)}
         {row('Nourriture', `${food} €`)}
-        {row(`Transport (${city?.transport} €/mois inclus)`, `${transport} €`)}
+        {row(`Transport`, `${transport} €`)}
         {row('Téléphone', '30 €')}
         {row('Santé (mutuelle)', '20 €')}
         {row('Loisirs & divers', '80 €')}
@@ -426,9 +567,7 @@ function ResultsPanel({
         {logement !== 'habitant' ? (
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0' }}>
-              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)' }}>
-                APL / CAF (estimation)
-              </span>
+              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)' }}>APL / CAF (estimation)</span>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: '#22C55E' }}>
                 {cafMin > 0 ? `−${cafMin} à −${cafMax} €` : '−0 à −80 €'}
               </span>
@@ -436,19 +575,16 @@ function ResultsPanel({
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', margin: '0 0 12px', lineHeight: 1.6 }}>
               Estimation indicative — montant réel calculé sur{' '}
               <a href="https://www.caf.fr/allocataires/aides-et-demarches/droits-et-prestations/simulateur-de-droits" target="_blank" rel="noopener noreferrer" style={{ color: '#22C55E', textDecoration: 'underline' }}>caf.fr</a>.
-              Varie selon ton loyer exact, tes revenus et ta situation personnelle.
             </p>
             <div style={{ height: 1, background: 'rgba(34,197,94,0.15)', marginBottom: 16 }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.88rem', color: '#fff' }}>RESTE À FINANCER</span>
-              <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: '2rem', letterSpacing: '0.04em', color: reste > 0 ? '#fff' : '#22C55E' }}>
-                ~{reste > 0 ? reste : 0} €
-              </span>
+              <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: '2rem', letterSpacing: '0.04em', color: '#fff' }}>~{reste} €</span>
             </div>
           </>
         ) : (
           <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', margin: '8px 0 0' }}>
-            Le logement chez l&apos;habitant est rarement éligible à l&apos;APL. Vérifie ta situation sur{' '}
+            Le logement chez l&apos;habitant est rarement éligible à l&apos;APL. Vérifie sur{' '}
             <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer" style={{ color: '#22C55E' }}>caf.fr</a>.
           </p>
         )}
@@ -503,58 +639,8 @@ function ResultsPanel({
         )}
       </div>
 
-      {/* Email capture / waitlist */}
-      <div style={{ background: 'rgba(1,77,248,0.07)', border: '1px solid rgba(77,143,255,0.18)', borderRadius: 20, padding: 'clamp(20px,3vw,32px)', marginBottom: 32 }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.8)', margin: '0 0 10px' }}>
-          Rejoindre Dalili
-        </p>
-        <h3 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,3vw,1.8rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 8px' }}>
-          Dalili gère toutes ces démarches pour toi — gratuitement.
-        </h3>
-        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 20px', lineHeight: 1.6 }}>
-          CAF, CROUS, compte bancaire, sécurité sociale — tout en une seule appli, avec des mentors qui sont passés par là avant toi.
-        </p>
-        {!emailDone ? (
-          <form onSubmit={handleEmailSubmit} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="ton@email.com"
-              required
-              style={{
-                flex: 1, minWidth: 200,
-                padding: '12px 16px', borderRadius: 10,
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.12)',
-                fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem',
-                color: '#fff', outline: 'none',
-              }}
-            />
-            <button type="submit" style={{
-              padding: '12px 24px', borderRadius: 10,
-              background: 'linear-gradient(135deg,#014DF8,#4d8fff)',
-              border: 'none', cursor: 'pointer',
-              fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-              fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase',
-              color: '#fff', whiteSpace: 'nowrap',
-              boxShadow: '0 4px 16px rgba(1,77,248,0.3)',
-            }}>
-              Me notifier →
-            </button>
-          </form>
-        ) : (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 10 }}>
-            <span style={{ color: '#22C55E', fontSize: '1.1rem' }}>✓</span>
-            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.75)' }}>
-              Tu es sur la liste — on te prévient dès le lancement !
-            </span>
-          </div>
-        )}
-      </div>
-
       {/* Recommencer */}
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: 'center', marginBottom: 24 }}>
         <button onClick={onReset} style={{
           background: 'none', border: 'none', cursor: 'pointer',
           fontFamily: 'var(--font-montserrat)', fontWeight: 600,
@@ -565,8 +651,8 @@ function ResultsPanel({
         </button>
       </div>
 
-      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.22)', margin: '24px 0 0', lineHeight: 1.7 }}>
-        ⚠️ Estimation indicative — juin 2026. Les frais de scolarité (Licence 2 895 €/an, Master 3 941 €/an) sont actualisés chaque année par le Ministère.
+      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.22)', margin: 0, lineHeight: 1.7 }}>
+        ⚠️ Estimation indicative — juin 2026. Frais de scolarité (Licence 2 895 €/an, Master 3 941 €/an) actualisés chaque année.
         Vérifie sur{' '}
         <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.32)', textDecoration: 'underline' }}>campusfrance.org</a>{' '}
         et{' '}
