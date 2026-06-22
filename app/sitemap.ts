@@ -159,6 +159,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:        0.9,
     },
 
+    // ── Comparateur villes — outil interactif ───────────────────
+    {
+      url:             `${SITE_URL}/comparer`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+
     // ── Checklist PDF — page conversion principale ───────────────
     {
       url:             `${SITE_URL}/checklist`,

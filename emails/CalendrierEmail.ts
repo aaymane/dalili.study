@@ -20,7 +20,7 @@ function stepCard(step: CalendrierStep, last: boolean): string {
     <div style="border-left:3px solid ${color};padding:16px 16px 16px 20px;background:rgba(255,255,255,0.03);border-radius:0 8px 8px 0;margin-bottom:${last ? '0' : '8px'}">
       ${step.isArrivee
         ? `<div style="display:inline-block;padding:2px 10px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);border-radius:100px;margin-bottom:10px">
-             <span style="font-family:${FONT};font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#ef4444">✈️ Arrivée en France</span>
+             <span style="font-family:${FONT};font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#ef4444">Arrivée en France</span>
            </div>`
         : ''}
       <p style="margin:0 0 5px;font-family:${FONT};font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${color}">${step.mois}</p>
@@ -67,5 +67,5 @@ export function renderCalendrierEmail(props: CalendrierEmailProps): string {
     </p>
   `;
 
-  return emailBase(content, `Ton calendrier Campus France ${paysLabel} → ${rentreeLabel} est prêt 🗓️`);
+  return emailBase(content, `Ton calendrier Campus France ${paysLabel} → ${rentreeLabel} est prêt`);
 }

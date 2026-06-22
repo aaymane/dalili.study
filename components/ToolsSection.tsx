@@ -77,16 +77,16 @@ const TOOLS = [
   },
   {
     id:     'comparer',
-    href:   '/villes',
+    href:   '/comparer',
     accent: '#EFB370',
     Icon:   IconBarChart,
     tag:    '03',
     title:  'Comparateur de villes',
-    desc:   'Compare le coût de la vie, le marché étudiant et la qualité de vie entre les villes françaises pour choisir la meilleure.',
-    points: ['Coût de la vie', 'Universités & logement', 'Avis étudiant DALILI'],
-    cta:    'Explorer les villes',
-    badge:  'Bientôt disponible',
-    live:   false,
+    desc:   'Compare 2 ou 3 villes sur le budget, les universités, l\'emploi et la communauté. Recommandation personnalisée en temps réel.',
+    points: ['14 villes comparables', '5 critères clés', 'PDF comparatif par email'],
+    cta:    'Comparer les villes',
+    badge:  'Disponible maintenant',
+    live:   true,
   },
 ] as const;
 

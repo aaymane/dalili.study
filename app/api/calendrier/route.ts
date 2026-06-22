@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
         resend.emails.send({
           from:    FROM,
           to:      email,
-          subject: `Ton calendrier Campus France ${paysInfo.label} → ${rentreeInfo.label} 🗓️`,
+          subject: `Ton calendrier Campus France ${paysInfo.label} → ${rentreeInfo.label}`,
           html:    renderCalendrierEmail({
             paysLabel:    paysInfo.label,
             paysEmoji:    paysInfo.emoji,
