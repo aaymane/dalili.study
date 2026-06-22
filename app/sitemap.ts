@@ -151,6 +151,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:        0.9,
     },
 
+    // ── Calendrier Campus France — outil interactif ─────────────
+    {
+      url:             `${SITE_URL}/calendrier`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+
     // ── Checklist PDF — page conversion principale ───────────────
     {
       url:             `${SITE_URL}/checklist`,
