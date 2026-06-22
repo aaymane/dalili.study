@@ -17,12 +17,26 @@ const faqSchema = {
   })),
 };
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Dalili',
+  alternateName: 'Dalili Study',
+  url: SITE_URL,
+  description: 'Guide complet pour les étudiants internationaux en France — visa, logement, universités, villes.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/blog?q={search_term_string}` },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Dalili',
   url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
+  logo: `${SITE_URL}/icon.svg`,
   description: 'Guide et plateforme pour les étudiants internationaux en France',
   sameAs: [],
 };
@@ -36,11 +50,15 @@ export default function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <ClientHomePage
         guidesCount={guidesCount}

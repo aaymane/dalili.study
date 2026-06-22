@@ -72,12 +72,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
     ],
     apple: [
       { url: '/apple-icon.svg', type: 'image/svg+xml' },
     ],
-    shortcut: '/icon.svg',
+    shortcut: '/favicon.ico',
   },
   openGraph: {
     title: "Dalili — Guide des étudiants internationaux en France",
