@@ -2,6 +2,37 @@ import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont,
 import type { City } from './cities';
 import type { CityScores } from './comparer-scores';
 
+// ── Nettoyage texte WinAnsi ────────────────────────────────────────────────────
+function cleanText(s: string): string {
+  if (!s) return '';
+  return s
+    .replace(/•/g, '-')
+    .replace(/['']/g, "'")
+    .replace(/[""]/g, '"')
+    .replace(/…/g, '...')
+    .replace(/[—–]/g, '-')
+    .replace(/→|➜|➡|►/g, '->')
+    .replace(/[^ -ÿ]/g, '') // supprime tout hors Latin-1
+    .trim();
+}
+
+// ── Logo hexagone DALILI ──────────────────────────────────────────────────────
+function drawLogo(page: PDFPage, cx: number, cy: number, bold: PDFFont) {
+  const r = 17;
+  page.drawEllipse({ x: cx, y: cy, xScale: r, yScale: r, color: rgb(1 / 255, 77 / 255, 248 / 255) });
+  for (let i = 0; i < 6; i++) {
+    const a1 = (Math.PI / 3) * i - Math.PI / 6;
+    const a2 = (Math.PI / 3) * (i + 1) - Math.PI / 6;
+    page.drawLine({
+      start: { x: cx + r * Math.cos(a1), y: cy + r * Math.sin(a1) },
+      end:   { x: cx + r * Math.cos(a2), y: cy + r * Math.sin(a2) },
+      thickness: 2.2,
+      color: rgb(1, 1, 1),
+    });
+  }
+  page.drawText('DALILI', { x: cx + r + 8, y: cy - 8, size: 20, font: bold, color: rgb(1, 1, 1) });
+}
+
 const C_BLUE      = rgb(1 / 255,   77 / 255,  248 / 255);  // #014DF8
 const C_BLUE_DARK = rgb(10 / 255,  22 / 255,  40 / 255);   // #0a1628
 const C_BODY      = rgb(7 / 255,   11 / 255,  24 / 255);   // #070b18
@@ -88,7 +119,7 @@ export async function generateComparateurPDF(
     const { W } = ctx;
     const CW = W - MARGIN * 2;
     fillRect(ctx, 0, 3, 0, W, C_BLUE);
-    centered(ctx, 'DALILI  ·  dalili.study  ·  Suite', 20, 8, bold, C_BLUE);
+    centered(ctx, 'DALILI  |  dalili.study  |  Suite', 20, 8, bold, C_BLUE);
     fillRect(ctx, 28, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
     return [ctx, MARGIN + 18];
   };
@@ -102,12 +133,11 @@ export async function generateComparateurPDF(
   // Header
   fillRect(ctx, 0, HEADER_H, 0, W, C_BLUE_DARK);
   fillRect(ctx, 0, 3, 0, W, C_BLUE);
-  centered(ctx, 'DALILI', 48, 22, bold, C_WHITE);
-  fillRect(ctx, 56, 2, W / 2 - 18, 36, C_BLUE);
-  centered(ctx, 'dalili.study', 70, 9, norm, C_BLUE);
-  centered(ctx, 'COMPARATIF VILLES ETUDIANTES', 88, 7.5, norm, C_MID);
-  const titre = villes.map(v => v.city.name).join(' vs ');
-  centered(ctx, titre, 108, 14, bold, C_WHITE);
+  drawLogo(ctx.page, W / 2 - 55, H - 52, bold);
+  centered(ctx, 'dalili.study', 78, 9, norm, C_BLUE);
+  centered(ctx, 'COMPARATIF VILLES ETUDIANTES', 95, 7.5, norm, C_MID);
+  const titre = cleanText(villes.map(v => v.city.name).join(' vs '));
+  centered(ctx, titre, 112, 13, bold, C_WHITE);
 
   let y = HEADER_H + 18;
   fillRect(ctx, y, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
@@ -132,7 +162,7 @@ export async function generateComparateurPDF(
   villes.forEach((v, i) => {
     const cc = hexToRgb(v.color);
     fillRect(ctx, y, 16, MARGIN + colW * (i + 1), colW, cc);
-    txt(ctx, v.city.name, y + 11, MARGIN + colW * (i + 1) + 4, 8.5, bold, C_WHITE);
+    txt(ctx, cleanText(v.city.name), y + 11, MARGIN + colW * (i + 1) + 4, 8.5, bold, C_WHITE);
   });
   y += 16;
 
@@ -141,7 +171,7 @@ export async function generateComparateurPDF(
     txt(ctx, label, y + 10, MARGIN + 4, 8, norm, C_MID);
     villes.forEach((v, i) => {
       const val  = v.city[key];
-      const text = typeof val === 'number' ? `${val} EUR` : String(val ?? '-');
+      const text = typeof val === 'number' ? `${val} EUR` : cleanText(String(val ?? '-'));
       txt(ctx, text, y + 10, MARGIN + colW * (i + 1) + 4, 8, norm, C_WHITE);
     });
     y += 15;
@@ -165,7 +195,7 @@ export async function generateComparateurPDF(
 
   fillRect(ctx, y, 15, MARGIN, CW, C_ROW_HEAD);
   villes.forEach((v, i) => {
-    txt(ctx, v.city.name, y + 10, MARGIN + colW * (i + 1) + 4, 8.5, bold, C_WHITE);
+    txt(ctx, cleanText(v.city.name), y + 10, MARGIN + colW * (i + 1) + 4, 8.5, bold, C_WHITE);
   });
   y += 15;
 
@@ -193,7 +223,7 @@ export async function generateComparateurPDF(
 
   villes.forEach((v, i) => {
     fillRect(ctx, y, 14, MARGIN + advColW * i, advColW, hexToRgb(v.color));
-    txt(ctx, v.city.name, y + 10, MARGIN + advColW * i + 5, 8.5, bold, C_WHITE);
+    txt(ctx, cleanText(v.city.name), y + 10, MARGIN + advColW * i + 5, 8.5, bold, C_WHITE);
   });
   y += 14;
 
@@ -201,16 +231,16 @@ export async function generateComparateurPDF(
   for (let row = 0; row < maxRows; row++) {
     if (y + 22 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
     villes.forEach((v, i) => {
-      const pro = v.city.pros[row];
-      const con = v.city.cons[row];
+      const rawPro = v.city.pros[row] ? cleanText(v.city.pros[row]) : '';
+      const rawCon = v.city.cons[row] ? cleanText(v.city.cons[row]) : '';
       const xBase = MARGIN + advColW * i + 4;
-      if (pro) {
-        const proTxt = pro.length > 55 ? pro.slice(0, 55) + '...' : pro;
+      if (rawPro) {
+        const proTxt = rawPro.length > 55 ? rawPro.slice(0, 55) + '...' : rawPro;
         txt(ctx, `+ ${proTxt}`, y + 8, xBase, 6.5, norm, C_GREEN);
         y += 10;
       }
-      if (con) {
-        const conTxt = con.length > 55 ? con.slice(0, 55) + '...' : con;
+      if (rawCon) {
+        const conTxt = rawCon.length > 55 ? rawCon.slice(0, 55) + '...' : rawCon;
         txt(ctx, `- ${conTxt}`, y + 8, xBase, 6.5, norm, C_ORANGE);
         y += 10;
       }
@@ -228,9 +258,10 @@ export async function generateComparateurPDF(
 
   for (const v of villes) {
     if (y + 45 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
-    txt(ctx, v.city.name, y + 9, MARGIN, 9, bold, C_WHITE);
+    txt(ctx, cleanText(v.city.name), y + 9, MARGIN, 9, bold, C_WHITE);
     y += 12;
-    const avis = v.city.avis.slice(0, 250) + (v.city.avis.length > 250 ? '...' : '');
+    const rawAvis = cleanText(v.city.avis);
+    const avis = rawAvis.slice(0, 250) + (rawAvis.length > 250 ? '...' : '');
     const lines = Math.ceil(avis.length / 90);
     // Draw avis line by line (basic wrap approximation)
     const charsPerLine = 90;
@@ -253,7 +284,7 @@ export async function generateComparateurPDF(
   txt(ctx, 'RECOMMANDATION DALILI', y, MARGIN, 8, bold, C_GOLD);
   y += 13;
 
-  const recoText = recommandation.replace(/\*\*/g, '').slice(0, 380);
+  const recoText = cleanText(recommandation.replace(/\*\*/g, '')).slice(0, 380);
   const recoLines = Math.ceil(recoText.length / 88);
   const charsPerLine = 88;
   for (let i = 0; i < recoLines && i < 6; i++) {
@@ -276,11 +307,11 @@ export async function generateComparateurPDF(
   txt(ctx, 'Guides utiles :', y, MARGIN, 7.5, norm, C_MID);
   y += 10;
   blogLinks.forEach(link => {
-    txt(ctx, `•  ${link}`, y, MARGIN + 4, 7, norm, C_BLUE);
+    txt(ctx, `-  ${link}`, y, MARGIN + 4, 7, norm, C_BLUE);
     y += 9;
   });
   y += 6;
-  centered(ctx, 'dalili.study  ·  Comparatif genere gratuitement  ·  2026', y, 7.5, norm, C_MID);
+  centered(ctx, 'dalili.study  |  Comparatif genere gratuitement  |  2026', y, 7.5, norm, C_MID);
 
   const pdfBytes = await pdfDoc.save();
   return Buffer.from(pdfBytes);

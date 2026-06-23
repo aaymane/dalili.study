@@ -1,6 +1,37 @@
 import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont, type RGB } from 'pdf-lib';
 import type { CalendrierStep } from './calendrier-data';
 
+// ── Nettoyage texte WinAnsi ────────────────────────────────────────────────────
+function cleanText(s: string): string {
+  if (!s) return '';
+  return s
+    .replace(/•/g, '-')
+    .replace(/['']/g, "'")
+    .replace(/[""]/g, '"')
+    .replace(/…/g, '...')
+    .replace(/[—–]/g, '-')
+    .replace(/→|➜|➡|►/g, '->')
+    .replace(/[^ -ÿ]/g, '') // supprime tout hors Latin-1
+    .trim();
+}
+
+// ── Logo hexagone DALILI ──────────────────────────────────────────────────────
+function drawLogo(page: PDFPage, cx: number, cy: number, bold: PDFFont) {
+  const r = 17;
+  page.drawEllipse({ x: cx, y: cy, xScale: r, yScale: r, color: rgb(1 / 255, 77 / 255, 248 / 255) });
+  for (let i = 0; i < 6; i++) {
+    const a1 = (Math.PI / 3) * i - Math.PI / 6;
+    const a2 = (Math.PI / 3) * (i + 1) - Math.PI / 6;
+    page.drawLine({
+      start: { x: cx + r * Math.cos(a1), y: cy + r * Math.sin(a1) },
+      end:   { x: cx + r * Math.cos(a2), y: cy + r * Math.sin(a2) },
+      thickness: 2.2,
+      color: rgb(1, 1, 1),
+    });
+  }
+  page.drawText('DALILI', { x: cx + r + 8, y: cy - 8, size: 20, font: bold, color: rgb(1, 1, 1) });
+}
+
 const C_BLUE      = rgb(1 / 255,   77 / 255,  248 / 255);  // #014DF8
 const C_BLUE_DARK = rgb(10 / 255,  22 / 255,  40 / 255);   // #0a1628
 const C_BODY      = rgb(7 / 255,   11 / 255,  24 / 255);   // #070b18
@@ -43,12 +74,10 @@ function drawHeader(ctx: PageCtx, paysLabel: string, rentreeLabel: string) {
   fillRect(ctx, 0, HEADER_H, 0, W, C_BLUE_DARK);
   fillRect(ctx, 0, 3, 0, W, C_BLUE);
 
-  centered(ctx, 'DALILI', 48, 22, ctx.bold, C_WHITE);
-  fillRect(ctx, 56, 2, W / 2 - 18, 36, C_BLUE);
-  centered(ctx, 'dalili.study', 70, 9, ctx.norm, C_BLUE);
-
-  centered(ctx, 'TON CALENDRIER PERSONNALISE', 92, 7.5, ctx.norm, C_MID);
-  centered(ctx, `${paysLabel}  —  ${rentreeLabel}`, 108, 14, ctx.bold, C_WHITE);
+  drawLogo(ctx.page, W / 2 - 55, H - 52, ctx.bold);
+  centered(ctx, 'dalili.study', 78, 9, ctx.norm, C_BLUE);
+  centered(ctx, 'TON CALENDRIER PERSONNALISE', 95, 7.5, ctx.norm, C_MID);
+  centered(ctx, cleanText(`${paysLabel}  -  ${rentreeLabel}`), 112, 13, ctx.bold, C_WHITE);
 }
 
 export async function generateCalendrierPDF(
@@ -85,7 +114,7 @@ export async function generateCalendrierPDF(
     ctx = { page: page, bold, norm, W, H };
     fillRect(ctx, 0, H, 0, W, C_BODY);
     fillRect(ctx, 0, 3, 0, W, C_BLUE);
-    centered(ctx, 'DALILI  ·  dalili.study  ·  Suite', 22, 8, bold, C_BLUE);
+    centered(ctx, 'DALILI  |  dalili.study  |  Suite', 22, 8, bold, C_BLUE);
     fillRect(ctx, 30, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
     return MARGIN + 14;
   };
@@ -94,8 +123,8 @@ export async function generateCalendrierPDF(
 
   let y = HEADER_H + 18;
 
-  // Summary line
-  txt(ctx, `${paysEmoji}  ${etapes.length} etapes  ·  De ${etapes[0]?.mois} a ${etapes[etapes.length - 1]?.mois}`, y, MARGIN, 8.5, norm, C_MID);
+  // Summary line (pas d'emoji pays — non encodable WinAnsi)
+  txt(ctx, cleanText(`${etapes.length} etapes  |  De ${etapes[0]?.mois} a ${etapes[etapes.length - 1]?.mois}`), y, MARGIN, 8.5, norm, C_MID);
   y += 12;
 
   // Legend
@@ -119,11 +148,10 @@ export async function generateCalendrierPDF(
   for (const step of etapes) {
     const urgColor = URGENCE_COLOR[step.urgence] ?? C_BLUE;
 
-    // Truncate description to avoid overflow
+    // Nettoie et tronque la description
     const maxDescLen = 120;
-    const desc = step.description.length > maxDescLen
-      ? step.description.slice(0, maxDescLen) + '...'
-      : step.description;
+    const rawDesc = cleanText(step.description);
+    const desc = rawDesc.length > maxDescLen ? rawDesc.slice(0, maxDescLen) + '...' : rawDesc;
 
     // Page break check
     if (y + CARD_H > H - FOOTER_H) {
@@ -146,12 +174,13 @@ export async function generateCalendrierPDF(
     }
 
     // Month
-    txt(ctx, step.mois.toUpperCase(), cy + 9, cx, 7.5, bold, urgColor);
+    txt(ctx, cleanText(step.mois.toUpperCase()), cy + 9, cx, 7.5, bold, urgColor);
     cy += 14;
 
-    // Action (truncated if needed)
+    // Action (nettoie + tronque)
     const actionMax = 75;
-    const action = step.action.length > actionMax ? step.action.slice(0, actionMax) + '...' : step.action;
+    const rawAction = cleanText(step.action);
+    const action = rawAction.length > actionMax ? rawAction.slice(0, actionMax) + '...' : rawAction;
     txt(ctx, action, cy + 10, cx, 10.5, bold, C_WHITE);
     cy += 14;
 
@@ -160,7 +189,7 @@ export async function generateCalendrierPDF(
 
     // Link
     if (step.lien) {
-      txt(ctx, `Voir : ${step.lien.label}`, y + CARD_H - 8, cx, 7.5, bold, urgColor);
+      txt(ctx, `Voir : ${cleanText(step.lien.label)}`, y + CARD_H - 8, cx, 7.5, bold, urgColor);
     }
 
     y += CARD_H + CARD_GAP;
