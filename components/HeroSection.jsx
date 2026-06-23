@@ -8,14 +8,14 @@ import DALILIPhones from './DALILIPhones';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false });
+const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false, loading: () => null });
 const ParisSkyline   = dynamic(() => import('./ParisSkyline'),   { ssr: false });
 
 // Mobile-first sizes: clamp(mobile, fluid, desktop) — bigger on mobile
 const LINES = [
   { text: 'TON',     color: '#ffffff',               size: 'clamp(5.2rem,13.5vw,16rem)', ls: '0.01em' },
   { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(5.2rem,13.5vw,16rem)', ls: '0.01em' },
-  { text: 'POUR LA', color: 'rgba(255,255,255,0.5)', size: 'clamp(2.6rem,6.5vw,7.5rem)',  ls: '0.04em' },
+  { text: 'POUR LA', color: 'rgba(255,255,255,0.75)', size: 'clamp(2.6rem,6.5vw,7.5rem)',  ls: '0.04em' },
   { text: 'FRANCE.', color: '#014df8',               size: 'clamp(4.6rem,12vw,14rem)',    ls: '0.01em' },
 ];
 

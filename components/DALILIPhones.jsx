@@ -336,7 +336,7 @@ export default function DALILIPhones({ revealed = true }) {
             ref={phone1InnerRef}
             style={{ willChange: 'transform, opacity', display: 'inline-block' }}
           >
-            <PhoneShell width={P1_W} src={PHONES[1].src} alt={PHONES[1].alt} />
+            <PhoneShell width={P1_W} src={PHONES[1].src} alt={PHONES[1].alt} priority={true} />
           </div>
         </div>
 
