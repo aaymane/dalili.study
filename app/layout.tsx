@@ -121,6 +121,8 @@ export default function RootLayout({
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="preload" href="/images/logo-dalili.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/plane-parts/fichier1.webp" as="image" type="image/webp" media="(min-width: 768px)" />
+        {/* Critical CSS inline — prevents FOUC before globals.css loads */}
+        <style dangerouslySetInnerHTML={{ __html: `*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:auto!important}body{background:#010510;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}` }} />
       </head>
       <body className="bg-[#010510] text-white antialiased overflow-x-hidden">
         {/* Skip to main content — screen readers & keyboard users */}

@@ -26,7 +26,7 @@ export function Callout({ children, type = 'info' }) {
       <div style={{
         fontFamily: 'var(--font-dm-sans)',
         fontSize: '0.9rem', fontWeight: 400,
-        lineHeight: 1.7, color: 'rgba(255,255,255,0.88)',
+        lineHeight: 1.7, color: 'rgba(255,255,255,0.92)',
       }}>
         {children}
       </div>
@@ -64,7 +64,7 @@ const mdxComponents = {
       fontWeight: 700,
       fontSize: 'clamp(0.95rem,1.5vw,1.1rem)',
       letterSpacing: '0.01em',
-      color: 'rgba(255,255,255,0.88)',
+      color: '#ffffff',
       margin: '1.8em 0 0.4em',
     }}>{children}</h3>
   ),
@@ -86,7 +86,7 @@ const mdxComponents = {
       fontWeight: 400,
       fontSize: 'clamp(0.9rem,1.2vw,1rem)',
       lineHeight: 1.85,
-      color: 'rgba(255,255,255,0.88)',
+      color: 'rgba(255,255,255,0.92)',
       margin: '0 0 1.2em',
     }}>{children}</p>
   ),
@@ -99,7 +99,7 @@ const mdxComponents = {
   ),
 
   em: ({ children }) => (
-    <em style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.78)' }}>{children}</em>
+    <em style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.92)' }}>{children}</em>
   ),
 
   // Default values make href/children optional in the inferred parameter type,
@@ -139,7 +139,7 @@ const mdxComponents = {
       fontWeight: 400,
       fontSize: 'clamp(0.88rem,1.2vw,0.98rem)',
       lineHeight: 1.75,
-      color: 'rgba(255,255,255,0.88)',
+      color: 'rgba(255,255,255,0.92)',
       display: 'flex', gap: 10, alignItems: 'flex-start',
       marginBottom: '0.55em',
     }}>
@@ -166,7 +166,7 @@ const mdxComponents = {
         fontFamily: 'var(--font-dm-sans)',
         fontSize: '0.95rem', fontWeight: 400,
         lineHeight: 1.75, fontStyle: 'italic',
-        color: 'rgba(255,255,255,0.82)',
+        color: 'rgba(255,255,255,0.92)',
       }}>{children}</div>
     </blockquote>
   ),
@@ -235,7 +235,7 @@ const mdxComponents = {
   td: ({ children }) => (
     <td style={{
       padding: '10px 16px',
-      color: 'rgba(255,255,255,0.88)',
+      color: 'rgba(255,255,255,0.92)',
       fontWeight: 400,
       borderBottom: '1px solid rgba(255,255,255,0.05)',
     }}>{children}</td>

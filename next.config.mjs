@@ -5,6 +5,8 @@ const nextConfig = {
 
   experimental: {
     serverComponentsExternalPackages: ['@react-pdf/renderer', '@resvg/resvg-js'],
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
 
   compiler: {
