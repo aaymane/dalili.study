@@ -170,7 +170,7 @@ export default function SimulateurBudget() {
       });
 
       const data = await response.json();
-      console.log('[Simulateur] API response:', data);
+      console.log('🔵 Réponse API simulateur:', JSON.stringify(data));
 
       if (response.ok && data.ok) {
         setEmailSent(true);

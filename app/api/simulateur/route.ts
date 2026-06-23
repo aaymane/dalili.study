@@ -50,12 +50,12 @@ const PAYS_LABELS: Record<string, string> = {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('🚀 ROUTE SIMULATEUR APPELÉE');
     const body = await request.json();
-    console.log('=== API SIMULATEUR ===');
-    console.log('Body reçu:', JSON.stringify(body));
+    console.log('📦 Body complet:', JSON.stringify(body));
 
     const email          = String(body.email          ?? '').trim().toLowerCase();
-    console.log('Email destinataire:', email);
+    console.log('📧 Email extrait:', email || '⚠️ UNDEFINED/VIDE');
     const ville          = String(body.ville          ?? '').trim();
     const logement       = String(body.logement       ?? '').trim();
     const niveau         = String(body.niveau         ?? '').trim();
@@ -99,16 +99,17 @@ export async function POST(request: NextRequest) {
 
     // ── Send emails via Resend ────────────────────────────────────────────
     const apiKey = process.env.RESEND_API_KEY;
+    console.log('🔑 RESEND_API_KEY présente:', apiKey ? `oui (${apiKey.slice(0,8)}...)` : '❌ NON — manquante');
     if (!apiKey) {
-      console.error('[simulateur] RESEND_API_KEY not set');
-      return NextResponse.json({ ok: true });
+      console.error('❌ RESEND_API_KEY non définie — email non envoyé');
+      return NextResponse.json({ ok: false, success: false, error: 'RESEND_API_KEY non configurée.' }, { status: 500 });
     }
 
     const resend    = new Resend(apiKey);
     const timestamp = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
     try {
-      // Generate budget PDF attachment
+      console.log('🔄 Génération PDF...');
       const pdfBuffer = await generateSimulateurPDF({
         villeName, logementName, niveauName, paysName, paySlug: pays,
         paiement_frais, housing, food, transport,
@@ -116,9 +117,10 @@ export async function POST(request: NextRequest) {
         totalDepenses: total, cafEstimee: cafMid, resteAFinancer: reste,
       });
 
-      console.log('[simulateur] PDF generated, size:', pdfBuffer.length, 'bytes');
+      console.log('✅ PDF généré:', pdfBuffer.length, 'bytes');
+      console.log('📤 Envoi Resend vers:', email);
 
-      await Promise.all([
+      const [adminResult, userResult] = await Promise.all([
 
         // ── Admin notification ────────────────────────────────────────────
         resend.emails.send({
@@ -178,12 +180,16 @@ export async function POST(request: NextRequest) {
 
       ]);
 
-      console.log('[simulateur] Emails sent to:', email, '| Ville:', villeName, '| Budget:', total, '€');
-    } catch (resendErr) {
-      console.error('[simulateur] Resend error:', JSON.stringify(resendErr, null, 2));
+      console.log('✅ Resend admin result:', JSON.stringify(adminResult));
+      console.log('✅ Resend user result:', JSON.stringify(userResult));
+      console.log('✅ Emails envoyés à:', email, '| Ville:', villeName, '| Budget:', total, '€');
+    } catch (resendErr: unknown) {
+      const msg = resendErr instanceof Error ? resendErr.message : JSON.stringify(resendErr);
+      console.error('❌ Erreur Resend:', msg);
+      return NextResponse.json({ ok: false, success: false, error: `Erreur envoi email: ${msg}` }, { status: 500 });
     }
 
-    console.log('[simulateur] Done — returning ok:true to client');
+    console.log('🏁 Route terminée — ok:true envoyé au client');
     return NextResponse.json({ ok: true, success: true });
   } catch (err) {
     console.error('[simulateur]', err);

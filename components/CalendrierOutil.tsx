@@ -212,13 +212,25 @@ export default function CalendrierOutil() {
     if (!email.includes('@') || sending) return;
     setSending(true);
     try {
-      await fetch('/api/calendrier', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email, pays, rentree }),
+      const payload = { email, pays, rentree };
+      console.log('[Calendrier] Envoi payload:', JSON.stringify(payload));
+      const response = await fetch('/api/calendrier', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
       });
-      setSent(true);
-    } catch { /* non-blocking */ } finally {
+      const data = await response.json();
+      console.log('🔵 Réponse API calendrier:', JSON.stringify(data));
+      if (response.ok && data.ok) {
+        setSent(true);
+      } else {
+        console.error('[Calendrier] Erreur API:', data);
+        alert('Erreur envoi email: ' + JSON.stringify(data));
+      }
+    } catch (error) {
+      console.error('[Calendrier] Fetch error:', error);
+      alert('Erreur réseau: ' + error);
+    } finally {
       setSending(false);
     }
   }
