@@ -43,13 +43,20 @@ function buildRecommandation(slugs: string[], recoSlug: string): string {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('🚀 ROUTE COMPARER APPELÉE');
     const body   = await request.json();
+    console.log('📦 Body complet:', JSON.stringify(body));
+
     const email  = String(body.email  ?? '').trim().toLowerCase();
     const villesParam: string[] = Array.isArray(body.villes)
       ? body.villes.map((v: unknown) => String(v).trim())
       : [];
 
+    console.log('📧 Email extrait:', email || '⚠️ UNDEFINED/VIDE');
+    console.log('🏙️ Villes:', villesParam);
+
     if (!email || !EMAIL_RE.test(email)) {
+      console.log('❌ Email invalide — rejet');
       return NextResponse.json({ ok: false, error: 'Email invalide.' }, { status: 400 });
     }
 
@@ -82,45 +89,57 @@ export async function POST(request: NextRequest) {
 
     // ── Send emails ──────────────────────────────────────────────────────
     const apiKey = process.env.RESEND_API_KEY;
+    console.log('🔑 RESEND_API_KEY présente:', apiKey ? `oui (${apiKey.slice(0,8)}...)` : '❌ NON — manquante');
     if (!apiKey) {
-      console.error('[comparer] RESEND_API_KEY not set');
-      return NextResponse.json({ ok: true });
+      console.error('❌ RESEND_API_KEY non définie — email non envoyé');
+      return NextResponse.json({ ok: false, error: 'RESEND_API_KEY non configurée.' }, { status: 500 });
     }
 
     const resend    = new Resend(apiKey);
     const timestamp = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
+    // Build email data (needed for both PDF and email)
+    const villesEmailData = slugs.map((slug) => {
+      const city   = CITIES[slug]!;
+      const scores = getScores(slug);
+      return {
+        nom:           city.name,
+        slug:          city.slug,
+        budgetMin:     city.monthlyBudgetMin,
+        budgetMax:     city.monthlyBudgetMax,
+        avantages:     city.pros,
+        inconvenients: city.cons,
+        avis:          city.avis,
+        scoreBudget:   scores.budget,
+        scoreEmploi:   scores.emploi,
+      };
+    });
+
+    const titreVilles = villesEmailData.map(v => v.nom).join(' vs ');
+
+    // ── ÉTAPE 1 : Génération PDF ─────────────────────────────────────────
+    let pdfBuffer: Buffer;
     try {
-      // Build PDF data
+      console.log('🔄 Génération PDF comparateur...');
       const villesPDFData = slugs.map((slug, idx) => ({
         city:     CITIES[slug]!,
         scores:   getScores(slug),
         color:    VILLE_COLORS[idx] ?? VILLE_COLORS[0],
         recoBest: slug === recoSlug,
       }));
+      pdfBuffer = await generateComparateurPDF(villesPDFData, recommandation);
+      console.log('✅ PDF généré:', pdfBuffer.length, 'bytes');
+    } catch (pdfErr: unknown) {
+      const msg = pdfErr instanceof Error ? pdfErr.message : JSON.stringify(pdfErr);
+      console.error('❌ Erreur PDF:', msg);
+      return NextResponse.json({ ok: false, error: `Erreur génération PDF: ${msg}` }, { status: 500 });
+    }
 
-      const pdfBuffer = await generateComparateurPDF(villesPDFData, recommandation);
+    // ── ÉTAPE 2 : Envoi emails via Resend ────────────────────────────────
+    try {
+      console.log('📤 Envoi Resend vers:', email, '| Villes:', titreVilles);
 
-      // Build email data
-      const villesEmailData = slugs.map((slug) => {
-        const city   = CITIES[slug]!;
-        const scores = getScores(slug);
-        return {
-          nom:           city.name,
-          slug:          city.slug,
-          budgetMin:     city.monthlyBudgetMin,
-          budgetMax:     city.monthlyBudgetMax,
-          avantages:     city.pros,
-          inconvenients: city.cons,
-          avis:          city.avis,
-          scoreBudget:   scores.budget,
-          scoreEmploi:   scores.emploi,
-        };
-      });
-
-      const titreVilles = villesEmailData.map(v => v.nom).join(' vs ');
-
-      await Promise.all([
+      const [adminResult, userResult] = await Promise.all([
 
         // ── Admin notification ───────────────────────────────────────────
         resend.emails.send({
@@ -171,12 +190,17 @@ export async function POST(request: NextRequest) {
 
       ]);
 
-      console.log('[comparer] Done:', email, titreVilles);
-    } catch (resendErr) {
-      console.error('[comparer] Resend error:', JSON.stringify(resendErr, null, 2));
+      console.log('✅ Resend result admin:', JSON.stringify(adminResult));
+      console.log('✅ Resend result user:', JSON.stringify(userResult));
+      console.log('✅ Emails envoyés à:', email, '|', titreVilles);
+    } catch (resendErr: unknown) {
+      const msg = resendErr instanceof Error ? resendErr.message : JSON.stringify(resendErr);
+      console.error('❌ Erreur Resend:', msg);
+      return NextResponse.json({ ok: false, error: `Erreur envoi email: ${msg}` }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true });
+    console.log('🏁 Comparer terminé — ok:true');
+    return NextResponse.json({ ok: true, success: true });
   } catch (err) {
     console.error('[comparer]', err);
     return NextResponse.json({ ok: false, error: 'Erreur serveur.' }, { status: 500 });

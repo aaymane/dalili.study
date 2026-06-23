@@ -108,18 +108,26 @@ export async function POST(request: NextRequest) {
     const resend    = new Resend(apiKey);
     const timestamp = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
+    // ── ÉTAPE 1 : Génération PDF ──────────────────────────────────────────
+    let pdfBuffer: Buffer;
     try {
       console.log('🔄 Génération PDF...');
-      const pdfBuffer = await generateSimulateurPDF({
+      pdfBuffer = await generateSimulateurPDF({
         villeName, logementName, niveauName, paysName, paySlug: pays,
         paiement_frais, housing, food, transport,
         tuitionMonthly, tuitionAnnual, cvecMonthly,
         totalDepenses: total, cafEstimee: cafMid, resteAFinancer: reste,
       });
-
       console.log('✅ PDF généré:', pdfBuffer.length, 'bytes');
-      console.log('📤 Envoi Resend vers:', email);
+    } catch (pdfErr: unknown) {
+      const msg = pdfErr instanceof Error ? pdfErr.message : JSON.stringify(pdfErr);
+      console.error('❌ Erreur PDF:', msg);
+      return NextResponse.json({ ok: false, success: false, error: `Erreur génération PDF: ${msg}` }, { status: 500 });
+    }
 
+    // ── ÉTAPE 2 : Envoi emails via Resend ────────────────────────────────
+    try {
+      console.log('📤 Envoi Resend vers:', email);
       const [adminResult, userResult] = await Promise.all([
 
         // ── Admin notification ────────────────────────────────────────────
@@ -180,16 +188,15 @@ export async function POST(request: NextRequest) {
 
       ]);
 
-      console.log('✅ Resend admin result:', JSON.stringify(adminResult));
-      console.log('✅ Resend user result:', JSON.stringify(userResult));
-      console.log('✅ Emails envoyés à:', email, '| Ville:', villeName, '| Budget:', total, '€');
+      console.log('✅ Resend result admin:', JSON.stringify(adminResult));
+      console.log('✅ Resend result user:', JSON.stringify(userResult));
     } catch (resendErr: unknown) {
       const msg = resendErr instanceof Error ? resendErr.message : JSON.stringify(resendErr);
       console.error('❌ Erreur Resend:', msg);
       return NextResponse.json({ ok: false, success: false, error: `Erreur envoi email: ${msg}` }, { status: 500 });
     }
 
-    console.log('🏁 Route terminée — ok:true envoyé au client');
+    console.log('🏁 Simulateur terminé — ok:true');
     return NextResponse.json({ ok: true, success: true });
   } catch (err) {
     console.error('[simulateur]', err);

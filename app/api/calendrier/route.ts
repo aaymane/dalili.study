@@ -59,15 +59,25 @@ export async function POST(request: NextRequest) {
     const resend    = new Resend(apiKey);
     const timestamp = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
+    // ── ÉTAPE 1 : Génération PDF ─────────────────────────────────────────
+    let pdfBuffer: Buffer;
     try {
       console.log('🔄 Génération PDF calendrier...');
-      const pdfBuffer = await generateCalendrierPDF(
+      pdfBuffer = await generateCalendrierPDF(
         paysInfo.label,
         paysInfo.emoji,
         rentreeInfo.label,
         etapes,
       );
       console.log('✅ PDF généré:', pdfBuffer.length, 'bytes');
+    } catch (pdfErr: unknown) {
+      const msg = pdfErr instanceof Error ? pdfErr.message : JSON.stringify(pdfErr);
+      console.error('❌ Erreur PDF:', msg);
+      return NextResponse.json({ ok: false, error: `Erreur génération PDF: ${msg}` }, { status: 500 });
+    }
+
+    // ── ÉTAPE 2 : Envoi emails via Resend ────────────────────────────────
+    try {
       console.log('📤 Envoi Resend vers:', email);
 
       const [adminResult, userResult] = await Promise.all([

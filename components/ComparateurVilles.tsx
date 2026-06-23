@@ -168,13 +168,25 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
     if (!email.includes('@') || sending) return;
     setSending(true);
     try {
-      await fetch('/api/comparer', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email, villes: selected }),
+      const payload = { email, villes: selected };
+      console.log('[Comparer] Envoi payload:', JSON.stringify(payload));
+      const response = await fetch('/api/comparer', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
       });
-      setSent(true);
-    } catch { /* non-blocking */ } finally {
+      const data = await response.json();
+      console.log('🔵 Réponse API comparer:', JSON.stringify(data));
+      if (response.ok && data.ok) {
+        setSent(true);
+      } else {
+        console.error('[Comparer] Erreur API:', data);
+        alert('Erreur envoi email: ' + JSON.stringify(data));
+      }
+    } catch (error) {
+      console.error('[Comparer] Fetch error:', error);
+      alert('Erreur réseau: ' + error);
+    } finally {
       setSending(false);
     }
   }
