@@ -4,7 +4,7 @@ const nextConfig = {
   compress: true,
 
   experimental: {
-    serverComponentsExternalPackages: ['@react-pdf/renderer'],
+    serverComponentsExternalPackages: ['@react-pdf/renderer', '@resvg/resvg-js'],
   },
 
   compiler: {

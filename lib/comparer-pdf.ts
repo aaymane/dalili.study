@@ -1,6 +1,7 @@
-import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont, type RGB } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont, type PDFImage, type RGB } from 'pdf-lib';
 import type { City } from './cities';
 import type { CityScores } from './comparer-scores';
+import { getDaliliLogoPng } from './pdf-logo';
 
 // ── Nettoyage texte WinAnsi ────────────────────────────────────────────────────
 function cleanText(s: string): string {
@@ -16,20 +17,11 @@ function cleanText(s: string): string {
     .trim();
 }
 
-// ── Logo DALILI — SVG paths identiques à ChecklistPDF ────────────────────────
-function drawLogo(page: PDFPage, startX: number, centerY: number, bold: PDFFont, norm: PDFFont) {
-  const s   = 22 / 71;
-  const xP  = startX + s;
-  const yP  = centerY + 11 + 105 * s;
-  page.drawSvgPath(
-    'M45.83,124.17h-13.08s-12.61,12.62-12.61,12.62l6.87,6.9,10.2-10.03c.93-.48,3.49-.48,4.16.29l11.98,13.73-12.33,12.45c-1.41,1.43-2.43,2.99-4.05,4.34h-16.74c-1.73-1.43-2.84-2.99-4.25-4.58-5.09-5.75-10.17-11.5-15.26-17.25-.21-.22-.38-.39-.5-.5-.05-.04-.11-.1-.21-.14c0,0-.01,0,.08.58.08.84v14.73s14.37,16.39,14.37,16.39l26.56.04,2.49-2.55,23.38-23.49-21.05-23.8Z',
-    { x: xP, y: yP, scale: s, color: rgb(0, 108 / 255, 253 / 255) }
-  );
-  page.drawSvgPath(
-    'M66.99,125.02l-14.38-16.39-26.56-.04-2.49,2.55L.19,134.62l21.05,23.8h13.08s12.61-12.62,12.61-12.62l-6.87-6.9-10.2,10.03c-.93.48-3.49.48-4.16-.29l-11.98-13.73,12.33-12.45c1.41-1.43,2.43-2.99,4.05-4.34h16.74c1.73,1.43,2.84,2.99,4.25,4.58l15.26,17.25c.28.32.46.55.73.65-.03-5.2-.05-10.39-.08-15.59Z',
-    { x: xP, y: yP, scale: s, color: rgb(0, 120 / 255, 254 / 255) }
-  );
-  const textX = startX + 22 + 8;
+// ── Logo DALILI — PNG embarqué (même rendu que ChecklistPDF) ─────────────────
+async function drawLogo(page: PDFPage, logoImg: PDFImage, startX: number, centerY: number, bold: PDFFont, norm: PDFFont) {
+  const SIZE = 24;
+  page.drawImage(logoImg, { x: startX, y: centerY - SIZE / 2, width: SIZE, height: SIZE });
+  const textX = startX + SIZE + 8;
   page.drawText('DALILI', { x: textX, y: centerY + 5,  size: 15, font: bold, color: rgb(1, 1, 1) });
   page.drawText('dalili.study', { x: textX, y: centerY - 6, size: 7.5, font: norm, color: rgb(77 / 255, 143 / 255, 255 / 255) });
 }
@@ -59,11 +51,12 @@ export interface ComparateurPDFData {
 }
 
 interface Ctx {
-  page: PDFPage;
-  bold: PDFFont;
-  norm: PDFFont;
-  W:    number;
-  H:    number;
+  page:    PDFPage;
+  bold:    PDFFont;
+  norm:    PDFFont;
+  logoImg: PDFImage;
+  W:       number;
+  H:       number;
 }
 
 function fillRect(ctx: Ctx, topY: number, h: number, x: number, w: number, color: RGB) {
@@ -101,6 +94,9 @@ export async function generateComparateurPDF(
   const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const norm = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
+  const logoPngBuffer = await getDaliliLogoPng(96);
+  const logoImg       = await pdfDoc.embedPng(logoPngBuffer);
+
   const MARGIN   = 36;
   const HEADER_H = 130;
   const FOOTER_H = 35;
@@ -110,7 +106,7 @@ export async function generateComparateurPDF(
     const p = pdfDoc.addPage(PageSizes.A4);
     const W = p.getWidth();
     const H = p.getHeight();
-    const ctx: Ctx = { page: p, bold, norm, W, H };
+    const ctx: Ctx = { page: p, bold, norm, logoImg, W, H };
     fillRect(ctx, 0, H, 0, W, C_BODY);
     return [ctx, 0];
   };
@@ -134,7 +130,7 @@ export async function generateComparateurPDF(
   // Header
   fillRect(ctx, 0, HEADER_H, 0, W, C_BLUE_DARK);
   fillRect(ctx, 0, 3, 0, W, C_BLUE);
-  drawLogo(ctx.page, W / 2 - 48, H - 52, bold, norm);
+  await drawLogo(ctx.page, ctx.logoImg, W / 2 - 48, H - 52, bold, norm);
   centered(ctx, 'COMPARATIF VILLES ETUDIANTES', 90, 7.5, norm, C_MID);
   const titre = cleanText(villes.map(v => v.city.name).join(' vs '));
   centered(ctx, titre, 108, 13, bold, C_WHITE);

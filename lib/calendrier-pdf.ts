@@ -1,5 +1,6 @@
-import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont, type RGB } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont, type PDFImage, type RGB } from 'pdf-lib';
 import type { CalendrierStep } from './calendrier-data';
+import { getDaliliLogoPng } from './pdf-logo';
 
 // ── Nettoyage texte WinAnsi ────────────────────────────────────────────────────
 function cleanText(s: string): string {
@@ -15,20 +16,11 @@ function cleanText(s: string): string {
     .trim();
 }
 
-// ── Logo DALILI — SVG paths identiques à ChecklistPDF ────────────────────────
-function drawLogo(page: PDFPage, startX: number, centerY: number, bold: PDFFont, norm: PDFFont) {
-  const s   = 22 / 71;
-  const xP  = startX + s;
-  const yP  = centerY + 11 + 105 * s;
-  page.drawSvgPath(
-    'M45.83,124.17h-13.08s-12.61,12.62-12.61,12.62l6.87,6.9,10.2-10.03c.93-.48,3.49-.48,4.16.29l11.98,13.73-12.33,12.45c-1.41,1.43-2.43,2.99-4.05,4.34h-16.74c-1.73-1.43-2.84-2.99-4.25-4.58-5.09-5.75-10.17-11.5-15.26-17.25-.21-.22-.38-.39-.5-.5-.05-.04-.11-.1-.21-.14c0,0-.01,0,.08.58.08.84v14.73s14.37,16.39,14.37,16.39l26.56.04,2.49-2.55,23.38-23.49-21.05-23.8Z',
-    { x: xP, y: yP, scale: s, color: rgb(0, 108 / 255, 253 / 255) }
-  );
-  page.drawSvgPath(
-    'M66.99,125.02l-14.38-16.39-26.56-.04-2.49,2.55L.19,134.62l21.05,23.8h13.08s12.61-12.62,12.61-12.62l-6.87-6.9-10.2,10.03c-.93.48-3.49.48-4.16-.29l-11.98-13.73,12.33-12.45c1.41-1.43,2.43-2.99,4.05-4.34h16.74c1.73,1.43,2.84,2.99,4.25,4.58l15.26,17.25c.28.32.46.55.73.65-.03-5.2-.05-10.39-.08-15.59Z',
-    { x: xP, y: yP, scale: s, color: rgb(0, 120 / 255, 254 / 255) }
-  );
-  const textX = startX + 22 + 8;
+// ── Logo DALILI — PNG embarqué (même rendu que ChecklistPDF) ─────────────────
+async function drawLogo(page: PDFPage, logoImg: PDFImage, startX: number, centerY: number, bold: PDFFont, norm: PDFFont) {
+  const SIZE = 24;
+  page.drawImage(logoImg, { x: startX, y: centerY - SIZE / 2, width: SIZE, height: SIZE });
+  const textX = startX + SIZE + 8;
   page.drawText('DALILI', { x: textX, y: centerY + 5,  size: 15, font: bold, color: rgb(1, 1, 1) });
   page.drawText('dalili.study', { x: textX, y: centerY - 6, size: 7.5, font: norm, color: rgb(77 / 255, 143 / 255, 255 / 255) });
 }
@@ -48,11 +40,12 @@ const URGENCE_COLOR: Record<string, RGB> = {
 
 // State for multi-page rendering
 interface PageCtx {
-  page:  PDFPage;
-  bold:  PDFFont;
-  norm:  PDFFont;
-  W:     number;
-  H:     number;
+  page:    PDFPage;
+  bold:    PDFFont;
+  norm:    PDFFont;
+  logoImg: PDFImage;
+  W:       number;
+  H:       number;
 }
 
 function fillRect(ctx: PageCtx, topY: number, h: number, x: number, w: number, color: RGB) {
@@ -68,14 +61,14 @@ function centered(ctx: PageCtx, s: string, topY: number, size: number, f: PDFFon
   ctx.page.drawText(s, { x: ctx.W / 2 - tw / 2, y: ctx.H - topY, size, font: f, color });
 }
 
-function drawHeader(ctx: PageCtx, paysLabel: string, rentreeLabel: string) {
+async function drawHeader(ctx: PageCtx, paysLabel: string, rentreeLabel: string) {
   const { W, H } = ctx;
   fillRect(ctx, 0, H, 0, W, C_BODY);
   const HEADER_H = 130;
   fillRect(ctx, 0, HEADER_H, 0, W, C_BLUE_DARK);
   fillRect(ctx, 0, 3, 0, W, C_BLUE);
 
-  drawLogo(ctx.page, W / 2 - 48, H - 52, ctx.bold, ctx.norm);
+  await drawLogo(ctx.page, ctx.logoImg, W / 2 - 48, H - 52, ctx.bold, ctx.norm);
   centered(ctx, 'TON CALENDRIER PERSONNALISE', 90, 7.5, ctx.norm, C_MID);
   centered(ctx, cleanText(`${paysLabel}  -  ${rentreeLabel}`), 108, 13, ctx.bold, C_WHITE);
 }
@@ -94,6 +87,9 @@ export async function generateCalendrierPDF(
   const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const norm = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
+  const logoPngBuffer = await getDaliliLogoPng(96);
+  const logoImg       = await pdfDoc.embedPng(logoPngBuffer);
+
   const MARGIN   = 40;
   const CARD_H   = 72;
   const CARD_GAP = 4;
@@ -104,14 +100,14 @@ export async function generateCalendrierPDF(
   let page = pdfDoc.addPage(PageSizes.A4);
   const W = page.getWidth();
   const H = page.getHeight();
-  let ctx: PageCtx = { page, bold, norm, W, H };
+  let ctx: PageCtx = { page, bold, norm, logoImg, W, H };
   void FOOTER_H;
 
   const CW = W - MARGIN * 2;
 
   const newPage = () => {
     page = pdfDoc.addPage(PageSizes.A4);
-    ctx = { page: page, bold, norm, W, H };
+    ctx = { page: page, bold, norm, logoImg, W, H };
     fillRect(ctx, 0, H, 0, W, C_BODY);
     fillRect(ctx, 0, 3, 0, W, C_BLUE);
     centered(ctx, 'DALILI  |  dalili.study  |  Suite', 22, 8, bold, C_BLUE);
@@ -119,7 +115,7 @@ export async function generateCalendrierPDF(
     return MARGIN + 14;
   };
 
-  drawHeader(ctx, paysLabel, rentreeLabel);
+  await drawHeader(ctx, paysLabel, rentreeLabel);
 
   let y = HEADER_H + 18;
 
