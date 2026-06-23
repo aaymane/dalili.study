@@ -11,20 +11,20 @@ import type { CityScores } from '@/lib/comparer-scores';
 const VILLE_COLORS = ['#014DF8', '#22C55E', '#a855f7'] as const;
 
 const CITY_LIST = [
-  { slug: 'etudier-a-paris',            emoji: '🗼', region: 'Île-de-France' },
-  { slug: 'etudier-a-lyon',             emoji: '🦁', region: 'Auvergne-Rhône-Alpes' },
-  { slug: 'etudier-a-toulouse',         emoji: '✈️', region: 'Occitanie' },
-  { slug: 'etudier-a-marseille',        emoji: '⛵', region: 'PACA' },
-  { slug: 'etudier-a-bordeaux',         emoji: '🍷', region: 'Nouvelle-Aquitaine' },
-  { slug: 'etudier-a-montpellier',      emoji: '☀️', region: 'Occitanie' },
-  { slug: 'etudier-a-strasbourg',       emoji: '🇪🇺', region: 'Grand Est' },
-  { slug: 'etudier-a-lille',            emoji: '🏭', region: 'Hauts-de-France' },
-  { slug: 'etudier-a-rennes',           emoji: '🌿', region: 'Bretagne' },
-  { slug: 'etudier-a-nantes',           emoji: '🎨', region: 'Pays de la Loire' },
-  { slug: 'etudier-a-grenoble',         emoji: '⛷️', region: 'Auvergne-Rhône-Alpes' },
-  { slug: 'etudier-a-nice',             emoji: '🌊', region: 'PACA' },
-  { slug: 'etudier-a-clermont-ferrand', emoji: '🌋', region: 'Auvergne' },
-  { slug: 'etudier-a-dijon',            emoji: '🍇', region: 'Bourgogne' },
+  { slug: 'etudier-a-paris',            region: 'Île-de-France' },
+  { slug: 'etudier-a-lyon',             region: 'Auvergne-Rhône-Alpes' },
+  { slug: 'etudier-a-toulouse',         region: 'Occitanie' },
+  { slug: 'etudier-a-marseille',        region: 'PACA' },
+  { slug: 'etudier-a-bordeaux',         region: 'Nouvelle-Aquitaine' },
+  { slug: 'etudier-a-montpellier',      region: 'Occitanie' },
+  { slug: 'etudier-a-strasbourg',       region: 'Grand Est' },
+  { slug: 'etudier-a-lille',            region: 'Hauts-de-France' },
+  { slug: 'etudier-a-rennes',           region: 'Bretagne' },
+  { slug: 'etudier-a-nantes',           region: 'Pays de la Loire' },
+  { slug: 'etudier-a-grenoble',         region: 'Auvergne-Rhône-Alpes' },
+  { slug: 'etudier-a-nice',             region: 'PACA' },
+  { slug: 'etudier-a-clermont-ferrand', region: 'Auvergne' },
+  { slug: 'etudier-a-dijon',            region: 'Bourgogne' },
 ];
 
 const SCORE_LABELS: Array<{ key: keyof CityScores; label: string; desc: string }> = [
@@ -267,7 +267,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
 
         {/* Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 8, marginBottom: 28 }}>
-          {CITY_LIST.map(({ slug, emoji, region }) => {
+          {CITY_LIST.map(({ slug, region }) => {
             const city    = CITIES[slug];
             const idx     = selected.indexOf(slug);
             const isOn    = idx >= 0;
@@ -303,7 +303,10 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                     </svg>
                   </div>
                 )}
-                <span style={{ fontSize: 20, marginBottom: 6 }}>{emoji}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={isOn ? color : 'rgba(255,255,255,0.3)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 6 }} aria-hidden="true">
+                  <path d="M20 10c0 6-8 13-8 13S4 16 4 10a8 8 0 0 1 16 0Z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
                 <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: isOn ? 700 : 600, fontSize: '0.78rem', color: isOn ? '#fff' : 'rgba(255,255,255,0.7)', lineHeight: 1.2 }}>
                   {city?.name}
                 </span>
