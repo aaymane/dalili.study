@@ -149,7 +149,12 @@ export async function POST(request: NextRequest) {
         resend.emails.send({
           from:    FROM,
           to:      email,
-          subject: `Comparatif ${titreVilles} — analyse Dalili`,
+          subject: `Comparatif ${titreVilles} — Dalili`,
+          headers: {
+            'X-Entity-Ref-ID':  `dalili-comparer-${Date.now()}`,
+            'List-Unsubscribe': '<mailto:unsubscribe@dalili.study?subject=unsubscribe>',
+          },
+          text: `Dalili — Comparatif de villes\n\n${titreVilles}\n\nNotre recommandation : ${recoCity?.name ?? ''}\n\nLe PDF complet est joint a cet email.\n\nRetrouve le comparateur en ligne : dalili.study/comparer\n\n— L'equipe Dalili`,
           html:    renderComparateurEmail({
             villes:         villesEmailData,
             recommandation,
@@ -157,8 +162,9 @@ export async function POST(request: NextRequest) {
           }),
           attachments: [
             {
-              filename: `comparatif-villes-${slugs.map(s => CITIES[s]?.name.toLowerCase()).join('-')}.pdf`,
-              content:  pdfBuffer.toString('base64'),
+              filename:    `comparatif-villes-${slugs.map(s => CITIES[s]?.name.toLowerCase()).join('-')}.pdf`,
+              content:     pdfBuffer.toString('base64'),
+              contentType: 'application/pdf',
             },
           ],
         }),

@@ -146,11 +146,16 @@ export async function POST(request: NextRequest) {
           `,
         }),
 
-        // ── Budget email to user (template premium + PDF joint) ──────────
+        // ── Budget email to user (template + PDF joint) ──────────────────
         resend.emails.send({
           from:    FROM,
           to:      email,
-          subject: `Ton budget pour étudier à ${villeName} est prêt`,
+          subject: `Budget etudiant a ${villeName} — estimation Dalili`,
+          headers: {
+            'X-Entity-Ref-ID':  `dalili-budget-${Date.now()}`,
+            'List-Unsubscribe': '<mailto:unsubscribe@dalili.study?subject=unsubscribe>',
+          },
+          text: `Dalili — Budget etudiant a ${villeName}\n\nLoyer : ${housing} €\nNourriture : ${food} €\nTransport : ${transport} €\nTotal depenses : ${total} €/mois\nCAF estimee : -${cafMid} €\nReste a financer : ${reste} €/mois\n\nRetrouve ton estimation complete sur : dalili.study/simulateur\n\n— L'equipe Dalili`,
           html:    renderBudgetResultEmail({
             villeName, logementName, niveauName, paysName, paySlug: pays,
             paiement_frais, housing, food, transport,

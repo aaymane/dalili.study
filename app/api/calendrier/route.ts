@@ -90,7 +90,12 @@ export async function POST(request: NextRequest) {
         resend.emails.send({
           from:    FROM,
           to:      email,
-          subject: `Ton calendrier Campus France ${paysInfo.label} → ${rentreeInfo.label}`,
+          subject: `Calendrier Campus France ${paysInfo.label} — ${rentreeInfo.label}`,
+          headers: {
+            'X-Entity-Ref-ID':  `dalili-calendrier-${Date.now()}`,
+            'List-Unsubscribe': '<mailto:unsubscribe@dalili.study?subject=unsubscribe>',
+          },
+          text: `Dalili — Calendrier Campus France\n\n${paysInfo.label} - ${rentreeInfo.label}\n\nTon planning personnalise en ${etapes.length} etapes est joint en PDF a cet email.\n\nRetrouve ton calendrier en ligne : dalili.study/calendrier\n\n— L'equipe Dalili`,
           html:    renderCalendrierEmail({
             paysLabel:    paysInfo.label,
             paysEmoji:    paysInfo.emoji,
@@ -99,8 +104,9 @@ export async function POST(request: NextRequest) {
           }),
           attachments: [
             {
-              filename: `calendrier-campus-france-${pays}-${rentree}.pdf`,
-              content:  pdfBuffer.toString('base64'),
+              filename:    `calendrier-campus-france-${pays}-${rentree}.pdf`,
+              content:     pdfBuffer.toString('base64'),
+              contentType: 'application/pdf',
             },
           ],
         }),

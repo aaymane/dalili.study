@@ -69,11 +69,16 @@ export async function POST(request: NextRequest) {
           `,
         }),
 
-        // ── Email de bienvenue (template premium) ─────────────────────────────
+        // ── Email de bienvenue ───────────────────────────────────────────────
         resend.emails.send({
           from:    FROM,
           to:      email,
-          subject: "Tu es sur la liste — bienvenue chez Dalili 🎓",
+          subject: 'Bienvenue chez Dalili — tu es sur la liste',
+          headers: {
+            'X-Entity-Ref-ID':  `dalili-waitlist-${Date.now()}`,
+            'List-Unsubscribe': `<mailto:unsubscribe@dalili.study?subject=unsubscribe>`,
+          },
+          text: `Bienvenue chez Dalili !\n\nTu viens de rejoindre Dalili — la plateforme gratuite pour etudier en France.\n\nExplore nos outils : dalili.study\n\n— L'equipe Dalili`,
           html:    renderWaitlistEmail(),
         }),
 
