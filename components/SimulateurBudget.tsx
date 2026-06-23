@@ -109,10 +109,9 @@ export default function SimulateurBudget() {
   const food          = city ? city.food : 0;
 
   const tuitionAnnual = TUITION_ANNUAL[niveau] ?? 0;
-  const cvecMonthly   = Math.round(CVEC_ANNUAL / 12); // 9 €
-  // If "mensuel": include tuition/12 + CVEC/12 in the monthly total
+  // CVEC = 105€/an paiement unique à la rentrée — pas mensuel
   const tuitionMonthly = paiementFrais === 'mensuel'
-    ? (TUITION_MONTHLY_12[niveau] ?? 0) + cvecMonthly
+    ? (TUITION_MONTHLY_12[niveau] ?? 0)
     : 0;
 
   const baseTotal = housing + transport + food + 30 + 20 + 80;
@@ -158,7 +157,7 @@ export default function SimulateurBudget() {
         pays:           answers.pays,
         bourse:         answers.bourse,
         housing, food, transport,
-        tuitionMonthly, tuitionAnnual, cvecMonthly,
+        tuitionMonthly, tuitionAnnual,
         total, cafMid, reste,
       };
       console.log('[Simulateur] Envoi payload:', JSON.stringify(payload));
@@ -268,7 +267,7 @@ export default function SimulateurBudget() {
           )}
           <ResultsPanel
             city={city} housing={housing} food={food} transport={transport}
-            tuitionMonthly={tuitionMonthly} tuitionAnnual={tuitionAnnual} cvecMonthly={cvecMonthly}
+            tuitionMonthly={tuitionMonthly} tuitionAnnual={tuitionAnnual}
             total={total} cafMin={cafMin} cafMax={cafMax} reste={reste}
             logement={logement} niveau={niveau} paiementFrais={paiementFrais}
             bourseNote={bourseNote} answers={answers} onReset={goReset}
@@ -543,13 +542,13 @@ function StepContent({ step, answers, select }: {
 // ── Results panel ─────────────────────────────────────────────────────────
 function ResultsPanel({
   city, housing, food, transport,
-  tuitionMonthly, tuitionAnnual, cvecMonthly,
+  tuitionMonthly, tuitionAnnual,
   total, cafMin, cafMax, reste,
   logement, niveau, paiementFrais, bourseNote, answers, onReset,
 }: {
   city: CityData | undefined;
   housing: number; food: number; transport: number;
-  tuitionMonthly: number; tuitionAnnual: number; cvecMonthly: number;
+  tuitionMonthly: number; tuitionAnnual: number;
   total: number; cafMin: number; cafMax: number; reste: number;
   logement: string; niveau: string; paiementFrais: string; bourseNote: string;
   answers: Answers; onReset: () => void;
@@ -661,22 +660,22 @@ function ResultsPanel({
               Pour faciliter la planification de ton épargne avant la rentrée.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {[
-                { label: niveauLabel, monthly: tuitionMonthly - cvecMonthly, annual: tuitionAnnual },
-                { label: '+ CVEC',   monthly: cvecMonthly,                   annual: CVEC_ANNUAL },
-              ].map((it, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div>
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.62)' }}>{it.label}</span>
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.28)', display: 'block', marginTop: 2 }}>{it.annual} € ÷ 12</span>
-                  </div>
-                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: 'rgba(255,255,255,0.82)' }}>{it.monthly} €/mois</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <div>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.62)' }}>{niveauLabel}</span>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.28)', display: 'block', marginTop: 2 }}>{tuitionAnnual} € ÷ 12</span>
                 </div>
-              ))}
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: 'rgba(255,255,255,0.82)' }}>{tuitionMonthly} €/mois</span>
+              </div>
             </div>
-            <div style={{ marginTop: 16, padding: '14px 16px', background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.18)', borderRadius: 10 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)', margin: 0, lineHeight: 1.65 }}>
-                ⚠️ <strong style={{ color: 'rgba(255,255,255,0.85)' }}>Attention :</strong> en réalité ces frais se paient <strong style={{ color: 'rgba(255,255,255,0.85)' }}>en une seule fois</strong> à la rentrée. Cette vue mensuelle est uniquement pour t&apos;aider à planifier ton épargne.
+            <div style={{ marginTop: 12, padding: '11px 14px', background: 'rgba(77,143,255,0.06)', border: '1px solid rgba(77,143,255,0.18)', borderRadius: 8 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.6 }}>
+                <strong style={{ color: 'rgba(255,255,255,0.85)' }}>CVEC 105 €</strong> — paiement unique à la rentrée sur <strong style={{ color: '#fff' }}>messervices.etudiant.gouv.fr</strong>. Exonération possible si boursier.
+              </p>
+            </div>
+            <div style={{ marginTop: 10, padding: '12px 14px', background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.18)', borderRadius: 8 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.6 }}>
+                ⚠️ En réalité ces frais se paient <strong style={{ color: 'rgba(255,255,255,0.8)' }}>en une seule fois</strong> à la rentrée. Cette vue mensuelle est pour planifier ton épargne.
               </p>
             </div>
           </>
@@ -703,9 +702,14 @@ function ResultsPanel({
                 <span style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.7rem', letterSpacing: '0.04em', color: '#a78bfa' }}>{tuitionAnnual + CVEC_ANNUAL} €</span>
               </div>
             </div>
-            <div style={{ marginTop: 16, padding: '14px 16px', background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.18)', borderRadius: 10 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)', margin: 0, lineHeight: 1.65 }}>
-                ⚠️ La plupart des universités <strong style={{ color: 'rgba(255,255,255,0.85)' }}>exonèrent les étudiants hors UE</strong> des frais différenciés. Vérifie sur le site de ton université avant de budgéter.
+            <div style={{ marginTop: 12, padding: '11px 14px', background: 'rgba(77,143,255,0.06)', border: '1px solid rgba(77,143,255,0.18)', borderRadius: 8 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.6 }}>
+                La <strong style={{ color: 'rgba(255,255,255,0.85)' }}>CVEC se paie UNE SEULE FOIS</strong> avant ton inscription sur <strong style={{ color: '#fff' }}>messervices.etudiant.gouv.fr</strong>. Exonération possible si boursier.
+              </p>
+            </div>
+            <div style={{ marginTop: 10, padding: '12px 14px', background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.18)', borderRadius: 8 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.65 }}>
+                ⚠️ La plupart des universités <strong style={{ color: 'rgba(255,255,255,0.8)' }}>exonèrent les étudiants hors UE</strong> des frais différenciés. Vérifie sur le site de ton université.
               </p>
             </div>
           </>

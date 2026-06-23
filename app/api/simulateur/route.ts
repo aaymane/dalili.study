@@ -67,7 +67,6 @@ export async function POST(request: NextRequest) {
     const transport      = Number(body.transport      ?? 0);
     const tuitionMonthly = Number(body.tuitionMonthly ?? 0);
     const tuitionAnnual  = Number(body.tuitionAnnual  ?? 0);
-    const cvecMonthly    = Number(body.cvecMonthly    ?? 0);
     const total          = Number(body.total          ?? 0);
     const cafMid         = Number(body.cafMid         ?? 0);
     const reste          = Number(body.reste          ?? 0);
@@ -115,7 +114,7 @@ export async function POST(request: NextRequest) {
       pdfBuffer = await generateSimulateurPDF({
         villeName, logementName, niveauName, paysName, paySlug: pays,
         paiement_frais, housing, food, transport,
-        tuitionMonthly, tuitionAnnual, cvecMonthly,
+        tuitionMonthly, tuitionAnnual,
         totalDepenses: total, cafEstimee: cafMid, resteAFinancer: reste,
       });
       console.log('✅ PDF généré:', pdfBuffer.length, 'bytes');
@@ -172,7 +171,7 @@ export async function POST(request: NextRequest) {
           html:    renderBudgetResultEmail({
             villeName, logementName, niveauName, paysName, paySlug: pays,
             paiement_frais, housing, food, transport,
-            tuitionMonthly, tuitionAnnual, cvecMonthly,
+            tuitionMonthly, tuitionAnnual,
             totalDepenses:  total,
             cafEstimee:     cafMid,
             resteAFinancer: reste,

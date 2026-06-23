@@ -44,7 +44,6 @@ export interface BudgetResultEmailProps {
   transport:       number;
   tuitionMonthly:  number;
   tuitionAnnual:   number;
-  cvecMonthly:     number;
   totalDepenses:   number;
   cafEstimee:      number;
   resteAFinancer:  number;
@@ -74,14 +73,13 @@ export function renderBudgetResultEmail(props: BudgetResultEmailProps): string {
   const {
     villeName, logementName, niveauName, paysName, paySlug,
     paiement_frais, housing, food, transport,
-    tuitionMonthly, tuitionAnnual, cvecMonthly,
+    tuitionMonthly, tuitionAnnual,
     totalDepenses, cafEstimee, resteAFinancer,
   } = props;
 
-  const isMensuel          = paiement_frais === 'mensuel';
-  const fraisTotal         = tuitionAnnual + CVEC_ANNUAL;
-  const articles           = [...(PAYS_ARTICLES[paySlug] ?? []), ...COMMON_ARTICLES].slice(0, 4);
-  const tuitionMensuelNoCV = tuitionMonthly - cvecMonthly;
+  const isMensuel = paiement_frais === 'mensuel';
+  const fraisTotal = tuitionAnnual + CVEC_ANNUAL;
+  const articles   = [...(PAYS_ARTICLES[paySlug] ?? []), ...COMMON_ARTICLES].slice(0, 4);
 
   const content = `
 
@@ -171,11 +169,15 @@ export function renderBudgetResultEmail(props: BudgetResultEmailProps): string {
       </p>
       <table style="width:100%;border-collapse:collapse;margin-bottom:12px">
         <tbody>
-          ${tableRow(`${niveauName} (÷12)`, `${tuitionMensuelNoCV} €/mois`)}
-          ${tableRow('+ CVEC (÷12)', `${cvecMonthly} €/mois`, true)}
+          ${tableRow(`${niveauName} (÷12)`, `${tuitionMonthly} €/mois`, true)}
         </tbody>
       </table>
-      <div style="padding:12px;background:#fef3c7;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0">
+      <div style="margin-top:12px;padding:10px 12px;background:#eff6ff;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0">
+        <p style="margin:0;font-family:${FONT};font-size:12px;color:#374151;line-height:1.6">
+          <strong>CVEC 105 €</strong> — paiement unique à la rentrée sur <strong>messervices.etudiant.gouv.fr</strong>. Exonération possible si boursier.
+        </p>
+      </div>
+      <div style="margin-top:8px;padding:10px 12px;background:#fef3c7;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0">
         <p style="margin:0;font-family:${FONT};font-size:12px;color:#374151;line-height:1.65">
           Les frais se paient en une seule fois a la rentree (${fraisTotal} €). La vue mensuelle est pour planifier ton epargne.
         </p>
