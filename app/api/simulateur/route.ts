@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { renderBudgetResultEmail } from "@/emails/BudgetResultEmail";
+import { generateSimulateurPDF } from "@/lib/simulateur-pdf";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FROM     = "Dalili <bonjour@dalili.study>";
@@ -104,6 +105,16 @@ export async function POST(request: NextRequest) {
     const timestamp = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
     try {
+      // Generate budget PDF attachment
+      const pdfBuffer = await generateSimulateurPDF({
+        villeName, logementName, niveauName, paysName, paySlug: pays,
+        paiement_frais, housing, food, transport,
+        tuitionMonthly, tuitionAnnual, cvecMonthly,
+        totalDepenses: total, cafEstimee: cafMid, resteAFinancer: reste,
+      });
+
+      console.log('[simulateur] PDF generated, size:', pdfBuffer.length, 'bytes');
+
       await Promise.all([
 
         // ── Admin notification ────────────────────────────────────────────
@@ -135,11 +146,11 @@ export async function POST(request: NextRequest) {
           `,
         }),
 
-        // ── Budget email to user (template premium) ───────────────────────
+        // ── Budget email to user (template premium + PDF joint) ──────────
         resend.emails.send({
           from:    FROM,
           to:      email,
-          subject: `Ton budget pour étudier à ${villeName} est prêt 💰`,
+          subject: `Ton budget pour étudier à ${villeName} est prêt`,
           html:    renderBudgetResultEmail({
             villeName, logementName, niveauName, paysName, paySlug: pays,
             paiement_frais, housing, food, transport,
@@ -148,11 +159,18 @@ export async function POST(request: NextRequest) {
             cafEstimee:     cafMid,
             resteAFinancer: reste,
           }),
+          attachments: [
+            {
+              filename:    `budget-dalili-${villeName.toLowerCase().replace(/\s+/g, '-')}-2026.pdf`,
+              content:     pdfBuffer.toString('base64'),
+              contentType: 'application/pdf',
+            },
+          ],
         }),
 
       ]);
 
-      console.log('[simulateur] Emails sent:', email, villeName, total);
+      console.log('[simulateur] Emails sent to:', email, '| Ville:', villeName, '| Budget:', total, '€');
     } catch (resendErr) {
       console.error('[simulateur] Resend error:', JSON.stringify(resendErr, null, 2));
     }
