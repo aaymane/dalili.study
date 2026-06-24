@@ -34,12 +34,12 @@ const stats = [
 ];
 
 const coverage = [
-  { label: 'Visa et Campus France',       href: '/blog' },
-  { label: 'Logement CROUS et privé',     href: '/blog' },
-  { label: 'Budget et aides (CAF, CSS)',  href: '/blog' },
-  { label: 'Banque et finances',          href: '/blog' },
-  { label: 'Démarches à l\'arrivée',      href: '/blog' },
-  { label: 'Vie étudiante',               href: '/villes' },
+  { label: 'Visa et Campus France',      href: '/blog' },
+  { label: 'Logement CROUS et privé',    href: '/blog' },
+  { label: 'Budget et aides (CAF, CSS)', href: '/blog' },
+  { label: 'Banque et finances',         href: '/blog' },
+  { label: "Démarches à l'arrivée",      href: '/blog' },
+  { label: 'Vie étudiante',              href: '/villes' },
 ];
 
 export default function AboutPage() {
@@ -47,40 +47,82 @@ export default function AboutPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
+      {/* Responsive CSS */}
+      <style>{`
+        .ap-arabic {
+          position: absolute;
+          right: 60px;
+          top: 80px;
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: clamp(160px, 16vw, 220px);
+          font-weight: 700;
+          color: rgba(1,77,248,0.35);
+          line-height: 1;
+          letter-spacing: -0.02em;
+          user-select: none;
+          pointer-events: none;
+          direction: rtl;
+          white-space: nowrap;
+        }
+        .ap-h2 {
+          font-family: var(--font-montserrat);
+          font-weight: 800;
+          font-size: clamp(22px, 3.5vw, 32px);
+          color: #ffffff;
+          margin: 0 0 20px;
+          line-height: 1.15;
+        }
+        .ap-section {
+          border-top: 1px solid rgba(255,255,255,0.08);
+          padding-top: clamp(36px, 6vw, 60px);
+          margin-bottom: clamp(36px, 6vw, 60px);
+        }
+        .ap-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .ap-coverage-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0 32px;
+        }
+        @media (max-width: 600px) {
+          .ap-arabic {
+            right: -20px;
+            top: 60px;
+            font-size: 100px;
+            opacity: 0.7;
+          }
+          .ap-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .ap-coverage-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        @media (max-width: 400px) {
+          .ap-arabic {
+            display: none;
+          }
+        }
+      `}</style>
+
       <main style={{ background: '#010510', minHeight: '100vh' }}>
 
         {/* ── HERO ──────────────────────────────────────────────────────── */}
         <section style={{
           position: 'relative',
           overflow: 'hidden',
-          padding: 'clamp(100px,12vw,160px) clamp(20px,5vw,80px) clamp(80px,10vw,120px)',
+          padding: 'clamp(100px,12vw,160px) clamp(20px,5vw,80px) clamp(60px,8vw,100px)',
         }}>
           {/* Arabic watermark */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              right: 60,
-              top: 80,
-              fontFamily: 'Georgia, "Times New Roman", serif',
-              fontSize: 'clamp(160px,16vw,220px)',
-              fontWeight: 700,
-              color: 'rgba(1,77,248,0.35)',
-              lineHeight: 1,
-              letterSpacing: '-0.02em',
-              userSelect: 'none',
-              pointerEvents: 'none',
-              direction: 'rtl',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            دليلي
-          </div>
+          <div aria-hidden="true" className="ap-arabic">دليلي</div>
 
           <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
             {/* Breadcrumb */}
-            <nav style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 64 }}>
+            <nav style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 'clamp(32px,5vw,64px)' }}>
               <Link href="/" style={{
                 fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700,
                 letterSpacing: '0.18em', textTransform: 'uppercase',
@@ -91,8 +133,7 @@ export default function AboutPage() {
               <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.6rem' }}>›</span>
               <span style={{
                 fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700,
-                letterSpacing: '0.18em', textTransform: 'uppercase',
-                color: '#4d8fff',
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4d8fff',
               }}>
                 À propos
               </span>
@@ -107,7 +148,7 @@ export default function AboutPage() {
               textTransform: 'uppercase',
               letterSpacing: '-0.02em',
               lineHeight: 0.9,
-              margin: '0 0 40px',
+              margin: '0 0 clamp(24px,3vw,40px)',
             }}>
               DALILI<br />
               <span>MON GUIDE.</span>
@@ -116,7 +157,7 @@ export default function AboutPage() {
             {/* Subtitle */}
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: 18,
+              fontSize: 'clamp(15px,1.5vw,18px)',
               color: 'rgba(255,255,255,0.75)',
               maxWidth: 500,
               lineHeight: 1.7,
@@ -132,10 +173,10 @@ export default function AboutPage() {
         </section>
 
         {/* ── CONTENT ───────────────────────────────────────────────────── */}
-        <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 clamp(20px,5vw,80px) clamp(80px,10vw,120px)' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 clamp(20px,5vw,80px) clamp(60px,8vw,100px)' }}>
 
           {/* ── Section 1 — L'origine ── */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+          <div className="ap-section">
             <div style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '5px 14px',
@@ -152,26 +193,21 @@ export default function AboutPage() {
               </span>
             </div>
 
-            <h2 style={{
-              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
-              color: '#ffffff', margin: '0 0 20px', lineHeight: 1.15,
-            }}>
-              Qui sommes-nous
-            </h2>
+            <h2 className="ap-h2">Qui sommes-nous</h2>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px' }}>
               {"Dalili a été créé en 2025 par des étudiants internationaux qui ont vécu les difficultés administratives du parcours étudiant en France. OFII à valider, compte bancaire sans justificatif de domicile, CROUS, CAF, Ameli — chaque démarche peut bloquer pendant des semaines si on ne sait pas exactement quoi faire, dans quel ordre, avec quels documents."}
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px' }}>
               {"Les ressources existantes (Campus France, Studyrama, L'Étudiant) s'adressent aux étudiants qui connaissent déjà le système. Dalili s'adresse à ceux qui arrivent de l'extérieur, avec des documents différents, des délais différents, des contraintes différentes."}
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: 0, maxWidth: 720 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: 0 }}>
               {"Notre mission : devenir la ressource la plus fiable, la plus complète et la plus honnête pour les étudiants internationaux en France."}
             </p>
           </div>
 
           {/* ── Section 2 — Notre méthode ── */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+          <div className="ap-section">
             <div style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '5px 14px',
@@ -188,20 +224,15 @@ export default function AboutPage() {
               </span>
             </div>
 
-            <h2 style={{
-              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
-              color: '#ffffff', margin: '0 0 20px', lineHeight: 1.15,
-            }}>
-              Sources officielles uniquement
-            </h2>
+            <h2 className="ap-h2">Sources officielles uniquement</h2>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px' }}>
               {"Chaque information publiée sur Dalili est vérifiée sur les sources officielles avant publication. Nous citons systématiquement nos sources."}
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
-              {"Sources de référence utilisées : Campus France (campusfrance.org), Ministère de l'Enseignement Supérieur, Service-public.fr, CAF.fr, Ameli.fr, france-visas.gouv.fr, ANEF (anef.interieur.gouv.fr), CNOUS, consulats français par pays."}
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px' }}>
+              {"Sources de référence : Campus France, Ministère de l'Enseignement Supérieur, Service-public.fr, CAF.fr, Ameli.fr, france-visas.gouv.fr, ANEF, CNOUS, consulats français par pays."}
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 24px', maxWidth: 720 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 24px' }}>
               {"Nous documentons également la réalité terrain — délais réels, difficultés pratiques, situations atypiques — en nous appuyant sur les retours d'expérience des utilisateurs Dalili."}
             </p>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, margin: 0 }}>
@@ -210,7 +241,7 @@ export default function AboutPage() {
           </div>
 
           {/* ── Section 3 — Chiffres clés ── */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+          <div className="ap-section">
             <div style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '5px 14px',
@@ -227,25 +258,20 @@ export default function AboutPage() {
               </span>
             </div>
 
-            <h2 style={{
-              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
-              color: '#ffffff', margin: '0 0 32px', lineHeight: 1.15,
-            }}>
-              La plateforme en chiffres
-            </h2>
+            <h2 className="ap-h2" style={{ marginBottom: 32 }}>La plateforme en chiffres</h2>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div className="ap-stats-grid">
               {stats.map(stat => (
                 <div key={stat.value} style={{
                   background: 'rgba(255,255,255,0.03)',
                   border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: 16,
-                  padding: '28px 32px',
+                  padding: 'clamp(18px,3vw,28px) clamp(16px,2.5vw,32px)',
                   textAlign: 'center',
                 }}>
                   <div style={{
                     fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-                    fontSize: 48, color: '#ffffff', lineHeight: 1, marginBottom: 10,
+                    fontSize: 'clamp(36px,5vw,48px)', color: '#ffffff', lineHeight: 1, marginBottom: 10,
                   }}>
                     {stat.value}
                   </div>
@@ -262,7 +288,7 @@ export default function AboutPage() {
           </div>
 
           {/* ── Section 4 — Ce que nous couvrons ── */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+          <div className="ap-section">
             <div style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '5px 14px',
@@ -279,29 +305,24 @@ export default function AboutPage() {
               </span>
             </div>
 
-            <h2 style={{
-              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
-              color: '#ffffff', margin: '0 0 20px', lineHeight: 1.15,
-            }}>
-              De A à Z, le parcours étudiant
-            </h2>
+            <h2 className="ap-h2">De A à Z, le parcours étudiant</h2>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 720 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 28px' }}>
               {"Dalili documente l'intégralité du parcours — de la préparation du dossier Campus France à la vie quotidienne en France :"}
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0 32px' }}>
+            <div className="ap-coverage-grid">
               {coverage.map(item => (
                 <Link
                   key={item.label}
                   href={item.href}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 10,
-                    padding: '8px 0',
+                    padding: '10px 0',
                     borderBottom: '1px solid rgba(255,255,255,0.05)',
                     color: 'rgba(255,255,255,0.75)',
                     textDecoration: 'none',
-                    fontFamily: 'var(--font-dm-sans)', fontSize: 15,
+                    fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(13px,1.1vw,15px)',
                     transition: 'color 0.2s',
                   }}
                 >
@@ -313,15 +334,15 @@ export default function AboutPage() {
           </div>
 
           {/* ── CTA ── */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60 }}>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 'clamp(36px,6vw,60px)' }}>
             <div style={{
-              padding: 'clamp(28px,4vw,44px)',
+              padding: 'clamp(24px,4vw,44px)',
               background: 'linear-gradient(135deg, rgba(1,77,248,0.08) 0%, rgba(1,5,16,0.98) 60%)',
               border: '1px solid rgba(1,77,248,0.18)',
               borderRadius: 20,
               textAlign: 'center',
             }}>
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 18, color: '#ffffff', margin: '0 0 8px' }}>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 'clamp(16px,1.5vw,18px)', color: '#ffffff', margin: '0 0 8px' }}>
                 Restez informé
               </p>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: '0 0 24px' }}>
