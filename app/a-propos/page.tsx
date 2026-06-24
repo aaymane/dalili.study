@@ -108,7 +108,7 @@ export default function AboutPage() {
           <p style={styles.body}>
             {"Nous documentons également la réalité terrain — délais réels, difficultés pratiques, situations atypiques — en nous appuyant sur les retours d'expérience des utilisateurs Dalili."}
           </p>
-          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'rgba(255,255,255,0.35)', lineHeight: 1.6, margin: '0 0 8px' }}>
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, margin: '0 0 8px' }}>
             Dernière mise à jour : juin 2026
           </p>
 

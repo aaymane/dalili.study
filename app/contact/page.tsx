@@ -102,7 +102,7 @@ export default function ContactPage() {
           fontFamily: 'var(--font-dm-sans)',
           fontWeight: 400,
           fontSize: '0.88rem',
-          color: 'rgba(255,255,255,0.45)',
+          color: 'rgba(255,255,255,0.82)',
           lineHeight: 1.7,
           margin: 0,
         }}>

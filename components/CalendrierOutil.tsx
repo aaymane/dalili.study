@@ -326,7 +326,7 @@ export default function CalendrierOutil() {
                 <p style={{ margin: '0 0 2px', fontFamily: 'var(--font-montserrat)', fontWeight: rentree === r.slug ? 700 : 600, fontSize: '0.88rem', color: rentree === r.slug ? '#ffffff' : 'rgba(255,255,255,0.6)' }}>
                   {r.label}
                 </p>
-                <p style={{ margin: 0, fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)' }}>
+                <p style={{ margin: 0, fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.75)' }}>
                   {r.sub}
                 </p>
               </button>

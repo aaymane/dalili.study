@@ -308,7 +308,7 @@ function EmailCaptureStep({
 
       {city && total > 0 && (
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '8px 20px', background: 'rgba(1,77,248,0.08)', border: '1px solid rgba(77,143,255,0.2)', borderRadius: 100, marginBottom: 20 }}>
-          <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.82)' }}>
             Budget estimé à {city.name}
           </span>
           <span style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', letterSpacing: '0.04em', color: '#4d8fff' }}>
@@ -370,7 +370,7 @@ function EmailCaptureStep({
             .sim-email-form input, .sim-email-form button { max-width: 100% !important; width: 100% !important; }
           }
         `}</style>
-        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.68)', margin: 0 }}>
           Gratuit · Pas de spam · Tu peux te désabonner à tout moment
         </p>
       </form>
@@ -397,7 +397,7 @@ function StepContent({ step, answers, select }: {
               <div style={dot(answers.ville === c.slug)} />
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.88rem', color: answers.ville === c.slug ? '#fff' : 'rgba(255,255,255,0.82)' }}>{c.name}</span>
             </div>
-            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.38)', paddingLeft: 28 }}>{c.crous[0]}–{c.studio[1]} €/mois</span>
+            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.78)', paddingLeft: 28 }}>{c.crous[0]}–{c.studio[1]} €/mois</span>
           </button>
         ))}
       </div>
@@ -420,7 +420,7 @@ function StepContent({ step, answers, select }: {
             <div style={dot(answers.logement === o.val)} />
             <div>
               <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: answers.logement === o.val ? '#fff' : 'rgba(255,255,255,0.82)' }}>{o.label}</div>
-              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.42)', marginTop: 3 }}>{o.note}</div>
+              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.80)', marginTop: 3 }}>{o.note}</div>
             </div>
           </button>
         ))}
@@ -443,7 +443,7 @@ function StepContent({ step, answers, select }: {
             <div style={dot(answers.niveau === o.val)} />
             <div>
               <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: answers.niveau === o.val ? '#fff' : 'rgba(255,255,255,0.82)' }}>{o.label}</div>
-              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.42)', marginTop: 3 }}>{o.note}</div>
+              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.80)', marginTop: 3 }}>{o.note}</div>
             </div>
           </button>
         ))}
@@ -487,7 +487,7 @@ function StepContent({ step, answers, select }: {
                   </span>
                 )}
               </div>
-              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.42)', marginTop: 3 }}>{o.note}</div>
+              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.80)', marginTop: 3 }}>{o.note}</div>
             </div>
           </button>
         ))}
@@ -534,7 +534,7 @@ function StepContent({ step, answers, select }: {
             <div style={dot(answers.bourse === o.val)} />
             <div>
               <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: answers.bourse === o.val ? '#fff' : 'rgba(255,255,255,0.82)' }}>{o.label}</div>
-              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.42)', marginTop: 3 }}>{o.note}</div>
+              <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.80)', marginTop: 3 }}>{o.note}</div>
             </div>
           </button>
         ))}
@@ -588,7 +588,7 @@ function ResultsPanel({
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMensuel && sub ? 'flex-start' : 'center', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
       <div>
         <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.62)' }}>{label}</span>
-        {sub && <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.28)', marginTop: 2 }}>{sub}</div>}
+        {sub && <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.68)', marginTop: 2 }}>{sub}</div>}
       </div>
       <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: 'rgba(255,255,255,0.82)', flexShrink: 0, marginLeft: 12 }}>{value}</span>
     </div>
@@ -606,7 +606,7 @@ function ResultsPanel({
         <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2rem,5vw,3rem)', letterSpacing: '0.04em', color: '#fff', margin: 0, lineHeight: 1.1 }}>
           Budget {isMensuel ? 'mensuel (tout compris)' : 'mensuel'} à {city?.name ?? ''}
         </h2>
-        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)', margin: '8px 0 0' }}>
+        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.82)', margin: '8px 0 0' }}>
           Estimation basée sur des données réelles — à affiner selon ta situation exacte.
         </p>
 
@@ -646,7 +646,7 @@ function ResultsPanel({
 
       {/* ── Budget mensuel ── */}
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: 'clamp(20px,3vw,32px)', marginBottom: 20 }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', margin: '0 0 4px' }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)', margin: '0 0 4px' }}>
           💰 {isMensuel ? 'Budget mensuel (tout compris)' : 'Dépenses mensuelles'}
         </p>
         {row(`Loyer (${logementLabel})`, `${housing} €`)}
@@ -713,7 +713,7 @@ function ResultsPanel({
                 {cafMin > 0 ? `−${cafMin} à −${cafMax} €` : '−0 à −80 €'}
               </span>
             </div>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', margin: '0 0 12px', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.75)', margin: '0 0 12px', lineHeight: 1.6 }}>
               Estimation indicative — montant réel calculé sur{' '}
               <a href="https://www.caf.fr/allocataires/aides-et-demarches/droits-et-prestations/simulateur-de-droits" target="_blank" rel="noopener noreferrer" style={{ color: '#22C55E', textDecoration: 'underline' }}>caf.fr</a>.
             </p>
@@ -745,7 +745,7 @@ function ResultsPanel({
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                 <div>
                   <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.62)' }}>{niveauLabel}</span>
-                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.28)', display: 'block', marginTop: 2 }}>{tuitionAnnual} € ÷ 12</span>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.68)', display: 'block', marginTop: 2 }}>{tuitionAnnual} € ÷ 12</span>
                 </div>
                 <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: 'rgba(255,255,255,0.82)' }}>{tuitionMonthly} €/mois</span>
               </div>
@@ -835,28 +835,28 @@ function ResultsPanel({
         {city && (
           <Link href={`/villes/${city.slug}`} style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '18px 20px', borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', textDecoration: 'none' }}>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.78rem', color: '#fff' }}>🏙 Guide {city.name}</span>
-            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)' }}>Quartiers, logement, transport, vie étudiante</span>
+            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.82)' }}>Quartiers, logement, transport, vie étudiante</span>
           </Link>
         )}
         {paysGuide && (
           <Link href={`/pays/${paysGuide.slug}`} style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '18px 20px', borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', textDecoration: 'none' }}>
             <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.78rem', color: '#fff' }}>🌍 {paysGuide.label}</span>
-            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)' }}>Visa, Campus France, procédure complète</span>
+            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.82)' }}>Visa, Campus France, procédure complète</span>
           </Link>
         )}
       </div>
 
       {/* Recommencer */}
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
-        <button onClick={onReset} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>
+        <button onClick={onReset} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)' }}>
           ↺ Recommencer la simulation
         </button>
       </div>
 
-      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.22)', margin: 0, lineHeight: 1.7 }}>
+      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.7 }}>
         ⚠️ Estimation indicative — juin 2026. Frais d&apos;inscription (Licence 2 895 €/an, Master 3 941 €/an, Doctorat 397 €/an) + CVEC 105 €/an. Actualisés chaque année — vérifier sur{' '}
-        <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.32)', textDecoration: 'underline' }}>campusfrance.org</a>{' '}et{' '}
-        <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.32)', textDecoration: 'underline' }}>caf.fr</a>.
+        <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>campusfrance.org</a>{' '}et{' '}
+        <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>caf.fr</a>.
       </p>
     </div>
   );

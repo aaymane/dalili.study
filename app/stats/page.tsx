@@ -73,7 +73,7 @@ const s = {
   statCard:    { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '20px 22px' } as React.CSSProperties,
   statVal:     { fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 28, color: '#ffffff', lineHeight: 1, marginBottom: 6 } as React.CSSProperties,
   statLabel:   { fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, margin: 0 } as React.CSSProperties,
-  statSource:  { fontFamily: 'var(--font-dm-sans)', fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 8 } as React.CSSProperties,
+  statSource:  { fontFamily: 'var(--font-dm-sans)', fontSize: 11, color: 'rgba(255,255,255,0.65)', marginTop: 8 } as React.CSSProperties,
   table:       { width: '100%', borderCollapse: 'collapse' as const, marginTop: 4 } as React.CSSProperties,
   th:          { fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.4)', padding: '10px 14px', textAlign: 'left' as const, borderBottom: '1px solid rgba(255,255,255,0.07)' } as React.CSSProperties,
   thNet:       { fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(34,197,94,0.7)', padding: '10px 14px', textAlign: 'left' as const, borderBottom: '1px solid rgba(255,255,255,0.07)' } as React.CSSProperties,
@@ -170,7 +170,7 @@ export default function StatsPage() {
 
           {/* ── Exemple Bordeaux détaillé */}
           <p style={s.sectionTitle}>Exemple — Bordeaux en résidence CROUS</p>
-          <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>
+          <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
             Décomposition poste par poste pour un étudiant en CROUS avec les aides étudiantes.
           </p>
           <div style={{ overflowX: 'auto', marginBottom: 8 }}>
@@ -207,7 +207,7 @@ export default function StatsPage() {
 
           {/* ── Tableau 14 villes BRUT / NET */}
           <p style={s.sectionTitle}>Budget mensuel CROUS — 14 villes (brut et net)</p>
-          <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>
+          <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
             Budget BRUT = avant aides. Budget NET = après CAF, repas RU à 3,30 €, transport étudiant réduit, CSS (santé gratuite).
           </p>
           <div style={{ overflowX: 'auto' }}>

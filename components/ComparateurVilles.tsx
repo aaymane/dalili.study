@@ -441,7 +441,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                         onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.72)'; }}
                       >
                         {u.name}
-                        <span style={{ color: 'rgba(255,255,255,0.25)', marginLeft: 4, fontSize: '0.65rem' }}>→</span>
+                        <span style={{ color: 'rgba(255,255,255,0.65)', marginLeft: 4, fontSize: '0.65rem' }}>→</span>
                       </Link>
                     </div>
                   ))}
@@ -682,7 +682,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                 <p style={{ margin: '0 0 6px', fontFamily: 'var(--font-bebas)', fontSize: 'clamp(1.2rem,2.5vw,1.6rem)', letterSpacing: '0.04em', color: '#fff' }}>
                   PDF envoyé sur ta boîte
                 </p>
-                <p style={{ margin: 0, fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)' }}>
+                <p style={{ margin: 0, fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.82)' }}>
                   Vérifie aussi tes spams. Pense à ajouter bonjour@dalili.study à tes contacts.
                 </p>
               </div>

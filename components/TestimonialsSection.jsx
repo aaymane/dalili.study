@@ -300,7 +300,7 @@ export default function TestimonialsSection() {
                   background: 'rgba(255,255,255,0.04)',
                   fontFamily: 'var(--font-montserrat)',
                   fontSize: '0.6rem', fontWeight: 600,
-                  color: 'rgba(255,255,255,0.55)',
+                  color: 'rgba(255,255,255,0.82)',
                   letterSpacing: '0.06em',
                 }}>
                   {t.country}
@@ -373,7 +373,7 @@ export default function TestimonialsSection() {
             marginTop: 'clamp(18px,2.5vw,28px)',
             fontFamily: 'var(--font-dm-sans)',
             fontSize: '0.68rem',
-            color: 'rgba(255,255,255,0.4)',
+            color: 'rgba(255,255,255,0.65)',
             lineHeight: 1.7,
           }}
         >

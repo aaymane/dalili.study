@@ -158,7 +158,7 @@ export default function FaqCampusFrancePage() {
                 {item.a}
               </p>
               {item.source && (
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'rgba(255,255,255,0.28)', margin: 0 }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'rgba(255,255,255,0.68)', margin: 0 }}>
                   Source : {item.source}
                 </p>
               )}

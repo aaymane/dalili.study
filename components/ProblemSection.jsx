@@ -135,7 +135,7 @@ export default function ProblemSection() {
               fontWeight: 700,
               fontSize: 'clamp(22px,3.5vw,42px)',
               letterSpacing: '0.05em',
-              color: 'rgba(255,255,255,0.38)',
+              color: 'rgba(255,255,255,0.78)',
               margin: 0,
               lineHeight: 1.15,
               textTransform: 'uppercase',
