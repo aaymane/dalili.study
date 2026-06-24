@@ -27,35 +27,19 @@ const jsonLd = {
   ],
 };
 
-const styles = {
-  page: { background: '#010510', minHeight: '100vh', padding: 'clamp(60px,8vw,100px) clamp(16px,5vw,64px)' },
-  inner: { maxWidth: 860, margin: '0 auto' },
-  eyebrow: { fontFamily: 'var(--font-montserrat)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(77,143,255,0.75)', marginBottom: 14 },
-  h1: { fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 'clamp(26px,4vw,46px)', color: '#ffffff', margin: '0 0 12px', lineHeight: 1.1, letterSpacing: '-0.01em' },
-  lead: { fontFamily: 'var(--font-dm-sans)', fontSize: '16px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, margin: '0 0 56px', maxWidth: 640 },
-  h2: { fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: '20px', color: '#ffffff', margin: '48px 0 8px' },
-  body: { fontFamily: 'var(--font-dm-sans)', fontSize: '15px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.8, margin: '0 0 16px' },
-  divider: { height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 0 40px' },
-};
-
 const stats = [
-  { value: '49', label: 'guides & démarches' },
-  { value: '14', label: 'villes documentées' },
-  { value: '14', label: 'universités' },
-  { value: '6', label: 'pays couverts' },
-  { value: '3', label: 'outils pratiques' },
+  { value: '49', label: 'Guides & démarches' },
+  { value: '14', label: 'Villes documentées' },
+  { value: '6',  label: 'Pays couverts' },
 ];
 
 const coverage = [
-  { label: 'Visa étudiant', href: '/blog' },
-  { label: 'Campus France', href: '/blog' },
-  { label: 'Logement CROUS & CAF', href: '/blog' },
-  { label: 'Compte bancaire en France', href: '/blog' },
-  { label: 'Sécurité Sociale & CSS', href: '/blog' },
-  { label: 'CVEC et inscription universitaire', href: '/blog' },
-  { label: 'Transport étudiant', href: '/blog' },
-  { label: 'Vie étudiante par ville', href: '/villes' },
-  { label: 'Universités françaises', href: '/universites' },
+  { label: 'Visa et Campus France',       href: '/blog' },
+  { label: 'Logement CROUS et privé',     href: '/blog' },
+  { label: 'Budget et aides (CAF, CSS)',  href: '/blog' },
+  { label: 'Banque et finances',          href: '/blog' },
+  { label: 'Démarches à l\'arrivée',      href: '/blog' },
+  { label: 'Vie étudiante',               href: '/villes' },
 ];
 
 export default function AboutPage() {
@@ -63,130 +47,292 @@ export default function AboutPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div style={styles.page}>
-        <div style={styles.inner}>
+      <main style={{ background: '#010510', minHeight: '100vh' }}>
 
-          {/* Eyebrow */}
-          <p style={styles.eyebrow}>Dalili Study</p>
-
-          {/* H1 */}
-          <h1 style={styles.h1}>
-            Dalili — Le guide de référence pour les étudiants internationaux en France
-          </h1>
-
-          {/* Lead */}
-          <p style={styles.lead}>
-            {"Dalili (دليلي — \"mon guide\" en arabe) est la plateforme de référence pour les étudiants du Maroc, d'Algérie, de Tunisie, du Sénégal, de Côte d'Ivoire et du Cameroun souhaitant étudier en France."}
-          </p>
-
-          {/* Divider */}
-          <div style={styles.divider} />
-
-          {/* Section 1 — Qui sommes-nous */}
-          <h2 style={styles.h2}>Qui sommes-nous</h2>
-          <p style={styles.body}>
-            {"Dalili a été créé en 2025 par des étudiants internationaux qui ont vécu les difficultés administratives du parcours étudiant en France. OFII à valider, compte bancaire sans justificatif de domicile, CROUS, CAF, Ameli — chaque démarche peut bloquer pendant des semaines si on ne sait pas exactement quoi faire, dans quel ordre, avec quels documents."}
-          </p>
-          <p style={styles.body}>
-            {"Les ressources existantes (Campus France, Studyrama, L'Étudiant) s'adressent aux étudiants qui connaissent déjà le système. Dalili s'adresse à ceux qui arrivent de l'extérieur, avec des documents différents, des délais différents, des contraintes différentes."}
-          </p>
-          <p style={styles.body}>
-            {"Notre mission : devenir la ressource la plus fiable, la plus complète et la plus honnête pour les étudiants internationaux en France."}
-          </p>
-
-          {/* Divider */}
-          <div style={styles.divider} />
-
-          {/* Section 2 — Notre méthode */}
-          <h2 style={styles.h2}>Notre méthode</h2>
-          <p style={styles.body}>
-            {"Chaque information publiée sur Dalili est vérifiée sur les sources officielles avant publication. Nous citons systématiquement nos sources."}
-          </p>
-          <p style={styles.body}>
-            {"Sources de référence utilisées : Campus France (campusfrance.org), Ministère de l'Enseignement Supérieur, Service-public.fr, CAF.fr, Ameli.fr, france-visas.gouv.fr, ANEF (anef.interieur.gouv.fr), CNOUS, consulats français par pays."}
-          </p>
-          <p style={styles.body}>
-            {"Nous documentons également la réalité terrain — délais réels, difficultés pratiques, situations atypiques — en nous appuyant sur les retours d'expérience des utilisateurs Dalili."}
-          </p>
-          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, margin: '0 0 8px' }}>
-            Dernière mise à jour : juin 2026
-          </p>
-
-          {/* Divider */}
-          <div style={styles.divider} />
-
-          {/* Section 3 — Chiffres clés */}
-          <h2 style={styles.h2}>Chiffres clés</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 16, margin: '24px 0 40px' }}>
-            {stats.map(stat => (
-              <div key={stat.value} style={{
-                padding: '20px 16px',
-                background: 'rgba(77,143,255,0.04)',
-                border: '1px solid rgba(77,143,255,0.12)',
-                borderRadius: 12,
-              }}>
-                <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: '32px', color: '#4d8fff', lineHeight: 1, marginBottom: 6 }}>
-                  {stat.value}
-                </div>
-                <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.4 }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+        {/* ── HERO ──────────────────────────────────────────────────────── */}
+        <section style={{
+          position: 'relative',
+          overflow: 'hidden',
+          padding: 'clamp(100px,12vw,160px) clamp(20px,5vw,80px) clamp(80px,10vw,120px)',
+        }}>
+          {/* Arabic watermark */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              right: 60,
+              top: 80,
+              fontFamily: 'Georgia, "Times New Roman", serif',
+              fontSize: 'clamp(120px,14vw,200px)',
+              fontWeight: 700,
+              color: 'rgba(1,77,248,0.12)',
+              lineHeight: 1,
+              letterSpacing: '-0.02em',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              direction: 'rtl',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            دليلي
           </div>
 
-          {/* Divider */}
-          <div style={styles.divider} />
+          <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
-          {/* Section 4 — Ce que nous couvrons */}
-          <h2 style={styles.h2}>Ce que nous couvrons</h2>
-          <p style={styles.body}>
-            {"Dalili documente l'intégralité du parcours — de la préparation du dossier Campus France à la vie quotidienne en France :"}
-          </p>
-          <ul style={{ listStyle: 'none', padding: 0, margin: '16px 0 48px' }}>
-            {coverage.map(item => (
-              <li key={item.label} style={{ marginBottom: 10 }}>
+            {/* Breadcrumb */}
+            <nav style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 64 }}>
+              <Link href="/" style={{
+                fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.9)', textDecoration: 'none',
+              }}>
+                Accueil
+              </Link>
+              <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.6rem' }}>›</span>
+              <span style={{
+                fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase',
+                color: '#4d8fff',
+              }}>
+                À propos
+              </span>
+            </nav>
+
+            {/* Main title */}
+            <h1 style={{
+              fontFamily: 'var(--font-montserrat)',
+              fontWeight: 900,
+              fontSize: 'clamp(64px,10vw,120px)',
+              color: '#ffffff',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.02em',
+              lineHeight: 0.9,
+              margin: '0 0 40px',
+            }}>
+              DALILI<br />
+              <span>MON GUIDE.</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p style={{
+              fontFamily: 'var(--font-dm-sans)',
+              fontSize: 18,
+              color: 'rgba(255,255,255,0.75)',
+              maxWidth: 500,
+              lineHeight: 1.7,
+              margin: 0,
+            }}>
+              {'En arabe, dalili (دليلي) signifie '}
+              <span style={{ color: '#014DF8', fontWeight: 600 }}>mon guide</span>
+              {'. Pas un guide générique.'}<br />
+              <strong style={{ color: '#ffffff' }}>Le tien.</strong>
+            </p>
+
+          </div>
+        </section>
+
+        {/* ── CONTENT ───────────────────────────────────────────────────── */}
+        <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 clamp(20px,5vw,80px) clamp(80px,10vw,120px)' }}>
+
+          {/* ── Section 1 — L'origine ── */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center',
+              padding: '5px 14px',
+              border: '1px solid rgba(77,143,255,0.25)',
+              borderRadius: 100,
+              background: 'rgba(77,143,255,0.06)',
+              marginBottom: 20,
+            }}>
+              <span style={{
+                fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4d8fff',
+              }}>
+                L&apos;ORIGINE
+              </span>
+            </div>
+
+            <h2 style={{
+              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
+              color: '#ffffff', margin: '0 0 20px', lineHeight: 1.15,
+            }}>
+              Qui sommes-nous
+            </h2>
+
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
+              {"Dalili a été créé en 2025 par des étudiants internationaux qui ont vécu les difficultés administratives du parcours étudiant en France. OFII à valider, compte bancaire sans justificatif de domicile, CROUS, CAF, Ameli — chaque démarche peut bloquer pendant des semaines si on ne sait pas exactement quoi faire, dans quel ordre, avec quels documents."}
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
+              {"Les ressources existantes (Campus France, Studyrama, L'Étudiant) s'adressent aux étudiants qui connaissent déjà le système. Dalili s'adresse à ceux qui arrivent de l'extérieur, avec des documents différents, des délais différents, des contraintes différentes."}
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: 0, maxWidth: 720 }}>
+              {"Notre mission : devenir la ressource la plus fiable, la plus complète et la plus honnête pour les étudiants internationaux en France."}
+            </p>
+          </div>
+
+          {/* ── Section 2 — Notre méthode ── */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center',
+              padding: '5px 14px',
+              border: '1px solid rgba(77,143,255,0.25)',
+              borderRadius: 100,
+              background: 'rgba(77,143,255,0.06)',
+              marginBottom: 20,
+            }}>
+              <span style={{
+                fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4d8fff',
+              }}>
+                NOTRE MÉTHODE
+              </span>
+            </div>
+
+            <h2 style={{
+              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
+              color: '#ffffff', margin: '0 0 20px', lineHeight: 1.15,
+            }}>
+              Sources officielles uniquement
+            </h2>
+
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
+              {"Chaque information publiée sur Dalili est vérifiée sur les sources officielles avant publication. Nous citons systématiquement nos sources."}
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 720 }}>
+              {"Sources de référence utilisées : Campus France (campusfrance.org), Ministère de l'Enseignement Supérieur, Service-public.fr, CAF.fr, Ameli.fr, france-visas.gouv.fr, ANEF (anef.interieur.gouv.fr), CNOUS, consulats français par pays."}
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 24px', maxWidth: 720 }}>
+              {"Nous documentons également la réalité terrain — délais réels, difficultés pratiques, situations atypiques — en nous appuyant sur les retours d'expérience des utilisateurs Dalili."}
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, margin: 0 }}>
+              Dernière mise à jour : juin 2026
+            </p>
+          </div>
+
+          {/* ── Section 3 — Chiffres clés ── */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center',
+              padding: '5px 14px',
+              border: '1px solid rgba(77,143,255,0.25)',
+              borderRadius: 100,
+              background: 'rgba(77,143,255,0.06)',
+              marginBottom: 20,
+            }}>
+              <span style={{
+                fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4d8fff',
+              }}>
+                CHIFFRES CLÉS
+              </span>
+            </div>
+
+            <h2 style={{
+              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
+              color: '#ffffff', margin: '0 0 32px', lineHeight: 1.15,
+            }}>
+              La plateforme en chiffres
+            </h2>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+              {stats.map(stat => (
+                <div key={stat.value} style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 16,
+                  padding: '28px 32px',
+                  textAlign: 'center',
+                }}>
+                  <div style={{
+                    fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+                    fontSize: 48, color: '#ffffff', lineHeight: 1, marginBottom: 10,
+                  }}>
+                    {stat.value}
+                  </div>
+                  <div style={{
+                    fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+                    fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.4)', lineHeight: 1.4,
+                  }}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Section 4 — Ce que nous couvrons ── */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60, marginBottom: 60 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center',
+              padding: '5px 14px',
+              border: '1px solid rgba(77,143,255,0.25)',
+              borderRadius: 100,
+              background: 'rgba(77,143,255,0.06)',
+              marginBottom: 20,
+            }}>
+              <span style={{
+                fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4d8fff',
+              }}>
+                CE QUE NOUS COUVRONS
+              </span>
+            </div>
+
+            <h2 style={{
+              fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 32,
+              color: '#ffffff', margin: '0 0 20px', lineHeight: 1.15,
+            }}>
+              De A à Z, le parcours étudiant
+            </h2>
+
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 28px', maxWidth: 720 }}>
+              {"Dalili documente l'intégralité du parcours — de la préparation du dossier Campus France à la vie quotidienne en France :"}
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0 32px' }}>
+              {coverage.map(item => (
                 <Link
+                  key={item.label}
                   href={item.href}
                   style={{
-                    fontFamily: 'var(--font-dm-sans)',
-                    fontSize: '15px',
-                    color: 'rgba(77,143,255,0.85)',
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '8px 0',
+                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    color: 'rgba(255,255,255,0.75)',
                     textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
+                    fontFamily: 'var(--font-dm-sans)', fontSize: 15,
+                    transition: 'color 0.2s',
                   }}
                 >
-                  <span style={{ color: 'rgba(77,143,255,0.4)', fontSize: '12px' }}>→</span>
+                  <span style={{ color: '#014DF8', fontWeight: 700, flexShrink: 0 }}>→</span>
                   {item.label}
                 </Link>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </div>
+          </div>
 
-          {/* Divider */}
-          <div style={styles.divider} />
-
-          {/* CTA */}
-          <div style={{
-            padding: 'clamp(28px,4vw,44px)',
-            background: 'linear-gradient(135deg, rgba(77,143,255,0.06) 0%, rgba(1,5,16,0.98) 60%)',
-            border: '1px solid rgba(77,143,255,0.15)',
-            borderRadius: 16,
-            textAlign: 'center',
-          }}>
-            <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '18px', color: '#ffffff', margin: '0 0 8px' }}>
-              Restez informé
-            </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, margin: '0 0 24px' }}>
-              {"Laissez votre email — on vous prévient dès qu'un nouveau guide sort."}
-            </p>
-            <AboutJoinForm />
+          {/* ── CTA ── */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 60 }}>
+            <div style={{
+              padding: 'clamp(28px,4vw,44px)',
+              background: 'linear-gradient(135deg, rgba(1,77,248,0.08) 0%, rgba(1,5,16,0.98) 60%)',
+              border: '1px solid rgba(1,77,248,0.18)',
+              borderRadius: 20,
+              textAlign: 'center',
+            }}>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 18, color: '#ffffff', margin: '0 0 8px' }}>
+                Restez informé
+              </p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: '0 0 24px' }}>
+                {"Laissez votre email — on vous prévient dès qu'un nouveau guide sort."}
+              </p>
+              <AboutJoinForm />
+            </div>
           </div>
 
         </div>
-      </div>
+      </main>
     </>
   );
 }
