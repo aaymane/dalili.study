@@ -24,7 +24,7 @@ const datasetSchema = {
   description: 'Données vérifiées sur le visa étudiant, le budget, le logement et les frais de scolarité pour les étudiants étrangers en France',
   url: `${SITE_URL}/stats`,
   creator: { '@type': 'Organization', name: 'Dalili', url: SITE_URL },
-  dateModified: '2026-06-01',
+  dateModified: '2026-06-24',
   keywords: [
     'visa étudiant France statistiques',
     'budget étudiant étranger France',
@@ -33,39 +33,53 @@ const datasetSchema = {
   ],
 };
 
-const CITY_DATA = [
-  { city: 'Paris',          budgetMin: 900,  budgetMax: 1500, students: '700 000', unis: 17 },
-  { city: 'Lyon',           budgetMin: 700,  budgetMax: 1200, students: '180 000', unis: 4  },
-  { city: 'Bordeaux',       budgetMin: 650,  budgetMax: 1100, students: '100 000', unis: 3  },
-  { city: 'Toulouse',       budgetMin: 650,  budgetMax: 1050, students: '130 000', unis: 3  },
-  { city: 'Marseille',      budgetMin: 660,  budgetMax: 1100, students: '80 000',  unis: 1  },
-  { city: 'Montpellier',    budgetMin: 650,  budgetMax: 1050, students: '75 000',  unis: 2  },
-  { city: 'Strasbourg',     budgetMin: 650,  budgetMax: 1000, students: '55 000',  unis: 1  },
-  { city: 'Lille',          budgetMin: 620,  budgetMax: 1000, students: '120 000', unis: 3  },
-  { city: 'Nantes',         budgetMin: 620,  budgetMax: 1000, students: '65 000',  unis: 1  },
-  { city: 'Nice',           budgetMin: 750,  budgetMax: 1200, students: '30 000',  unis: 1  },
-  { city: 'Rennes',         budgetMin: 600,  budgetMax: 950,  students: '70 000',  unis: 2  },
-  { city: 'Grenoble',       budgetMin: 620,  budgetMax: 1000, students: '60 000',  unis: 2  },
-  { city: 'Clermont-Fd',    budgetMin: 500,  budgetMax: 800,  students: '40 000',  unis: 1  },
-  { city: 'Dijon',          budgetMin: 550,  budgetMax: 850,  students: '35 000',  unis: 1  },
+// Budget BRUT = loyer CROUS + nourriture + transport + téléphone + santé (sans aides) + divers
+// Budget NET  = BRUT - CAF/APL - économie RU (repas 1€) - économie transport étudiant - CSS (santé = 0€)
+const CITY_BUDGET = [
+  { city: 'Paris',       brut: 950,  net: 650,  caf: 200, students: '700 000', unis: 17 },
+  { city: 'Lyon',        brut: 730,  net: 470,  caf: 160, students: '180 000', unis: 4  },
+  { city: 'Bordeaux',    brut: 680,  net: 420,  caf: 130, students: '100 000', unis: 3  },
+  { city: 'Toulouse',    brut: 670,  net: 410,  caf: 130, students: '130 000', unis: 3  },
+  { city: 'Marseille',   brut: 670,  net: 420,  caf: 120, students: '80 000',  unis: 1  },
+  { city: 'Montpellier', brut: 680,  net: 420,  caf: 130, students: '75 000',  unis: 2  },
+  { city: 'Strasbourg',  brut: 670,  net: 420,  caf: 120, students: '55 000',  unis: 1  },
+  { city: 'Lille',       brut: 650,  net: 400,  caf: 120, students: '120 000', unis: 3  },
+  { city: 'Nantes',      brut: 660,  net: 410,  caf: 120, students: '65 000',  unis: 1  },
+  { city: 'Nice',        brut: 780,  net: 510,  caf: 150, students: '30 000',  unis: 1  },
+  { city: 'Rennes',      brut: 640,  net: 400,  caf: 110, students: '70 000',  unis: 2  },
+  { city: 'Grenoble',    brut: 650,  net: 410,  caf: 110, students: '60 000',  unis: 2  },
+  { city: 'Clermont-Fd', brut: 580,  net: 370,  caf: 100, students: '40 000',  unis: 1  },
+  { city: 'Dijon',       brut: 600,  net: 380,  caf: 100, students: '35 000',  unis: 1  },
+];
+
+const BORDEAUX_BREAKDOWN = [
+  { poste: 'Loyer CROUS',         brut: '280 €',  net: '280 €'   },
+  { poste: 'CAF / APL',           brut: '—',       net: '−130 €', netColor: '#22c55e' },
+  { poste: 'Nourriture (RU + courses)', brut: '200 €', net: '120 €' },
+  { poste: 'Transport',           brut: '50 €',   net: '25 €'    },
+  { poste: 'Téléphone',           brut: '15 €',   net: '15 €'    },
+  { poste: 'Santé',               brut: '40 €',   net: '0 € (CSS)' },
+  { poste: 'Divers',              brut: '60 €',   net: '60 €'    },
 ];
 
 const s = {
-  page: { background: '#010510', minHeight: '100vh', padding: 'clamp(60px,8vw,100px) clamp(16px,5vw,64px)' } as React.CSSProperties,
-  inner: { maxWidth: 900, margin: '0 auto' } as React.CSSProperties,
-  eyebrow: { fontFamily: 'var(--font-montserrat)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(77,143,255,0.75)', marginBottom: 14 } as React.CSSProperties,
-  h1: { fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 'clamp(24px,4vw,44px)', color: '#ffffff', margin: '0 0 14px', lineHeight: 1.1, letterSpacing: '-0.01em' } as React.CSSProperties,
-  lead: { fontFamily: 'var(--font-dm-sans)', fontSize: '15px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: '0 0 64px', maxWidth: 600 } as React.CSSProperties,
-  sectionTitle: { fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: '13px', letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#4d8fff', margin: '56px 0 20px' } as React.CSSProperties,
-  statGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(240px,100%),1fr))', gap: 14, marginBottom: 8 } as React.CSSProperties,
-  statCard: { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '20px 22px' } as React.CSSProperties,
-  statVal: { fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 28, color: '#ffffff', lineHeight: 1, marginBottom: 6 } as React.CSSProperties,
-  statLabel: { fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, margin: 0 } as React.CSSProperties,
-  statSource: { fontFamily: 'var(--font-dm-sans)', fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 8 } as React.CSSProperties,
-  table: { width: '100%', borderCollapse: 'collapse' as const, marginTop: 4 } as React.CSSProperties,
-  th: { fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.4)', padding: '10px 14px', textAlign: 'left' as const, borderBottom: '1px solid rgba(255,255,255,0.07)' } as React.CSSProperties,
-  td: { fontFamily: 'var(--font-dm-sans)', fontSize: 14, color: 'rgba(255,255,255,0.75)', padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)' } as React.CSSProperties,
-  note: { fontFamily: 'var(--font-dm-sans)', fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 12 } as React.CSSProperties,
+  page:        { background: '#010510', minHeight: '100vh', padding: 'clamp(60px,8vw,100px) clamp(16px,5vw,64px)' } as React.CSSProperties,
+  inner:       { maxWidth: 900, margin: '0 auto' } as React.CSSProperties,
+  eyebrow:     { fontFamily: 'var(--font-montserrat)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase' as const, color: 'rgba(77,143,255,0.75)', marginBottom: 14 } as React.CSSProperties,
+  h1:          { fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 'clamp(24px,4vw,44px)', color: '#ffffff', margin: '0 0 14px', lineHeight: 1.1, letterSpacing: '-0.01em' } as React.CSSProperties,
+  lead:        { fontFamily: 'var(--font-dm-sans)', fontSize: '15px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: '0 0 64px', maxWidth: 600 } as React.CSSProperties,
+  sectionTitle:{ fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: '13px', letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#4d8fff', margin: '56px 0 20px' } as React.CSSProperties,
+  statGrid:    { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(240px,100%),1fr))', gap: 14, marginBottom: 8 } as React.CSSProperties,
+  statCard:    { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '20px 22px' } as React.CSSProperties,
+  statVal:     { fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 28, color: '#ffffff', lineHeight: 1, marginBottom: 6 } as React.CSSProperties,
+  statLabel:   { fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.5, margin: 0 } as React.CSSProperties,
+  statSource:  { fontFamily: 'var(--font-dm-sans)', fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 8 } as React.CSSProperties,
+  table:       { width: '100%', borderCollapse: 'collapse' as const, marginTop: 4 } as React.CSSProperties,
+  th:          { fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.4)', padding: '10px 14px', textAlign: 'left' as const, borderBottom: '1px solid rgba(255,255,255,0.07)' } as React.CSSProperties,
+  thNet:       { fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(34,197,94,0.7)', padding: '10px 14px', textAlign: 'left' as const, borderBottom: '1px solid rgba(255,255,255,0.07)' } as React.CSSProperties,
+  td:          { fontFamily: 'var(--font-dm-sans)', fontSize: 14, color: 'rgba(255,255,255,0.75)', padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)' } as React.CSSProperties,
+  tdNet:       { fontFamily: 'var(--font-dm-sans)', fontSize: 14, fontWeight: 700, color: '#22c55e', padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)' } as React.CSSProperties,
+  note:        { fontFamily: 'var(--font-dm-sans)', fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 12 } as React.CSSProperties,
 };
 
 export default function StatsPage() {
@@ -154,31 +168,80 @@ export default function StatsPage() {
             ))}
           </div>
 
-          {/* ── Tableau villes */}
-          <p style={s.sectionTitle}>Budget mensuel par ville universitaire</p>
+          {/* ── Exemple Bordeaux détaillé */}
+          <p style={s.sectionTitle}>Exemple — Bordeaux en résidence CROUS</p>
+          <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>
+            Décomposition poste par poste pour un étudiant en CROUS avec les aides étudiantes.
+          </p>
+          <div style={{ overflowX: 'auto', marginBottom: 8 }}>
+            <table style={s.table}>
+              <thead>
+                <tr>
+                  <th style={s.th}>Poste</th>
+                  <th style={s.th}>Budget BRUT</th>
+                  <th style={s.thNet}>Budget NET ✓</th>
+                </tr>
+              </thead>
+              <tbody>
+                {BORDEAUX_BREAKDOWN.map((row, i) => (
+                  <tr key={i}>
+                    <td style={{ ...s.td, color: 'rgba(255,255,255,0.6)' }}>{row.poste}</td>
+                    <td style={s.td}>{row.brut}</td>
+                    <td style={{ ...s.td, color: row.netColor ?? 'rgba(255,255,255,0.75)' }}>{row.net}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td style={{ ...s.td, fontWeight: 700, color: '#fff', borderTop: '2px solid rgba(255,255,255,0.12)', borderBottom: 'none' }}>TOTAL</td>
+                  <td style={{ ...s.td, fontFamily: 'var(--font-montserrat)', fontWeight: 800, color: '#fff', borderTop: '2px solid rgba(255,255,255,0.12)', borderBottom: 'none' }}>645 €</td>
+                  <td style={{ ...s.tdNet, fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: 16, borderTop: '2px solid rgba(34,197,94,0.3)', borderBottom: 'none' }}>370 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style={{ background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 12, padding: '14px 18px', marginTop: 16 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.72)', margin: 0, lineHeight: 1.7 }}>
+              <strong style={{ color: '#f59e0b' }}>⚠️ Important :</strong> Le consulat exige <strong style={{ color: '#fff' }}>615 €/mois de ressources prouvables</strong> — pas 615 € de dépenses.
+              Avec les aides, tu peux vivre avec 370–450 €/mois réellement, <strong>mais tu dois justifier 615 €/mois disponibles sur ton compte</strong> pour obtenir le visa.
+            </p>
+          </div>
+
+          {/* ── Tableau 14 villes BRUT / NET */}
+          <p style={s.sectionTitle}>Budget mensuel CROUS — 14 villes (brut et net)</p>
+          <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>
+            Budget BRUT = avant aides. Budget NET = après CAF, repas RU à 3,30 €, transport étudiant réduit, CSS (santé gratuite).
+          </p>
           <div style={{ overflowX: 'auto' }}>
             <table style={s.table}>
               <thead>
                 <tr>
-                  {['Ville', 'Budget min', 'Budget max', 'Étudiants', 'Universités'].map(col => (
-                    <th key={col} style={s.th}>{col}</th>
-                  ))}
+                  <th style={s.th}>Ville</th>
+                  <th style={s.th}>Budget BRUT</th>
+                  <th style={s.thNet}>Budget NET ✓</th>
+                  <th style={{ ...s.th, color: 'rgba(34,197,94,0.5)' }}>CAF estimée</th>
+                  <th style={s.th}>Étudiants</th>
                 </tr>
               </thead>
               <tbody>
-                {CITY_DATA.map((row, i) => (
+                {CITY_BUDGET.map((row, i) => (
                   <tr key={i}>
                     <td style={{ ...s.td, color: '#ffffff', fontWeight: 600 }}>{row.city}</td>
-                    <td style={s.td}>{row.budgetMin} €</td>
-                    <td style={s.td}>{row.budgetMax} €</td>
+                    <td style={s.td}>{row.brut} €</td>
+                    <td style={s.tdNet}>{row.net} €</td>
+                    <td style={{ ...s.td, color: '#22c55e' }}>−{row.caf} €</td>
                     <td style={s.td}>{row.students}</td>
-                    <td style={s.td}>{row.unis}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p style={s.note}>Sources : CROUS, observatoires des loyers, OVE 2025-2026. Budget mensuel tout compris (loyer après APL, alimentation, transport, abonnements).</p>
+          <p style={s.note}>
+            * Budget NET calculé en CROUS avec CAF, repas RU étudiant (3,30 €) et abonnement transport réduit.
+            La CAF réelle dépend de votre situation — simulez sur caf.fr.
+            <br />
+            ** Ces montants sont des estimations. Le consulat exige 615 €/mois prouvables indépendamment de vos aides.
+            <br />
+            Sources : CROUS, CAF.fr, observatoires des loyers, OVE 2025-2026.
+          </p>
 
           <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '64px 0 0' }} />
         </div>

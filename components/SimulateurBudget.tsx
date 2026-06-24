@@ -569,6 +569,14 @@ function ResultsPanel({
   const niveauLabel = NIVEAU_LABELS[niveau] ?? niveau;
   const logementLabel = logement === 'crous' ? 'CROUS' : logement === 'coloc' ? 'colocation' : logement === 'studio' ? 'studio privé' : "chez l'habitant";
   const isMensuel = paiementFrais === 'mensuel';
+  const [showNet, setShowNet] = useState(true);
+
+  const cafMid             = Math.round((cafMin + cafMax) / 2);
+  const economieRU         = 70;
+  const economieTransport  = Math.round(transport / 2);
+  const economieCSS        = 40;
+  const totalEconomies     = cafMid + economieRU + economieTransport + economieCSS;
+  const netBudget          = Math.max(0, total - totalEconomies);
 
   const row = (label: string, value: string, sub?: string) => (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: isMensuel && sub ? 'flex-start' : 'center', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -595,6 +603,39 @@ function ResultsPanel({
         <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)', margin: '8px 0 0' }}>
           Estimation basée sur des données réelles — à affiner selon ta situation exacte.
         </p>
+
+        {/* Toggle BRUT / NET */}
+        <div style={{ display: 'inline-flex', borderRadius: 100, border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', marginTop: 20, background: 'rgba(255,255,255,0.03)' }}>
+          {[
+            { label: 'Budget BRUT', active: !showNet, onClick: () => setShowNet(false) },
+            { label: 'Budget NET ✓', active: showNet,  onClick: () => setShowNet(true)  },
+          ].map(btn => (
+            <button
+              key={btn.label}
+              onClick={btn.onClick}
+              style={{
+                padding: '8px 18px',
+                fontFamily: 'var(--font-montserrat)',
+                fontWeight: 700,
+                fontSize: '0.6rem',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                border: 'none',
+                cursor: 'pointer',
+                background: btn.active ? (btn.label.includes('NET') ? 'rgba(34,197,94,0.18)' : 'rgba(255,255,255,0.08)') : 'transparent',
+                color: btn.active ? (btn.label.includes('NET') ? '#22c55e' : '#fff') : 'rgba(255,255,255,0.35)',
+                transition: 'all 0.18s ease',
+              }}
+            >
+              {btn.label}
+            </button>
+          ))}
+        </div>
+        {showNet && (
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(34,197,94,0.7)', margin: '8px 0 0', lineHeight: 1.5 }}>
+            Montant réel estimé après CAF, repas RU, transport réduit et CSS (santé gratuite).
+          </p>
+        )}
       </div>
 
       {/* ── Budget mensuel ── */}
@@ -613,9 +654,44 @@ function ResultsPanel({
           'pour planifier — se paient en 1 seule fois à la rentrée'
         )}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0 0' }}>
-          <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.88rem', color: '#fff' }}>TOTAL MENSUEL</span>
-          <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: '2rem', letterSpacing: '0.04em', color: '#4d8fff' }}>{total} €</span>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.88rem', color: '#fff' }}>
+            {showNet ? 'BUDGET NET ESTIMÉ' : 'TOTAL MENSUEL BRUT'}
+          </span>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+            {showNet && (
+              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.28)', textDecoration: 'line-through' }}>
+                {total} €
+              </span>
+            )}
+            <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: '2rem', letterSpacing: '0.04em', color: showNet ? '#22c55e' : '#4d8fff' }}>
+              {showNet ? netBudget : total} €
+            </span>
+          </div>
         </div>
+
+        {/* Savings breakdown when NET */}
+        {showNet && (
+          <div style={{ marginTop: 16, padding: '14px 16px', background: 'rgba(34,197,94,0.05)', border: '1px solid rgba(34,197,94,0.15)', borderRadius: 12 }}>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(34,197,94,0.7)', margin: '0 0 10px' }}>
+              Aides déduites
+            </p>
+            {[
+              { label: 'CAF / APL (estimation)', val: cafMid },
+              { label: `Repas RU à 3,30 € (vs 8-12 €)`, val: economieRU },
+              { label: `Abonnement transport (−50 %)`, val: economieTransport },
+              { label: `CSS — santé gratuite`, val: economieCSS },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: i < 3 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)' }}>{item.label}</span>
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.78rem', color: '#22c55e' }}>−{item.val} €</span>
+              </div>
+            ))}
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 10, borderTop: '1px solid rgba(34,197,94,0.2)', marginTop: 6 }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.78rem', color: '#22c55e' }}>Total économies</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.88rem', color: '#22c55e' }}>−{totalEconomies} €</span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ── CAF ── */}
@@ -729,6 +805,9 @@ function ResultsPanel({
         </p>
         <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.7 }}>
           Le consulat français exige de justifier <strong style={{ color: '#fff' }}>615 €/mois minimum</strong> de ressources pour obtenir ton visa étudiant, soit environ <strong style={{ color: '#fff' }}>7 380 € disponibles</strong> sur ton compte bancaire pour 12 mois. Ce chiffre est une exigence administrative, pas un budget de vie.
+          {showNet && (
+            <> <strong style={{ color: '#f59e0b' }}>Même si ton budget réel est de {netBudget} €/mois avec les aides, tu dois prouver 615 €/mois de ressources disponibles.</strong></>
+          )}
         </p>
       </div>
 

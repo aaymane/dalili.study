@@ -11,6 +11,11 @@ export interface City {
   costTransport: string;
   monthlyBudgetMin: number;
   monthlyBudgetMax: number;
+  monthlyBudgetBrut: number;
+  monthlyBudgetNet: number;
+  cafEstimee: number;
+  economieRU: number;
+  economieTransport: number;
   universities: { name: string; slug: string }[];
   neighborhoods: { name: string; description: string }[];
   pros: string[];
@@ -39,6 +44,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '25 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 780,
+    monthlyBudgetBrut: 680,
+    monthlyBudgetNet: 420,
+    cafEstimee: 130,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université de Bordeaux', slug: 'universite-de-bordeaux' },
       { name: 'Sciences Po Bordeaux', slug: 'sciences-po-bordeaux' },
@@ -96,6 +106,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '29 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 1350,
+    monthlyBudgetBrut: 950,
+    monthlyBudgetNet: 650,
+    cafEstimee: 200,
+    economieRU: 60,
+    economieTransport: 20,
     universities: [
       { name: 'Sorbonne Université', slug: 'sorbonne-universite' },
       { name: 'Sciences Po Paris', slug: 'sciences-po-paris' },
@@ -154,6 +169,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '22 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 750,
+    monthlyBudgetBrut: 660,
+    monthlyBudgetNet: 410,
+    cafEstimee: 120,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Nantes Université', slug: 'universite-de-nantes' },
       { name: 'Audencia Business School', slug: 'audencia-nantes' },
@@ -206,6 +226,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '30 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 800,
+    monthlyBudgetBrut: 730,
+    monthlyBudgetNet: 470,
+    cafEstimee: 160,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université Lyon 1 (Claude Bernard)', slug: 'universite-lyon-1' },
       { name: 'Université Lyon 2 (Lumière)', slug: 'universite-lyon-2' },
@@ -261,6 +286,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '28 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 780,
+    monthlyBudgetBrut: 670,
+    monthlyBudgetNet: 410,
+    cafEstimee: 130,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université Toulouse III Paul Sabatier', slug: 'universite-toulouse-3' },
       { name: 'Université Toulouse Capitole', slug: 'universite-toulouse-capitole' },
@@ -322,6 +352,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '26 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 780,
+    monthlyBudgetBrut: 680,
+    monthlyBudgetNet: 420,
+    cafEstimee: 130,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université de Montpellier', slug: 'universite-de-montpellier' },
       { name: 'Université Paul Valéry Montpellier 3', slug: 'universite-paul-valery' },
@@ -381,6 +416,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '29 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 780,
+    monthlyBudgetBrut: 670,
+    monthlyBudgetNet: 420,
+    cafEstimee: 120,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université de Strasbourg', slug: 'universite-de-strasbourg' },
       { name: 'Sciences Po Strasbourg', slug: 'sciences-po-strasbourg' },
@@ -441,6 +481,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '27 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 750,
+    monthlyBudgetBrut: 650,
+    monthlyBudgetNet: 400,
+    cafEstimee: 120,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université de Lille', slug: 'universite-de-lille' },
       { name: 'Sciences Po Lille', slug: 'sciences-po-lille' },
@@ -501,6 +546,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '30 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 750,
+    monthlyBudgetBrut: 670,
+    monthlyBudgetNet: 420,
+    cafEstimee: 120,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Aix-Marseille Université', slug: 'aix-marseille-universite' },
       { name: 'KEDGE Business School Marseille', slug: 'kedge-marseille' },
@@ -560,6 +610,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '30 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 850,
+    monthlyBudgetBrut: 780,
+    monthlyBudgetNet: 510,
+    cafEstimee: 150,
+    economieRU: 60,
+    economieTransport: 20,
     universities: [
       { name: "Université Côte d'Azur (UCA)", slug: 'universite-cote-azur' },
       { name: 'EDHEC Nice', slug: 'edhec-nice' },
@@ -618,6 +673,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '26 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 750,
+    monthlyBudgetBrut: 640,
+    monthlyBudgetNet: 400,
+    cafEstimee: 110,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université de Rennes', slug: 'universite-rennes-1' },
       { name: 'Université Rennes 2', slug: 'universite-rennes-2' },
@@ -677,6 +737,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '28 €/mois',
     monthlyBudgetMin: 480,
     monthlyBudgetMax: 750,
+    monthlyBudgetBrut: 650,
+    monthlyBudgetNet: 410,
+    cafEstimee: 110,
+    economieRU: 70,
+    economieTransport: 20,
     universities: [
       { name: 'Université Grenoble Alpes', slug: 'universite-grenoble-alpes' },
       { name: 'Grenoble INP', slug: 'grenoble-inp' },
@@ -736,6 +801,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '22 €/mois',
     monthlyBudgetMin: 450,
     monthlyBudgetMax: 680,
+    monthlyBudgetBrut: 580,
+    monthlyBudgetNet: 370,
+    cafEstimee: 100,
+    economieRU: 50,
+    economieTransport: 20,
     universities: [
       { name: 'Université Clermont Auvergne', slug: 'universite-clermont-auvergne' },
       { name: 'ISIMA (informatique)', slug: 'isima-clermont' },
@@ -794,6 +864,11 @@ export const CITIES: Record<string, City> = {
     costTransport: '24 €/mois',
     monthlyBudgetMin: 450,
     monthlyBudgetMax: 680,
+    monthlyBudgetBrut: 600,
+    monthlyBudgetNet: 380,
+    cafEstimee: 100,
+    economieRU: 60,
+    economieTransport: 20,
     universities: [
       { name: 'Université de Bourgogne', slug: 'universite-bourgogne' },
       { name: 'BSB (Burgundy School of Business)', slug: 'bsb-dijon' },
