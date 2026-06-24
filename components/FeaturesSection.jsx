@@ -195,7 +195,7 @@ export default function FeaturesSection() {
               <p style={{
                 fontFamily: 'var(--font-dm-sans)',
                 fontSize: 12,
-                color: 'rgba(255,255,255,0.28)',
+                color: 'rgba(255,255,255,0.65)',
                 margin: '0 0 16px',
               }}>
                 49 guides · Mis à jour juin 2026
@@ -258,34 +258,42 @@ export default function FeaturesSection() {
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
               fontSize: 12,
-              color: 'rgba(255,255,255,0.45)',
+              color: 'rgba(255,255,255,0.82)',
               margin: '0 0 16px',
               flex: 1,
             }}>
               Simulateur · Calendrier · Comparateur
             </p>
 
-            <Link
-              href="/simulateur"
-              style={{
-                display: 'inline-block',
-                background: 'rgba(34,197,94,0.12)',
-                color: '#22c55e',
-                border: 'none',
-                padding: '7px 16px',
-                borderRadius: 20,
-                fontFamily: 'var(--font-dm-sans)',
-                fontSize: 12,
-                fontWeight: 500,
-                textDecoration: 'none',
-                width: 'fit-content',
-                transition: 'background 0.2s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.22)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.12)'; }}
-            >
-              Accéder aux outils →
-            </Link>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {[
+                { href: '/simulateur', label: 'Simulateur →' },
+                { href: '/calendrier', label: 'Calendrier →' },
+                { href: '/comparer',   label: 'Comparateur →' },
+              ].map(btn => (
+                <Link
+                  key={btn.href}
+                  href={btn.href}
+                  style={{
+                    display: 'inline-block',
+                    background: 'rgba(34,197,94,0.12)',
+                    color: '#22c55e',
+                    border: 'none',
+                    padding: '6px 14px',
+                    borderRadius: 20,
+                    fontFamily: 'var(--font-dm-sans)',
+                    fontSize: 12,
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                    transition: 'background 0.2s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.2)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(34,197,94,0.12)'; }}
+                >
+                  {btn.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* ── Card 3: MENTORS BIENTÔT — bottom right */}
@@ -339,7 +347,7 @@ export default function FeaturesSection() {
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
               fontSize: 12,
-              color: 'rgba(255,255,255,0.45)',
+              color: 'rgba(255,255,255,0.82)',
               margin: '0 0 16px',
               flex: 1,
             }}>

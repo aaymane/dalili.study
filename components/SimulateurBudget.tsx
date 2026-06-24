@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 // ── Budget data ───────────────────────────────────────────────────────────
@@ -85,6 +85,7 @@ const dot = (selected: boolean): React.CSSProperties => ({
 // ── Main component ────────────────────────────────────────────────────────
 export default function SimulateurBudget() {
   // steps: 0-5 = questions (6 total), 6 = email capture, 7 = results
+  const simulateurRef = useRef<HTMLDivElement>(null);
   const [step,     setStep]     = useState(0);
   const [visible,  setVisible]  = useState(true);
   const [answers,  setAnswers]  = useState<Answers>({
@@ -130,9 +131,14 @@ export default function SimulateurBudget() {
     setTimeout(() => { fn(); setVisible(true); }, 180);
   };
 
+  const scrollToTop = () => {
+    setTimeout(() => {
+      simulateurRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
   const goNext  = () => {
-    if (step < 5) transition(() => setStep(s => s + 1));
-    else transition(() => setStep(6)); // → email capture
+    if (step < 5) { transition(() => setStep(s => s + 1)); scrollToTop(); }
+    else { transition(() => setStep(6)); scrollToTop(); }
   };
   const goBack  = () => { if (step > 0) transition(() => setStep(s => s - 1)); };
   const goReset = () => transition(() => {
@@ -196,7 +202,7 @@ export default function SimulateurBudget() {
 
   // ── Render ────────────────────────────────────────────────────────────
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 clamp(16px,3vw,24px)' }}>
+    <div ref={simulateurRef} style={{ maxWidth: 720, margin: '0 auto', padding: '0 clamp(16px,3vw,24px)' }}>
 
       {/* ── Questions (steps 0-5) ── */}
       {step < 6 && (

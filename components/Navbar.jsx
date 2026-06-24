@@ -225,18 +225,22 @@ export default function Navbar() {
         <div
           onClick={handleLogoClick}
           style={{
-            fontFamily: 'var(--font-bebas)',
-            fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
-            color: pathname === '/' ? '#4d8fff' : 'rgba(255,255,255,0.88)',
-            cursor: 'pointer', paddingBottom: 16,
-            borderBottom: '1px solid rgba(255,255,255,0.07)',
-            marginBottom: 16, lineHeight: 1,
+            fontFamily: 'var(--font-dm-sans)',
+            fontSize: 24, fontWeight: 700, letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: pathname === '/' ? '#4d8fff' : '#ffffff',
+            cursor: 'pointer', padding: '18px 0',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            lineHeight: 1,
+            opacity: isOpen ? 1 : 0,
+            transform: isOpen ? 'translateY(0)' : 'translateY(-8px)',
+            transition: 'opacity 0.3s ease 0ms, transform 0.3s ease 0ms',
           }}
         >
           Accueil
         </div>
 
-        {NAV_LINKS.map(link => {
+        {NAV_LINKS.map((link, i) => {
           const active = pathname === link.href || pathname.startsWith(link.href + '/');
           return (
             <Link
@@ -244,13 +248,17 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setIsOpen(false)}
               style={{
-                fontFamily: 'var(--font-bebas)',
-                fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
-                color: active ? '#4d8fff' : 'rgba(255,255,255,0.88)',
+                fontFamily: 'var(--font-dm-sans)',
+                fontSize: 24, fontWeight: 700, letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: active ? '#4d8fff' : '#ffffff',
                 textDecoration: 'none', lineHeight: 1,
-                paddingBottom: 16,
-                borderBottom: '1px solid rgba(255,255,255,0.07)',
-                marginBottom: 16, display: 'block',
+                padding: '18px 0',
+                borderBottom: '1px solid rgba(255,255,255,0.08)',
+                display: 'block',
+                opacity: isOpen ? 1 : 0,
+                transform: isOpen ? 'translateY(0)' : 'translateY(-8px)',
+                transition: `opacity 0.3s ease ${(i + 1) * 50}ms, transform 0.3s ease ${(i + 1) * 50}ms`,
               }}
             >
               {link.label}
@@ -263,30 +271,40 @@ export default function Navbar() {
           href={CHECKLIST_LINK.href}
           onClick={() => setIsOpen(false)}
           style={{
-            fontFamily: 'var(--font-bebas)',
-            fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
-            color: pathname === CHECKLIST_LINK.href ? '#4d8fff' : 'rgba(255,255,255,0.88)',
+            fontFamily: 'var(--font-dm-sans)',
+            fontSize: 24, fontWeight: 700, letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: pathname === CHECKLIST_LINK.href ? '#4d8fff' : '#ffffff',
             textDecoration: 'none', lineHeight: 1,
-            paddingBottom: 16,
-            borderBottom: '1px solid rgba(255,255,255,0.07)',
-            marginBottom: 16, display: 'block',
+            padding: '18px 0',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            display: 'block',
+            opacity: isOpen ? 1 : 0,
+            transform: isOpen ? 'translateY(0)' : 'translateY(-8px)',
+            transition: `opacity 0.3s ease ${(NAV_LINKS.length + 1) * 50}ms, transform 0.3s ease ${(NAV_LINKS.length + 1) * 50}ms`,
           }}
         >
           Checklist PDF
         </Link>
 
-        <div style={{ marginTop: 'auto', paddingTop: 32 }}>
+        <div style={{
+          marginTop: 'auto', paddingTop: 32,
+          opacity: isOpen ? 1 : 0,
+          transform: isOpen ? 'translateY(0)' : 'translateY(-8px)',
+          transition: `opacity 0.3s ease ${(NAV_LINKS.length + 2) * 50}ms, transform 0.3s ease ${(NAV_LINKS.length + 2) * 50}ms`,
+        }}>
           <a
             href={ctaHref}
             onClick={() => setIsOpen(false)}
             style={{
               display: 'block', textAlign: 'center',
-              padding: '16px 32px',
-              background: '#014df8', color: '#fff',
-              borderRadius: 100,
-              fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-              fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase',
+              padding: '16px',
+              background: '#014DF8', color: '#ffffff',
+              borderRadius: 12,
+              fontFamily: 'var(--font-dm-sans)', fontWeight: 700,
+              fontSize: 14, letterSpacing: '0.1em', textTransform: 'uppercase',
               textDecoration: 'none',
+              width: '100%',
             }}
           >
             Rejoindre la liste d&apos;attente
