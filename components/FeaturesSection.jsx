@@ -244,7 +244,7 @@ export default function FeaturesSection() {
             <br />
             {'FAIT POUR TOI'.split('').map((ch, i) => (
               <span key={i} className="char-wrap" style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}>
-                <span className="feat-char" style={{ display: 'inline-block', color: 'rgba(255,255,255,0.5)' }}>{ch}</span>
+                <span className="feat-char" style={{ display: 'inline-block', color: 'rgba(255,255,255,0.92)' }}>{ch}</span>
               </span>
             ))}
           </h2>
@@ -356,7 +356,7 @@ export default function FeaturesSection() {
                   <span style={{
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.65rem', fontWeight: 700,
-                    letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)',
+                    letterSpacing: '0.2em', color: 'rgba(255,255,255,0.92)',
                   }}>
                     {card.tag}
                   </span>
@@ -392,8 +392,8 @@ export default function FeaturesSection() {
 
               <p style={{
                 fontFamily: 'var(--font-dm-sans)',
-                fontWeight: 300, fontSize: '0.92rem',
-                lineHeight: 1.72, color: 'rgba(255,255,255,0.45)',
+                fontWeight: 400, fontSize: '0.92rem',
+                lineHeight: 1.72, color: 'rgba(255,255,255,0.92)',
                 margin: 0,
                 position: 'relative', zIndex: 3,
               }}>

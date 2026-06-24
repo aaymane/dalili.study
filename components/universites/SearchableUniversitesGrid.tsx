@@ -58,7 +58,7 @@ export default function SearchableUniversitesGrid({ unis }: Props) {
             }}
           />
           {query && (
-            <button onClick={() => setQuery('')} style={{ position: 'absolute', right: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 6, display: 'flex', alignItems: 'center', color: 'rgba(255,255,255,0.7)', borderRadius: 6 }}>
+            <button onClick={() => setQuery('')} style={{ position: 'absolute', right: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 6, display: 'flex', alignItems: 'center', color: 'rgba(255,255,255,0.92)', borderRadius: 6 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18M6 6l12 12" /></svg>
             </button>
           )}
@@ -114,13 +114,13 @@ export default function SearchableUniversitesGrid({ unis }: Props) {
                       { label: 'CROUS', value: uni.costCrous.split('–')[0].trim() },
                     ].map(stat => (
                       <div key={stat.label} style={{ padding: '8px 10px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8 }}>
-                        <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.44rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', marginBottom: 3 }}>{stat.label}</div>
+                        <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.44rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)', marginBottom: 3 }}>{stat.label}</div>
                         <div style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: '0.82rem', color: '#fff' }}>{stat.value}</div>
                       </div>
                     ))}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)' }}>
                       {(uni.internationalStudents / uni.students * 100).toFixed(0)}% étrangers
                     </span>
                     <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: ACCENT.hex }}>Voir le guide →</span>
@@ -132,8 +132,8 @@ export default function SearchableUniversitesGrid({ unis }: Props) {
         </div>
       ) : q ? (
         <div style={{ textAlign: 'center', padding: 'clamp(48px,8vw,96px) 0' }}>
-          <p style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2rem,4vw,3rem)', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.06em', margin: '0 0 12px' }}>AUCUNE UNIVERSITÉ</p>
-          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', margin: 0 }}>Essaie — bordeaux, paris, lyon, nantes, médecine, droit…</p>
+          <p style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2rem,4vw,3rem)', color: 'rgba(255,255,255,0.92)', letterSpacing: '0.06em', margin: '0 0 12px' }}>AUCUNE UNIVERSITÉ</p>
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.9)', margin: 0 }}>Essaie — bordeaux, paris, lyon, nantes, médecine, droit…</p>
         </div>
       ) : null}
     </>

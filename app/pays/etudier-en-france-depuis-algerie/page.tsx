@@ -62,7 +62,7 @@ const faqJsonLd = {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-      <td style={{ padding: '13px 0', fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.7)', paddingRight: 20, width: '45%' }}>{label}</td>
+      <td style={{ padding: '13px 0', fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', paddingRight: 20, width: '45%' }}>{label}</td>
       <td style={{ padding: '13px 0', fontFamily: 'var(--font-dm-sans)', fontWeight: 600, fontSize: '0.875rem', color: '#fff' }}>{value}</td>
     </tr>
   );
@@ -83,9 +83,9 @@ export default function AlgeriePage() {
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
                   ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.6)', textDecoration: 'none' }}>{item.label}</Link>
-                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{item.label}</span>
+                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '0.6rem' }}>›</span>}
               </span>
             ))}
           </nav>
@@ -96,9 +96,9 @@ export default function AlgeriePage() {
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.85)', display: 'inline-flex', alignItems: 'center', gap: 6 }}><MapPin size={11} strokeWidth={2.5} /> Depuis l&apos;Algérie</span>
             </div>
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3rem,8vw,6.5rem)', lineHeight: 0.9, letterSpacing: '0.03em', color: '#fff', margin: '0 0 16px' }}>
-              Étudier en France<br /><span style={{ color: 'rgba(255,255,255,0.65)' }}>depuis l&apos;Algérie.</span>
+              Étudier en France<br /><span style={{ color: 'rgba(255,255,255,0.88)' }}>depuis l&apos;Algérie.</span>
             </h1>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.75, margin: 0, maxWidth: 580 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0, maxWidth: 580 }}>
               L&apos;Algérie envoie chaque année des dizaines de milliers d&apos;étudiants en France. La procédure est spécifique aux ressortissants algériens — les Accords de 1968 changent plusieurs règles. Voici ce que vous devez vraiment savoir.
             </p>
           </div>
@@ -107,7 +107,7 @@ export default function AlgeriePage() {
           <section style={{ marginBottom: 48 }}>
             <div style={{ padding: 24, background: 'rgba(77,143,255,0.06)', border: '1px solid rgba(77,143,255,0.2)', borderRadius: 16 }}>
               <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.65rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#4d8fff', marginBottom: 8 }}>Accords franco-algériens de 1968</p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
                 Les ressortissants algériens ne sont pas soumis au droit commun des étrangers en France. Ils bénéficient du régime des Accords de 1968 pour le titre de séjour : le document qui vous sera délivré après un VLS-TS étudiant est un <strong style={{ color: '#fff' }}>certificat de résidence</strong> (et non un titre de séjour classique). Les démarches OFII restent obligatoires à l&apos;arrivée.
               </p>
             </div>
@@ -136,7 +136,7 @@ export default function AlgeriePage() {
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Délais réels 2025–2026</span>
             </div>
             <div style={{ padding: 24, background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.15)', borderRadius: 16, marginBottom: 16 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
                 <strong style={{ color: '#F59E0B' }}>⚠️ Délais terrain :</strong> La prise de rendez-vous VFS Global en Algérie est souvent saturée — les étudiants Dalili rapportent des attentes de <strong style={{ color: '#fff' }}>4 à 8 semaines rien que pour le RDV biométrie</strong>, avant même l&apos;instruction du dossier. Commencez très tôt : idéalement dès mars pour une rentrée en septembre.
               </p>
             </div>
@@ -173,7 +173,7 @@ export default function AlgeriePage() {
               ].map((doc, i) => (
                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <span style={{ color: '#4d8fff', flexShrink: 0, fontWeight: 700 }}>→</span>
-                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)' }}>{doc}</span>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)' }}>{doc}</span>
                 </li>
               ))}
             </ul>
@@ -197,7 +197,7 @@ export default function AlgeriePage() {
               ].map((step, i) => (
                 <div key={i} style={{ display: 'flex', gap: 20, padding: '14px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.7rem', color: '#4d8fff', flexShrink: 0, width: 130 }}>{step.mois}</span>
-                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.6 }}>{step.action}</span>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.6 }}>{step.action}</span>
                 </div>
               ))}
             </div>
@@ -209,13 +209,13 @@ export default function AlgeriePage() {
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(239,68,68,0.85)' }}>⚠️ Point important — Droit au travail</span>
             </div>
             <div style={{ padding: 24, background: 'rgba(239,68,68,0.04)', border: '1px solid rgba(239,68,68,0.18)', borderRadius: 16 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: '0 0 12px' }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: '0 0 12px' }}>
                 <strong style={{ color: '#fff' }}>Les étudiants algériens ont un droit au travail limité à 50% du temps légal</strong>, contre 60% pour la plupart des autres nationalités (soit environ 774 heures par an au lieu de 964 heures).
               </p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: '0 0 12px' }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: '0 0 12px' }}>
                 Cette restriction découle de la <strong style={{ color: '#4d8fff' }}>Convention bilatérale franco-algérienne de 1968</strong>, qui régit le droit au séjour et au travail des ressortissants algériens en France. Cette convention prime sur le droit commun des étrangers.
               </p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
                 <strong style={{ color: 'rgba(255,255,255,0.85)' }}>Impact budgétaire concret :</strong> si un étudiant de nationalité marocaine peut travailler jusqu&apos;à ~18h/semaine, un étudiant algérien est limité à ~15h/semaine. Prévoyez cette différence dans votre budget prévisionnel.
               </p>
             </div>
@@ -236,7 +236,7 @@ export default function AlgeriePage() {
                 { label: 'CROUS — logement étudiant en France', url: 'https://www.crous.fr' },
               ].map(link => (
                 <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', fontWeight: 500, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', fontWeight: 500, color: 'rgba(255,255,255,0.92)', textDecoration: 'none' }}
                                                 >
                   <span>{link.label}</span>
                   <span style={{ color: '#4d8fff', flexShrink: 0 }}>↗</span>
@@ -250,7 +250,7 @@ export default function AlgeriePage() {
             <div>
               <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)', margin: '0 0 6px' }}>Ressource gratuite</p>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.95rem', color: '#fff', margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 7 }}><FileText size={15} strokeWidth={2} color="#4d8fff" /> Checklist Complète Arrivée en France 2026</p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', margin: 0 }}>32 points essentiels avant et après ton arrivée — PDF gratuit</p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.92)', margin: 0 }}>32 points essentiels avant et après ton arrivée — PDF gratuit</p>
             </div>
             <Link href="/checklist" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 22px', background: '#014DF8', borderRadius: 8, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fff', whiteSpace: 'nowrap', flexShrink: 0 }}>
               Télécharger PDF →

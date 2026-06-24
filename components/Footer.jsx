@@ -31,7 +31,7 @@ function MarqueeRow({ items, reverse = false, speed = 40 }) {
             style={{
               whiteSpace: 'nowrap',
               padding: '0 1rem',
-              color: reverse ? 'rgba(255,255,255,0.60)' : 'rgba(255,255,255,0.55)',
+              color: reverse ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.88)',
               fontFamily: reverse ? 'var(--font-montserrat)' : 'var(--font-bebas)',
               fontWeight: reverse ? 400 : 400,
               fontSize: reverse ? '0.72rem' : '1.2rem',
@@ -90,7 +90,7 @@ export default function Footer() {
             fontFamily: 'var(--font-montserrat)',
             fontWeight: 700,
             fontSize: '0.75rem',
-            color: 'rgba(255,255,255,0.62)',
+            color: 'rgba(255,255,255,0.92)',
             letterSpacing: '0.12em',
           }}>
             DALILI
@@ -102,7 +102,7 @@ export default function Footer() {
           fontFamily: 'var(--font-dm-sans)',
           fontWeight: 400,
           fontSize: '0.75rem',
-          color: 'rgba(255,255,255,0.52)',
+          color: 'rgba(255,255,255,0.92)',
           letterSpacing: '0.04em',
         }}>
           © {new Date().getFullYear()} Dalili. Tous droits réservés.
@@ -137,13 +137,13 @@ export default function Footer() {
               style={{
                 fontFamily: 'var(--font-dm-sans)',
                 fontSize: '0.72rem',
-                color: 'rgba(255,255,255,0.52)',
+                color: 'rgba(255,255,255,0.90)',
                 textDecoration: 'none',
                 letterSpacing: '0.04em',
                 transition: 'color 0.2s ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.82)'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.52)'; }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,1)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.90)'; }}
             >
               {label}
             </Link>

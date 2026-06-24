@@ -211,9 +211,9 @@ export default function EmailCapture() {
               <p style={{
                 margin: 0,
                 fontFamily: 'var(--font-dm-sans)',
-                fontWeight: 300,
+                fontWeight: 400,
                 fontSize: '1rem',
-                color: 'rgba(255,255,255,0.45)',
+                color: 'rgba(255,255,255,0.92)',
                 animation: 'fadeSlideUp .6s ease .5s both',
               }}>
                 Tu es sur la liste. On te prévient en premier.
@@ -266,10 +266,10 @@ export default function EmailCapture() {
               <p style={{
                 margin: '0 0 36px',
                 fontFamily: 'var(--font-dm-sans)',
-                fontWeight: 300,
+                fontWeight: 400,
                 fontSize: '1rem',
                 lineHeight: 1.7,
-                color: 'rgba(255,255,255,0.42)',
+                color: 'rgba(255,255,255,0.92)',
               }}>
                 Rejoins 200+ étudiants qui se préparent à vivre en France avec Dalili.
               </p>
@@ -368,7 +368,7 @@ export default function EmailCapture() {
                 margin: '28px 0 0',
                 fontFamily: 'var(--font-dm-sans)',
                 fontSize: '0.78rem',
-                color: 'rgba(255,255,255,0.25)',
+                color: 'rgba(255,255,255,0.92)',
                 textAlign: 'center',
                 letterSpacing: '0.02em',
               }}>

@@ -28,7 +28,7 @@ export default function AboutJoinForm() {
     return (
       <div style={{ textAlign: 'center', padding: '20px 0' }}>
         <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.8rem', letterSpacing: '0.06em', color: '#4d8fff', marginBottom: 8 }}>C&apos;est parti !</div>
-        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', margin: 0 }}>
           Tu es dans la liste. On te tient au courant.
         </p>
       </div>

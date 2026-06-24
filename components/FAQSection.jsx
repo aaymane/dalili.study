@@ -77,13 +77,13 @@ export default function FAQSection() {
             }}>
               TES<br />
               QUES&shy;<br />TIONS.<br />
-              <span style={{ color: 'rgba(255,255,255,0.28)' }}>RÉPONDUES.</span>
+              <span style={{ color: 'rgba(255,255,255,0.92)' }}>RÉPONDUES.</span>
             </h2>
 
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontWeight: 300, fontSize: '0.85rem',
-              color: 'rgba(255,255,255,0.35)',
+              fontWeight: 400, fontSize: '0.85rem',
+              color: 'rgba(255,255,255,0.92)',
               lineHeight: 1.72, margin: 0,
             }}>
               Visa, logement, banque, CAF — les vraies réponses aux vraies questions des étudiants internationaux en France.
@@ -95,7 +95,7 @@ export default function FAQSection() {
               fontFamily: 'var(--font-montserrat)',
               fontSize: '0.55rem', fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.18)',
+              color: 'rgba(255,255,255,0.92)',
             }}>
               {open !== null
                 ? `Question ${String(open + 1).padStart(2, '0')} / ${String(FAQ_ITEMS.length).padStart(2, '0')}`
@@ -191,7 +191,7 @@ export default function FAQSection() {
                         background: isOpen ? 'rgba(1,77,248,0.12)' : 'transparent',
                         color: isOpen ? '#4d8fff' : 'rgba(255,255,255,0.4)',
                         fontSize: '1.1rem', lineHeight: 1,
-                        fontWeight: 300,
+                        fontWeight: 400,
                         transition: 'border-color 0.25s, background 0.25s, color 0.25s',
                       }}
                       aria-hidden="true"
@@ -219,10 +219,10 @@ export default function FAQSection() {
                           {/* Answer text */}
                           <p style={{
                             fontFamily: 'var(--font-dm-sans)',
-                            fontWeight: 300,
+                            fontWeight: 400,
                             fontSize: 'clamp(0.84rem,1.1vw,0.95rem)',
                             lineHeight: 1.8,
-                            color: 'rgba(255,255,255,0.52)',
+                            color: 'rgba(255,255,255,0.92)',
                             margin: 0,
                           }}>
                             {item.a}

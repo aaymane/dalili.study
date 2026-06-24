@@ -123,15 +123,15 @@ export default function PartnersSection() {
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.6rem', fontWeight: 700,
                 letterSpacing: '0.24em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.4)',
+                color: 'rgba(255,255,255,0.92)',
               }}>Partenaires recommandés</span>
             </div>
 
             {/* Integrity note */}
             <span style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '0.72rem', fontWeight: 300,
-              color: 'rgba(255,255,255,0.22)',
+              fontSize: '0.72rem', fontWeight: 400,
+              color: 'rgba(255,255,255,0.92)',
               letterSpacing: '0.01em',
             }}>
               ✦ Sélectionnés pour leur utilité, pas pour une commission
@@ -148,14 +148,14 @@ export default function PartnersSection() {
           }}>
             NOS PARTENAIRES
             <br />
-            <span style={{ color: 'rgba(255,255,255,0.38)' }}>RECOMMANDÉS.</span>
+            <span style={{ color: 'rgba(255,255,255,0.92)' }}>RECOMMANDÉS.</span>
           </h2>
 
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
+            fontWeight: 400,
             fontSize: 'clamp(0.82rem,1.3vw,1.0rem)',
-            color: 'rgba(255,255,255,0.35)',
+            color: 'rgba(255,255,255,0.92)',
             maxWidth: 'min(520px,88vw)',
             lineHeight: 1.75, margin: 0,
           }}>
@@ -303,7 +303,7 @@ export default function PartnersSection() {
                   fontFamily: 'var(--font-montserrat)',
                   fontSize: '0.68rem', fontWeight: 600,
                   letterSpacing: '0.04em',
-                  color: 'rgba(255,255,255,0.6)',
+                  color: 'rgba(255,255,255,0.90)',
                   marginBottom: 10,
                 }}>
                   {p.tagline}
@@ -319,9 +319,9 @@ export default function PartnersSection() {
                 {/* ── Description ── */}
                 <p style={{
                   fontFamily: 'var(--font-dm-sans)',
-                  fontWeight: 300, fontSize: '0.8rem',
+                  fontWeight: 400, fontSize: '0.8rem',
                   lineHeight: 1.7,
-                  color: 'rgba(255,255,255,0.35)',
+                  color: 'rgba(255,255,255,0.92)',
                   margin: '0 0 auto',
                   paddingBottom: 18,
                 }}>
@@ -368,8 +368,8 @@ export default function PartnersSection() {
           transition={{ duration: 0.6, delay: 0.7 }}
           style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300, fontSize: '0.72rem',
-            color: 'rgba(255,255,255,0.18)',
+            fontWeight: 400, fontSize: '0.72rem',
+            color: 'rgba(255,255,255,0.92)',
             textAlign: 'center',
             marginTop: 'clamp(24px,4vw,40px)',
             lineHeight: 1.6,

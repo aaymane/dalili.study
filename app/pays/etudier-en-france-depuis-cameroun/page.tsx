@@ -62,7 +62,7 @@ const faqJsonLd = {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-      <td style={{ padding: '13px 0', fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.7)', paddingRight: 20, width: '45%' }}>{label}</td>
+      <td style={{ padding: '13px 0', fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', paddingRight: 20, width: '45%' }}>{label}</td>
       <td style={{ padding: '13px 0', fontFamily: 'var(--font-dm-sans)', fontWeight: 600, fontSize: '0.875rem', color: '#fff' }}>{value}</td>
     </tr>
   );
@@ -82,9 +82,9 @@ export default function CamerounPage() {
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
                   ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.6)', textDecoration: 'none' }}>{item.label}</Link>
-                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{item.label}</span>
+                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '0.6rem' }}>›</span>}
               </span>
             ))}
           </nav>
@@ -94,9 +94,9 @@ export default function CamerounPage() {
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.85)', display: 'inline-flex', alignItems: 'center', gap: 6 }}><MapPin size={11} strokeWidth={2.5} /> Depuis le Cameroun</span>
             </div>
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3rem,8vw,6.5rem)', lineHeight: 0.9, letterSpacing: '0.03em', color: '#fff', margin: '0 0 16px' }}>
-              Étudier en France<br /><span style={{ color: 'rgba(255,255,255,0.65)' }}>depuis le Cameroun.</span>
+              Étudier en France<br /><span style={{ color: 'rgba(255,255,255,0.88)' }}>depuis le Cameroun.</span>
             </h1>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.75, margin: 0, maxWidth: 580 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0, maxWidth: 580 }}>
               Le Cameroun est bilingue — deux systèmes de baccalauréat, deux bureaux Campus France (Yaoundé et Douala). La procédure CEF est obligatoire pour tous.
             </p>
           </div>
@@ -121,7 +121,7 @@ export default function CamerounPage() {
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Spécificité bilingue</span>
             </div>
             <div style={{ padding: 24, background: 'rgba(77,143,255,0.04)', border: '1px solid rgba(77,143,255,0.15)', borderRadius: 16, marginBottom: 16 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
                 <strong style={{ color: '#4d8fff' }}>Étudiants anglophones (GCE A-Level) :</strong> le TCF-DAP est obligatoire pour accéder aux Licences 1 françaises. Prévois 4 à 6 semaines supplémentaires pour le test. Les étudiants francophones (BAC) suivent la procédure standard CEF sans test de français supplémentaire.
               </p>
             </div>
@@ -152,7 +152,7 @@ export default function CamerounPage() {
               ].map((doc, i) => (
                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <span style={{ color: '#4d8fff', flexShrink: 0, fontWeight: 700 }}>→</span>
-                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)' }}>{doc}</span>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)' }}>{doc}</span>
                 </li>
               ))}
             </ul>
@@ -171,7 +171,7 @@ export default function CamerounPage() {
                 { label: 'CROUS — logement étudiant', url: 'https://www.crous.fr' },
               ].map(link => (
                 <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', fontWeight: 500, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', fontWeight: 500, color: 'rgba(255,255,255,0.92)', textDecoration: 'none' }}>
                   <span>{link.label}</span>
                   <span style={{ color: '#4d8fff', flexShrink: 0 }}>↗</span>
                 </a>
@@ -183,7 +183,7 @@ export default function CamerounPage() {
             <div>
               <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)', margin: '0 0 6px' }}>Ressource gratuite</p>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.95rem', color: '#fff', margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: 7 }}><FileText size={15} strokeWidth={2} color="#4d8fff" /> Checklist Complète Arrivée en France 2026</p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', margin: 0 }}>28 points essentiels avant et après ton arrivée — PDF gratuit</p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.92)', margin: 0 }}>28 points essentiels avant et après ton arrivée — PDF gratuit</p>
             </div>
             <Link href="/checklist" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 22px', background: '#014DF8', borderRadius: 8, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fff', whiteSpace: 'nowrap', flexShrink: 0 }}>
               Télécharger PDF →

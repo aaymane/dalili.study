@@ -50,7 +50,7 @@ function SearchInput({ value, onChange }: { value: string; onChange: (v: string)
               position: 'absolute', right: 14,
               background: 'none', border: 'none', cursor: 'pointer',
               padding: 6, display: 'flex', alignItems: 'center',
-              color: 'rgba(255,255,255,0.7)',
+              color: 'rgba(255,255,255,0.88)',
               borderRadius: 6,
             }}
           >
@@ -137,7 +137,7 @@ export default function SearchableBlogGrid({ posts, featured, clusterKeys }: Pro
         <div style={{ marginBottom: 'clamp(24px,4vw,48px)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
             <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
-            <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.78)', whiteSpace: 'nowrap' }}>Guides essentiels</span>
+            <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)', whiteSpace: 'nowrap' }}>Guides essentiels</span>
             <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px,100%), 1fr))', gap: 'clamp(14px,2vw,22px)' }}>
@@ -167,7 +167,7 @@ export default function SearchableBlogGrid({ posts, featured, clusterKeys }: Pro
                     <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.6rem,2.8vw,2.2rem)', lineHeight: 1.0, letterSpacing: '0.03em', color: '#fff', margin: '0 0 12px' }}>{post.title}</h2>
                     <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', lineHeight: 1.72, color: 'rgba(255,255,255,0.85)', margin: '0 0 auto', paddingBottom: 20 }}>{post.excerpt}</p>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                      <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>{post.readTime} de lecture</span>
+                      <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)' }}>{post.readTime} de lecture</span>
                       <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: cat.accent }}>Lire →</span>
                     </div>
                   </article>
@@ -207,12 +207,12 @@ export default function SearchableBlogGrid({ posts, featured, clusterKeys }: Pro
                       <div style={{ width: 4, height: 4, borderRadius: '50%', background: cat.accent, flexShrink: 0 }} />
                       <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: cat.accent }}>{post.category}</span>
                     </div>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>{post.readTime} de lecture</span>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)' }}>{post.readTime} de lecture</span>
                   </div>
                   <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.5rem,2.5vw,2rem)', lineHeight: 1.0, letterSpacing: '0.03em', color: '#fff', margin: '0 0 12px' }}>{post.title}</h2>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', lineHeight: 1.72, color: 'rgba(255,255,255,0.7)', margin: '0 0 auto', paddingBottom: 20, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>{post.excerpt}</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', lineHeight: 1.72, color: 'rgba(255,255,255,0.92)', margin: '0 0 auto', paddingBottom: 20, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>{post.excerpt}</p>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>{formatDate(post.date)}</span>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)' }}>{formatDate(post.date)}</span>
                     <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: cat.accent }}>Lire l&apos;article →</span>
                   </div>
                 </article>
@@ -222,8 +222,8 @@ export default function SearchableBlogGrid({ posts, featured, clusterKeys }: Pro
         </div>
       ) : q ? (
         <div style={{ textAlign: 'center', padding: 'clamp(48px,8vw,96px) 0' }}>
-          <p style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2rem,4vw,3rem)', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.06em', margin: '0 0 12px' }}>AUCUN RÉSULTAT</p>
-          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.78)', margin: 0 }}>Essaie un autre mot-clé — visa, logement, caf, maroc, algérie…</p>
+          <p style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2rem,4vw,3rem)', color: 'rgba(255,255,255,0.92)', letterSpacing: '0.06em', margin: '0 0 12px' }}>AUCUN RÉSULTAT</p>
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.92)', margin: 0 }}>Essaie un autre mot-clé — visa, logement, caf, maroc, algérie…</p>
         </div>
       ) : null}
     </>

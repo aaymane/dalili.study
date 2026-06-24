@@ -38,7 +38,7 @@ export default function TableOfContents({ headings }) {
         fontFamily: 'var(--font-montserrat)',
         fontSize: '0.55rem', fontWeight: 700,
         letterSpacing: '0.2em', textTransform: 'uppercase',
-        color: 'rgba(255,255,255,0.28)',
+        color: 'rgba(255,255,255,0.92)',
         marginBottom: 16,
       }}>
         Sur cette page
@@ -57,8 +57,8 @@ export default function TableOfContents({ headings }) {
                   paddingTop: 5, paddingBottom: 5,
                   fontFamily: 'var(--font-dm-sans)',
                   fontSize: '0.8rem',
-                  fontWeight: isActive ? 500 : 300,
-                  color: isActive ? '#4d8fff' : 'rgba(255,255,255,0.38)',
+                  fontWeight: isActive ? 600 : 400,
+                  color: isActive ? '#4d8fff' : 'rgba(255,255,255,0.75)',
                   textDecoration: 'none',
                   lineHeight: 1.4,
                   borderLeft: `2px solid ${isActive ? '#014DF8' : 'rgba(255,255,255,0.07)'}`,

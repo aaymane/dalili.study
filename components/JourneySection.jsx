@@ -173,14 +173,14 @@ export default function JourneySection() {
           }}>
             TON CHEMIN
             <br />
-            <span style={{ color: 'rgba(255,255,255,0.45)' }}>VERS LA FRANCE.</span>
+            <span style={{ color: 'rgba(255,255,255,0.92)' }}>VERS LA FRANCE.</span>
           </h2>
 
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
+            fontWeight: 400,
             fontSize: 'clamp(0.82rem,1.3vw,1.05rem)',
-            color: 'rgba(255,255,255,0.38)',
+            color: 'rgba(255,255,255,0.92)',
             maxWidth: 'min(460px,88vw)',
             margin: '0 auto',
             lineHeight: 1.75,
@@ -391,8 +391,8 @@ export default function JourneySection() {
                 {/* Description */}
                 <p style={{
                   fontFamily: 'var(--font-dm-sans)',
-                  fontWeight: 300, fontSize: '0.83rem',
-                  lineHeight: 1.72, color: 'rgba(255,255,255,0.4)',
+                  fontWeight: 400, fontSize: '0.83rem',
+                  lineHeight: 1.72, color: 'rgba(255,255,255,0.92)',
                   margin: 0,
                 }}>
                   {step.desc}
@@ -421,7 +421,7 @@ export default function JourneySection() {
             fontFamily: 'var(--font-montserrat)',
             fontSize: '0.52rem', fontWeight: 700,
             letterSpacing: '0.26em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.18)',
+            color: 'rgba(255,255,255,0.92)',
             userSelect: 'none',
           }}
         >

@@ -73,10 +73,10 @@ export default function UniversitesPage() {
 
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3.5rem,8vw,9rem)', lineHeight: 0.9, letterSpacing: '0.04em', color: '#fff', margin: '0 0 clamp(16px,2vw,24px)' }}>
               UNIVERSITÉS<br />
-              <span style={{ color: 'rgba(255,255,255,0.65)' }}>EN FRANCE.</span>
+              <span style={{ color: 'rgba(255,255,255,0.88)' }}>EN FRANCE.</span>
             </h1>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: 'clamp(0.88rem,1.3vw,1.05rem)', color: 'rgba(255,255,255,0.7)', maxWidth: 'min(540px,88vw)', lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: 'clamp(0.88rem,1.3vw,1.05rem)', color: 'rgba(255,255,255,0.92)', maxWidth: 'min(540px,88vw)', lineHeight: 1.75, margin: 0 }}>
               Tout ce qu&apos;il faut savoir avant de choisir votre université :
               frais, logement, budget mensuel, programmes phares et avis honnêtes.
             </p>
@@ -93,7 +93,7 @@ export default function UniversitesPage() {
             </div>
             <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2rem,5vw,5rem)', lineHeight: 0.95, letterSpacing: '0.04em', color: '#fff', margin: '0 0 clamp(24px,3vw,40px)' }}>
               QUELLE UNIVERSITÉ<br />
-              <span style={{ color: 'rgba(255,255,255,0.65)' }}>CHOISIR ?</span>
+              <span style={{ color: 'rgba(255,255,255,0.88)' }}>CHOISIR ?</span>
             </h2>
 
             <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
@@ -119,9 +119,9 @@ export default function UniversitesPage() {
                           {u.name}
                         </Link>
                       </td>
-                      <td style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem' }}>{u.spec}</td>
-                      <td style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>{u.budget}</td>
-                      <td style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem' }}>{u.classement}</td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.92)', fontSize: '0.85rem' }}>{u.spec}</td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.92)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>{u.budget}</td>
+                      <td style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.92)', fontSize: '0.85rem' }}>{u.classement}</td>
                       <td style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: `rgba(${ACCENT.rgb},0.9)`, fontSize: '0.85rem', fontWeight: 600 }}>{u.note}</td>
                     </tr>
                   ))}
@@ -130,7 +130,7 @@ export default function UniversitesPage() {
             </div>
           </div>
 
-          <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', color: 'rgba(255,255,255,0.6)' }}>
+          <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', color: 'rgba(255,255,255,0.9)' }}>
             Guides mis à jour en juin 2026 — <Link href="/blog" style={{ color: 'rgba(77,143,255,0.6)', textDecoration: 'none' }}>consulter tous les guides</Link>
           </p>
         </div>

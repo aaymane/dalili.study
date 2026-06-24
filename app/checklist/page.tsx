@@ -229,9 +229,9 @@ export default function ChecklistPage() {
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
                   ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.5)', textDecoration: 'none' }}>{item.label}</Link>
-                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>{item.label}</span>
+                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.55rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '0.55rem' }}>›</span>}
               </span>
             ))}
           </nav>
@@ -248,11 +248,11 @@ export default function ChecklistPage() {
 
               <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3.2rem,8.5vw,7.5rem)', lineHeight: 0.88, letterSpacing: '0.02em', margin: '0 0 clamp(20px,2.5vw,32px)' }}>
                 <span style={{ color: '#fff', display: 'block' }}>CHECKLIST</span>
-                <span style={{ color: 'rgba(255,255,255,0.75)', display: 'block' }}>ARRIVÉE EN</span>
+                <span style={{ color: 'rgba(255,255,255,0.92)', display: 'block' }}>ARRIVÉE EN</span>
                 <span style={{ color: '#014DF8', display: 'block' }}>FRANCE 2026</span>
               </h1>
 
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: 'clamp(0.88rem,1.2vw,1.02rem)', color: 'rgba(255,255,255,0.7)', maxWidth: 540, lineHeight: 1.8, margin: '0 0 clamp(28px,4vw,44px)' }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: 'clamp(0.88rem,1.2vw,1.02rem)', color: 'rgba(255,255,255,0.92)', maxWidth: 540, lineHeight: 1.8, margin: '0 0 clamp(28px,4vw,44px)' }}>
                 Les 32 démarches essentielles pour ton arrivée en France, organisées en 3 phases. Visa VLS-TS, ANEF, CAF, Assurance Maladie, banque. Imprime, coche, avance.
               </p>
 
@@ -266,7 +266,7 @@ export default function ChecklistPage() {
                 ].map(s => (
                   <div key={s.v} style={{ display: 'flex', alignItems: 'baseline', gap: 5, padding: '8px 18px', background: 'rgba(255,255,255,0.035)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 100 }}>
                     <span style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', color: '#fff', letterSpacing: '0.04em', lineHeight: 1 }}>{s.v}</span>
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.65)' }}>{s.l}</span>
+                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.88)' }}>{s.l}</span>
                   </div>
                 ))}
               </div>
@@ -274,7 +274,7 @@ export default function ChecklistPage() {
               {/* CTA */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
                 <DownloadBtn />
-                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.75)' }}>
+                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.92)' }}>
                   PDF · 3 pages A4 · Partage libre
                 </span>
               </div>
@@ -312,7 +312,7 @@ export default function ChecklistPage() {
                 <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.025) 0%, transparent 50%)', pointerEvents: 'none' }} />
               </div>
               <div style={{ textAlign: 'center', marginTop: 12 }}>
-                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.65rem', color: 'rgba(255,255,255,0.75)' }}>Format A4 · Imprimable · Partageable</span>
+                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.65rem', color: 'rgba(255,255,255,0.92)' }}>Format A4 · Imprimable · Partageable</span>
               </div>
             </div>
           </div>
@@ -320,7 +320,7 @@ export default function ChecklistPage() {
           {/* ── CHECKLIST PHASES ── */}
           <section aria-label="Contenu de la checklist" style={{ marginBottom: 'clamp(72px,8vw,110px)' }}>
             <div style={{ marginBottom: 'clamp(32px,4vw,52px)' }}>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>Contenu du PDF</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)' }}>Contenu du PDF</span>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(40px,5vw,60px)' }}>
@@ -334,7 +334,7 @@ export default function ChecklistPage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
                         <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.53rem', fontWeight: 700, letterSpacing: '0.2em', color: `rgba(${phase.accent},0.55)`, textTransform: 'uppercase' }}>Phase {phase.num}</span>
                         <span style={{ width: 1, height: 10, background: `rgba(${phase.accent},0.2)`, display: 'inline-block' }} />
-                        <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.75)' }}>{phase.subtitle}</span>
+                        <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.92)' }}>{phase.subtitle}</span>
                       </div>
                       <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.8vw,2.2rem)', letterSpacing: '0.04em', color: '#fff', margin: 0, lineHeight: 1 }}>
                         {phase.title}
@@ -349,14 +349,14 @@ export default function ChecklistPage() {
                         <div style={{ width: 16, height: 16, borderRadius: 4, flexShrink: 0, marginTop: 2, border: `1.5px solid ${item.urgent ? 'rgba(239,68,68,0.65)' : `rgba(${phase.accent},0.45)`}`, background: item.urgent ? 'rgba(239,68,68,0.05)' : `rgba(${phase.accent},0.05)` }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flexWrap: 'wrap' }}>
-                            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.83rem', fontWeight: 500, color: 'rgba(255,255,255,0.7)', lineHeight: 1.45, flex: 1 }}>{item.text}</span>
+                            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.83rem', fontWeight: 500, color: 'rgba(255,255,255,0.92)', lineHeight: 1.45, flex: 1 }}>{item.text}</span>
                             {item.urgent && (
                               <span style={{ flexShrink: 0, padding: '2px 7px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.28)', borderRadius: 4, fontFamily: 'var(--font-montserrat)', fontSize: '0.48rem', fontWeight: 700, letterSpacing: '0.12em', color: '#ef4444', textTransform: 'uppercase', alignSelf: 'flex-start', marginTop: 1 }}>
                                 Urgent
                               </span>
                             )}
                           </div>
-                          {item.note && <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0', lineHeight: 1.55 }}>{item.note}</p>}
+                          {item.note && <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.90)', margin: '4px 0 0', lineHeight: 1.55 }}>{item.note}</p>}
                         </div>
                       </div>
                     ))}
@@ -375,7 +375,7 @@ export default function ChecklistPage() {
             <p style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.3rem,2.8vw,2rem)', letterSpacing: '0.04em', color: '#014DF8', margin: '0 0 24px', lineHeight: 1 }}>
               3 pages · 32 points · 100% gratuit
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.86rem', color: 'rgba(255,255,255,0.6)', margin: '0 0 30px', maxWidth: 460, marginLeft: 'auto', marginRight: 'auto' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.86rem', color: 'rgba(255,255,255,0.90)', margin: '0 0 30px', maxWidth: 460, marginLeft: 'auto', marginRight: 'auto' }}>
               Partage ce PDF dans tes groupes WhatsApp, Facebook et Discord — aide les autres étudiants à ne rien oublier.
             </p>
             <DownloadBtn label="Télécharger gratuitement" size="large" />
@@ -384,7 +384,7 @@ export default function ChecklistPage() {
           {/* ── FAQ ── */}
           <section aria-labelledby="faq-heading" style={{ marginBottom: 'clamp(72px,8vw,110px)' }}>
             <div style={{ marginBottom: 'clamp(28px,4vw,44px)' }}>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)', display: 'block', marginBottom: 8 }}>Réponses</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)', display: 'block', marginBottom: 8 }}>Réponses</span>
               <h2 id="faq-heading" style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.8rem,4vw,3rem)', letterSpacing: '0.04em', color: '#fff', margin: 0, lineHeight: 1 }}>
                 Questions fréquentes
               </h2>
@@ -392,8 +392,8 @@ export default function ChecklistPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {FAQ_ITEMS.map((item, i) => (
                 <div key={i} style={{ padding: 'clamp(16px,2vw,22px)', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14 }}>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 600, fontSize: 'clamp(0.83rem,1.1vw,0.93rem)', color: 'rgba(255,255,255,0.82)', margin: '0 0 10px', lineHeight: 1.45 }}>{item.q}</p>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.82rem', color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.72 }}>{item.a}</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 600, fontSize: 'clamp(0.83rem,1.1vw,0.93rem)', color: 'rgba(255,255,255,0.92)', margin: '0 0 10px', lineHeight: 1.45 }}>{item.q}</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.82rem', color: 'rgba(255,255,255,0.88)', margin: 0, lineHeight: 1.72 }}>{item.a}</p>
                 </div>
               ))}
             </div>
@@ -415,7 +415,7 @@ export default function ChecklistPage() {
                 <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 600, fontSize: '0.95rem', color: '#fff', margin: '0 0 4px' }}>
                   Simulateur budget — combien ça coûte selon ta ville ?
                 </p>
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.42)', margin: 0 }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.78)', margin: 0 }}>
                   Loyer, CAF, nourriture, frais de scolarité — estimation en 5 questions.
                 </p>
               </div>
@@ -437,7 +437,7 @@ export default function ChecklistPage() {
           {/* ── RELATED GUIDES ── */}
           <section aria-labelledby="related-heading">
             <div style={{ marginBottom: 22 }}>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)', display: 'block', marginBottom: 6 }}>Guides complémentaires</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)', display: 'block', marginBottom: 6 }}>Guides complémentaires</span>
               <h2 id="related-heading" style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.5vw,2rem)', letterSpacing: '0.04em', color: '#fff', margin: 0, lineHeight: 1 }}>
                 Approfondir tes démarches
               </h2>
@@ -447,7 +447,7 @@ export default function ChecklistPage() {
                 <Link key={link.href} href={link.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: 'clamp(13px,2vw,17px) clamp(16px,2.5vw,22px)', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 13, textDecoration: 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                     <link.Icon size={16} color="rgba(77,143,255,0.6)" strokeWidth={1.5} style={{ flexShrink: 0 }} />
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.78rem,1.1vw,0.88rem)', fontWeight: 500, color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>{link.label}</span>
+                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.78rem,1.1vw,0.88rem)', fontWeight: 500, color: 'rgba(255,255,255,0.92)', lineHeight: 1.4 }}>{link.label}</span>
                   </div>
                   <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
                     <path d="M1.5 6.5h10M8 3l3.5 3.5L8 10" stroke="#4d8fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

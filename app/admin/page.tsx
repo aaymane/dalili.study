@@ -115,7 +115,7 @@ function LoginScreen({ onAuth }: { onAuth: (token: string) => void }) {
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#014df8', boxShadow: '0 0 16px rgba(1,77,248,0.8)' }} />
             <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 20, letterSpacing: '0.24em', color: '#fff' }}>DALILI</span>
           </div>
-          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
             Admin Access
           </div>
         </div>
@@ -128,7 +128,7 @@ function LoginScreen({ onAuth }: { onAuth: (token: string) => void }) {
           boxShadow: '0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04) inset',
         }}>
           <div style={{ marginBottom: 24 }}>
-            <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>
+            <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.9)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>
               Token d&apos;accès
             </label>
             <input
@@ -196,13 +196,13 @@ function StatCard({ label, value, sub, accent = '#4d8fff', trend }: {
       onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${accent}55,transparent)` }} />
-      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>
+      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.9)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>
         {label}
       </div>
       <div style={{ fontSize: 32, fontWeight: 700, color: '#fff', lineHeight: 1, marginBottom: sub ? 6 : 0 }}>
         <AnimatedNumber value={value} />
       </div>
-      {sub && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{sub}</div>}
+      {sub && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.9)', marginTop: 4 }}>{sub}</div>}
       {trend !== undefined && (
         <div style={{ position: 'absolute', top: 22, right: 22, fontSize: 12, color: trend >= 0 ? '#34d399' : '#f87171', fontWeight: 600 }}>
           {trend >= 0 ? '+' : ''}{trend}
@@ -376,7 +376,7 @@ export default function AdminPage() {
         .mobile-label {
           display: none;
           font-size: 10px;
-          color: rgba(255,255,255,0.55);
+          color: rgba(255,255,255,0.88);
           letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-bottom: 4px;
@@ -440,10 +440,10 @@ export default function AdminPage() {
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: 18, letterSpacing: '0.22em', color: '#fff' }}>
                 DALILI
               </span>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em' }}>/</span>
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>Waitlist</span>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.70)', letterSpacing: '0.06em' }}>/</span>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', letterSpacing: '0.08em' }}>Waitlist</span>
             </div>
-            <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: 12, letterSpacing: '0.04em' }}>
+            <div style={{ color: 'rgba(255,255,255,0.70)', fontSize: 12, letterSpacing: '0.04em' }}>
               {count > 0 ? `${count} inscrits` : 'Dashboard admin'}
             </div>
           </div>
@@ -454,7 +454,7 @@ export default function AdminPage() {
               padding: '9px 18px',
               background: 'rgba(255,255,255,0.04)',
               border: '1px solid rgba(255,255,255,0.09)', borderRadius: 10,
-              color: 'rgba(255,255,255,0.55)', fontSize: 12, cursor: 'pointer',
+              color: 'rgba(255,255,255,0.88)', fontSize: 12, cursor: 'pointer',
               letterSpacing: '0.04em', transition: 'all 0.2s',
             }}
               onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
@@ -500,7 +500,7 @@ export default function AdminPage() {
         <div className="filter-outer">
           {/* Search */}
           <div style={{ position: 'relative', flex: '1 1 240px', minWidth: 200 }}>
-            <svg style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }}
+            <svg style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.85)' }}
               width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
@@ -553,7 +553,7 @@ export default function AdminPage() {
           {/* Table head — hidden on mobile */}
           <div className="table-head">
             {['Email', 'Source', 'Statut', 'Inscrit le', 'Actions'].map(h => (
-              <span key={h} style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
+              <span key={h} style={{ fontSize: 10, color: 'rgba(255,255,255,0.88)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
                 {h}
               </span>
             ))}
@@ -577,7 +577,7 @@ export default function AdminPage() {
           {/* Empty */}
           {!loading && entries.length === 0 && (
             <div style={{ padding: '64px 0', textAlign: 'center' }}>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', letterSpacing: '0.04em' }}>
                 Aucun inscrit trouvé.
               </div>
             </div>
@@ -595,7 +595,7 @@ export default function AdminPage() {
             >
               {/* Email */}
               <div style={{ overflow: 'hidden' }}>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.82)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.92)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {e.email}
                 </div>
               </div>
@@ -604,7 +604,7 @@ export default function AdminPage() {
               <div>
                 <span className="mobile-label">Source</span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>{e.source}</span>
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.70)', letterSpacing: '0.04em' }}>{e.source}</span>
                   {e.source === 'simulateur' && e.simulateur_data && (
                     <span style={{ fontSize: 10, color: 'rgba(77,143,255,0.7)', letterSpacing: '0.04em' }}>
                       {e.simulateur_data.ville} · {e.simulateur_data.budget_estime}€
@@ -622,7 +622,7 @@ export default function AdminPage() {
               {/* Date */}
               <div>
                 <span className="mobile-label">Inscrit le</span>
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{fmtShort(e.created_at)}</span>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.9)' }}>{fmtShort(e.created_at)}</span>
               </div>
 
               {/* Actions */}
@@ -634,7 +634,7 @@ export default function AdminPage() {
                     padding: '5px 8px',
                     background: 'rgba(255,255,255,0.05)',
                     border: '1px solid rgba(255,255,255,0.09)',
-                    borderRadius: 7, color: 'rgba(255,255,255,0.6)',
+                    borderRadius: 7, color: 'rgba(255,255,255,0.9)',
                     fontSize: 11, cursor: 'pointer',
                     outline: 'none',
                   }}
@@ -683,7 +683,7 @@ export default function AdminPage() {
             >
               ← Précédent
             </button>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.70)', letterSpacing: '0.04em' }}>
               {page + 1} / {totalPages}
             </span>
             <button
@@ -705,7 +705,7 @@ export default function AdminPage() {
 
         {/* ── Footer ── */}
         <div style={{ marginTop: 52, textAlign: 'center' }}>
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.12)', letterSpacing: '0.08em' }}>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.60)', letterSpacing: '0.08em' }}>
             DALILI Admin · Session sécurisée
           </div>
         </div>

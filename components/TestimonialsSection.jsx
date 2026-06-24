@@ -123,14 +123,14 @@ export default function TestimonialsSection() {
             color: '#fff', margin: '0 0 clamp(16px,2vw,24px)',
           }}>
             ILS EN<br />
-            <span style={{ color: 'rgba(255,255,255,0.45)' }}>PARLENT.</span>
+            <span style={{ color: 'rgba(255,255,255,0.92)' }}>PARLENT.</span>
           </h2>
 
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
+            fontWeight: 400,
             fontSize: 'clamp(0.82rem,1.3vw,1.05rem)',
-            color: 'rgba(255,255,255,0.38)',
+            color: 'rgba(255,255,255,0.92)',
             maxWidth: 'min(460px,88vw)',
             margin: '0 auto',
             lineHeight: 1.75,
@@ -221,10 +221,10 @@ export default function TestimonialsSection() {
               {/* ── Quote text ── */}
               <p style={{
                 fontFamily: 'var(--font-dm-sans)',
-                fontWeight: 300,
+                fontWeight: 400,
                 fontSize: 'clamp(0.87rem,1.1vw,0.97rem)',
                 lineHeight: 1.8,
-                color: 'rgba(255,255,255,0.68)',
+                color: 'rgba(255,255,255,0.92)',
                 margin: '0 0 clamp(22px,3vw,32px)',
                 fontStyle: 'italic',
                 flex: 1,
@@ -296,8 +296,8 @@ export default function TestimonialsSection() {
                   </div>
                   <div style={{
                     fontFamily: 'var(--font-dm-sans)',
-                    fontWeight: 300, fontSize: '0.72rem',
-                    color: 'rgba(255,255,255,0.36)',
+                    fontWeight: 400, fontSize: '0.72rem',
+                    color: 'rgba(255,255,255,0.92)',
                     whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                   }}>
                     {t.university}
@@ -365,7 +365,7 @@ export default function TestimonialsSection() {
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.52rem', fontWeight: 700,
                 letterSpacing: '0.2em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.28)',
+                color: 'rgba(255,255,255,0.92)',
               }}>
                 {stat.label}
               </span>

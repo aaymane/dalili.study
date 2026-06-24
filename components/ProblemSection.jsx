@@ -276,7 +276,7 @@ export default function ProblemSection() {
                       className="prob-char"
                       style={{
                         display: 'inline-block',
-                        color: li === 3 ? '#FF4D4D' : li === 2 ? 'rgba(255,255,255,0.5)' : '#fff',
+                        color: li === 3 ? '#FF4D4D' : li === 2 ? 'rgba(255,255,255,0.85)' : '#fff',
                       }}
                     >
                       {ch === ' ' ? ' ' : ch}
@@ -290,9 +290,9 @@ export default function ProblemSection() {
           {/* Subtitle */}
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
+            fontWeight: 400,
             fontSize: 'clamp(0.82rem, 1.3vw, 1.05rem)',
-            color: 'rgba(255,255,255,0.38)',
+            color: 'rgba(255,255,255,0.92)',
             maxWidth: 'min(480px, 88vw)',
             margin: 'clamp(20px,3vw,32px) auto 0',
             lineHeight: 1.75,
@@ -401,7 +401,7 @@ export default function ProblemSection() {
                   <span style={{
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.65rem', fontWeight: 700,
-                    letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)',
+                    letterSpacing: '0.2em', color: 'rgba(255,255,255,0.92)',
                   }}>{point.tag}</span>
                   <div style={{ display: 'flex', gap: 4 }}>
                     {[1, 0.4, 0.15].map((op, j) => (
@@ -471,8 +471,8 @@ export default function ProblemSection() {
               {/* Description */}
               <p style={{
                 fontFamily: 'var(--font-dm-sans)',
-                fontWeight: 300, fontSize: '0.9rem',
-                lineHeight: 1.72, color: 'rgba(255,255,255,0.42)',
+                fontWeight: 400, fontSize: '0.9rem',
+                lineHeight: 1.72, color: 'rgba(255,255,255,0.92)',
                 margin: '0 0 14px',
                 position: 'relative', zIndex: 3,
               }}>

@@ -207,9 +207,9 @@ export default async function VillePage({ params }: { params: { slug: string } }
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
                   ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(239,179,112,0.6)', textDecoration: 'none' }}>{item.label}</Link>
-                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{item.label}</span>
+                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.6rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '0.6rem' }}>›</span>}
               </span>
             ))}
           </nav>
@@ -218,14 +218,14 @@ export default async function VillePage({ params }: { params: { slug: string } }
           <div style={{ marginBottom: 56 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 12 }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#EFB370', padding: '4px 12px', border: '1px solid rgba(239,179,112,0.3)', borderRadius: 100, background: 'rgba(239,179,112,0.08)' }}>{city.region}</span>
-              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.65)' }}>{city.students.toLocaleString('fr-FR')} étudiants</span>
+              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.88)' }}>{city.students.toLocaleString('fr-FR')} étudiants</span>
             </div>
 
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3.5rem,9vw,7rem)', lineHeight: 0.88, letterSpacing: '0.03em', color: '#fff', margin: '0 0 14px' }}>
               Étudier à<br />{city.name}
             </h1>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1.05rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, margin: '0 0 32px' }}>{city.tagline}</p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1.05rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: '0 0 32px' }}>{city.tagline}</p>
 
             {/* Cover thumbnail */}
             <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(239,179,112,0.18)', boxShadow: '0 24px 80px rgba(0,0,0,0.55)' }}>
@@ -251,7 +251,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                     {['Chambre CROUS', 'Studio privé', 'Colocation', 'Transport', 'Budget mensuel moyen'].map(h => (
-                      <th key={h} style={{ padding: '10px 8px', textAlign: 'left', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.48rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)' }}>{h}</th>
+                      <th key={h} style={{ padding: '10px 8px', textAlign: 'left', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.48rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.88)' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -301,7 +301,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
                   padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: 12, fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', fontWeight: 500,
-                  color: 'rgba(255,255,255,0.72)', textDecoration: 'none',
+                  color: 'rgba(255,255,255,0.92)', textDecoration: 'none',
                   transition: 'border-color 0.2s, color 0.2s',
                 }}
                 >
@@ -319,7 +319,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
               {city.neighborhoods.map((n, i) => (
                 <div key={i} style={{ padding: 24, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16 }}>
                   <h3 style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.82rem', color: '#fff', margin: '0 0 10px' }}>{n.name}</h3>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.72, margin: 0 }}>{n.description}</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.72, margin: 0 }}>{n.description}</p>
                 </div>
               ))}
             </div>
@@ -335,7 +335,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
                   {city.pros.map((pro, i) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                       <span style={{ color: '#10B981', flexShrink: 0 }}>+</span>
-                      <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.6 }}>{pro}</span>
+                      <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.6 }}>{pro}</span>
                     </li>
                   ))}
                 </ul>
@@ -346,7 +346,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
                   {city.cons.map((con, i) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                       <span style={{ color: '#F43F5E', flexShrink: 0 }}>–</span>
-                      <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.6 }}>{con}</span>
+                      <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.6 }}>{con}</span>
                     </li>
                   ))}
                 </ul>
@@ -386,7 +386,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
                   padding: '14px 18px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: 12, fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', fontWeight: 500,
-                  color: 'rgba(255,255,255,0.72)', textDecoration: 'none',
+                  color: 'rgba(255,255,255,0.92)', textDecoration: 'none',
                   transition: 'border-color 0.2s, color 0.2s',
                 }}
                 >
@@ -413,7 +413,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
               <h3 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.2rem,2.5vw,1.6rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 6px' }}>
                 Calcule ton budget à {city.name}
               </h3>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.92)', margin: 0 }}>
                 Loyer, nourriture, transport, CAF — estimation personnalisée en 5 questions.
               </p>
             </div>

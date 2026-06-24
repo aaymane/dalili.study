@@ -55,10 +55,10 @@ export default function VillesPage() {
 
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3.5rem,8vw,9rem)', lineHeight: 0.9, letterSpacing: '0.04em', color: '#fff', margin: '0 0 clamp(16px,2vw,24px)' }}>
               OÙ<br />
-              <span style={{ color: 'rgba(255,255,255,0.65)' }}>ÉTUDIER ?</span>
+              <span style={{ color: 'rgba(255,255,255,0.88)' }}>ÉTUDIER ?</span>
             </h1>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: 'clamp(0.88rem,1.3vw,1.05rem)', color: 'rgba(255,255,255,0.7)', maxWidth: 'min(520px,88vw)', lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: 'clamp(0.88rem,1.3vw,1.05rem)', color: 'rgba(255,255,255,0.92)', maxWidth: 'min(520px,88vw)', lineHeight: 1.75, margin: 0 }}>
               Budget, logement, ambiance, transport : tout ce qu&apos;il faut savoir
               pour choisir votre ville avant de partir.
             </p>
@@ -66,7 +66,7 @@ export default function VillesPage() {
 
           <SearchableVillesGrid cities={cities} />
 
-          <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', color: 'rgba(255,255,255,0.6)' }}>
+          <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', color: 'rgba(255,255,255,0.9)' }}>
             Guides mis à jour en juin 2026 — <Link href="/blog" style={{ color: `rgba(239,179,112,0.6)`, textDecoration: 'none' }}>consulter tous les guides</Link>
           </p>
         </div>

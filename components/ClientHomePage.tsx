@@ -97,7 +97,7 @@ export default function ClientHomePage({ guidesCount, universitesCount, villesCo
               ].map(stat => (
                 <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.5vw,1.8rem)', letterSpacing: '0.06em', color: '#4d8fff', lineHeight: 1 }}>{stat.value}</span>
-                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>{stat.label}</span>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.92)' }}>{stat.label}</span>
                 </div>
               ))}
             </div>

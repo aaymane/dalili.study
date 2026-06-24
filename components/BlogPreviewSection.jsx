@@ -133,7 +133,7 @@ export default function BlogPreviewSection() {
               color: '#fff', margin: 0,
             }}>
               DU CONTENU<br />
-              <span style={{ color: 'rgba(255,255,255,0.38)' }}>POUR T&apos;AIDER.</span>
+              <span style={{ color: 'rgba(255,255,255,0.92)' }}>POUR T&apos;AIDER.</span>
             </h2>
           </div>
 
@@ -307,7 +307,7 @@ export default function BlogPreviewSection() {
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.5rem', fontWeight: 600,
                     letterSpacing: '0.1em',
-                    color: 'rgba(255,255,255,0.4)',
+                    color: 'rgba(255,255,255,0.92)',
                   }}>{article.readTime}</span>
                 </div>
               </div>
@@ -335,10 +335,10 @@ export default function BlogPreviewSection() {
                 {/* Excerpt — 3-line clamp */}
                 <p style={{
                   fontFamily: 'var(--font-dm-sans)',
-                  fontWeight: 300,
+                  fontWeight: 400,
                   fontSize: 'clamp(0.82rem,1.1vw,0.9rem)',
                   lineHeight: 1.72,
-                  color: 'rgba(255,255,255,0.42)',
+                  color: 'rgba(255,255,255,0.92)',
                   margin: '0 0 clamp(18px,2.5vw,24px)',
                   flex: 1,
                   // 3-line clamp
@@ -369,7 +369,7 @@ export default function BlogPreviewSection() {
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.55rem', fontWeight: 600,
                     letterSpacing: '0.12em', textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.22)',
+                    color: 'rgba(255,255,255,0.92)',
                   }}>
                     {article.date}
                   </span>
@@ -440,8 +440,8 @@ export default function BlogPreviewSection() {
           }} />
           <span style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300, fontSize: '0.8rem',
-            color: 'rgba(255,255,255,0.25)',
+            fontWeight: 400, fontSize: '0.8rem',
+            color: 'rgba(255,255,255,0.92)',
             letterSpacing: '0.02em',
           }}>
             Nouveaux guides chaque semaine
