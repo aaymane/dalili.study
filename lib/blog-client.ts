@@ -26,6 +26,8 @@ export const CLUSTER_DEFINITIONS: Record<string, { label: string; description: s
   'algerie':       { label: 'Depuis l\'Algérie',     description: 'Campus France Algérie, visa, vie étudiante', color: '#34D399', accentRgb: '52,211,153' },
   'senegal':       { label: 'Depuis le Sénégal',     description: 'Campus France Sénégal, visa, bourses', color: '#FB923C', accentRgb: '251,146,60' },
   'maroc':         { label: 'Depuis le Maroc',       description: 'TCF, Campus France Maroc, visa étudiant', color: '#C8102E', accentRgb: '200,16,46' },
+  'tunisie':       { label: 'Depuis la Tunisie',     description: 'Campus France Tunisie, TCF, visa, bourses, logement', color: '#E70013', accentRgb: '231,0,19' },
+  'liban':         { label: 'Depuis le Liban',       description: 'Campus France Beyrouth, visa, bourses, reconnaissance des diplômes', color: '#ED1C24', accentRgb: '237,28,36' },
 };
 
 export const CATEGORY_COLORS: Record<string, { accent: string; accentRgb: string }> = {

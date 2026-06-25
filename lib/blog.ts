@@ -48,8 +48,24 @@ export const CLUSTER_MAP: Record<string, string> = {
   'visa-etudiant-france-senegal-2026':                  'senegal',
   'campusfrance-senegal-guide-inscription-dakar':       'senegal',
   'budget-etudiant-senegalais-france-2026':             'senegal',
+  'tcf-senegal-dakar-guide-2026':                       'senegal',
+  'bourses-etudiants-senegalais-france-2026':           'senegal',
+  'visa-etudiant-france-senegal-procedure':             'senegal',
+  'communaute-senegalaise-france-villes':               'senegal',
+  'medecine-pharmacie-france-etudiant-senegalais':      'senegal',
   // Tunisie cluster
   'etudier-en-france-depuis-tunisie':                   'tunisie',
+  'campusfrance-tunisie-guide-complet-2026':            'tunisie',
+  'tcf-tunisie-centres-dates-2026':                     'tunisie',
+  'bourses-etudes-france-etudiants-tunisiens':          'tunisie',
+  'visa-etudiant-france-tunisie-2026':                  'tunisie',
+  'logement-etudiant-france-tunisien-guide':            'tunisie',
+  // Liban cluster
+  'etudier-en-france-depuis-liban-guide-2026':          'liban',
+  'campus-france-liban-procedure-2026':                 'liban',
+  'bourses-etudiants-libanais-france-2026':             'liban',
+  'visa-etudiant-france-liban-2026':                    'liban',
+  'reconnaitre-diplome-libanais-france':                'liban',
   // Côte d'Ivoire cluster
   'etudier-en-france-depuis-cote-ivoire':               'cote-ivoire',
   // Cameroun cluster
