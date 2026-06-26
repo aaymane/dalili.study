@@ -7,7 +7,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 export const metadata: Metadata = {
   title: 'Calendrier Campus France 2026 : quand faire quoi pour étudier en France ?',
   description:
-    'Calendrier personnalisé mois par mois pour préparer ton dossier Campus France et ton arrivée en France selon ton pays d\'origine et ta rentrée souhaitée.',
+    'Génère ton planning personnalisé gratuit : Campus France, visa, logement, OFII, CAF. Mois par mois selon ton pays et ta rentrée (sept. 2026 ou janv. 2027). Ne rate aucune deadline. 100% gratuit.',
   alternates: { canonical: `${SITE_URL}/calendrier` },
   openGraph: {
     title: 'Calendrier Campus France 2026 : quand faire quoi pour étudier en France ?',

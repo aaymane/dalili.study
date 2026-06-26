@@ -7,7 +7,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 export const metadata: Metadata = {
   title: 'Simulateur budget étudiant étranger France 2026 | Dalili',
   description:
-    'Calcule ton budget mensuel réel pour étudier en France : loyer, CAF, nourriture, transport. Personnalisé selon ta ville et ta situation. Gratuit.',
+    'Calcule ton budget exact pour étudier en France selon ta ville. Loyer CROUS ou privé, CAF, nourriture, transport — résultat en 2 minutes. Vrais prix 2026. Consulat accepte ce budget ? Vérifie ici.',
   alternates: { canonical: `${SITE_URL}/simulateur` },
   openGraph: {
     title: 'Simulateur budget étudiant étranger France 2026 | Dalili',

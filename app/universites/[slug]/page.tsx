@@ -38,8 +38,8 @@ const UNI_SEO: Record<string, { title: string; description: string; ogDescriptio
     ogDescription: 'Université de Lille, 75 000 étudiants, 580€/mois de budget — le guide complet pour les étudiants marocains, algériens et tunisiens qui veulent étudier dans la ville la plus abordable de France.',
   },
   'universite-lyon-1': {
-    title: 'Université Lyon 1 Claude Bernard : guide étudiant étranger 2026 | Dalili',
-    description: 'Guide complet pour étudier à l\'Université Lyon 1 : médecine, pharmacie, biotechnologies, campus La Doua, logement CROUS, stages Sanofi et bioMérieux. Guide pour étudiants marocains et africains.',
+    title: 'Université Lyon 1 2026 : médecine top 5 France, frais 2 770€, CROUS 200€ | Dalili',
+    description: 'Lyon 1 Claude Bernard : top 5 médecine en France, 45 000 étudiants. Frais hors UE 2 770€/an, CROUS dès 200€/mois campus La Doua. Stages Sanofi, bioMérieux, Boehringer. Guide 2026.',
     ogDescription: 'Lyon 1, top université française en sciences de la santé — guide pratique complet : admission, frais, budget 700-1150€/mois, stages pharmaceutiques et vie étudiante à Lyon.',
   },
   'universite-toulouse-3': {
@@ -58,8 +58,8 @@ const UNI_SEO: Record<string, { title: string; description: string; ogDescriptio
     ogDescription: 'Université de Strasbourg, siège du Parlement Européen — guide pratique : droit international, stages EU, double culture franco-allemande et budget 650-1000€/mois.',
   },
   'aix-marseille-universite': {
-    title: 'Aix-Marseille Université : guide étudiant étranger 2026 | Dalili',
-    description: 'Guide complet pour étudier à Aix-Marseille Université : la plus grande université francophone du monde, 80 000 étudiants, médecine, droit, logement, communauté maghrébine. Guide complet.',
+    title: 'Aix-Marseille Université 2026 : 1ère université francophone, frais 2 770€, CROUS | Dalili',
+    description: 'AMU : 1ère université francophone mondiale, 80 000 étudiants. Médecine, droit, sciences. Frais hors UE 2 770€/an, CROUS dès 185€/mois, 3 campus. Forte communauté maghrébine. Guide 2026.',
     ogDescription: 'Aix-Marseille Université, plus grande université francophone — guide pratique pour les étudiants marocains et africains : intégration, budget, campus dispersés et vie méditerranéenne.',
   },
   'universite-cote-azur': {
@@ -73,9 +73,9 @@ const UNI_SEO: Record<string, { title: string; description: string; ogDescriptio
     ogDescription: "Université de Rennes, capital française de la cybersécurité — guide pratique : IRISA, Thales, Orange Cyberdefense, budget ultra-abordable et label Bienvenue en France ⭐⭐⭐.",
   },
   'universite-grenoble-alpes': {
-    title: 'Université Grenoble Alpes : guide étudiant étranger 2026 | Dalili',
-    description: "Guide complet pour étudier à l'Université Grenoble Alpes : label IdEx, campus ILL/ESRF/CEA uniques en Europe, Schneider Electric, STMicro, Alpes à 30 min. Budget 620-1000€/mois. Guide pour étudiants maghrébins.",
-    ogDescription: "UGA Grenoble, le campus scientifique le plus équipé d&apos;Europe (ILL, ESRF, CEA) — guide pratique pour les étudiants en physique, ingénierie et IA qui veulent étudier en France.",
+    title: 'Université Grenoble Alpes 2026 : label IdEx, physique top 1 France, budget 620€ | Dalili',
+    description: 'UGA : label IdEx, accès unique aux labos CEA/ILL/ESRF. Top 1 physique et nanosciences en France. Budget 620-1000€/mois, CROUS dès 180€. Schneider, STMicro. Alpes à 30 min. Guide 2026.',
+    ogDescription: "UGA Grenoble, le campus scientifique le plus équipé d'Europe (ILL, ESRF, CEA) — guide pratique pour les étudiants en physique, ingénierie et IA qui veulent étudier en France.",
   },
   'universite-clermont-auvergne': {
     title: 'Université Clermont Auvergne : guide étudiant étranger 2026 | Dalili',

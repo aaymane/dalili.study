@@ -37,8 +37,8 @@ const CITY_SEO: Record<string, { title: string; description: string; ogDescripti
     ogDescription: 'Lyon, capitale de la gastronomie et de l\'industrie pharmaceutique — guide pratique pour étudier à Lyon quand on vient du Maroc, d\'Algérie ou de Tunisie.',
   },
   'etudier-a-toulouse': {
-    title: 'Étudier à Toulouse : guide complet étudiant étranger 2026 | Dalili',
-    description: 'Guide complet pour étudier à Toulouse : budget mensuel, logement CROUS, quartiers, Paul Sabatier, ISAE-SUPAERO, Airbus et stages aéronautique. Mis à jour 2026.',
+    title: 'Étudier à Toulouse 2026 : Airbus, ISAE-SUPAERO, budget 700€/mois — guide étranger | Dalili',
+    description: 'Toulouse, capitale aérospatiale : Airbus, Thales, ISAE-SUPAERO recrutent sur place. Budget 700-1050€/mois, CROUS dès 200€. Paul Sabatier, UT1 Capitole. Stages garantis. Guide complet 2026.',
     ogDescription: 'Toulouse, capitale mondiale de l\'aéronautique — guide pratique pour étudier à Toulouse quand on vient du Maroc, d\'Algérie ou du Sénégal.',
   },
   'etudier-a-montpellier': {
@@ -57,9 +57,9 @@ const CITY_SEO: Record<string, { title: string; description: string; ogDescripti
     ogDescription: 'Lille, la moins chère des grandes villes françaises — guide pratique pour étudier à Lille avec un budget maîtrisé quand on vient du Maghreb ou d\'Afrique.',
   },
   'etudier-a-marseille': {
-    title: 'Étudier à Marseille : guide complet étudiant étranger 2026 | Dalili',
-    description: 'Guide complet pour étudier à Marseille : Aix-Marseille Université, budget, logement, quartiers, communauté maghrébine et soleil méditerranéen. Mis à jour 2026.',
-    ogDescription: 'Marseille, porte de la Méditerranée et ville avec la plus grande communauté maghrébine de France — guide pratique pour étudier à Marseille.',
+    title: 'Étudier à Marseille 2026 : budget 650€/mois, CROUS 185€, guide étudiant étranger | Dalili',
+    description: 'Marseille : ville étudiante la moins chère de France. Budget 650-900€/mois, CROUS dès 185€, 3 campus AMU, 80 000 étudiants dont 20 000 maghrébins. Logement, jobs, quartiers. Guide 2026.',
+    ogDescription: 'Marseille, porte de la Méditerranée — guide pratique : budget réel, meilleurs quartiers, communauté maghrébine et opportunités étudiantes à AMU.',
   },
   'etudier-a-nice': {
     title: "Étudier à Nice : guide complet étudiant étranger 2026 | Dalili",
