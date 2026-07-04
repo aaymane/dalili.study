@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import LenisProvider from './LenisProvider';
+import HeroSection from './HeroSection';
 
 const INTRO_KEY = 'dalili_intro_done';
 
@@ -25,10 +27,12 @@ function SectionDivider() {
   );
 }
 
-// Lenis only starts AFTER intro animation to avoid GSAP ticker conflicts
-const LenisProvider   = dynamic(() => import('./LenisProvider'),   { ssr: false });
+// LenisProvider and HeroSection are imported normally (not dynamic/ssr:false) so their
+// markup — including the hero image that's the page's actual LCP element — is present in
+// the server-rendered HTML instead of only appearing once a lazy JS chunk mounts client-side.
+// Both are safe to render on the server: LenisProvider is a pass-through (`<>{children}</>`,
+// all its logic lives in a useEffect) and HeroSection's window/DOM access is effect-only too.
 const IntroAnimation  = dynamic(() => import('./IntroAnimation'),  { ssr: false }) as React.ComponentType<{ onComplete: () => void }>;
-const HeroSection     = dynamic(() => import('./HeroSection'),     { ssr: false }) as React.ComponentType<{ revealed: boolean }>;
 const ProblemSection  = dynamic(() => import('./ProblemSection'),  { ssr: false });
 const JourneySection  = dynamic(() => import('./JourneySection'),  { ssr: false });
 const FeaturesSection       = dynamic(() => import('./FeaturesSection'),       { ssr: false });
@@ -70,15 +74,18 @@ export default function ClientHomePage({ guidesCount, universitesCount, villesCo
 
       {/* Lenis enabled only after logo reveal (avoids freeze/conflict) */}
       <LenisProvider enabled={revealed}>
-        <div style={{
-          opacity: revealed ? 1 : 0,
-          transition: 'opacity 0.45s ease',
-          minHeight: '100vh',
-        }}>
+        <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
+          {/* Rendered immediately (not opacity-gated behind `revealed`) so the hero —
+              including its priority image, the page's LCP element — can paint as soon as
+              it's ready instead of waiting for the intro to finish. The intro's own opaque
+              fixed overlay covers it in the meantime, so nothing changes visually. */}
+          <HeroSection revealed={revealed} />
 
-          <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
-            {/* Pass revealed so plane entrance is synced with logo disappearance */}
-            <HeroSection revealed={revealed} />
+          <div style={{
+            opacity: revealed ? 1 : 0,
+            transition: 'opacity 0.45s ease',
+            minHeight: '100vh',
+          }}>
 
             {/* Trust bar */}
             <div style={{
@@ -122,10 +129,10 @@ export default function ClientHomePage({ guidesCount, universitesCount, villesCo
             <div id="waitlist">
               <EmailCapture />
             </div>
-          </main>
+          </div>
+        </main>
 
-          <Footer />
-        </div>
+        <Footer />
       </LenisProvider>
     </>
   );
