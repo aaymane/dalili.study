@@ -207,7 +207,7 @@ export default function ToolsSection() {
                     fontSize:     '0.72rem',
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase' as const,
-                    color:         tool.live ? '#ffffff' : 'rgba(255,255,255,0.35)',
+                    color:         tool.live ? (tool.accent === '#014DF8' ? '#ffffff' : '#050914') : 'rgba(255,255,255,0.35)',
                     textDecoration: 'none',
                     pointerEvents:  tool.live ? 'auto' : 'none',
                   }}

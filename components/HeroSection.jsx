@@ -38,11 +38,9 @@ export default function HeroSection({ revealed = false }) {
     const mobile = W < 768;
     setIsMobile(mobile);
 
-    if (sectionRef.current) {
-      // Mobile: 200vh — phones fill first screen, text scroll-reveals in second.
-      // Desktop: 420vh for the full cinematic scroll sequence.
-      sectionRef.current.style.height = mobile ? '200vh' : '420vh';
-    }
+    // Section height (420vh desktop / 200vh mobile) is set in CSS — see
+    // .hero-section in globals.css — so it's correct on first paint instead
+    // of jumping after this effect runs (was causing a large CLS).
 
     if (planeRef.current && !mobile) {
       // Desktop: off-screen above-right, ready to swoop in.

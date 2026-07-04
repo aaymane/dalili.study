@@ -622,6 +622,11 @@ input[type="email"]:focus {
   .navbar     { padding: 0 20px !important; height: 64px !important; }
   .navbar-cta { padding: 10px 18px !important; font-size: 0.74rem !important; letter-spacing: 0.04em !important; }
 
+  /* ── Hero section height — set here (not via JS) so it's correct on first
+       paint. Setting it in a useEffect caused a ~0.2 CLS: the section rendered
+       at its 420vh desktop default, then jumped to 200vh once JS ran. ── */
+  .hero-section { height: 200vh !important; }
+
   /* ── Hero plane — hidden on mobile (phones replace it) ─────── */
   .hero-plane-wrap { display: none !important; }
 
