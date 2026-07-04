@@ -50,7 +50,6 @@ export const CLUSTER_MAP: Record<string, string> = {
   'budget-etudiant-senegalais-france-2026':             'senegal',
   'tcf-senegal-dakar-guide-2026':                       'senegal',
   'bourses-etudiants-senegalais-france-2026':           'senegal',
-  'visa-etudiant-france-senegal-procedure':             'senegal',
   'communaute-senegalaise-france-villes':               'senegal',
   'medecine-pharmacie-france-etudiant-senegalais':      'senegal',
   // Tunisie cluster

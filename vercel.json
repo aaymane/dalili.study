@@ -5,6 +5,17 @@
       "has": [{ "type": "host", "value": "dalili-waitlist.vercel.app" }],
       "destination": "https://dalili.study/$1",
       "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.dalili.study" }],
+      "destination": "https://dalili.study/$1",
+      "permanent": true
+    },
+    {
+      "source": "/blog/visa-etudiant-france-senegal-procedure",
+      "destination": "/blog/visa-etudiant-france-senegal-2026",
+      "permanent": true
     }
   ]
 }
