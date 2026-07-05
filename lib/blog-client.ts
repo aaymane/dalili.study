@@ -28,6 +28,7 @@ export const CLUSTER_DEFINITIONS: Record<string, { label: string; description: s
   'maroc':         { label: 'Depuis le Maroc',       description: 'TCF, Campus France Maroc, visa étudiant', color: '#C8102E', accentRgb: '200,16,46' },
   'tunisie':       { label: 'Depuis la Tunisie',     description: 'Campus France Tunisie, TCF, visa, bourses, logement', color: '#E70013', accentRgb: '231,0,19' },
   'liban':         { label: 'Depuis le Liban',       description: 'Campus France Beyrouth, visa, bourses, reconnaissance des diplômes', color: '#ED1C24', accentRgb: '237,28,36' },
+  'medecine':      { label: 'Médecine',              description: 'PASS, LAS, admission, coût et reconnaissance de diplôme', color: '#14B8A6', accentRgb: '20,184,166' },
 };
 
 export const CATEGORY_COLORS: Record<string, { accent: string; accentRgb: string }> = {

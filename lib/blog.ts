@@ -79,8 +79,14 @@ export const CLUSTER_MAP: Record<string, string> = {
   'ecole-privee-vs-universite-publique-etudiant-etranger': 'visa-campus-france',
   // Articles études
   'frais-scolarite-universite-france-etudiant-etranger-2026': 'banque',
-  'medecine-france-etudiant-etranger-guide-complet':    'vie-etudiante',
   'informatique-france-etudiant-etranger':              'vie-etudiante',
+  // Médecine cluster
+  'medecine-france-etudiant-etranger-guide-complet':    'medecine',
+  'cout-etudes-medecine-france-etudiant-etranger':      'medecine',
+  'faculte-medecine-france-etudiant-etranger-admission':'medecine',
+  'pass-las-etudiant-etranger-medecine-france':         'medecine',
+  'equivalence-diplome-medecine-etranger-france':       'medecine',
+  'etudier-medecine-france-depuis-maroc':               'medecine',
 };
 
 export interface Heading {

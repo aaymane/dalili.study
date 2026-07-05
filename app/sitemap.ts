@@ -35,8 +35,14 @@ const HIGH_PRIORITY_SLUGS = new Set([
   'etudier-en-france-depuis-cameroun',
   // Études & filières
   'frais-scolarite-universite-france-etudiant-etranger-2026',
-  'medecine-france-etudiant-etranger-guide-complet',
   'informatique-france-etudiant-etranger',
+  // Médecine — cluster prioritaire (fort volume d'impressions GSC)
+  'medecine-france-etudiant-etranger-guide-complet',
+  'cout-etudes-medecine-france-etudiant-etranger',
+  'faculte-medecine-france-etudiant-etranger-admission',
+  'pass-las-etudiant-etranger-medecine-france',
+  'equivalence-diplome-medecine-etranger-france',
+  'etudier-medecine-france-depuis-maroc',
   // Campus France & démarches
   'lettre-motivation-campus-france-exemple-2026',
   'delf-dalf-vs-tcf-etudiant-etranger-france',
