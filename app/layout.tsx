@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import StarCanvas from "@/components/StarCanvas";
@@ -124,6 +125,15 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{ __html: `*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:auto!important}body{background:#010510;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}` }} />
       </head>
       <body className="bg-[#010510] text-white antialiased overflow-x-hidden">
+        {/* Google Tag Manager (noscript) — must be the first thing in body */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-WTNNC952"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         {/* Skip to main content — screen readers & keyboard users */}
         <a href="#main-content" className="skip-link">
           Aller au contenu principal
@@ -179,6 +189,7 @@ export default function RootLayout({
         <Navbar />
         {children}
       </body>
+      <GoogleTagManager gtmId="GTM-WTNNC952" />
     </html>
   );
 }
