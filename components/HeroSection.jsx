@@ -136,10 +136,10 @@ export default function HeroSection({ revealed = false }) {
       );
 
       if (!mobile) {
-        // Background elements (skyline, glow, badge) → fade in first 320px of scroll.
+        // Background elements (skyline, glow) → fade in first 320px of scroll.
         // gsap.to + immediateRender:false = nothing touched until trigger actually fires,
         // so these elements stay at their natural CSS state on page load.
-        const bgEls = [skylineWrap.current, horizonGlow.current, heroBadgeRef.current].filter(Boolean);
+        const bgEls = [skylineWrap.current, horizonGlow.current].filter(Boolean);
         if (bgEls.length) {
           gsap.to(bgEls, {
             opacity: 0,
@@ -154,13 +154,16 @@ export default function HeroSection({ revealed = false }) {
           });
         }
 
-        // Phones → fade out as the plane sweeps past the left column.
+        // Phones + "Bientôt disponible" badge → fade out together as the plane
+        // sweeps past the left column. The badge describes the phones, so it must
+        // exit in parallel with them, not with the early skyline/glow fade above.
         // CRITICAL: use gsap.to (not fromTo) + immediateRender:false so GSAP does NOT
         // touch the element on mount. fromTo with scrub applies the "from" values
         // immediately, which overrides the CSS transform:translateY(-50%) on
         // .hero-phones-wrap and pushes the phones off-screen inside overflow:hidden.
         // Only animating opacity (no y) avoids all CSS-transform conflicts.
         const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
+        if (heroBadgeRef.current) chipEls.push(heroBadgeRef.current);
         if (chipEls.length) {
           gsap.to(chipEls, {
             opacity: 0,

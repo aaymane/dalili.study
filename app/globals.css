@@ -421,17 +421,22 @@ body {
   }
 }
 @media (min-width: 768px) {
+  /* width matches the phone cluster's own footprint (left half of the
+     420px .hero-phones-wrap), not the full wrapper — the two-phone stack
+     is left-weighted inside its wrapper (translateX(95%-width) positioning),
+     so centering across the full 420px pushed the badge visibly right of
+     the phones. */
   .hero-cards-badge {
     display: flex;
     justify-content: center;
     left: 24px;
-    width: 420px;
+    width: 210px;
     top: calc(50% + 282px);
   }
 }
 @media (min-width: 1024px) {
   .hero-cards-badge {
-    width: 480px;
+    width: 264px;
     top: calc(50% + 332px);
   }
 }
