@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import LenisProvider from './LenisProvider';
 import HeroSection from './HeroSection';
+import IntroAnimation from './IntroAnimation';
 
 const INTRO_KEY = 'dalili_intro_done';
 
@@ -27,12 +28,14 @@ function SectionDivider() {
   );
 }
 
-// LenisProvider and HeroSection are imported normally (not dynamic/ssr:false) so their
-// markup — including the hero image that's the page's actual LCP element — is present in
-// the server-rendered HTML instead of only appearing once a lazy JS chunk mounts client-side.
-// Both are safe to render on the server: LenisProvider is a pass-through (`<>{children}</>`,
-// all its logic lives in a useEffect) and HeroSection's window/DOM access is effect-only too.
-const IntroAnimation  = dynamic(() => import('./IntroAnimation'),  { ssr: false }) as React.ComponentType<{ onComplete: () => void }>;
+// LenisProvider, HeroSection and IntroAnimation are imported normally (not dynamic/ssr:false)
+// so their markup — including the hero image that's the page's actual LCP element, and the
+// intro's opaque cover — is present in the server-rendered HTML instead of only appearing
+// once a lazy JS chunk mounts client-side. All three are safe to render on the server:
+// LenisProvider is a pass-through (`<>{children}</>`, all its logic lives in a useEffect),
+// and HeroSection/IntroAnimation's window/DOM access is effect-only too. IntroAnimation
+// specifically MUST be eager: with HeroSection now rendering immediately for LCP, a lazy
+// intro would let the real page flash through before the cover mounts.
 const ProblemSection  = dynamic(() => import('./ProblemSection'),  { ssr: false });
 const JourneySection  = dynamic(() => import('./JourneySection'),  { ssr: false });
 const FeaturesSection       = dynamic(() => import('./FeaturesSection'),       { ssr: false });
