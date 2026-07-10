@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     template: "%s | Dalili",
   },
   description:
-    "Dalili accompagne les étudiants internationaux à leur arrivée en France : visa, logement, CAF, mentors étudiants et démarches simplifiées.",
+    "Dalili accompagne les étudiants internationaux à leur arrivée en France : visa, logement, CAF, budget, universités, mentors et démarches simplifiées.",
   keywords: [
     "Dalili",
     "étudiants internationaux France",

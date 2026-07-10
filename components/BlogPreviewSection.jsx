@@ -133,7 +133,7 @@ export default function BlogPreviewSection() {
               color: '#fff', margin: 0,
             }}>
               DU CONTENU<br />
-              <span style={{ color: 'rgba(255,255,255,0.92)' }}>POUR T&apos;AIDER.</span>
+              {' '}<span style={{ color: 'rgba(255,255,255,0.92)' }}>POUR T&apos;AIDER.</span>
             </h2>
           </div>
 

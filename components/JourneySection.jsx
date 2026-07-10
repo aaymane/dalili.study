@@ -184,7 +184,7 @@ export default function JourneySection() {
           }}>
             TON CHEMIN
             <br />
-            <span style={{ color: 'rgba(255,255,255,0.92)' }}>VERS LA FRANCE.</span>
+            {' '}<span style={{ color: 'rgba(255,255,255,0.92)' }}>VERS LA FRANCE.</span>
           </h2>
 
           <p style={{
@@ -368,16 +368,16 @@ export default function JourneySection() {
                 </div>
 
                 {/* Title */}
-                <div style={{
+                <h3 style={{
                   fontFamily: 'var(--font-bebas)',
                   fontWeight: 400,
                   fontSize: 'clamp(1.6rem,3vw,2.1rem)',
                   lineHeight: 0.95, letterSpacing: '0.04em',
                   color: '#fff',
-                  marginBottom: 6,
+                  margin: '0 0 6px',
                 }}>
                   {step.title}
-                </div>
+                </h3>
 
                 {/* Subtitle */}
                 <div style={{

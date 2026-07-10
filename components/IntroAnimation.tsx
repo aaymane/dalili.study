@@ -78,12 +78,7 @@ function FlyingShape({
 }
 
 export default function IntroAnimation({ onComplete }: { onComplete: () => void }) {
-  // Starts visible (not gated behind an effect) so the opaque cover is present
-  // from the very first paint — otherwise the real page (now SSR'd for LCP)
-  // flashes underneath for the brief window before this component's own
-  // effect below has a chance to run. The reduced-motion/skip-intro branches
-  // explicitly turn it back off instead of just never turning it on.
-  const [show,  setShow]  = useState(true);
+  const [show,  setShow]  = useState(false);
   const [phase, setPhase] = useState<Phase>('flying');
   const [sizes, setSizes] = useState<Sizes>({
     logo: 200, flyX: 1800, flyY: 1200, glowIn: 32,
@@ -96,13 +91,11 @@ export default function IntroAnimation({ onComplete }: { onComplete: () => void 
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setShow(false);
       cb.current();
       return;
     }
     if (sessionStorage.getItem('skipIntro')) {
       sessionStorage.removeItem('skipIntro');
-      setShow(false);
       cb.current();
       return;
     }

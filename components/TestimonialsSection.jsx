@@ -110,7 +110,7 @@ export default function TestimonialsSection() {
             color: '#fff', margin: '0 0 clamp(16px,2vw,24px)',
           }}>
             ILS EN<br />
-            <span style={{ color: 'rgba(255,255,255,0.92)' }}>PARLENT.</span>
+            {' '}<span style={{ color: 'rgba(255,255,255,0.92)' }}>PARLENT.</span>
           </h2>
 
           <p style={{

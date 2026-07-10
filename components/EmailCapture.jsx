@@ -260,7 +260,7 @@ export default function EmailCapture() {
                 letterSpacing: '0.04em',
                 color: '#fff',
               }}>
-                Prêt à partir<br />sans stress ?
+                Prêt à partir<br />{' '}sans stress ?
               </h2>
 
               <p style={{

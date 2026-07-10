@@ -106,7 +106,7 @@ export default function ToolsSection() {
             </span>
           </div>
           <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2rem,5vw,3.2rem)', letterSpacing: '0.04em', color: '#ffffff', margin: '0 0 14px', lineHeight: 1.05 }}>
-            Prépare ta rentrée<br />avec les bons outils
+            Prépare ta rentrée<br />{' '}avec les bons outils
           </h2>
           <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.9rem,1.6vw,1rem)', color: 'rgba(255,255,255,0.5)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
             Simulateur de budget, calendrier personnalisé, comparateur de villes — tout ce dont tu as besoin pour choisir et préparer ta vie en France.

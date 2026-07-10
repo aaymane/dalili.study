@@ -148,7 +148,7 @@ export default function PartnersSection() {
           }}>
             NOS PARTENAIRES
             <br />
-            <span style={{ color: 'rgba(255,255,255,0.92)' }}>RECOMMANDÉS.</span>
+            {' '}<span style={{ color: 'rgba(255,255,255,0.92)' }}>RECOMMANDÉS.</span>
           </h2>
 
           <p style={{

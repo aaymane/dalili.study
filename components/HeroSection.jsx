@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Fragment } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
@@ -345,15 +345,20 @@ export default function HeroSection({ revealed = false }) {
           }}
         >
 
-          {/* Title */}
-          <h1 style={{
+          {/* Title — aria-label gives assistive tech the clean spaced reading.
+              The literal space rendered between line blocks below isn't for
+              layout (block-level divs already collapse it visually) — it
+              guarantees a real space character sits in the raw DOM text
+              between lines, so crawlers reading raw textContent see
+              "TON GUIDE POUR LA FRANCE." instead of "TONGUIDEPOUR LAFRANCE." */}
+          <h1 aria-label="TON GUIDE POUR LA FRANCE." style={{
             margin: '0 0 28px',
             fontFamily: 'var(--font-bebas)',
             fontWeight: 400, lineHeight: 0.9,
           }}>
             {LINES.map((line, i) => (
+              <Fragment key={i}>
               <div
-                key={i}
                 ref={el => { linesRef.current[i] = el; }}
                 style={{
                   display: 'block',
@@ -369,6 +374,8 @@ export default function HeroSection({ revealed = false }) {
                   </span>
                 ))}
               </div>
+              {i < LINES.length - 1 && ' '}
+              </Fragment>
             ))}
           </h1>
 

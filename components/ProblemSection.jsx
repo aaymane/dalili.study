@@ -128,51 +128,58 @@ export default function ProblemSection() {
           ref={titleRef}
           style={{ textAlign: 'center', marginBottom: 'clamp(48px,6vw,80px)' }}
         >
-          <p
-            className="prob-line"
-            style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontWeight: 700,
-              fontSize: 'clamp(22px,3.5vw,42px)',
-              letterSpacing: '0.05em',
-              color: 'rgba(255,255,255,0.78)',
-              margin: 0,
-              lineHeight: 1.15,
-              textTransform: 'uppercase',
-            }}
-          >
-            Chaque année,
-          </p>
-          <p
-            className="prob-line"
-            style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontWeight: 900,
-              fontSize: 'clamp(22px,3.5vw,42px)',
-              letterSpacing: '0.02em',
-              color: '#ffffff',
-              margin: 0,
-              lineHeight: 1.15,
-              textTransform: 'uppercase',
-            }}
-          >
-            des milliers d&apos;étudiants
-          </p>
-          <p
-            className="prob-line"
-            style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontWeight: 900,
-              fontSize: 'clamp(22px,3.5vw,42px)',
-              letterSpacing: '0.02em',
-              color: '#014DF8',
-              margin: '0 0 clamp(20px,2.5vw,32px)',
-              lineHeight: 1.15,
-              textTransform: 'uppercase',
-            }}
-          >
-            font les mêmes erreurs.
-          </p>
+          <h2 style={{ margin: 0 }}>
+            <span
+              className="prob-line"
+              style={{
+                display: 'block',
+                fontFamily: 'var(--font-montserrat)',
+                fontWeight: 700,
+                fontSize: 'clamp(22px,3.5vw,42px)',
+                letterSpacing: '0.05em',
+                color: 'rgba(255,255,255,0.78)',
+                margin: 0,
+                lineHeight: 1.15,
+                textTransform: 'uppercase',
+              }}
+            >
+              Chaque année,
+            </span>
+            {' '}
+            <span
+              className="prob-line"
+              style={{
+                display: 'block',
+                fontFamily: 'var(--font-montserrat)',
+                fontWeight: 900,
+                fontSize: 'clamp(22px,3.5vw,42px)',
+                letterSpacing: '0.02em',
+                color: '#ffffff',
+                margin: 0,
+                lineHeight: 1.15,
+                textTransform: 'uppercase',
+              }}
+            >
+              des milliers d&apos;étudiants
+            </span>
+            {' '}
+            <span
+              className="prob-line"
+              style={{
+                display: 'block',
+                fontFamily: 'var(--font-montserrat)',
+                fontWeight: 900,
+                fontSize: 'clamp(22px,3.5vw,42px)',
+                letterSpacing: '0.02em',
+                color: '#014DF8',
+                margin: '0 0 clamp(20px,2.5vw,32px)',
+                lineHeight: 1.15,
+                textTransform: 'uppercase',
+              }}
+            >
+              font les mêmes erreurs.
+            </span>
+          </h2>
           <p
             className="prob-line"
             style={{

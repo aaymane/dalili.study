@@ -76,8 +76,8 @@ export default function FAQSection() {
               color: '#fff', margin: '0 0 clamp(16px,2vw,24px)',
             }}>
               TES<br />
-              QUES&shy;<br />TIONS.<br />
-              <span style={{ color: 'rgba(255,255,255,0.92)' }}>RÉPONDUES.</span>
+              {' '}QUES&shy;<br />TIONS.<br />
+              {' '}<span style={{ color: 'rgba(255,255,255,0.92)' }}>RÉPONDUES.</span>
             </h2>
 
             <p style={{
@@ -139,7 +139,11 @@ export default function FAQSection() {
                     )}
                   </AnimatePresence>
 
-                  {/* ── Question row (button) ── */}
+                  {/* ── Question row (button) — wrapped in h3 so each FAQ question is a
+                      real heading (standard accessible disclosure pattern + matches the
+                      FAQPage schema questions for SEO/AEO); margin:0 keeps it visually
+                      identical since the button's own padding controls all spacing ── */}
+                  <h3 style={{ margin: 0 }}>
                   <button
                     onClick={() => toggle(i)}
                     aria-expanded={isOpen}
@@ -199,6 +203,7 @@ export default function FAQSection() {
                       +
                     </motion.span>
                   </button>
+                  </h3>
 
                   {/* ── Answer panel ── */}
                   <AnimatePresence initial={false}>
