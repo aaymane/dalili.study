@@ -11,12 +11,27 @@ gsap.registerPlugin(ScrollTrigger);
 const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false, loading: () => null });
 const ParisSkyline   = dynamic(() => import('./ParisSkyline'),   { ssr: false });
 
-// Mobile-first sizes: clamp(mobile, fluid, desktop) — bigger on mobile
+// Mobile-first sizes: clamp(mobile, fluid, desktop) — bigger on mobile.
+// The fluid size is `min(Xvw, Yvh)`, not plain `vw`: sizing purely off viewport
+// WIDTH means on a wide-but-short window (a laptop with browser chrome eating
+// vertical space, e.g. ~1512×790) the 4-line block — vertically centered but
+// sized for a taller viewport — grows past 100vh and its top line pokes up
+// behind the fixed navbar (the "T" of "TON" was getting clipped to look like
+// "I ON"). The `Yvh` branch only binds below the ~0.6 height/width ratio where
+// `Xvw > Yvh` — normal 16:9-and-taller screens keep the plain `Xvw` size,
+// untouched. But at the exact 1512×790 case, `Yvh` alone (e.g. 22vh) still
+// wasn't tight enough to clear the 64px fixed navbar — measured clipping of
+// ~38px. `max(0px, Xvw - Yvh)` is >0 in precisely that same sub-0.6-ratio
+// zone (it's the same inequality as the `min` branch flip, just kept instead
+// of discarded), so subtracting it back out of `Yvh` steepens the falloff
+// only where the vh-branch was already active — it's exactly 0, a no-op,
+// everywhere `Xvw` was already winning. Verified: 173.8px→143.5px at
+// 1512×790 (clipping gone, ~24px clearance); unchanged 204.1px at 1512×982.
 const LINES = [
-  { text: 'TON',     color: '#ffffff',               size: 'clamp(5.2rem,13.5vw,16rem)', ls: '0.01em' },
-  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(5.2rem,13.5vw,16rem)', ls: '0.01em' },
-  { text: 'POUR LA', color: 'rgba(255,255,255,0.92)', size: 'clamp(2.6rem,6.5vw,7.5rem)',  ls: '0.04em' },
-  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(4.6rem,12vw,14rem)',    ls: '0.01em' },
+  { text: 'TON',     color: '#ffffff',               size: 'clamp(5.2rem,min(13.5vw,calc(22vh - max(0px,13.5vw - 22vh))),16rem)', ls: '0.01em' },
+  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(5.2rem,min(13.5vw,calc(22vh - max(0px,13.5vw - 22vh))),16rem)', ls: '0.01em' },
+  { text: 'POUR LA', color: 'rgba(255,255,255,0.92)', size: 'clamp(2.6rem,min(6.5vw,calc(11vh - max(0px,6.5vw - 11vh))),7.5rem)',  ls: '0.04em' },
+  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(4.6rem,min(12vw,calc(20vh - max(0px,12vw - 20vh))),14rem)',    ls: '0.01em' },
 ];
 
 export default function HeroSection({ revealed = false }) {
