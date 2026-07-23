@@ -10,6 +10,9 @@ import {
   G,
 } from '@react-pdf/renderer';
 import React from 'react';
+import { REGULATORY_FIGURES, getTierAt, formatTierValue } from '@/lib/data/regulatory-figures';
+
+const cvecTier = getTierAt(REGULATORY_FIGURES.cvec);
 
 // ── Brand tokens ─────────────────────────────────────────────────────
 const NAVY   = '#0a0f1e';
@@ -391,7 +394,7 @@ export function ChecklistPDF() {
             note="Apporte : lettre d'admission, passeport, photos, justificatif de logement"
           />
           <Item
-            text="Paiement CVEC (103€) sur messervices.etudiant.gouv.fr"
+            text={`Paiement CVEC (${formatTierValue(cvecTier)}) sur messervices.etudiant.gouv.fr`}
             note="Obligatoire pour s'inscrire — génère une attestation immédiate"
             urgent
           />

@@ -1,6 +1,14 @@
 import type { Metadata } from 'next';
+import { REGULATORY_FIGURES, getTierAt, formatTierValue, describeAdjacentTier } from '@/lib/data/regulatory-figures';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+
+const compteBloqueNow      = getTierAt(REGULATORY_FIGURES.compteBloqueMensuel);
+const compteBloqueAdjacent = describeAdjacentTier(REGULATORY_FIGURES.compteBloqueMensuel);
+const cvecNow      = getTierAt(REGULATORY_FIGURES.cvec);
+const licenceNow   = getTierAt(REGULATORY_FIGURES.fraisScolariteLicence);
+const masterNow    = getTierAt(REGULATORY_FIGURES.fraisScolariteMaster);
+const doctoratNow  = getTierAt(REGULATORY_FIGURES.fraisScolariteDoctorat);
 
 export const metadata: Metadata = {
   title: 'Statistiques — Études en France pour étudiants étrangers 2026 | Dalili',
@@ -119,12 +127,12 @@ export default function StatsPage() {
           <p style={s.sectionTitle}>Budget & Logement</p>
           <div style={s.statGrid}>
             {[
-              { val: '877,50 €/mois', label: 'Ressources minimales exigées dès le 1er août 2026 (615 €/mois avant)', source: 'Légifrance — décret n° 2026-526' },
-              { val: '≈ 10 530 €', label: 'Minimum pour 12 mois de séjour dès août 2026 (7 380 € avant)', source: 'Service-public.fr' },
+              { val: formatTierValue(compteBloqueNow), label: `Ressources minimales exigées par le consulat${compteBloqueAdjacent ? ` (${compteBloqueAdjacent})` : ''}`, source: compteBloqueNow.sourceLabel },
+              { val: `≈ ${Math.round(compteBloqueNow.value * 12).toLocaleString('fr-FR')} €`, label: 'Minimum pour 12 mois de séjour', source: 'Service-public.fr' },
               { val: '120-450 €', label: 'Prix CROUS mensuel selon ville et type', source: 'CROUS 2025-2026' },
               { val: '80-220 €', label: 'CAF/APL mensuelle selon ville et loyer', source: 'CAF.fr' },
               { val: '< 9 720 €/an', label: 'Plafond de revenus pour CSS gratuite', source: 'Ameli.fr 2025' },
-              { val: '105 €', label: 'CVEC 2025-2026 (paiement unique annuel)', source: 'CNOUS' },
+              { val: formatTierValue(cvecNow), label: 'CVEC 2025-2026 (paiement unique annuel)', source: cvecNow.sourceLabel },
             ].map((stat, i) => (
               <div key={i} style={s.statCard}>
                 <div style={s.statVal}>{stat.val}</div>
@@ -138,9 +146,9 @@ export default function StatsPage() {
           <p style={s.sectionTitle}>Frais de scolarité (hors UE)</p>
           <div style={s.statGrid}>
             {[
-              { val: '2 895 €/an', label: 'Licence (droits différenciés hors UE)', source: 'MESR 2025-2026' },
-              { val: '3 941 €/an', label: 'Master (droits différenciés hors UE)', source: 'MESR 2025-2026' },
-              { val: '397 €/an', label: 'Doctorat (tarif unique)', source: 'MESR 2025-2026' },
+              { val: formatTierValue(licenceNow), label: 'Licence (droits différenciés hors UE)', source: licenceNow.sourceLabel },
+              { val: formatTierValue(masterNow), label: 'Master (droits différenciés hors UE)', source: masterNow.sourceLabel },
+              { val: formatTierValue(doctoratNow), label: 'Doctorat (tarif unique)', source: doctoratNow.sourceLabel },
               { val: '> 50 %', label: "Universités accordant des exonérations hors UE", source: 'Campus France 2025' },
             ].map((stat, i) => (
               <div key={i} style={s.statCard}>
@@ -200,13 +208,13 @@ export default function StatsPage() {
           </div>
           <div style={{ background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 12, padding: '14px 18px', marginTop: 16 }}>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.72)', margin: 0, lineHeight: 1.7 }}>
-              <strong style={{ color: '#f59e0b' }}>⚠️ Important :</strong> Le consulat exige <strong style={{ color: '#fff' }}>877,50 €/mois de ressources prouvables dès le 1er août 2026</strong> (615 €/mois pour les dossiers déposés avant cette date) — pas ce montant de dépenses.
+              <strong style={{ color: '#f59e0b' }}>⚠️ Important :</strong> Le consulat exige <strong style={{ color: '#fff' }}>{formatTierValue(compteBloqueNow)} de ressources prouvables</strong>{compteBloqueAdjacent ? ` (${compteBloqueAdjacent})` : ''} — pas ce montant de dépenses.
               Avec les aides, tu peux vivre avec 370–450 €/mois réellement, <strong>mais tu dois justifier le montant légal disponible sur ton compte</strong> pour obtenir le visa.
             </p>
           </div>
 
-          {/* ── Tableau 14 villes BRUT / NET */}
-          <p style={s.sectionTitle}>Budget mensuel CROUS — 14 villes (brut et net)</p>
+          {/* ── Tableau villes BRUT / NET */}
+          <p style={s.sectionTitle}>Budget mensuel CROUS — {CITY_BUDGET.length} villes (brut et net)</p>
           <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
             Budget BRUT = avant aides. Budget NET = après CAF, repas RU à 3,30 €, transport étudiant réduit, CSS (santé gratuite).
           </p>
@@ -238,7 +246,7 @@ export default function StatsPage() {
             * Budget NET calculé en CROUS avec CAF, repas RU étudiant (3,30 €) et abonnement transport réduit.
             La CAF réelle dépend de votre situation — simulez sur caf.fr.
             <br />
-            ** Ces montants sont des estimations. Le consulat exige 877,50 €/mois prouvables dès le 1er août 2026 (615 €/mois avant), indépendamment de vos aides.
+            ** Ces montants sont des estimations. Le consulat exige {formatTierValue(compteBloqueNow)} prouvables{compteBloqueAdjacent ? ` (${compteBloqueAdjacent})` : ''}, indépendamment de vos aides.
             <br />
             Sources : CROUS, CAF.fr, observatoires des loyers, OVE 2025-2026.
           </p>

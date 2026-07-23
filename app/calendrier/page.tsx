@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CalendrierOutil from '@/components/CalendrierOutil';
+import { PAYS_INFO, RENTREES } from '@/lib/calendrier-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+const PAYS_COUNT = Object.keys(PAYS_INFO).length;
+const RENTREES_COUNT = Object.keys(RENTREES).length;
 
 export const metadata: Metadata = {
   title: 'Calendrier Campus France 2026 : quand faire quoi pour étudier en France ?',
@@ -125,7 +128,7 @@ export default function CalendrierPage() {
               Sélectionne ton pays et ta rentrée. On génère ton planning mois par mois avec exactement quoi faire et quand.
             </p>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-              7 pays · 3 rentrées · Données officielles 2025-2026 · Gratuit
+              {PAYS_COUNT} pays · {RENTREES_COUNT} rentrées · Données officielles 2025-2026 · Gratuit
             </p>
           </div>
 

@@ -4,13 +4,14 @@ import { CITIES } from '@/lib/cities';
 import SearchableVillesGrid from '@/components/villes/SearchableVillesGrid';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+const VILLES_COUNT = Object.keys(CITIES).length;
 
 export const metadata: Metadata = {
-  title: '14 villes universitaires en France pour étudiants étrangers 2026 | Dalili',
-  description: 'Comparez 14 villes universitaires françaises : Paris, Lyon, Bordeaux, Toulouse, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon et plus. Coût de la vie, logement, budget mensuel et avis honnêtes.',
+  title: `${VILLES_COUNT} villes universitaires en France pour étudiants étrangers 2026 | Dalili`,
+  description: `Comparez ${VILLES_COUNT} villes universitaires françaises : Paris, Lyon, Bordeaux, Toulouse, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon et plus. Coût de la vie, logement, budget mensuel et avis honnêtes.`,
   alternates: { canonical: `${SITE_URL}/villes` },
   openGraph: {
-    title: '14 villes universitaires en France pour étudiants étrangers | Dalili',
+    title: `${VILLES_COUNT} villes universitaires en France pour étudiants étrangers | Dalili`,
     description: 'Paris, Lyon, Bordeaux, Toulouse, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon — comparez toutes les villes avant de choisir.',
     url: `${SITE_URL}/villes`, siteName: 'Dalili', type: 'website',
     images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 }],

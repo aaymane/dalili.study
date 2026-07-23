@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { REGULATORY_FIGURES, getTierAt, formatTierValue, describeAdjacentTier } from '@/lib/data/regulatory-figures';
 
 // ── Budget data ───────────────────────────────────────────────────────────
 type CityData = {
@@ -30,17 +31,29 @@ const CITIES: CityData[] = [
 
 const mid = (range: [number, number]) => Math.round((range[0] + range[1]) / 2);
 
+// Sourced from lib/data/regulatory-figures.ts — the single source of truth for
+// these amounts. `new Date()` is evaluated client-side at render (this file is
+// 'use client'), so a future tier (e.g. a new CVEC amount) takes effect for
+// visitors automatically once its validFrom date is reached, no redeploy needed.
+const tuitionFigures = {
+  licence:  getTierAt(REGULATORY_FIGURES.fraisScolariteLicence),
+  master:   getTierAt(REGULATORY_FIGURES.fraisScolariteMaster),
+  doctorat: getTierAt(REGULATORY_FIGURES.fraisScolariteDoctorat),
+};
 const TUITION_ANNUAL: Record<string, number> = {
-  licence:  2895,
-  master:   3941,
-  doctorat: 397,
+  licence:  tuitionFigures.licence.value,
+  master:   tuitionFigures.master.value,
+  doctorat: tuitionFigures.doctorat.value,
 };
-const CVEC_ANNUAL = 105;
+const cvecTier = getTierAt(REGULATORY_FIGURES.cvec);
+const CVEC_ANNUAL = cvecTier.value;
 const TUITION_MONTHLY_12: Record<string, number> = {
-  licence:  241,
-  master:   328,
-  doctorat: 33,
+  licence:  Math.round(tuitionFigures.licence.value / 12),
+  master:   Math.round(tuitionFigures.master.value / 12),
+  doctorat: Math.round(tuitionFigures.doctorat.value / 12),
 };
+const compteBloqueNow      = getTierAt(REGULATORY_FIGURES.compteBloqueMensuel);
+const compteBloqueAdjacent = describeAdjacentTier(REGULATORY_FIGURES.compteBloqueMensuel);
 
 const CAF_ESTIMATE: Record<string, { min: number; max: number }> = {
   crous:    { min: 150, max: 200 },
@@ -432,12 +445,12 @@ function StepContent({ step, answers, select }: {
   if (step === 2) return (
     <div>
       <h2 style={h2Style}>Quel est ton niveau d&apos;études ?</h2>
-      <p style={subStyle}>Les frais d&apos;inscription varient de 397 € à 3 941 €/an selon le niveau.</p>
+      <p style={subStyle}>Les frais d&apos;inscription varient de {formatTierValue(tuitionFigures.doctorat)} à {formatTierValue(tuitionFigures.master)}/an selon le niveau.</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[
-          { val: 'licence',  label: 'Licence (L1, L2, L3)', note: '2 895 €/an + CVEC 105 €/an · source : campusfrance.org 2025-2026' },
-          { val: 'master',   label: 'Master (M1, M2)',       note: '3 941 €/an + CVEC 105 €/an · source : campusfrance.org 2025-2026' },
-          { val: 'doctorat', label: 'Doctorat',              note: '397 €/an + CVEC 105 €/an · frais proches du tarif national' },
+          { val: 'licence',  label: 'Licence (L1, L2, L3)', note: `${formatTierValue(tuitionFigures.licence)} + CVEC ${formatTierValue(cvecTier)} · source : campusfrance.org 2025-2026` },
+          { val: 'master',   label: 'Master (M1, M2)',       note: `${formatTierValue(tuitionFigures.master)} + CVEC ${formatTierValue(cvecTier)} · source : campusfrance.org 2025-2026` },
+          { val: 'doctorat', label: 'Doctorat',              note: `${formatTierValue(tuitionFigures.doctorat)} + CVEC ${formatTierValue(cvecTier)} · frais proches du tarif national` },
         ].map(o => (
           <button key={o.val} onClick={() => select('niveau', o.val)} style={card(answers.niveau === o.val)}>
             <div style={dot(answers.niveau === o.val)} />
@@ -752,7 +765,7 @@ function ResultsPanel({
             </div>
             <div style={{ marginTop: 12, padding: '11px 14px', background: 'rgba(77,143,255,0.06)', border: '1px solid rgba(77,143,255,0.18)', borderRadius: 8 }}>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.6 }}>
-                <strong style={{ color: 'rgba(255,255,255,0.85)' }}>CVEC 105 €</strong> — paiement unique à la rentrée sur <strong style={{ color: '#fff' }}>messervices.etudiant.gouv.fr</strong>. Exonération possible si boursier.
+                <strong style={{ color: 'rgba(255,255,255,0.85)' }}>CVEC {formatTierValue(cvecTier)}</strong> — paiement unique à la rentrée sur <strong style={{ color: '#fff' }}>messervices.etudiant.gouv.fr</strong>. Exonération possible si boursier.
               </p>
             </div>
             <div style={{ marginTop: 10, padding: '12px 14px', background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.18)', borderRadius: 8 }}>
@@ -810,7 +823,7 @@ function ResultsPanel({
           Visa étudiant — exigence consulaire
         </p>
         <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.7 }}>
-          Le consulat français exige de justifier <strong style={{ color: '#fff' }}>877,50 €/mois minimum</strong> de ressources pour obtenir ton visa étudiant à partir du 1er août 2026 (615 €/mois pour les dossiers déposés avant cette date — décret n° 2026-526 du 22 juin 2026), soit environ <strong style={{ color: '#fff' }}>10 530 € disponibles</strong> sur ton compte bancaire pour 12 mois. Ce chiffre est une exigence administrative, pas un budget de vie.
+          Le consulat français exige de justifier <strong style={{ color: '#fff' }}>{formatTierValue(compteBloqueNow)} minimum</strong> de ressources pour obtenir ton visa étudiant{compteBloqueAdjacent ? ` (${compteBloqueAdjacent} — ${compteBloqueNow.sourceLabel})` : ''}, soit environ <strong style={{ color: '#fff' }}>{Math.round(compteBloqueNow.value * 12).toLocaleString('fr-FR')} € disponibles</strong> sur ton compte bancaire pour 12 mois. Ce chiffre est une exigence administrative, pas un budget de vie.
           {showNet && (
             <> <strong style={{ color: '#f59e0b' }}>Même si ton budget réel est de {netBudget} €/mois avec les aides, tu dois prouver ce montant de ressources disponibles.</strong></>
           )}
@@ -854,7 +867,7 @@ function ResultsPanel({
       </div>
 
       <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.7 }}>
-        ⚠️ Estimation indicative — juin 2026. Frais d&apos;inscription (Licence 2 895 €/an, Master 3 941 €/an, Doctorat 397 €/an) + CVEC 105 €/an. Actualisés chaque année — vérifier sur{' '}
+        ⚠️ Estimation indicative — juin 2026. Frais d&apos;inscription (Licence {formatTierValue(tuitionFigures.licence)}, Master {formatTierValue(tuitionFigures.master)}, Doctorat {formatTierValue(tuitionFigures.doctorat)}) + CVEC {formatTierValue(cvecTier)}. Actualisés chaque année — vérifier sur{' '}
         <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>campusfrance.org</a>{' '}et{' '}
         <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>caf.fr</a>.
       </p>

@@ -1,6 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { CITIES } from '@/lib/cities';
+import { CITY_SCORES } from '@/lib/comparer-scores';
+import { PAYS_INFO, RENTREES } from '@/lib/calendrier-data';
+
+const VILLES_COUNT = Object.keys(CITIES).length;
+const VILLES_COMPARATEUR_COUNT = Object.keys(CITY_SCORES).length;
+const PAYS_COUNT = Object.keys(PAYS_INFO).length;
+const RENTREES_COUNT = Object.keys(RENTREES).length;
 
 // ── Professional SVG icon components ─────────────────────────────────────
 
@@ -57,7 +65,7 @@ const TOOLS = [
     tag:    '01',
     title:  'Simulateur budget',
     desc:   'Calcule ton budget mensuel exact pour étudier en France. Loyer, nourriture, transport, CAF — personnalisé par ville.',
-    points: ['14 villes couvertes', 'Estimation CAF incluse', 'Résultat en 5 questions'],
+    points: [`${VILLES_COUNT} villes couvertes`, 'Estimation CAF incluse', 'Résultat en 5 questions'],
     cta:    'Calculer mon budget',
     badge:  'Disponible maintenant',
     live:   true,
@@ -70,7 +78,7 @@ const TOOLS = [
     tag:    '02',
     title:  'Calendrier Campus France',
     desc:   'Génère ton planning mois par mois selon ton pays et ta rentrée. TCF, visa, logement CROUS — rien n\'est oublié.',
-    points: ['7 pays d\'origine', '3 rentrées disponibles', 'PDF envoyé par email'],
+    points: [`${PAYS_COUNT} pays d'origine`, `${RENTREES_COUNT} rentrées disponibles`, 'PDF envoyé par email'],
     cta:    'Générer mon calendrier',
     badge:  'Disponible maintenant',
     live:   true,
@@ -83,7 +91,7 @@ const TOOLS = [
     tag:    '03',
     title:  'Comparateur de villes',
     desc:   'Compare 2 ou 3 villes sur le budget, les universités, l\'emploi et la communauté. Recommandation personnalisée en temps réel.',
-    points: ['14 villes comparables', '5 critères clés', 'PDF comparatif par email'],
+    points: [`${VILLES_COMPARATEUR_COUNT} villes comparables`, '5 critères clés', 'PDF comparatif par email'],
     cta:    'Comparer les villes',
     badge:  'Disponible maintenant',
     live:   true,

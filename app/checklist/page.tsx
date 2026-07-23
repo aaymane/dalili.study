@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Plane, Home, ClipboardList, CreditCard, Banknote, BookOpen, MapPin } from 'lucide-react';
 import DownloadBtn from '@/components/checklist/DownloadBtn';
+import { REGULATORY_FIGURES, getTierAt, formatTierValue } from '@/lib/data/regulatory-figures';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+const cvecNow = getTierAt(REGULATORY_FIGURES.cvec);
 
 export const metadata: Metadata = {
   title: 'Checklist arrivée en France 2026 — PDF gratuit étudiant international | Dalili',
@@ -130,7 +132,7 @@ const PHASES = [
       { text: 'Validation VLS-TS sur ANEF dans les 3 MOIS', note: 'administration-etrangers-en-france.interieur.gouv.fr · environ 50€', urgent: true },
       { text: "Inscription à l'Assurance Maladie sur ameli.fr", note: "Section : Étudiants étrangers — envoie les documents en ligne", urgent: true },
       { text: "Inscription définitive à l'université", note: "Apporte : lettre d'admission, passeport, photos, justificatif logement", urgent: false },
-      { text: 'Paiement CVEC (103€) sur messervices.etudiant.gouv.fr', note: "Obligatoire pour s'inscrire — génère une attestation immédiate", urgent: true },
+      { text: `Paiement CVEC (${formatTierValue(cvecNow)}) sur messervices.etudiant.gouv.fr`, note: "Obligatoire pour s'inscrire — génère une attestation immédiate", urgent: true },
       { text: 'Demande APL/CAF sur caf.fr dès le 1er jour dans le logement', note: 'Non rétroactive — chaque jour de retard = aide perdue définitivement', urgent: true },
       { text: 'Ouverture compte bancaire traditionnel (BNP, SG, Crédit Agricole)', note: 'Nécessaire pour la CAF et les virements de loyer', urgent: false },
       { text: "Choix d'un médecin traitant sur doctolib.fr", note: 'Recommandé pour optimiser les remboursements spécialistes — déclarer sur ameli.fr', urgent: false },

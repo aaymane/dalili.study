@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import AboutJoinForm from '@/components/AboutJoinForm';
+import { getSiteStats } from '@/lib/data/site-stats';
 
 const SITE_URL = 'https://dalili.study';
+const { guidesCount, villesCount, paysNommesCount } = getSiteStats();
 
 export const metadata: Metadata = {
   title: 'Dalili — Guide de référence pour les étudiants internationaux en France | Dalili',
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_URL}/a-propos` },
   openGraph: {
     title: 'Dalili — Guide de référence pour étudiants internationaux en France',
-    description: "Plateforme de référence créée en 2025, couvrant 49 démarches pour 6 pays d'origine.",
+    description: `Plateforme de référence créée en 2025, couvrant ${guidesCount} démarches pour ${paysNommesCount} pays d'origine.`,
     url: `${SITE_URL}/a-propos`,
     siteName: 'Dalili',
     type: 'website',
@@ -28,9 +30,9 @@ const jsonLd = {
 };
 
 const stats = [
-  { value: '49', label: 'Guides & démarches' },
-  { value: '14', label: 'Villes documentées' },
-  { value: '6',  label: 'Pays couverts' },
+  { value: String(guidesCount), label: 'Guides & démarches' },
+  { value: String(villesCount), label: 'Villes documentées' },
+  { value: String(paysNommesCount), label: 'Pays couverts' },
 ];
 
 const coverage = [

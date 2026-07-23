@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { CITY_SCORES } from '@/lib/comparer-scores';
 
 const ComparateurVilles = dynamic(() => import('@/components/ComparateurVilles'), { ssr: false });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+const VILLES_COUNT = Object.keys(CITY_SCORES).length;
 
 export const metadata: Metadata = {
   title: 'Comparer les villes étudiantes en France : outil comparatif 2026 | Dalili',
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@dalilistudy',
     title: 'Comparer les villes étudiantes en France 2026 | Dalili',
-    description: 'Compare 14 villes françaises sur le budget, l\'emploi, la communauté et la qualité de vie. Recommandation automatique.',
+    description: `Compare ${VILLES_COUNT} villes françaises sur le budget, l'emploi, la communauté et la qualité de vie. Recommandation automatique.`,
     images: [`${SITE_URL}/og-image.jpg`],
   },
 };
@@ -126,7 +128,7 @@ export default function ComparerPage() {
               Choisis 2 ou 3 villes et vois en temps réel les différences de budget, d&apos;universités, d&apos;emploi et de qualité de vie — avec une recommandation personnalisée.
             </p>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-              14 villes · 5 critères · Données 2025-2026 · Gratuit
+              {VILLES_COUNT} villes · 5 critères · Données 2025-2026 · Gratuit
             </p>
           </div>
 
@@ -142,7 +144,7 @@ export default function ComparerPage() {
               {[
                 { title: 'Simulateur budget',        desc: 'Calcule ton budget mensuel exact selon ta ville, ton logement et ta bourse.',        href: '/simulateur',   label: 'Calculer mon budget →' },
                 { title: 'Calendrier Campus France',  desc: 'Génère ton planning mois par mois pour préparer ton dossier et ton arrivée.',        href: '/calendrier',   label: 'Voir mon calendrier →' },
-                { title: 'Toutes les villes',         desc: 'Explore nos guides complets pour les 14 villes étudiantes couvertes par Dalili.',    href: '/villes',       label: 'Explorer les villes →' },
+                { title: 'Toutes les villes',         desc: `Explore nos guides complets pour les ${VILLES_COUNT} villes étudiantes couvertes par Dalili.`,    href: '/villes',       label: 'Explorer les villes →' },
               ].map(item => (
                 <div key={item.href} style={{ padding: 24, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16 }}>
                   <h3 style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.9rem', color: '#fff', margin: '0 0 8px' }}>{item.title}</h3>

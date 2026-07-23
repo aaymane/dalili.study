@@ -8,7 +8,7 @@ import { BookOpen, Calculator, GraduationCap } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function FeaturesSection() {
+export default function FeaturesSection({ guidesCount, guidesUpdatedLabel }) {
   const sectionRef = useRef(null);
   const titleRef   = useRef(null);
   const cardsRef   = useRef([]);
@@ -198,7 +198,7 @@ export default function FeaturesSection() {
                 color: 'rgba(255,255,255,0.65)',
                 margin: '0 0 16px',
               }}>
-                49 guides · Mis à jour juin 2026
+                {guidesCount} guides{guidesUpdatedLabel ? ` · Mis à jour ${guidesUpdatedLabel}` : ''}
               </p>
               <Link
                 href="/blog"

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import SimulateurBudget from '@/components/SimulateurBudget';
+import { CITIES } from '@/lib/cities';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+const VILLES_COUNT = Object.keys(CITIES).length;
 
 export const metadata: Metadata = {
   title: 'Simulateur budget étudiant étranger France 2026 | Dalili',
@@ -130,7 +132,7 @@ export default function SimulateurPage() {
               5 questions. Une estimation personnalisée de ton budget mensuel, les aides CAF auxquelles tu as droit, et les ressources adaptées à ta situation.
             </p>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-              14 villes · Données 2025-2026 · Gratuit
+              {VILLES_COUNT} villes · Données 2025-2026 · Gratuit
             </p>
           </div>
 

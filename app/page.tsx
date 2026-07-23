@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import ClientHomePage from '@/components/ClientHomePage';
 import { FAQ_ITEMS } from '@/lib/faq-data';
 import { getAllPosts } from '@/lib/blog';
-import { UNIVERSITIES } from '@/lib/universities';
-import { CITIES } from '@/lib/cities';
+import { getSiteStats } from '@/lib/data/site-stats';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -53,9 +52,12 @@ const orgSchema = {
 };
 
 export default function Home() {
-  const guidesCount = getAllPosts().length;
-  const universitesCount = Object.keys(UNIVERSITIES).length;
-  const villesCount = Object.keys(CITIES).length;
+  const { guidesCount, universitesCount, villesCount } = getSiteStats();
+  // getAllPosts() is sorted newest-first (see lib/blog.ts) — posts[0] is the latest update.
+  const latestPost = getAllPosts()[0];
+  const guidesUpdatedLabel = latestPost
+    ? new Date(latestPost.updatedDate ?? latestPost.date).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+    : undefined;
 
   return (
     <>
@@ -75,6 +77,7 @@ export default function Home() {
         guidesCount={guidesCount}
         universitesCount={universitesCount}
         villesCount={villesCount}
+        guidesUpdatedLabel={guidesUpdatedLabel}
       />
     </>
   );

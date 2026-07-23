@@ -67,9 +67,11 @@ interface HomePageProps {
   guidesCount: number;
   universitesCount: number;
   villesCount: number;
+  /** e.g. "juillet 2026" — derived from the most recently updated blog post. */
+  guidesUpdatedLabel?: string;
 }
 
-export default function ClientHomePage({ guidesCount, universitesCount, villesCount }: HomePageProps) {
+export default function ClientHomePage({ guidesCount, universitesCount, villesCount, guidesUpdatedLabel }: HomePageProps) {
   const [revealed, setRevealed] = useState(false);
   const [skipIntro, setSkipIntro] = useState(false);
 
@@ -144,13 +146,13 @@ export default function ClientHomePage({ guidesCount, universitesCount, villesCo
             <SectionDivider />
             <ToolsSection />
             <SectionDivider />
-            <ProblemSection />
+            <ProblemSection guidesCount={guidesCount} villesCount={villesCount} />
             <SectionDivider />
             <JourneySection />
             <SectionDivider />
-            <FeaturesSection />
+            <FeaturesSection guidesCount={guidesCount} guidesUpdatedLabel={guidesUpdatedLabel} />
             <SectionDivider />
-            <TestimonialsSection />
+            <TestimonialsSection guidesCount={guidesCount} villesCount={villesCount} />
             <SectionDivider />
             <PartnersSection />
             <SectionDivider />

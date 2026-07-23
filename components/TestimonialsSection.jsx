@@ -33,12 +33,6 @@ const TESTIMONIALS = [
   },
 ];
 
-const SOCIAL_PROOF = [
-  { value: '49',    label: 'GUIDES GRATUITS'    },
-  { value: '14',    label: 'VILLES COUVERTES'   },
-  { value: '100%',  label: 'GRATUIT POUR TOUJOURS' },
-];
-
 const containerVariants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
@@ -50,8 +44,13 @@ const cardVariants = {
     transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
 };
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ guidesCount, villesCount }) {
   const sectionRef = useRef(null);
+  const SOCIAL_PROOF = [
+    { value: String(guidesCount), label: 'GUIDES GRATUITS'    },
+    { value: String(villesCount), label: 'VILLES COUVERTES'   },
+    { value: '100%',              label: 'GRATUIT POUR TOUJOURS' },
+  ];
 
   return (
     <section

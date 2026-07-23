@@ -3,44 +3,54 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { REGULATORY_FIGURES, getTierAt } from '@/lib/data/regulatory-figures';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const STATS = [
-  {
-    numericValue: 49,
-    suffix: '',
-    pill: 'GUIDES GRATUITS',
-    pillColor: '#4d8fff',
-    pillBg: 'rgba(1,77,248,0.1)',
-    valueColor: '#ffffff',
-    desc: 'Visa, Campus France, logement, CAF, banque — documentés sur sources officielles.',
-  },
-  {
-    numericValue: 14,
-    suffix: '',
-    pill: 'VILLES COUVERTES',
-    pillColor: '#22c55e',
-    pillBg: 'rgba(34,197,94,0.1)',
-    valueColor: '#ffffff',
-    desc: 'Paris, Lyon, Bordeaux, Toulouse, Marseille, Nice et 8 autres — budget réel et communauté comparés.',
-  },
-  {
-    numericValue: 615,
-    suffix: '€',
-    pill: 'EXIGÉ PAR LE CONSULAT',
-    pillColor: '#4d8fff',
-    pillBg: 'rgba(77,143,255,0.1)',
-    valueColor: '#4d8fff',
-    desc: 'Par mois de ressources prouvables. Notre simulateur calcule exactement ce dont tu as besoin.',
-  },
-];
+// `new Date()` is evaluated client-side at render time (this is a 'use client'
+// component), not baked in at build time — so the card flips from 615 to
+// 877,50 on its own the moment a visitor's clock crosses 1 August 2026,
+// with no redeploy needed.
+function buildStats({ guidesCount, villesCount }) {
+  const compteBloqueTier = getTierAt(REGULATORY_FIGURES.compteBloqueMensuel);
 
-export default function ProblemSection() {
+  return [
+    {
+      numericValue: guidesCount,
+      suffix: '',
+      pill: 'GUIDES GRATUITS',
+      pillColor: '#4d8fff',
+      pillBg: 'rgba(1,77,248,0.1)',
+      valueColor: '#ffffff',
+      desc: 'Visa, Campus France, logement, CAF, banque — documentés sur sources officielles.',
+    },
+    {
+      numericValue: villesCount,
+      suffix: '',
+      pill: 'VILLES COUVERTES',
+      pillColor: '#22c55e',
+      pillBg: 'rgba(34,197,94,0.1)',
+      valueColor: '#ffffff',
+      desc: 'Paris, Lyon, Bordeaux, Toulouse, Marseille, Nice et 8 autres — budget réel et communauté comparés.',
+    },
+    {
+      numericValue: compteBloqueTier.value,
+      suffix: '€',
+      pill: 'EXIGÉ PAR LE CONSULAT',
+      pillColor: '#4d8fff',
+      pillBg: 'rgba(77,143,255,0.1)',
+      valueColor: '#4d8fff',
+      desc: 'Par mois de ressources prouvables. Notre simulateur calcule exactement ce dont tu as besoin.',
+    },
+  ];
+}
+
+export default function ProblemSection({ guidesCount, villesCount }) {
   const sectionRef = useRef(null);
   const titleRef   = useRef(null);
   const cardsRef   = useRef([]);
   const numbersRef = useRef([]);
+  const STATS = buildStats({ guidesCount, villesCount });
 
   // ── Title lines reveal on scroll
   useEffect(() => {
@@ -70,6 +80,10 @@ export default function ProblemSection() {
       numbersRef.current.forEach((el, i) => {
         if (!el) return;
         const { numericValue, suffix } = STATS[i];
+        const isFraction = numericValue % 1 !== 0;
+        const finalLabel = isFraction
+          ? numericValue.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : String(Math.round(numericValue));
         const obj = { val: 0 };
 
         gsap.to(obj, {
@@ -78,12 +92,15 @@ export default function ProblemSection() {
           ease: 'power2.out',
           scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none' },
           onUpdate() { el.textContent = `${Math.round(obj.val)}${suffix}`; },
-          onComplete() { el.textContent = `${numericValue}${suffix}`; },
+          onComplete() { el.textContent = `${finalLabel}${suffix}`; },
         });
       });
     });
 
     return () => ctx.revert();
+    // STATS is derived from props that don't change after mount — intentionally
+    // run once, same pattern as the other scroll-triggered effects below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── Cards scroll entrance
