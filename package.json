@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-embeddings": "node --env-file=.env.local scripts/generate-embeddings.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.113.0",
     "@gsap/react": "^2.1.2",
     "@next/third-parties": "^14.2.35",
     "@react-pdf/renderer": "^4.5.1",

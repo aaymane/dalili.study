@@ -4,6 +4,7 @@ import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import StarCanvas from "@/components/StarCanvas";
+import AssistantWidget from "@/components/AssistantWidget";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 
@@ -188,6 +189,7 @@ export default function RootLayout({
         <StarCanvas />
         <Navbar />
         {children}
+        <AssistantWidget />
       </body>
       <GoogleTagManager gtmId="GTM-WTNNC952" />
       <GoogleAnalytics gaId="G-95T08PB2MV" />
