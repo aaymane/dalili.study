@@ -15,6 +15,7 @@ const HIGH_PRIORITY_SLUGS = new Set([
   'visa-etudiant-france-maroc-2026',
   'visa-etudiant-france-algerie-2026',
   'visa-etudiant-france-senegal-2026',
+  'compte-bloque-visa-etudiant-france-guide',
   'campusfrance-maroc-guide-complet',
   'campusfrance-algerie-guide-entretien-2026',
   'campusfrance-senegal-guide-inscription-dakar',
@@ -23,6 +24,7 @@ const HIGH_PRIORITY_SLUGS = new Set([
   'caf-etudiant-etranger-delais-documents-erreurs',
   // Santé
   'securite-sociale-complementaire-sante-solidaire-etudiant-etranger',
+  'carte-vitale-etudiant-etranger-guide',
   // Écoles privées & arnaques
   'ecole-privee-france-reconnue-etat-comment-verifier',
   'arnaques-etudes-france-etudiant-etranger-eviter',
@@ -43,6 +45,7 @@ const HIGH_PRIORITY_SLUGS = new Set([
   'pass-las-etudiant-etranger-medecine-france',
   'equivalence-diplome-medecine-etranger-france',
   'etudier-medecine-france-depuis-maroc',
+  'faculte-medecine-privee-france-prix',
   // Campus France & démarches
   'lettre-motivation-campus-france-exemple-2026',
   'delf-dalf-vs-tcf-etudiant-etranger-france',

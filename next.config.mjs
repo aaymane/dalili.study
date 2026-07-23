@@ -2,6 +2,10 @@
 const nextConfig = {
   poweredByHeader: false,
   compress: true,
+  // Default (60s) is too short for this build machine to collect page data
+  // across 100+ blog posts + university/city pages — raise the ceiling rather
+  // than have `next build` abort mid-collection.
+  staticPageGenerationTimeout: 300,
 
   experimental: {
     serverComponentsExternalPackages: ['@react-pdf/renderer', '@resvg/resvg-js'],

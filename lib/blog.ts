@@ -29,6 +29,7 @@ export const CLUSTER_MAP: Record<string, string> = {
   'medecin-traitant-france-etudiant-etranger':                                  'sante',
   'securite-sociale-etudiante-france-inscription':                              'sante',
   'securite-sociale-complementaire-sante-solidaire-etudiant-etranger':         'sante',
+  'carte-vitale-etudiant-etranger-guide':                                       'sante',
   'titre-sejour-etudiant-france-renouvellement':        'demarches',
   'visale-refuse-proprietaire-que-faire':               'logement',
   'contester-refus-visa-campus-france':                 'visa',
@@ -59,6 +60,7 @@ export const CLUSTER_MAP: Record<string, string> = {
   'bourses-etudes-france-etudiants-tunisiens':          'tunisie',
   'visa-etudiant-france-tunisie-2026':                  'tunisie',
   'logement-etudiant-france-tunisien-guide':            'tunisie',
+  'compte-bloque-visa-etudiant-france-guide':           'tunisie',
   // Liban cluster
   'etudier-en-france-depuis-liban-guide-2026':          'liban',
   'campus-france-liban-procedure-2026':                 'liban',
@@ -87,6 +89,7 @@ export const CLUSTER_MAP: Record<string, string> = {
   'pass-las-etudiant-etranger-medecine-france':         'medecine',
   'equivalence-diplome-medecine-etranger-france':       'medecine',
   'etudier-medecine-france-depuis-maroc':               'medecine',
+  'faculte-medecine-privee-france-prix':                'medecine',
 };
 
 export interface Heading {
