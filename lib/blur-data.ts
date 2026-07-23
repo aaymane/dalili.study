@@ -1,5 +1,6 @@
 // Auto-generated — do not edit manually
 export const BLUR_DATA: Record<string, string> = {
+  "/images/blog/faculte-medecine-privee-france-prix.png": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAABQAgCdASoQAAkAAsBMJbACdAYs3t2I7lpGqQAA/vFUpYY2eLtL10I8eKDWH+V4lCVhQy0wHIfRBV65/v6tAVnN4VpgqJjUqDoQq8lTBE/4wYCcRnB8Ta+Xih8aSL7kAAA=",
   "/images/blog/carte-vitale-etudiant-etranger-guide.png": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAwAgCdASoQAAkAAsBMJbACdAYrTwLk+47cAAD+7y8cfLSyAYpzbBnKdUNsM81u/614BlETRt46LaNzZlHSb9v2Iywy7+xtjhCZmkme7i9cNCfbfBrfPe65PQAAXTevwAA=",
   "/images/blog/compte-bloque-visa-etudiant-france-guide.png": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAABQAgCdASoQAAkAAsBMJbACdAYtzwjgDM+N4YAA/vFUpYZr/89G0X8Y23OcOr2+WEqoxdguYr+OvrcA71ZZq7QqwrHujL6Gu4ZptyAGcloaurTyoKkkchZPW2oPma1i2ZCdxs7iMAA=",
   "/images/blog/alternance.webp": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAACwAQCdASoQAAkABUB8JbACdAEGdtgAAP7bzKKGM8RYIqZqP+v4S8dNT12MOeLNSJQ4sNKM/P6zhK/AAAA=",
