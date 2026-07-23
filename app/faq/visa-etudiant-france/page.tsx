@@ -5,12 +5,12 @@ const SITE_URL = 'https://dalili.study';
 
 export const metadata: Metadata = {
   title: 'Visa étudiant France : toutes les questions et réponses 2026 | Dalili',
-  description: "Tout ce que vous devez savoir sur le visa étudiant France en 2026 : délais, documents, Campus France, 615 €/mois, VLS-TS, ANEF. Réponses vérifiées sur sources officielles.",
+  description: "Tout ce que vous devez savoir sur le visa étudiant France en 2026 : délais, documents, Campus France, 877,50 €/mois dès août 2026, VLS-TS, ANEF. Réponses vérifiées sur sources officielles.",
   alternates: { canonical: `${SITE_URL}/faq/visa-etudiant-france` },
   robots: { index: true, follow: true },
   openGraph: {
     title: 'Visa étudiant France : toutes les questions et réponses 2026',
-    description: "Délais, documents, Campus France, 615 €/mois, VLS-TS, ANEF — 20 questions répondues avec sources officielles.",
+    description: "Délais, documents, Campus France, 877,50 €/mois dès août 2026 (615 € avant), VLS-TS, ANEF — 20 questions répondues avec sources officielles.",
     url: `${SITE_URL}/faq/visa-etudiant-france`,
     siteName: 'Dalili',
     type: 'website',
@@ -25,8 +25,8 @@ const FAQ_ITEMS = [
   },
   {
     q: "Combien d'argent faut-il pour le visa étudiant France ?",
-    a: "Le consulat exige 615 € par mois de ressources prouvables pour la durée du séjour. Pour 12 mois : 7 380 € minimum. Cette somme doit être disponible sur un compte bancaire au nom de l'étudiant ou d'un garant présentant un justificatif de revenu.",
-    source: "Service-public.fr",
+    a: "Le consulat exige 615 € par mois de ressources prouvables (7 380 € pour 12 mois) pour les dossiers déposés jusqu'au 31 juillet 2026. À partir du 1er août 2026, ce seuil passe à 877,50 €/mois (environ 10 530 € pour 12 mois), suite au décret n° 2026-526 du 22 juin 2026. Cette somme doit être disponible sur un compte bancaire au nom de l'étudiant ou d'un garant présentant un justificatif de revenu.",
+    source: "Service-public.fr, légifrance.gouv.fr",
   },
   {
     q: "Campus France est-il obligatoire pour tous les pays ?",
@@ -50,7 +50,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Quels documents sont nécessaires pour le dossier visa étudiant ?",
-    a: "Documents essentiels : 1) Passeport valide > 6 mois après la date de retour. 2) Lettre d'admission d'un établissement français reconnu. 3) Justificatifs financiers (615 €/mois). 4) Avis favorable Campus France (si pays CEF). 5) Justificatif de logement en France. 6) Photo d'identité aux normes. 7) Attestation assurance maladie (certains consulats). 8) Quittus fiscal selon le pays.",
+    a: "Documents essentiels : 1) Passeport valide > 6 mois après la date de retour. 2) Lettre d'admission d'un établissement français reconnu. 3) Justificatifs financiers (877,50 €/mois dès le 1er août 2026, 615 €/mois avant). 4) Avis favorable Campus France (si pays CEF). 5) Justificatif de logement en France. 6) Photo d'identité aux normes. 7) Attestation assurance maladie (certains consulats). 8) Quittus fiscal selon le pays.",
     source: "france-visas.gouv.fr",
   },
   {

@@ -147,7 +147,7 @@ export default function CamerounPage() {
                 'Passeport valide',
                 'TCF-DAP si candidat anglophone en Licence 1',
                 'Lettre d\'admission de l\'établissement français',
-                'Justificatifs de ressources (615 €/mois minimum)',
+                'Justificatifs de ressources (877,50 €/mois minimum dès le 1er août 2026, 615 €/mois avant)',
                 'Assurance santé pour les 3 premiers mois',
               ].map((doc, i) => (
                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>

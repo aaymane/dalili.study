@@ -45,7 +45,7 @@ const faqJsonLd = {
       name: 'Quels documents faut-il pour le visa étudiant depuis le Sénégal ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Pour le visa étudiant France depuis le Sénégal, il faut : un passeport valide, l\'attestation Campus France Sénégal favorable, le baccalauréat sénégalais, les relevés de notes, une lettre d\'admission d\'un établissement français, des justificatifs de ressources (615 €/mois minimum) et le paiement des frais de visa (50 €).',
+        text: 'Pour le visa étudiant France depuis le Sénégal, il faut : un passeport valide, l\'attestation Campus France Sénégal favorable, le baccalauréat sénégalais, les relevés de notes, une lettre d\'admission d\'un établissement français, des justificatifs de ressources (877,50 €/mois minimum dès le 1er août 2026, 615 €/mois avant) et le paiement des frais de visa (50 €).',
       },
     },
     {
@@ -171,7 +171,7 @@ export default function SenegalPage() {
                 'Relevés de notes de toutes les années post-bac',
                 'Dossier Campus France Sénégal complété (pays CEF)',
                 'Attestation d\'admission dans un établissement français',
-                'Justificatif de ressources suffisantes (615 €/mois minimum)',
+                'Justificatif de ressources suffisantes (877,50 €/mois minimum dès le 1er août 2026, 615 €/mois avant)',
                 'Assurance voyage couvrant toute la durée du visa',
                 'Formulaire France-Visas rempli en ligne',
                 'Photos d\'identité biométriques récentes',

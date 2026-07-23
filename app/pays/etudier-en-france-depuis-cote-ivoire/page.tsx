@@ -145,7 +145,7 @@ export default function CoteIvoirePage() {
                 'Acte de naissance (extrait ANASUR, traduit si nécessaire)',
                 'Passeport valide (au moins 18 mois de validité restante recommandés)',
                 'Lettre d\'admission de l\'établissement français',
-                'Justificatifs de ressources (615 €/mois minimum)',
+                'Justificatifs de ressources (877,50 €/mois minimum dès le 1er août 2026, 615 €/mois avant)',
                 'Attestation Campus France (avis favorable)',
                 'Assurance santé pour les 3 premiers mois',
                 'Photos d\'identité biométriques récentes',

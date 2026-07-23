@@ -45,7 +45,7 @@ const faqJsonLd = {
       name: 'Quels documents faut-il pour le visa étudiant depuis le Maroc ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Pour le visa étudiant France depuis le Maroc, il faut : un passeport valide, le baccalauréat marocain, les relevés de notes post-bac, une lettre d\'admission d\'un établissement français, des justificatifs de ressources (615 €/mois minimum), une assurance voyage et le reçu des frais de visa (50 €).',
+        text: 'Pour le visa étudiant France depuis le Maroc, il faut : un passeport valide, le baccalauréat marocain, les relevés de notes post-bac, une lettre d\'admission d\'un établissement français, des justificatifs de ressources (877,50 €/mois minimum dès le 1er août 2026, 615 €/mois avant), une assurance voyage et le reçu des frais de visa (50 €).',
       },
     },
     {

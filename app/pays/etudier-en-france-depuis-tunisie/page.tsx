@@ -151,7 +151,7 @@ export default function TunisiePage() {
                 'Acte de naissance — traduit en français par traducteur assermenté',
                 'Passeport valide (au moins 18 mois de validité restante)',
                 'Lettre d\'admission de l\'établissement français',
-                'Justificatifs de ressources (relevés bancaires 3 mois — 615 €/mois minimum)',
+                'Justificatifs de ressources (relevés bancaires 3 mois — 877,50 €/mois dès le 1er août 2026, 615 €/mois avant)',
                 'Attestation Campus France (avis favorable)',
                 'Assurance voyage couvrant les 3 premiers mois',
                 'Photos d\'identité biométriques récentes',

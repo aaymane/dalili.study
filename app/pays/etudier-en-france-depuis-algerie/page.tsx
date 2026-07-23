@@ -164,7 +164,7 @@ export default function AlgeriePage() {
                 'Relevés de notes de toutes les années post-bac',
                 'Dossier Campus France complété et validé (Algérie = pays CEF obligatoire)',
                 'Attestation d\'admission ou d\'inscription dans un établissement français',
-                'Justificatif de ressources : 615 €/mois minimum (relevés bancaires ou attestation de prise en charge)',
+                'Justificatif de ressources : 877,50 €/mois minimum dès le 1er août 2026, 615 €/mois avant (relevés bancaires ou attestation de prise en charge)',
                 'Justificatif de logement (CROUS, bail, attestation d\'hébergement)',
                 'Assurance voyage (minimum 30 000 €, durée du séjour)',
                 'Formulaire France-Visas (rempli en ligne avant le RDV VFS)',

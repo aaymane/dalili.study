@@ -4,12 +4,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
   title: 'Statistiques — Études en France pour étudiants étrangers 2026 | Dalili',
-  description: 'Chiffres vérifiés et sourcés : visa étudiant France délais, budget 615€/mois, frais de scolarité, logement CROUS, CAF — données officielles 2025-2026.',
+  description: 'Chiffres vérifiés et sourcés : visa étudiant France délais, budget 877,50€/mois dès août 2026, frais de scolarité, logement CROUS, CAF — données officielles 2025-2026.',
   alternates: { canonical: `${SITE_URL}/stats` },
   robots: { index: true, follow: true },
   openGraph: {
     title: 'Statistiques études en France — étudiants étrangers 2026',
-    description: 'Toutes les données officielles : 358 000 étudiants étrangers, 615 €/mois exigés, frais de scolarité, loyers par ville.',
+    description: 'Toutes les données officielles : 358 000 étudiants étrangers, 877,50 €/mois exigés dès août 2026 (615 € avant), frais de scolarité, loyers par ville.',
     url: `${SITE_URL}/stats`,
     siteName: 'Dalili',
     type: 'website',
@@ -119,8 +119,8 @@ export default function StatsPage() {
           <p style={s.sectionTitle}>Budget & Logement</p>
           <div style={s.statGrid}>
             {[
-              { val: '615 €/mois', label: 'Ressources minimales exigées par le consulat', source: 'Service-public.fr' },
-              { val: '7 380 €', label: 'Minimum pour 12 mois de séjour', source: 'Service-public.fr' },
+              { val: '877,50 €/mois', label: 'Ressources minimales exigées dès le 1er août 2026 (615 €/mois avant)', source: 'Légifrance — décret n° 2026-526' },
+              { val: '≈ 10 530 €', label: 'Minimum pour 12 mois de séjour dès août 2026 (7 380 € avant)', source: 'Service-public.fr' },
               { val: '120-450 €', label: 'Prix CROUS mensuel selon ville et type', source: 'CROUS 2025-2026' },
               { val: '80-220 €', label: 'CAF/APL mensuelle selon ville et loyer', source: 'CAF.fr' },
               { val: '< 9 720 €/an', label: 'Plafond de revenus pour CSS gratuite', source: 'Ameli.fr 2025' },
@@ -200,8 +200,8 @@ export default function StatsPage() {
           </div>
           <div style={{ background: 'rgba(245,158,11,0.07)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 12, padding: '14px 18px', marginTop: 16 }}>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 13, color: 'rgba(255,255,255,0.72)', margin: 0, lineHeight: 1.7 }}>
-              <strong style={{ color: '#f59e0b' }}>⚠️ Important :</strong> Le consulat exige <strong style={{ color: '#fff' }}>615 €/mois de ressources prouvables</strong> — pas 615 € de dépenses.
-              Avec les aides, tu peux vivre avec 370–450 €/mois réellement, <strong>mais tu dois justifier 615 €/mois disponibles sur ton compte</strong> pour obtenir le visa.
+              <strong style={{ color: '#f59e0b' }}>⚠️ Important :</strong> Le consulat exige <strong style={{ color: '#fff' }}>877,50 €/mois de ressources prouvables dès le 1er août 2026</strong> (615 €/mois pour les dossiers déposés avant cette date) — pas ce montant de dépenses.
+              Avec les aides, tu peux vivre avec 370–450 €/mois réellement, <strong>mais tu dois justifier le montant légal disponible sur ton compte</strong> pour obtenir le visa.
             </p>
           </div>
 
@@ -238,7 +238,7 @@ export default function StatsPage() {
             * Budget NET calculé en CROUS avec CAF, repas RU étudiant (3,30 €) et abonnement transport réduit.
             La CAF réelle dépend de votre situation — simulez sur caf.fr.
             <br />
-            ** Ces montants sont des estimations. Le consulat exige 615 €/mois prouvables indépendamment de vos aides.
+            ** Ces montants sont des estimations. Le consulat exige 877,50 €/mois prouvables dès le 1er août 2026 (615 €/mois avant), indépendamment de vos aides.
             <br />
             Sources : CROUS, CAF.fr, observatoires des loyers, OVE 2025-2026.
           </p>

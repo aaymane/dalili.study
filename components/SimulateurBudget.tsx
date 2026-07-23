@@ -810,9 +810,9 @@ function ResultsPanel({
           Visa étudiant — exigence consulaire
         </p>
         <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.7 }}>
-          Le consulat français exige de justifier <strong style={{ color: '#fff' }}>615 €/mois minimum</strong> de ressources pour obtenir ton visa étudiant, soit environ <strong style={{ color: '#fff' }}>7 380 € disponibles</strong> sur ton compte bancaire pour 12 mois. Ce chiffre est une exigence administrative, pas un budget de vie.
+          Le consulat français exige de justifier <strong style={{ color: '#fff' }}>877,50 €/mois minimum</strong> de ressources pour obtenir ton visa étudiant à partir du 1er août 2026 (615 €/mois pour les dossiers déposés avant cette date — décret n° 2026-526 du 22 juin 2026), soit environ <strong style={{ color: '#fff' }}>10 530 € disponibles</strong> sur ton compte bancaire pour 12 mois. Ce chiffre est une exigence administrative, pas un budget de vie.
           {showNet && (
-            <> <strong style={{ color: '#f59e0b' }}>Même si ton budget réel est de {netBudget} €/mois avec les aides, tu dois prouver 615 €/mois de ressources disponibles.</strong></>
+            <> <strong style={{ color: '#f59e0b' }}>Même si ton budget réel est de {netBudget} €/mois avec les aides, tu dois prouver ce montant de ressources disponibles.</strong></>
           )}
         </p>
       </div>

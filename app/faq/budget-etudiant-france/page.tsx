@@ -5,12 +5,12 @@ const SITE_URL = 'https://dalili.study';
 
 export const metadata: Metadata = {
   title: 'Budget étudiant étranger en France : chiffres réels 2026 | Dalili',
-  description: "Combien coûte réellement la vie étudiante en France en 2026 ? 615 €/mois, CAF, CSS, droits d'inscription, CVEC, bourses — 20 questions avec chiffres vérifiés.",
+  description: "Combien coûte réellement la vie étudiante en France en 2026 ? 877,50 €/mois dès août 2026, CAF, CSS, droits d'inscription, CVEC, bourses — 20 questions avec chiffres vérifiés.",
   alternates: { canonical: `${SITE_URL}/faq/budget-etudiant-france` },
   robots: { index: true, follow: true },
   openGraph: {
     title: 'Budget étudiant étranger en France : chiffres réels 2026',
-    description: "Visa 615 €/mois, CAF, CSS gratuite, droits d'inscription, CVEC 105 €, bourses — tout ce que coûte réellement la vie étudiante en France.",
+    description: "Visa 877,50 €/mois dès août 2026 (615 € avant), CAF, CSS gratuite, droits d'inscription, CVEC 105 €, bourses — tout ce que coûte réellement la vie étudiante en France.",
     url: `${SITE_URL}/faq/budget-etudiant-france`,
     siteName: 'Dalili',
     type: 'website',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "Quel est le budget minimum pour étudier en France ?",
-    a: "Selon le consulat français, l'étudiant doit justifier de 615 €/mois minimum. En pratique, le budget réel pour vivre correctement varie selon la ville : Province (hors Paris) : 700-900 €/mois. Paris : 1 000-1 400 €/mois. Ce budget comprend : loyer (après CAF), alimentation, transports, abonnements, loisirs.",
-    source: "Service-public.fr, CROUS 2026",
+    a: "Selon le consulat français, l'étudiant doit justifier de 877,50 €/mois minimum à partir du 1er août 2026 (615 €/mois pour les dossiers déposés avant cette date — décret n° 2026-526 du 22 juin 2026). En pratique, le budget réel pour vivre correctement varie selon la ville : Province (hors Paris) : 700-900 €/mois. Paris : 1 000-1 400 €/mois. Ce budget comprend : loyer (après CAF), alimentation, transports, abonnements, loisirs.",
+    source: "Service-public.fr, Légifrance, CROUS 2026",
   },
   {
-    q: "Que signifie l'exigence de 615 €/mois du consulat ?",
-    a: "Le consulat exige que l'étudiant justifie de ressources couvrant 615 € × nombre de mois de séjour. Pour 12 mois : 7 380 €. Ces ressources peuvent être : compte bancaire personnel, virement mensuel des parents, bourse (Campus France ou gouvernement), lettre de garant avec justificatif de revenus. La somme doit être disponible au moment de la demande de visa.",
-    source: "france-visas.gouv.fr",
+    q: "Que signifie l'exigence de ressources du consulat pour le visa ?",
+    a: "Le consulat exige que l'étudiant justifie de ressources couvrant un montant mensuel × le nombre de mois de séjour : 615 €/mois (7 380 € pour 12 mois) jusqu'au 31 juillet 2026, puis 877,50 €/mois (environ 10 530 € pour 12 mois) à partir du 1er août 2026, suite au décret n° 2026-526 du 22 juin 2026. Ces ressources peuvent être : compte bancaire personnel, virement mensuel des parents, bourse (Campus France ou gouvernement), lettre de garant avec justificatif de revenus. La somme doit être disponible au moment de la demande de visa.",
+    source: "france-visas.gouv.fr, légifrance.gouv.fr",
   },
   {
     q: "Combien coûte réellement la vie étudiante en France ?",
@@ -146,7 +146,7 @@ export default function FaqBudgetPage() {
           </h1>
 
           <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '16px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, margin: '0 0 56px', maxWidth: 640 }}>
-            {"615 €/mois pour le visa, CAF, CSS, droits d'inscription, CVEC — 20 questions avec des chiffres réels et des sources officielles vérifiées pour 2026."}
+            {"877,50 €/mois pour le visa dès août 2026 (615 € avant), CAF, CSS, droits d'inscription, CVEC — 20 questions avec des chiffres réels et des sources officielles vérifiées pour 2026."}
           </p>
 
           {FAQ_ITEMS.map((item, i) => (
