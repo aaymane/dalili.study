@@ -194,6 +194,7 @@ export default function CamerounPage() {
             { slug: 'etudier-en-france-depuis-cameroun', title: 'Étudier en France depuis le Cameroun : guide complet 2026' },
             { slug: 'bourses-etudes-etudiants-etrangers-france-2026', title: 'Bourses études étudiants étrangers France 2026' },
             { slug: 'droits-etudiant-etranger-france-guide-complet', title: 'Droits étudiant étranger en France' },
+            { slug: 'reforme-apl-etudiant-etranger-2026', title: 'Réforme APL 2026 : qui est concerné et comment vérifier ta situation' },
           ]} />
         </div>
       </main>

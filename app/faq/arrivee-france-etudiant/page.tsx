@@ -40,8 +40,8 @@ const FAQ_ITEMS = [
   },
   {
     q: "Comment demander la CAF dès l'arrivée ?",
-    a: "Étapes : 1) Avoir un logement confirmé (bail signé ou attestation d'hébergement). 2) Avoir un RIB français. 3) Créer un compte sur caf.fr. 4) Soumettre le dossier avec : bail, justificatif d'identité, titre de séjour, RIB, justificatif de situation (étudiant). 5) La CAF verse rétroactivement jusqu'à 3 mois après la date d'emménagement.",
-    source: "CAF.fr",
+    a: "Vérifie d'abord ton éligibilité : depuis le 1er juillet 2026, un étudiant hors UE/EEE/Suisse doit être boursier sur critères sociaux, apprenti, en contrat de professionnalisation ou salarié pour avoir droit à l'APL/ALS. Si c'est le cas : 1) Avoir un logement confirmé (bail signé ou attestation d'hébergement). 2) Avoir un RIB français. 3) Créer un compte sur caf.fr. 4) Soumettre le dossier avec : bail, justificatif d'identité, titre de séjour, RIB, justificatif de situation. 5) L'aide n'est pas rétroactive au-delà de la date de dépôt — ne tarde pas.",
+    source: "CAF.fr, Légifrance (loi n° 2026-103 du 19 février 2026, art. 179)",
   },
   {
     q: "Qu'est-ce que la CVEC et comment la payer ?",

@@ -62,10 +62,18 @@ const CAF_ESTIMATE: Record<string, { min: number; max: number }> = {
   habitant: { min: 0,   max: 80  },
 };
 
+// Depuis le 1er juillet 2026, l'APL/ALS n'est plus accessible de droit commun aux
+// étudiants hors UE/EEE/Suisse — seuls bcs/alternance/salarie ouvrent ce droit
+// (loi n° 2026-103 du 19 février 2026, art. 179). Eiffel/BGF/bourse pays d'origine
+// ne suffisent pas seules : voir /blog/reforme-apl-etudiant-etranger-2026.
+const CAF_ELIGIBLE_BOURSE = new Set(['bcs', 'alternance', 'salarie']);
+
 const BOURSE_NOTE: Record<string, string> = {
-  pays:   'Ta bourse nationale couvre tes frais de scolarité — la CAF française reste accessible selon ta situation.',
-  eiffel: 'La bourse Eiffel (~1 181 €/mois) couvre la majorité de tes dépenses. Tu peux compléter avec la CAF.',
-  aucune: 'Sans bourse, pense à demander la CAF dès ton arrivée et à vérifier ta situation CSS si tes revenus sont < 868 €/mois.',
+  bcs:         'Boursier sur critères sociaux : tu gardes le droit à l\'APL même hors UE — c\'est l\'une des seules bourses qui l\'ouvre depuis juillet 2026.',
+  alternance:  'Ton contrat d\'apprentissage ou de professionnalisation te donne le statut de salarié : tu gardes le droit à l\'APL quelle que soit ta nationalité.',
+  salarie:     'Ton activité professionnelle peut t\'ouvrir le droit à l\'APL — la CAF évalue ta situation au cas par cas (nature et régularité du contrat).',
+  autre_bourse:'Ta bourse (Eiffel, BGF ou bourse de ton pays) couvre tes frais de scolarité, mais elle n\'ouvre plus, seule, le droit à l\'APL depuis le 1er juillet 2026.',
+  aucune:      'Sans bourse sur critères sociaux, apprentissage ni activité pro, tu n\'as plus droit à l\'APL depuis le 1er juillet 2026 — vérifie les alternatives (FNAU, aides municipales, job étudiant).',
 };
 
 // 6 questions — step 3 is the new paiement_frais step
@@ -131,8 +139,9 @@ export default function SimulateurBudget() {
   const baseTotal = housing + transport + food + 30 + 20 + 80;
   const total     = baseTotal + tuitionMonthly;
 
-  const cafMin = logement ? CAF_ESTIMATE[logement]?.min ?? 0 : 0;
-  const cafMax = logement ? CAF_ESTIMATE[logement]?.max ?? 0 : 0;
+  const cafEligible = CAF_ELIGIBLE_BOURSE.has(answers.bourse);
+  const cafMin = cafEligible && logement ? CAF_ESTIMATE[logement]?.min ?? 0 : 0;
+  const cafMax = cafEligible && logement ? CAF_ESTIMATE[logement]?.max ?? 0 : 0;
   const cafMid = Math.round((cafMin + cafMax) / 2);
   const reste  = Math.max(0, total - cafMid);
 
@@ -288,6 +297,7 @@ export default function SimulateurBudget() {
             city={city} housing={housing} food={food} transport={transport}
             tuitionMonthly={tuitionMonthly} tuitionAnnual={tuitionAnnual}
             total={total} cafMin={cafMin} cafMax={cafMax} reste={reste}
+            cafEligible={cafEligible}
             logement={logement} niveau={niveau} paiementFrais={paiementFrais}
             bourseNote={bourseNote} answers={answers} onReset={goReset}
           />
@@ -532,16 +542,18 @@ function StepContent({ step, answers, select }: {
     </div>
   );
 
-  // Step 5 — Bourse
+  // Step 5 — Bourse / situation (détermine aussi l'éligibilité à l'APL/CAF depuis juillet 2026)
   if (step === 5) return (
     <div>
-      <h2 style={h2Style}>Tu as une bourse ?</h2>
-      <p style={subStyle}>La situation de bourse impacte les aides disponibles et les frais.</p>
+      <h2 style={h2Style}>Ta situation : bourse, apprentissage ou emploi ?</h2>
+      <p style={subStyle}>Depuis le 1er juillet 2026, ta réponse détermine aussi si tu gardes le droit à l&apos;APL/ALS.</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[
-          { val: 'pays',   label: 'Boursier du gouvernement de mon pays', note: 'Bourse nationale (BGE, AMCI, MESRS…)' },
-          { val: 'eiffel', label: 'Bourse Eiffel (gouvernement français)', note: '~1 181 €/mois, couvre la grande majorité des dépenses' },
-          { val: 'aucune', label: 'Aucune bourse actuellement',            note: 'Tu finances tes études toi-même ou via ta famille' },
+          { val: 'bcs',          label: 'Boursier sur critères sociaux (CROUS)',        note: 'Bourse française basée sur tes ressources — ouvre droit à l\'APL même hors UE' },
+          { val: 'alternance',   label: 'En apprentissage ou professionnalisation',      note: 'Statut de salarié — garde le droit à l\'APL quelle que soit ta nationalité' },
+          { val: 'salarie',      label: 'J\'ai un emploi salarié en parallèle',          note: 'Peut ouvrir droit à l\'APL — évalué au cas par cas par la CAF' },
+          { val: 'autre_bourse', label: 'Bourse Eiffel, BGF ou bourse de mon pays',      note: 'Finance tes études, mais n\'ouvre plus seule le droit à l\'APL depuis juillet 2026' },
+          { val: 'aucune',       label: 'Aucune bourse, pas d\'emploi actuellement',     note: 'Tu finances tes études toi-même ou via ta famille — pas d\'APL par défaut' },
         ].map(o => (
           <button key={o.val} onClick={() => select('bourse', o.val)} style={card(answers.bourse === o.val)}>
             <div style={dot(answers.bourse === o.val)} />
@@ -562,13 +574,13 @@ function StepContent({ step, answers, select }: {
 function ResultsPanel({
   city, housing, food, transport,
   tuitionMonthly, tuitionAnnual,
-  total, cafMin, cafMax, reste,
+  total, cafMin, cafMax, reste, cafEligible,
   logement, niveau, paiementFrais, bourseNote, answers, onReset,
 }: {
   city: CityData | undefined;
   housing: number; food: number; transport: number;
   tuitionMonthly: number; tuitionAnnual: number;
-  total: number; cafMin: number; cafMax: number; reste: number;
+  total: number; cafMin: number; cafMax: number; reste: number; cafEligible: boolean;
   logement: string; niveau: string; paiementFrais: string; bourseNote: string;
   answers: Answers; onReset: () => void;
 }) {
@@ -652,7 +664,9 @@ function ResultsPanel({
         </div>
         {showNet && (
           <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(34,197,94,0.7)', margin: '8px 0 0', lineHeight: 1.5 }}>
-            Montant réel estimé après CAF, repas RU, transport réduit et CSS (santé gratuite).
+            {cafEligible
+              ? 'Montant réel estimé après CAF (selon ta situation déclarée), repas RU, transport réduit et CSS (santé gratuite).'
+              : "Montant réel estimé après repas RU, transport réduit et CSS (santé gratuite). Pas d'APL incluse : d'après ta situation, tu n'y as plus droit depuis la réforme du 1er juillet 2026."}
           </p>
         )}
       </div>
@@ -694,17 +708,20 @@ function ResultsPanel({
             <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.55rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(34,197,94,0.7)', margin: '0 0 10px' }}>
               Aides déduites
             </p>
-            {[
-              { label: 'CAF / APL (estimation)', val: cafMid },
-              { label: `Repas RU à 3,30 € (vs 8-12 €)`, val: economieRU },
-              { label: `Abonnement transport (−50 %)`, val: economieTransport },
-              { label: `CSS — santé gratuite`, val: economieCSS },
-            ].map((item, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: i < 3 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)' }}>{item.label}</span>
-                <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.78rem', color: '#22c55e' }}>−{item.val} €</span>
-              </div>
-            ))}
+            {(() => {
+              const savingsItems = [
+                ...(cafEligible ? [{ label: 'CAF / APL (estimation)', val: cafMid }] : []),
+                { label: `Repas RU à 3,30 € (vs 8-12 €)`, val: economieRU },
+                { label: `Abonnement transport (−50 %)`, val: economieTransport },
+                { label: `CSS — santé gratuite`, val: economieCSS },
+              ];
+              return savingsItems.map((item, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: i < savingsItems.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)' }}>{item.label}</span>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.78rem', color: '#22c55e' }}>−{item.val} €</span>
+                </div>
+              ));
+            })()}
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 10, borderTop: '1px solid rgba(34,197,94,0.2)', marginTop: 6 }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.78rem', color: '#22c55e' }}>Total économies</span>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.88rem', color: '#22c55e' }}>−{totalEconomies} €</span>
@@ -714,11 +731,16 @@ function ResultsPanel({
       </div>
 
       {/* ── CAF ── */}
-      <div style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 20, padding: 'clamp(20px,3vw,28px)', marginBottom: 20 }}>
-        <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(34,197,94,0.8)', margin: '0 0 4px' }}>
+      <div style={{ background: cafEligible ? 'rgba(34,197,94,0.06)' : 'rgba(245,158,11,0.06)', border: cafEligible ? '1px solid rgba(34,197,94,0.2)' : '1px solid rgba(245,158,11,0.2)', borderRadius: 20, padding: 'clamp(20px,3vw,28px)', marginBottom: 20 }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: cafEligible ? 'rgba(34,197,94,0.8)' : 'rgba(245,158,11,0.85)', margin: '0 0 4px' }}>
           Aides estimées
         </p>
-        {logement !== 'habitant' ? (
+        {!cafEligible ? (
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.75)', margin: '8px 0 0', lineHeight: 1.7 }}>
+            D&apos;après ta situation déclarée, tu n&apos;as <strong style={{ color: '#f59e0b' }}>plus droit à l&apos;APL/ALS depuis le 1er juillet 2026</strong> — cette aide est désormais réservée aux boursiers sur critères sociaux, apprentis, en professionnalisation ou salariés pour les étudiants hors UE/EEE/Suisse. Ton budget ci-dessus ne compte donc aucune aide au logement. Détail des exceptions et alternatives (FNAU, aides municipales) : {' '}
+            <Link href="/blog/reforme-apl-etudiant-etranger-2026" style={{ color: '#f59e0b', textDecoration: 'underline' }}>réforme APL 2026</Link>.
+          </p>
+        ) : logement !== 'habitant' ? (
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0' }}>
               <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)' }}>APL / CAF (estimation)</span>
@@ -867,8 +889,10 @@ function ResultsPanel({
       </div>
 
       <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.7 }}>
-        ⚠️ Estimation indicative — juin 2026. Frais d&apos;inscription (Licence {formatTierValue(tuitionFigures.licence)}, Master {formatTierValue(tuitionFigures.master)}, Doctorat {formatTierValue(tuitionFigures.doctorat)}) + CVEC {formatTierValue(cvecTier)}. Actualisés chaque année — vérifier sur{' '}
-        <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>campusfrance.org</a>{' '}et{' '}
+        ⚠️ Estimation indicative — juillet 2026. Frais d&apos;inscription (Licence {formatTierValue(tuitionFigures.licence)}, Master {formatTierValue(tuitionFigures.master)}, Doctorat {formatTierValue(tuitionFigures.doctorat)}) + CVEC {formatTierValue(cvecTier)}. Actualisés chaque année — vérifier sur{' '}
+        <a href="https://www.campusfrance.org" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>campusfrance.org</a>. L&apos;APL/ALS est soumise, depuis le 1er juillet 2026, à une condition d&apos;éligibilité pour les étudiants hors UE/EEE/Suisse (
+        <a href="/blog/reforme-apl-etudiant-etranger-2026" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>détail ici</a>
+        ) — vérifier le montant réel sur{' '}
         <a href="https://www.caf.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'underline' }}>caf.fr</a>.
       </p>
     </div>

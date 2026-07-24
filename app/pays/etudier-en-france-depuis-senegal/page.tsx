@@ -248,6 +248,7 @@ export default function SenegalPage() {
             { slug: 'visa-etudiant-france-senegal-2026', title: 'Visa étudiant France depuis le Sénégal : guide complet 2026' },
             { slug: 'visa-etudiant-france-tout-savoir-avant-partir', title: 'Visa étudiant France : tout ce qu\'il faut savoir avant de partir' },
             { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget étudiant étranger en France 2026' },
+            { slug: 'reforme-apl-etudiant-etranger-2026', title: 'Réforme APL 2026 : qui est concerné et comment vérifier ta situation' },
           ]} />
         </div>
       </main>

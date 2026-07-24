@@ -130,7 +130,7 @@ export default function StatsPage() {
               { val: formatTierValue(compteBloqueNow), label: `Ressources minimales exigées par le consulat${compteBloqueAdjacent ? ` (${compteBloqueAdjacent})` : ''}`, source: compteBloqueNow.sourceLabel },
               { val: `≈ ${Math.round(compteBloqueNow.value * 12).toLocaleString('fr-FR')} €`, label: 'Minimum pour 12 mois de séjour', source: 'Service-public.fr' },
               { val: '120-450 €', label: 'Prix CROUS mensuel selon ville et type', source: 'CROUS 2025-2026' },
-              { val: '80-220 €', label: 'CAF/APL mensuelle selon ville et loyer', source: 'CAF.fr' },
+              { val: '80-220 €', label: 'CAF/APL mensuelle si éligible (hors UE : boursier crit. sociaux, apprenti, pro. ou salarié depuis juillet 2026)', source: 'CAF.fr, Légifrance' },
               { val: '< 9 720 €/an', label: 'Plafond de revenus pour CSS gratuite', source: 'Ameli.fr 2025' },
               { val: formatTierValue(cvecNow), label: 'CVEC 2025-2026 (paiement unique annuel)', source: cvecNow.sourceLabel },
             ].map((stat, i) => (
@@ -179,7 +179,7 @@ export default function StatsPage() {
           {/* ── Exemple Bordeaux détaillé */}
           <p style={s.sectionTitle}>Exemple — Bordeaux en résidence CROUS</p>
           <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
-            Décomposition poste par poste pour un étudiant en CROUS avec les aides étudiantes.
+            Décomposition poste par poste pour un étudiant en CROUS avec les aides étudiantes, en supposant l&apos;éligibilité à la CAF (boursier sur critères sociaux, apprenti, en professionnalisation ou salarié depuis le 1er juillet 2026 — <a href="/blog/reforme-apl-etudiant-etranger-2026" style={{ color: 'inherit', textDecoration: 'underline' }}>détail</a>).
           </p>
           <div style={{ overflowX: 'auto', marginBottom: 8 }}>
             <table style={s.table}>
@@ -216,7 +216,7 @@ export default function StatsPage() {
           {/* ── Tableau villes BRUT / NET */}
           <p style={s.sectionTitle}>Budget mensuel CROUS — {CITY_BUDGET.length} villes (brut et net)</p>
           <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
-            Budget BRUT = avant aides. Budget NET = après CAF, repas RU à 3,30 €, transport étudiant réduit, CSS (santé gratuite).
+            Budget BRUT = avant aides. Budget NET = après CAF (si éligible — voir condition ci-dessous), repas RU à 3,30 €, transport étudiant réduit, CSS (santé gratuite).
           </p>
           <div style={{ overflowX: 'auto' }}>
             <table style={s.table}>
@@ -224,7 +224,7 @@ export default function StatsPage() {
                 <tr>
                   <th style={s.th}>Ville</th>
                   <th style={s.th}>Budget BRUT</th>
-                  <th style={s.thNet}>Budget NET ✓</th>
+                  <th style={s.thNet}>Budget NET si éligible CAF ✓</th>
                   <th style={{ ...s.th, color: 'rgba(34,197,94,0.5)' }}>CAF estimée</th>
                   <th style={s.th}>Étudiants</th>
                 </tr>
@@ -244,11 +244,11 @@ export default function StatsPage() {
           </div>
           <p style={s.note}>
             * Budget NET calculé en CROUS avec CAF, repas RU étudiant (3,30 €) et abonnement transport réduit.
-            La CAF réelle dépend de votre situation — simulez sur caf.fr.
+            Depuis le 1er juillet 2026, la CAF/APL n&apos;est plus accessible de droit commun aux étudiants hors UE/EEE/Suisse : elle est réservée aux boursiers sur critères sociaux, apprentis, en professionnalisation ou salariés (<a href="/blog/reforme-apl-etudiant-etranger-2026" style={{ color: 'inherit', textDecoration: 'underline' }}>détail</a>). Si non éligible, le budget réel est le montant BRUT. Montant réel calculé sur caf.fr.
             <br />
             ** Ces montants sont des estimations. Le consulat exige {formatTierValue(compteBloqueNow)} prouvables{compteBloqueAdjacent ? ` (${compteBloqueAdjacent})` : ''}, indépendamment de vos aides.
             <br />
-            Sources : CROUS, CAF.fr, observatoires des loyers, OVE 2025-2026.
+            Sources : CROUS, CAF.fr, Légifrance, observatoires des loyers, OVE 2025-2026.
           </p>
 
           <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '64px 0 0' }} />

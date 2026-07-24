@@ -22,6 +22,7 @@ const HIGH_PRIORITY_SLUGS = new Set([
   // Logement & aides
   'logement-crous-etudiant-etranger-demande',
   'caf-etudiant-etranger-delais-documents-erreurs',
+  'reforme-apl-etudiant-etranger-2026',
   // Santé
   'securite-sociale-complementaire-sante-solidaire-etudiant-etranger',
   'carte-vitale-etudiant-etranger-guide',

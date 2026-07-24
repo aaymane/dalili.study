@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "Quel est le budget minimum pour étudier en France ?",
-    a: "Selon le consulat français, l'étudiant doit justifier de 877,50 €/mois minimum à partir du 1er août 2026 (615 €/mois pour les dossiers déposés avant cette date — décret n° 2026-526 du 22 juin 2026). En pratique, le budget réel pour vivre correctement varie selon la ville : Province (hors Paris) : 700-900 €/mois. Paris : 1 000-1 400 €/mois. Ce budget comprend : loyer (après CAF), alimentation, transports, abonnements, loisirs.",
+    a: "Selon le consulat français, l'étudiant doit justifier de 877,50 €/mois minimum à partir du 1er août 2026 (615 €/mois pour les dossiers déposés avant cette date — décret n° 2026-526 du 22 juin 2026). En pratique, le budget réel pour vivre correctement varie selon la ville : Province (hors Paris) : 700-900 €/mois. Paris : 1 000-1 400 €/mois. Ce budget comprend : loyer (après CAF si tu y es éligible — voir la réforme de juillet 2026), alimentation, transports, abonnements, loisirs.",
     source: "Service-public.fr, Légifrance, CROUS 2026",
   },
   {
@@ -30,12 +30,17 @@ const FAQ_ITEMS = [
   },
   {
     q: "Combien coûte réellement la vie étudiante en France ?",
-    a: "Budget mensuel réaliste : Loyer (CROUS après APL) : 50-200 €. Loyer (privé après APL) : 300-700 €. Alimentation : 150-250 €. Transports : 20-50 € (carte étudiant réduite). Santé : 0-20 € (CSS gratuite si revenus < 9 720 €/an). Loisirs : 50-100 €. Total avec CROUS : 450-700 €/mois en province.",
+    a: "Budget mensuel réaliste, pour un étudiant éligible à l'APL (voir conditions ci-dessous) : Loyer (CROUS après APL) : 50-200 €. Loyer (privé après APL) : 300-700 €. Sans APL, ajouter 80 à 250 € à ces montants. Alimentation : 150-250 €. Transports : 20-50 € (carte étudiant réduite). Santé : 0-20 € (CSS gratuite si revenus < 9 720 €/an). Loisirs : 50-100 €. Total avec CROUS et APL : 450-700 €/mois en province.",
     source: "Observatoire de la vie étudiante (OVE) 2025",
   },
   {
+    q: "Tous les étudiants étrangers ont-ils droit à la CAF ?",
+    a: "Non, plus depuis le 1er juillet 2026. Un étudiant hors UE/EEE/Suisse doit être boursier sur critères sociaux (CROUS — pas Eiffel, BGF ou une bourse de son pays), en contrat d'apprentissage, en contrat de professionnalisation, ou salarié pour garder le droit à l'APL/ALS. Sans l'une de ces conditions, l'aide est refusée, y compris pour les bénéficiaires déjà en cours de versement avant cette date.",
+    source: "Légifrance — loi n° 2026-103 du 19 février 2026, art. 179 ; décret n° 2026-552 du 27 juin 2026",
+  },
+  {
     q: "Combien reçoit-on de la CAF en France ?",
-    a: "Montants indicatifs CAF 2026 : Loyer 450 €, revenus nuls, ville province : APL ~170 €. Loyer 700 €, revenus nuls, Paris : APL ~90 €. Loyer 350 €, CROUS province : APL ~130 €. Le montant exact se calcule sur caf.fr (simulateur en ligne). Délai pour recevoir le premier versement : 2 à 4 mois.",
+    a: "Pour les étudiants éligibles (voir condition ci-dessus), montants indicatifs CAF 2026 : Loyer 450 €, revenus nuls, ville province : APL ~170 €. Loyer 700 €, revenus nuls, Paris : APL ~90 €. Loyer 350 €, CROUS province : APL ~130 €. Le montant exact se calcule sur caf.fr (simulateur en ligne, qui applique désormais la condition d'éligibilité). Délai pour recevoir le premier versement : 2 à 4 mois.",
     source: "CAF.fr",
   },
   {
@@ -65,7 +70,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Quel est le budget logement minimum en France ?",
-    a: "Minimum avec CROUS : 120-200 €/mois. Après déduction APL : souvent 0-70 €/mois pour les boursiers. Sans CROUS en province : 350-500 €/mois (studio) avant CAF. Paris : 600-800 €/mois minimum. Un étudiant boursier CROUS peut vivre avec 400-500 €/mois en province (tout compris).",
+    a: "Minimum avec CROUS : 120-200 €/mois. Après déduction APL : souvent 0-70 €/mois pour les boursiers sur critères sociaux (les seuls, avec les apprentis, en professionnalisation et les salariés, à garder le droit à l'APL depuis juillet 2026 s'ils sont hors UE/EEE/Suisse). Sans CROUS en province : 350-500 €/mois (studio) avant aide éventuelle. Paris : 600-800 €/mois minimum. Un étudiant boursier CROUS sur critères sociaux peut vivre avec 400-500 €/mois en province (tout compris).",
     source: "CROUS.fr, CAF.fr 2026",
   },
   {

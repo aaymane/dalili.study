@@ -118,10 +118,10 @@ export function genererCalendrier(pays: string, rentree: string): CalendrierStep
     },
     {
       mois: ml(1),
-      action: 'Demander la CAF',
-      description: "Sur caf.fr dès le premier jour dans ton logement. L'aide est rétroactive seulement sur 3 mois — ne rate pas cette fenêtre.",
+      action: 'Vérifier ton éligibilité CAF, puis demander si concerné',
+      description: "Depuis le 1er juillet 2026, l'APL n'est plus automatique hors UE/EEE/Suisse (boursier critères sociaux, apprenti, pro. ou salarié requis). Si éligible, demande sur caf.fr dès le premier jour dans ton logement — non rétroactif au-delà du dépôt.",
       urgence: 'orange',
-      lien: { label: 'Guide CAF étudiant étranger', url: `${SITE}/blog/caf-etudiant-etranger-delais-documents-erreurs` },
+      lien: { label: 'Réforme APL 2026 — qui est concerné', url: `${SITE}/blog/reforme-apl-etudiant-etranger-2026` },
     },
     {
       mois: ml(2),

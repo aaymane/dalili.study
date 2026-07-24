@@ -403,8 +403,8 @@ export function ChecklistPDF() {
         <View style={S.sectionWrap}>
           <Section label="Logement & aides sociales" />
           <Item
-            text="Demande APL/CAF sur caf.fr dès le 1er jour dans le logement"
-            note="Non rétroactive — chaque jour de retard = aide perdue définitivement"
+            text="Si éligible : demande APL/CAF sur caf.fr dès le 1er jour dans le logement"
+            note="Depuis juillet 2026, réservé hors UE/EEE/Suisse aux boursiers crit. sociaux, apprentis, pro. ou salariés — vérifier avant. Non rétroactive"
             urgent
           />
           <Item

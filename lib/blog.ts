@@ -19,6 +19,7 @@ export const CLUSTER_MAP: Record<string, string> = {
   'comment-ouvrir-compte-bancaire-france-sans-adresse-fixe': 'banque',
   'ouvrir-compte-bancaire-etudiant-etranger-2026':      'banque',
   'caf-etudiant-etranger-delais-documents-erreurs':     'aides',
+  'reforme-apl-etudiant-etranger-2026':                 'aides',
   'bourses-etudes-etudiants-etrangers-france-2026':     'aides',
   'alternance-etudiant-etranger-france':                'emploi',
   'stage-france-etudiant-etranger-convention':          'emploi',

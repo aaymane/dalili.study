@@ -261,6 +261,7 @@ export default function AlgeriePage() {
             { slug: 'visa-etudiant-france-algerie-2026', title: 'Visa étudiant France depuis l\'Algérie : guide complet 2026' },
             { slug: 'visa-etudiant-france-tout-savoir-avant-partir', title: 'Visa étudiant France : tout ce qu\'il faut savoir avant de partir' },
             { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement en France depuis l\'étranger' },
+            { slug: 'reforme-apl-etudiant-etranger-2026', title: 'Réforme APL 2026 : qui est concerné et comment vérifier ta situation' },
           ]} />
         </div>
       </main>

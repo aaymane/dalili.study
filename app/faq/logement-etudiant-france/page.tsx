@@ -25,18 +25,23 @@ const FAQ_ITEMS = [
   },
   {
     q: "Combien coûte un logement CROUS ?",
-    a: "Prix selon le type : Studio T1 (de 9 à 25 m²) : 120 € à 450 €/mois selon la ville et le type de résidence. Résidences Cité U classiques : 120-200 €/mois. Résidences récentes (TRÈFLE) : 300-450 €/mois. Ces prix sont avant déduction de la CAF/APL qui peut réduire le coût de 80 à 200 €.",
+    a: "Prix selon le type : Studio T1 (de 9 à 25 m²) : 120 € à 450 €/mois selon la ville et le type de résidence. Résidences Cité U classiques : 120-200 €/mois. Résidences récentes (TRÈFLE) : 300-450 €/mois. Ces prix sont avant déduction éventuelle de la CAF/APL (80 à 200 €), sous condition d'éligibilité depuis le 1er juillet 2026.",
     source: "CROUS 2025-2026",
   },
   {
+    q: "Tous les étudiants étrangers ont-ils encore droit à l'APL en 2026 ?",
+    a: "Non. Depuis le 1er juillet 2026, un étudiant hors UE/EEE/Suisse doit être boursier sur critères sociaux (CROUS), en contrat d'apprentissage, en contrat de professionnalisation, ou salarié pour garder le droit à l'APL/ALS. Une bourse Eiffel, une BGF ou une bourse de son pays d'origine ne suffisent pas seules. Cette règle s'applique aux nouvelles demandes et aux bénéficiaires déjà en cours de versement.",
+    source: "Légifrance — loi n° 2026-103 du 19 février 2026, art. 179 ; décret n° 2026-552 du 27 juin 2026",
+  },
+  {
     q: "Qu'est-ce que la CAF et combien peut-on recevoir ?",
-    a: "La CAF (Caisse d'Allocations Familiales) verse l'APL (Aide Personnalisée au Logement) ou l'ALS (Allocation de Logement Sociale) selon votre situation. Montant : 80 à 220 €/mois selon la ville, le loyer et les ressources. À Paris : 80-120 €. En province : 120-200 €. Conditions : loyer < plafonds CAF, logement conventionné, résidence principale.",
+    a: "La CAF (Caisse d'Allocations Familiales) verse l'APL (Aide Personnalisée au Logement) ou l'ALS (Allocation de Logement Sociale) selon votre situation. Montant pour les étudiants éligibles : 80 à 220 €/mois selon la ville, le loyer et les ressources. À Paris : 80-120 €. En province : 120-200 €. Depuis le 1er juillet 2026, un étudiant hors UE/EEE/Suisse doit en plus être boursier sur critères sociaux, apprenti, en professionnalisation ou salarié pour y avoir droit.",
     source: "CAF.fr",
   },
   {
     q: "Comment demander la CAF en tant qu'étudiant étranger ?",
-    a: "Il faut avoir : 1) Titre de séjour valide (VLS-TS ou titre étudiant), 2) Numéro d'allocataire CAF, 3) Attestation de logement, 4) RIB français. La demande se fait en ligne sur caf.fr dans les 3 mois suivant l'emménagement. Délai de traitement : 1 à 4 mois. L'aide n'est pas rétroactive au-delà de 3 mois.",
-    source: "CAF.fr",
+    a: "Depuis le 1er juillet 2026, vérifie d'abord ton éligibilité : un étudiant hors UE/EEE/Suisse doit être boursier sur critères sociaux, apprenti, en contrat de professionnalisation ou salarié. Si c'est le cas, il faut avoir : 1) Titre de séjour valide (VLS-TS ou titre étudiant), 2) Numéro d'allocataire CAF, 3) Attestation de logement, 4) RIB français. La demande se fait en ligne sur caf.fr dans les 3 mois suivant l'emménagement. Délai de traitement : 1 à 4 mois. L'aide n'est pas rétroactive au-delà de la date de dépôt.",
+    source: "CAF.fr, Légifrance (loi n° 2026-103 du 19 février 2026, art. 179)",
   },
   {
     q: "Qu'est-ce que VISALE et comment ça marche ?",
@@ -60,7 +65,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Peut-on bénéficier de la CAF dans une résidence universitaire CROUS ?",
-    a: "Oui. Les logements CROUS sont conventionnés et donnent droit à l'APL. La CAF verse directement au CROUS dans la plupart des cas (tiers payant), ce qui réduit automatiquement votre quittance. La demande doit être faite auprès de la CAF du département.",
+    a: "Le logement CROUS est conventionné et éligible à l'APL en soi. Mais depuis le 1er juillet 2026, un étudiant hors UE/EEE/Suisse doit d'abord remplir une condition d'éligibilité (bourse sur critères sociaux, apprentissage, professionnalisation ou activité pro) — sinon, même en résidence CROUS, l'aide n'est plus versée. Pour les étudiants éligibles, la CAF verse souvent directement au CROUS (tiers payant), ce qui réduit automatiquement la quittance.",
     source: "CAF.fr, CROUS",
   },
   {

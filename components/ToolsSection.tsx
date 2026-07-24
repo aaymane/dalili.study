@@ -65,7 +65,7 @@ const TOOLS = [
     tag:    '01',
     title:  'Simulateur budget',
     desc:   'Calcule ton budget mensuel exact pour étudier en France. Loyer, nourriture, transport, CAF — personnalisé par ville.',
-    points: [`${VILLES_COUNT} villes couvertes`, 'Estimation CAF incluse', 'Résultat en 5 questions'],
+    points: [`${VILLES_COUNT} villes couvertes`, 'Estimation CAF si éligible', 'Résultat en 5 questions'],
     cta:    'Calculer mon budget',
     badge:  'Disponible maintenant',
     live:   true,

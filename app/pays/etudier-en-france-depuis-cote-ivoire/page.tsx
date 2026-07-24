@@ -193,7 +193,7 @@ export default function CoteIvoirePage() {
           <RelatedArticles articles={[
             { slug: 'etudier-en-france-depuis-cote-ivoire', title: 'Étudier en France depuis la Côte d\'Ivoire : guide complet 2026' },
             { slug: 'bourses-etudes-etudiants-etrangers-france-2026', title: 'Bourses études étudiants étrangers France 2026' },
-            { slug: 'visa-etudiant-france-senegal-2026', title: 'Visa étudiant France depuis le Sénégal' },
+            { slug: 'reforme-apl-etudiant-etranger-2026', title: 'Réforme APL 2026 : qui est concerné et comment vérifier ta situation' },
           ]} />
         </div>
       </main>

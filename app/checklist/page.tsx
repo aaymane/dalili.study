@@ -85,7 +85,7 @@ const jsonLd = [
         name: 'Quand faut-il faire la demande CAF en France ?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: "La demande d'APL sur caf.fr doit être faite dès le premier jour dans ton logement. L'APL n'est pas rétroactive : chaque jour de retard représente une aide définitivement perdue.",
+          text: "D'abord, vérifie ton éligibilité : depuis le 1er juillet 2026, un étudiant hors UE/EEE/Suisse doit être boursier sur critères sociaux, apprenti, en contrat de professionnalisation ou salarié pour avoir droit à l'APL. Si c'est ton cas, fais la demande sur caf.fr dès le premier jour dans ton logement — l'aide n'est pas rétroactive au-delà de la date de dépôt.",
         },
       },
       {
@@ -133,7 +133,7 @@ const PHASES = [
       { text: "Inscription à l'Assurance Maladie sur ameli.fr", note: "Section : Étudiants étrangers — envoie les documents en ligne", urgent: true },
       { text: "Inscription définitive à l'université", note: "Apporte : lettre d'admission, passeport, photos, justificatif logement", urgent: false },
       { text: `Paiement CVEC (${formatTierValue(cvecNow)}) sur messervices.etudiant.gouv.fr`, note: "Obligatoire pour s'inscrire — génère une attestation immédiate", urgent: true },
-      { text: 'Demande APL/CAF sur caf.fr dès le 1er jour dans le logement', note: 'Non rétroactive — chaque jour de retard = aide perdue définitivement', urgent: true },
+      { text: 'Si éligible (boursier critères sociaux, apprenti, pro. ou salarié) : demande APL/CAF dès le 1er jour', note: 'Réforme juillet 2026 : plus automatique pour les hors UE/EEE/Suisse — vérifier avant. Non rétroactive au-delà du dépôt', urgent: true },
       { text: 'Ouverture compte bancaire traditionnel (BNP, SG, Crédit Agricole)', note: 'Nécessaire pour la CAF et les virements de loyer', urgent: false },
       { text: "Choix d'un médecin traitant sur doctolib.fr", note: 'Recommandé pour optimiser les remboursements spécialistes — déclarer sur ameli.fr', urgent: false },
       { text: 'Abonnement transport local (Navigo Paris / TBM Bordeaux / TCL Lyon)', note: 'Tarif étudiant sur présentation de la carte étudiante', urgent: false },
@@ -186,7 +186,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Quand faut-il faire la demande CAF en France ?',
-    a: "La demande d'APL sur caf.fr doit être faite dès le premier jour dans ton logement. L'APL n'est pas rétroactive : chaque jour de retard représente une aide définitivement perdue.",
+    a: "D'abord, vérifie ton éligibilité : depuis le 1er juillet 2026, un étudiant hors UE/EEE/Suisse doit être boursier sur critères sociaux, apprenti, en contrat de professionnalisation ou salarié pour avoir droit à l'APL. Si c'est ton cas, fais la demande sur caf.fr dès le premier jour dans ton logement — l'aide n'est pas rétroactive au-delà de la date de dépôt.",
   },
   {
     q: 'Combien de temps pour recevoir la Carte Vitale ?',

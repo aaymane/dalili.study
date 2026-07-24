@@ -70,7 +70,7 @@ const jsonLd = [
         name: 'La CAF est-elle accessible aux étudiants étrangers en France ?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Oui, la CAF (Caisse d\'Allocations Familiales) est accessible aux étudiants étrangers titulaires d\'un titre de séjour valide. L\'aide au logement (APL ou ALS) varie de 80 à 200 €/mois selon la ville, le type de logement et les ressources. Elle n\'est pas accordée automatiquement : il faut en faire la demande sur caf.fr dès l\'arrivée en France.',
+          text: 'Plus automatiquement depuis le 1er juillet 2026. Un étudiant hors UE/EEE/Suisse doit être boursier sur critères sociaux, en contrat d\'apprentissage, en contrat de professionnalisation, ou salarié pour garder le droit à l\'APL/ALS (loi n° 2026-103 du 19 février 2026, art. 179). Pour les étudiants éligibles, l\'aide varie de 80 à 250 €/mois selon la ville, le loyer et les ressources, sur demande via caf.fr dès l\'arrivée en France.',
         },
       },
       {

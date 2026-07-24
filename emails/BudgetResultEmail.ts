@@ -28,6 +28,7 @@ const PAYS_ARTICLES: Record<string, { label: string; url: string }[]> = {
 
 const COMMON_ARTICLES = [
   { label: 'Logement CROUS etudiant etranger',             url: `${SITE}/blog/logement-crous-etudiant-etranger-demande` },
+  { label: 'Reforme APL 2026 — qui est concerne',          url: `${SITE}/blog/reforme-apl-etudiant-etranger-2026` },
   { label: 'CAF etudiant etranger — delais et erreurs',    url: `${SITE}/blog/caf-etudiant-etranger-delais-documents-erreurs` },
   { label: 'Checklist arrivee en France — PDF gratuit',    url: `${SITE}/checklist` },
 ];
@@ -123,9 +124,14 @@ export function renderBudgetResultEmail(props: BudgetResultEmailProps): string {
       <table style="width:100%;border-collapse:collapse">
         <tr>
           <td style="font-family:${FONT};font-size:14px;color:#6b7280">CAF estimee (aide logement)</td>
-          <td style="font-family:${FONT};font-size:14px;font-weight:600;color:#059669;text-align:right">-${cafEstimee} €</td>
+          <td style="font-family:${FONT};font-size:14px;font-weight:600;color:${cafEstimee > 0 ? '#059669' : '#9ca3af'};text-align:right">${cafEstimee > 0 ? `-${cafEstimee} €` : 'Non incluse'}</td>
         </tr>
       </table>
+      ${cafEstimee === 0 ? `
+      <p style="margin:6px 0 0;font-family:${FONT};font-size:12px;color:#9ca3af;line-height:1.6">
+        D'après ta situation declaree, tu n'as plus droit a l'APL/ALS depuis le 1er juillet 2026 (reforme excluant les etudiants hors UE/EEE/Suisse sans bourse sur criteres sociaux, apprentissage, professionnalisation ou activite pro).
+        <a href="${SITE}/blog/reforme-apl-etudiant-etranger-2026" style="color:${BLUE}">Voir le detail</a>.
+      </p>` : ''}
     </div>
 
     <!-- Reste a financer — blue highlight -->

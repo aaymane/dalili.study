@@ -228,6 +228,7 @@ export default function TunisiePage() {
             { slug: 'etudier-en-france-depuis-tunisie', title: 'Étudier en France depuis la Tunisie : guide complet 2026' },
             { slug: 'visa-etudiant-france-tout-savoir-avant-partir', title: 'Visa étudiant France : tout ce qu\'il faut savoir' },
             { slug: 'ofii-validation-visa-etudiant-france-guide', title: 'OFII : validation du visa étudiant à l\'arrivée' },
+            { slug: 'reforme-apl-etudiant-etranger-2026', title: 'Réforme APL 2026 : qui est concerné et comment vérifier ta situation' },
           ]} />
         </div>
       </main>
