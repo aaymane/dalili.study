@@ -127,12 +127,15 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
       aria-label="Assistant Dalili"
       className="fixed z-[65] flex flex-col overflow-hidden"
       style={{
+        // top is pinned below the 64px navbar so the panel never covers it,
+        // even on short mobile viewports where 100vh is unreliable (address
+        // bar collapse/expand). With both top and bottom set, height is
+        // computed to fill exactly the space between them — no maxHeight
+        // guesswork needed.
+        top: 'calc(env(safe-area-inset-top) + 80px)',
         bottom: 'calc(max(20px, env(safe-area-inset-bottom)) + 72px)',
         right: 'max(16px, env(safe-area-inset-right))',
-        left: 'max(16px, env(safe-area-inset-left))',
         width: 'min(400px, calc(100vw - 32px))',
-        maxHeight: 'min(600px, calc(100vh - 140px))',
-        marginLeft: 'auto',
         borderRadius: 20,
         background: 'linear-gradient(180deg, rgba(20,26,54,0.98) 0%, rgba(5,9,20,0.98) 100%)',
         border: '1px solid rgba(255,255,255,0.1)',
@@ -169,7 +172,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
         </button>
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4" style={{ minHeight: 200 }}>
+      <div ref={scrollRef} data-lenis-prevent className="flex-1 min-h-0 overflow-y-auto px-4 py-4">
         {messages.length === 0 && (
           <div className="flex flex-col gap-2">
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', marginBottom: 4 }}>
