@@ -85,13 +85,13 @@ const FAQ_ITEMS = [
   },
   {
     q: "Quel est le coût des repas dans les restaurants universitaires CROUS ?",
-    a: "Le tarif social dans les restaurants universitaires CROUS (RU) est de 3,30 € le repas complet (entrée + plat + dessert) pour les étudiants boursiers et étudiants inscrits dans un établissement conventionné. Tarif standard non boursier : 3,30 € également depuis la mesure gouvernementale de 2022 reconduite en 2026.",
-    source: "CNOUS 2026",
+    a: "Depuis le 4 mai 2026, le repas au restaurant universitaire (RU) coûte 1 € pour tous les étudiants — plat principal + au plus deux accompagnements, une fois par service. Éligible : carte d'étudiant, carte d'étudiant des métiers (apprentis, alternants), doctorants, services civiques, avec un compte Izly actif pour justifier le statut. Ce n'est plus réservé aux boursiers : le tarif de 3,30 € pour les non-boursiers est obsolète.",
+    source: "lescrous.fr, etudiant.gouv.fr 2026",
   },
   {
     q: "Quel est le budget alimentation moyen d'un étudiant en France ?",
-    a: "Budget alimentation moyen mensuel : 150-250 €. Avec 3 repas/jour au RU CROUS (3,30 €) : 3,30 × 20 déjeuners = 66 €/mois. Courses supermarché (dîners + petit-déjeuner) : 80-130 €. Total alimentaire avec accès RU : 150-200 €/mois.",
-    source: "OVE (Observatoire de la Vie Étudiante) 2025",
+    a: "Budget alimentation moyen mensuel : 150-250 €. Avec 1 repas/jour au RU CROUS (1 €, depuis le 4 mai 2026) : 1 × 30 jours = 30 €/mois, contre environ 99 €/mois à l'ancien tarif de 3,30 € — soit près de 70 € d'économie mensuelle en plus. Courses supermarché (dîners + petit-déjeuner) : 80-130 €. Total alimentaire avec accès RU : 110-160 €/mois.",
+    source: "OVE (Observatoire de la Vie Étudiante) 2025, lescrous.fr",
   },
   {
     q: "Comment minimiser les frais de transfert d'argent international ?",

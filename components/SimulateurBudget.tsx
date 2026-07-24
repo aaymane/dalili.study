@@ -603,6 +603,9 @@ function ResultsPanel({
   const [showNet, setShowNet] = useState(true);
 
   const cafMid             = Math.round((cafMin + cafMax) / 2);
+  // Repas RU à 1€ pour tous les étudiants depuis le 4 mai 2026 (lescrous.fr) —
+  // remplace l'ancien tarif non-boursier de 3,30€. 30 repas/mois : 30 x 1€ = 30€,
+  // contre ~99€ à l'ancien tarif (30 x 3,30€) — soit ~70€ d'économie mensuelle.
   const economieRU         = 70;
   const economieTransport  = Math.round(transport / 2);
   const economieCSS        = 40;
@@ -711,7 +714,7 @@ function ResultsPanel({
             {(() => {
               const savingsItems = [
                 ...(cafEligible ? [{ label: 'CAF / APL (estimation)', val: cafMid }] : []),
-                { label: `Repas RU à 3,30 € (vs 8-12 €)`, val: economieRU },
+                { label: `Repas RU à 1 € (au lieu de 3,30 €)`, val: economieRU },
                 { label: `Abonnement transport (−50 %)`, val: economieTransport },
                 { label: `CSS — santé gratuite`, val: economieCSS },
               ];

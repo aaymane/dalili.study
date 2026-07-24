@@ -216,7 +216,7 @@ export default function StatsPage() {
           {/* ── Tableau villes BRUT / NET */}
           <p style={s.sectionTitle}>Budget mensuel CROUS — {CITY_BUDGET.length} villes (brut et net)</p>
           <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
-            Budget BRUT = avant aides. Budget NET = après CAF (si éligible — voir condition ci-dessous), repas RU à 3,30 €, transport étudiant réduit, CSS (santé gratuite).
+            Budget BRUT = avant aides. Budget NET = après CAF (si éligible — voir condition ci-dessous), repas RU à 1 € (tous les étudiants depuis le 4 mai 2026), transport étudiant réduit, CSS (santé gratuite).
           </p>
           <div style={{ overflowX: 'auto' }}>
             <table style={s.table}>
@@ -243,7 +243,7 @@ export default function StatsPage() {
             </table>
           </div>
           <p style={s.note}>
-            * Budget NET calculé en CROUS avec CAF, repas RU étudiant (3,30 €) et abonnement transport réduit.
+            * Budget NET calculé en CROUS avec CAF, repas RU à 1 € (depuis le 4 mai 2026, remplace l&apos;ancien tarif de 3,30 €) et abonnement transport réduit.
             Depuis le 1er juillet 2026, la CAF/APL n&apos;est plus accessible de droit commun aux étudiants hors UE/EEE/Suisse : elle est réservée aux boursiers sur critères sociaux, apprentis, en professionnalisation ou salariés (<a href="/blog/reforme-apl-etudiant-etranger-2026" style={{ color: 'inherit', textDecoration: 'underline' }}>détail</a>). Si non éligible, le budget réel est le montant BRUT. Montant réel calculé sur caf.fr.
             <br />
             ** Ces montants sont des estimations. Le consulat exige {formatTierValue(compteBloqueNow)} prouvables{compteBloqueAdjacent ? ` (${compteBloqueAdjacent})` : ''}, indépendamment de vos aides.
