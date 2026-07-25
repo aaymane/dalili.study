@@ -3,6 +3,8 @@
 // lives in app/api/assistant/route.ts and must not be weakened without
 // flagging it, per the approved architecture.
 
+import type Anthropic from '@anthropic-ai/sdk';
+
 export interface RetrievedChunk {
   title: string;
   url: string;
@@ -22,12 +24,32 @@ RÈGLES STRICTES — NON NÉGOCIABLES :
 SOURCES_USED: [n,n,...]
 où chaque n est le numéro d'un extrait que tu as réellement utilisé pour construire ta réponse. Si tu n'as utilisé aucun extrait (cas du refus au point 3), écris SOURCES_USED: []. N'invente jamais un numéro qui ne correspond à aucun extrait fourni.`;
 
-export function buildSystemPrompt(chunks: RetrievedChunk[]): string {
+// Two cache_control breakpoints, each ephemeral (5 min TTL):
+//   1. After RULES — the guardrails text, byte-identical on every request.
+//      On its own this block is ~400 tokens, far under every current Claude
+//      model's minimum cacheable prompt length (4096 tokens for Haiku 4.5,
+//      the default model here — see MODEL above), so today it never caches
+//      by itself. It's kept so it activates automatically if RULES grows or
+//      the model changes to one with a lower minimum.
+//   2. After the extracts block — covers RULES + the retrieved chunks, i.e.
+//      the whole system prompt. This is the one that actually pays off:
+//      confirmed via a live call that an identical question repeated within
+//      the TTL reads ~4.3k tokens from cache instead of reprocessing them
+//      (cache_read_input_tokens > 0, cache_creation_input_tokens 0 on the
+//      repeat). It only hits on an exact repeat of the same question — a
+//      different question retrieves different chunks, which changes this
+//      block's bytes and busts the cache — but exact repeats (retries,
+//      duplicate submissions, common FAQ-style questions) do happen in
+//      practice, so this is a real, positive-EV breakpoint, not a no-op.
+export function buildSystemPrompt(chunks: RetrievedChunk[]): Anthropic.TextBlockParam[] {
   const extracts = chunks
     .map((c, i) => `[${i + 1}] Source : ${c.title}${c.category ? ` (${c.category})` : ''}\n${c.content}`)
     .join('\n\n');
 
-  return `${RULES}\n\nEXTRAITS DISPONIBLES :\n\n${extracts}`;
+  return [
+    { type: 'text', text: RULES, cache_control: { type: 'ephemeral' } },
+    { type: 'text', text: `EXTRAITS DISPONIBLES :\n\n${extracts}`, cache_control: { type: 'ephemeral' } },
+  ];
 }
 
 /**
