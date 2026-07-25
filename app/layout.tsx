@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
 import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import StarCanvas from "@/components/StarCanvas";
@@ -190,6 +191,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <AssistantWidget />
+        <SpeedInsights />
       </body>
       <GoogleTagManager gtmId="GTM-WTNNC952" />
       <GoogleAnalytics gaId="G-95T08PB2MV" />
