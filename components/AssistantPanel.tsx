@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import type { Components } from 'react-markdown';
 import { Loader2, Send, ExternalLink, Sparkles, X } from 'lucide-react';
 
 interface SourceRef {
@@ -66,6 +69,83 @@ async function streamAssistantResponse(
     }
   }
   if (buffer.trim()) onEvent(JSON.parse(buffer));
+}
+
+// Renders the assistant's Markdown (headings, bold, lists, tables — Claude
+// often structures answers this way) styled to match the dark theme. No
+// rehype-raw plugin: embedded HTML in the model's output is shown as inert
+// text rather than executed, which is what we want for untrusted LLM output.
+const markdownComponents: Components = {
+  p: ({ children }) => (
+    <p style={{ margin: '0 0 8px', lineHeight: 1.6 }}>{children}</p>
+  ),
+  strong: ({ children }) => <strong style={{ color: '#fff', fontWeight: 700 }}>{children}</strong>,
+  em: ({ children }) => <em style={{ fontStyle: 'italic' }}>{children}</em>,
+  h1: ({ children }) => (
+    <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '1rem', color: '#fff', margin: '10px 0 6px' }}>{children}</p>
+  ),
+  h2: ({ children }) => (
+    <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.95rem', color: '#fff', margin: '10px 0 6px' }}>{children}</p>
+  ),
+  h3: ({ children }) => (
+    <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.88rem', color: '#fff', margin: '8px 0 4px' }}>{children}</p>
+  ),
+  ul: ({ children }) => <ul style={{ margin: '4px 0 8px', paddingLeft: 18 }}>{children}</ul>,
+  ol: ({ children }) => <ol style={{ margin: '4px 0 8px', paddingLeft: 18 }}>{children}</ol>,
+  li: ({ children }) => <li style={{ marginBottom: 4, lineHeight: 1.6 }}>{children}</li>,
+  a: ({ href, children }) => {
+    if (!href) return <>{children}</>;
+    if (href.startsWith('/')) {
+      return <Link href={href} style={{ color: '#4d8fff', textDecoration: 'underline' }}>{children}</Link>;
+    }
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#4d8fff', textDecoration: 'underline' }}>
+        {children}
+      </a>
+    );
+  },
+  code: ({ children }) => (
+    <code style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 5px', borderRadius: 4, fontSize: '0.85em', fontFamily: 'ui-monospace, monospace' }}>
+      {children}
+    </code>
+  ),
+  pre: ({ children }) => (
+    <pre style={{ background: 'rgba(0,0,0,0.3)', padding: 10, borderRadius: 8, overflowX: 'auto', fontSize: '0.8rem', margin: '6px 0' }}>
+      {children}
+    </pre>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote style={{ borderLeft: '2px solid rgba(255,255,255,0.2)', paddingLeft: 10, margin: '6px 0', color: 'rgba(255,255,255,0.65)', fontStyle: 'italic' }}>
+      {children}
+    </blockquote>
+  ),
+  hr: () => <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '10px 0' }} />,
+  // Tables need their own horizontal scroll container — the chat bubble is
+  // much narrower than a typical table (CLAUDE.md: wide content must scroll
+  // in its own container, never the page).
+  table: ({ children }) => (
+    <div style={{ overflowX: 'auto', margin: '8px 0', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)' }}>
+      <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.78rem' }}>{children}</table>
+    </div>
+  ),
+  th: ({ children }) => (
+    <th style={{ textAlign: 'left', padding: '6px 10px', borderBottom: '1px solid rgba(255,255,255,0.15)', color: '#fff', fontFamily: 'var(--font-montserrat)', fontWeight: 700, whiteSpace: 'nowrap' }}>
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td style={{ padding: '6px 10px', borderBottom: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.82)' }}>
+      {children}
+    </td>
+  ),
+};
+
+function MarkdownMessage({ content }: { content: string }) {
+  return (
+    <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+      {content}
+    </ReactMarkdown>
+  );
 }
 
 export default function AssistantPanel({ onClose }: { onClose: () => void }) {
@@ -214,13 +294,20 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
                     border: m.isError ? '1px solid rgba(239,68,68,0.35)' : '1px solid rgba(255,255,255,0.06)',
                     borderRadius: 14,
                     padding: '10px 14px',
-                    whiteSpace: 'pre-wrap',
+                    // pre-wrap only for plain text (user input, the pending
+                    // placeholder) — Markdown output manages its own line
+                    // breaks via real block elements, and pre-wrap on top of
+                    // that would turn the model's soft-wrapped source text
+                    // into unwanted literal line breaks.
+                    whiteSpace: m.role === 'user' || m.pending ? 'pre-wrap' : 'normal',
                   }}
                 >
                   {m.pending ? (
                     <span className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                       <Loader2 size={14} className="animate-spin" /> Recherche dans nos guides…
                     </span>
+                  ) : m.role === 'assistant' ? (
+                    <MarkdownMessage content={m.content} />
                   ) : (
                     m.content
                   )}
