@@ -2,8 +2,14 @@
 //
 // Two guardrails here are load-bearing and must not be relaxed without
 // flagging it (per the approved architecture):
-//   1. The relevance gate below — Claude is never called when retrieval
-//      didn't find anything close enough to the question.
+//   1. The relevance gate below — Claude is never called to GENERATE an
+//      answer when retrieval didn't find anything close enough to the
+//      question. Note: for non-French questions, a small, separate Claude
+//      call *does* run before this gate — see translateToFrench() — but its
+//      only job is translating the question for retrieval; its output is
+//      never shown to a user and it runs whether or not the gate ends up
+//      passing, so it does not reopen the hallucination risk this guardrail
+//      exists to prevent.
 //   2. extractAndValidateSources() — any source Claude claims to have used
 //      is checked against the chunks we actually sent it before it can be
 //      shown to a user.
@@ -16,6 +22,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin';
 import { embedQuery } from '@/lib/assistant/voyage';
 import { checkRateLimit, getClientIp } from '@/lib/assistant/rate-limit';
 import { buildSystemPrompt, extractAndValidateSources, type RetrievedChunk } from '@/lib/assistant/system-prompt';
+import { detectLanguage, fallbackMessage, translateToFrench } from '@/lib/assistant/language';
 
 export const runtime = 'nodejs';
 
@@ -66,8 +73,25 @@ export async function POST(request: Request): Promise<Response> {
     return new Response(JSON.stringify({ error: 'Question vide ou trop longue.' }), { status: 400 });
   }
 
+  const detectedLang = detectLanguage(question);
+
   // ── Retrieval ────────────────────────────────────────────────────────────
-  const queryEmbedding = await embedQuery(question);
+  // Our corpus is French-only. Cross-lingual embedding similarity measured
+  // meaningfully weaker than same-language similarity (see language.ts), so
+  // non-French questions are translated to French before embedding — this
+  // only affects which chunks get retrieved, not the language of the final
+  // answer (which still comes from the model reading the ORIGINAL question
+  // below). Falls back to embedding the raw question if translation fails.
+  let embedText = question;
+  if (detectedLang !== 'fr') {
+    try {
+      embedText = await translateToFrench(question, detectedLang);
+    } catch (err) {
+      console.error('Question translation failed, embedding original text:', err);
+    }
+  }
+
+  const queryEmbedding = await embedQuery(embedText);
 
   const { data: matches, error: matchError } = await supabaseAdmin.rpc('match_content_chunks', {
     query_embedding: queryEmbedding,
@@ -95,7 +119,7 @@ export async function POST(request: Request): Promise<Response> {
     return new Response(
       ndjsonLine({
         type: 'fallback',
-        message: "Je n'ai pas cette information dans nos guides.",
+        message: fallbackMessage(detectedLang),
         suggestions,
       }),
       { headers: { 'Content-Type': 'application/x-ndjson; charset=utf-8' } }

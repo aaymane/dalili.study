@@ -285,6 +285,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
             <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div style={{ maxWidth: '88%' }}>
                 <div
+                  dir="auto"
                   style={{
                     fontFamily: 'var(--font-dm-sans)',
                     fontSize: '0.86rem',
