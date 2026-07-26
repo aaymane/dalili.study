@@ -1,12 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState, Fragment } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { loadGsap } from '@/lib/lazy-gsap';
 import dynamic from 'next/dynamic';
 import DALILIPhones from './DALILIPhones';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false, loading: () => null });
 const ParisSkyline   = dynamic(() => import('./ParisSkyline'),   { ssr: false });
@@ -57,21 +54,33 @@ export default function HeroSection({ revealed = false }) {
     // .hero-section in globals.css — so it's correct on first paint instead
     // of jumping after this effect runs (was causing a large CLS).
 
-    if (planeRef.current && !mobile) {
-      // Desktop: off-screen above-right, ready to swoop in.
-      // Mobile: plane hidden via CSS (display:none), no GSAP needed.
-      gsap.set(planeRef.current, {
-        xPercent: -50, yPercent: -50,
-        x: W * 0.55, y: -H * 0.65,
-        rotate: -8, opacity: 0,
-      });
-    }
+    // gsap is loaded lazily (lib/lazy-gsap.js) — safe here even though this
+    // effect is unconditional on mount: the whole hero sits under the
+    // intro's opaque full-screen cover for as long as `revealed` is false,
+    // so whatever opacity these elements are at before gsap.set() runs is
+    // never actually visible to the user.
+    let cancelled = false;
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
 
-    // Text hidden until scroll-reveal on both mobile and desktop.
-    if (textRef.current) gsap.set(textRef.current, { opacity: 0 });
-    // Desktop badge starts hidden. Mobile badge (heroBadgeRef) is shown via CSS,
-    // starts visible, and fades with phones via scroll trigger in revealed effect.
-    if (!mobile && heroBadgeRef.current) gsap.set(heroBadgeRef.current, { opacity: 0, y: 10 });
+      if (planeRef.current && !mobile) {
+        // Desktop: off-screen above-right, ready to swoop in.
+        // Mobile: plane hidden via CSS (display:none), no GSAP needed.
+        gsap.set(planeRef.current, {
+          xPercent: -50, yPercent: -50,
+          x: W * 0.55, y: -H * 0.65,
+          rotate: -8, opacity: 0,
+        });
+      }
+
+      // Text hidden until scroll-reveal on both mobile and desktop.
+      if (textRef.current) gsap.set(textRef.current, { opacity: 0 });
+      // Desktop badge starts hidden. Mobile badge (heroBadgeRef) is shown via CSS,
+      // starts visible, and fades with phones via scroll trigger in revealed effect.
+      if (!mobile && heroBadgeRef.current) gsap.set(heroBadgeRef.current, { opacity: 0, y: 10 });
+    });
+
+    return () => { cancelled = true; };
   }, []);
 
   // ── Entrance + scroll animations (run once logo disappears)
@@ -86,156 +95,172 @@ export default function HeroSection({ revealed = false }) {
     const H      = window.innerHeight;
     const mobile = W < 768;
 
-    if (!mobile) {
-      // 1. Plane swoops in from off-screen (1.7s entrance)
-      gsap.to(plane, {
-        xPercent: -50, yPercent: -50,
-        x: W * 0.26, y: -H * 0.18,
-        rotate: 5, opacity: 1,
-        duration: 1.7, ease: 'power3.out',
-        onComplete: () => {
-          gsap.to(plane, {
-            xPercent: -50, yPercent: -50,
-            x: -W * 0.62, y: H * 0.38,
-            rotate: -6, opacity: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top top',
-              end:   '55% bottom',
-              scrub: 2,
-            },
-          });
-        },
-      });
+    // gsap loaded lazily (lib/lazy-gsap.js) — safe: this effect only runs
+    // once `revealed` is true, i.e. after the intro finishes, and the other
+    // mount effect above already kicked off the same (memoized) import
+    // seconds earlier, so it's virtually always already resolved by now.
+    let cancelled = false;
+    let cleanup = () => {};
 
-      // Badge pill fades in on desktop
-      if (heroBadgeRef.current) {
-        gsap.to(heroBadgeRef.current, {
-          opacity: 1, y: 0,
-          duration: 0.5, ease: 'power2.out',
-          delay: 0.4,
-        });
-      }
-    }
-
-    const ctx = gsap.context(() => {
-
-      // Text container fades in
-      gsap.fromTo(text,
-        { opacity: 0 },
-        {
-          opacity: 1, ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: mobile ? '50% center' : '32% center',
-            end:   mobile ? '60% center' : '46% center',
-            scrub: true,
-          },
-        },
-      );
-
-      // Badge + subtitle
-      gsap.fromTo(
-        [badgeRef.current, subRef.current].filter(Boolean),
-        { y: 24, opacity: 0 },
-        {
-          y: 0, opacity: 1, ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: mobile ? '54% center' : '44% center',
-            end:   mobile ? '64% center' : '54% center',
-            scrub: true,
-          },
-        },
-      );
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
 
       if (!mobile) {
-        // Background elements (skyline, glow) → fade in first 320px of scroll.
-        // gsap.to + immediateRender:false = nothing touched until trigger actually fires,
-        // so these elements stay at their natural CSS state on page load.
-        const bgEls = [skylineWrap.current, horizonGlow.current].filter(Boolean);
-        if (bgEls.length) {
-          gsap.to(bgEls, {
-            opacity: 0,
-            ease: 'power2.in',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top top',
-              end: '+= 320',
-              scrub: true,
-            },
-          });
-        }
-
-        // Phones + "Bientôt disponible" badge → fade out together as the plane
-        // sweeps past the left column. The badge describes the phones, so it must
-        // exit in parallel with them, not with the early skyline/glow fade above.
-        // CRITICAL: use gsap.to (not fromTo) + immediateRender:false so GSAP does NOT
-        // touch the element on mount. fromTo with scrub applies the "from" values
-        // immediately, which overrides the CSS transform:translateY(-50%) on
-        // .hero-phones-wrap and pushes the phones off-screen inside overflow:hidden.
-        // Only animating opacity (no y) avoids all CSS-transform conflicts.
-        const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
-        if (heroBadgeRef.current) chipEls.push(heroBadgeRef.current);
-        if (chipEls.length) {
-          gsap.to(chipEls, {
-            opacity: 0,
-            ease: 'power2.inOut',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: section,
-              start: `top top-=${Math.round(H * 0.58)}`,
-              end:   `top top-=${Math.round(H * 0.92)}`,
-              scrub: 1.5,
-            },
-          });
-        }
-      } else {
-        // Mobile: badge fades out in sync with phones (phones fade by scrollY = H/2)
-        if (heroBadgeRef.current) {
-          gsap.fromTo(heroBadgeRef.current,
-            { opacity: 1 },
-            {
-              opacity: 0,
-              ease: 'power2.in',
+        // 1. Plane swoops in from off-screen (1.7s entrance)
+        gsap.to(plane, {
+          xPercent: -50, yPercent: -50,
+          x: W * 0.26, y: -H * 0.18,
+          rotate: 5, opacity: 1,
+          duration: 1.7, ease: 'power3.out',
+          onComplete: () => {
+            gsap.to(plane, {
+              xPercent: -50, yPercent: -50,
+              x: -W * 0.62, y: H * 0.38,
+              rotate: -6, opacity: 0,
+              ease: 'none',
               scrollTrigger: {
                 trigger: section,
                 start: 'top top',
-                end: `+=${Math.round(H * 0.5)}`,
-                scrub: true,
+                end:   '55% bottom',
+                scrub: 2,
               },
-            }
-          );
+            });
+          },
+        });
+
+        // Badge pill fades in on desktop
+        if (heroBadgeRef.current) {
+          gsap.to(heroBadgeRef.current, {
+            opacity: 1, y: 0,
+            duration: 0.5, ease: 'power2.out',
+            delay: 0.4,
+          });
         }
       }
 
-      // Per-character curtain reveal
-      linesRef.current.forEach((line, i) => {
-        if (!line) return;
-        const chars = line.querySelectorAll('.hero-char');
-        if (!chars.length) return;
+      const ctx = gsap.context(() => {
 
-        gsap.set(chars, { yPercent: 115, opacity: 0 });
-
-        const offset = mobile ? 4 : 5;
-        gsap.to(chars, {
-          yPercent: 0, opacity: 1,
-          ease: 'power3.out',
-          stagger: { each: 0.028, from: 'start' },
-          scrollTrigger: {
-            trigger: section,
-            start: `${(mobile ? 52 : 33) + i * offset}% center`,
-            end:   `${(mobile ? 66 : 47) + i * offset}% center`,
-            scrub: 1.0,
+        // Text container fades in
+        gsap.fromTo(text,
+          { opacity: 0 },
+          {
+            opacity: 1, ease: 'none',
+            scrollTrigger: {
+              trigger: section,
+              start: mobile ? '50% center' : '32% center',
+              end:   mobile ? '60% center' : '46% center',
+              scrub: true,
+            },
           },
+        );
+
+        // Badge + subtitle
+        gsap.fromTo(
+          [badgeRef.current, subRef.current].filter(Boolean),
+          { y: 24, opacity: 0 },
+          {
+            y: 0, opacity: 1, ease: 'none',
+            scrollTrigger: {
+              trigger: section,
+              start: mobile ? '54% center' : '44% center',
+              end:   mobile ? '64% center' : '54% center',
+              scrub: true,
+            },
+          },
+        );
+
+        if (!mobile) {
+          // Background elements (skyline, glow) → fade in first 320px of scroll.
+          // gsap.to + immediateRender:false = nothing touched until trigger actually fires,
+          // so these elements stay at their natural CSS state on page load.
+          const bgEls = [skylineWrap.current, horizonGlow.current].filter(Boolean);
+          if (bgEls.length) {
+            gsap.to(bgEls, {
+              opacity: 0,
+              ease: 'power2.in',
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: '+= 320',
+                scrub: true,
+              },
+            });
+          }
+
+          // Phones + "Bientôt disponible" badge → fade out together as the plane
+          // sweeps past the left column. The badge describes the phones, so it must
+          // exit in parallel with them, not with the early skyline/glow fade above.
+          // CRITICAL: use gsap.to (not fromTo) + immediateRender:false so GSAP does NOT
+          // touch the element on mount. fromTo with scrub applies the "from" values
+          // immediately, which overrides the CSS transform:translateY(-50%) on
+          // .hero-phones-wrap and pushes the phones off-screen inside overflow:hidden.
+          // Only animating opacity (no y) avoids all CSS-transform conflicts.
+          const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
+          if (heroBadgeRef.current) chipEls.push(heroBadgeRef.current);
+          if (chipEls.length) {
+            gsap.to(chipEls, {
+              opacity: 0,
+              ease: 'power2.inOut',
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: section,
+                start: `top top-=${Math.round(H * 0.58)}`,
+                end:   `top top-=${Math.round(H * 0.92)}`,
+                scrub: 1.5,
+              },
+            });
+          }
+        } else {
+          // Mobile: badge fades out in sync with phones (phones fade by scrollY = H/2)
+          if (heroBadgeRef.current) {
+            gsap.fromTo(heroBadgeRef.current,
+              { opacity: 1 },
+              {
+                opacity: 0,
+                ease: 'power2.in',
+                scrollTrigger: {
+                  trigger: section,
+                  start: 'top top',
+                  end: `+=${Math.round(H * 0.5)}`,
+                  scrub: true,
+                },
+              }
+            );
+          }
+        }
+
+        // Per-character curtain reveal
+        linesRef.current.forEach((line, i) => {
+          if (!line) return;
+          const chars = line.querySelectorAll('.hero-char');
+          if (!chars.length) return;
+
+          gsap.set(chars, { yPercent: 115, opacity: 0 });
+
+          const offset = mobile ? 4 : 5;
+          gsap.to(chars, {
+            yPercent: 0, opacity: 1,
+            ease: 'power3.out',
+            stagger: { each: 0.028, from: 'start' },
+            scrollTrigger: {
+              trigger: section,
+              start: `${(mobile ? 52 : 33) + i * offset}% center`,
+              end:   `${(mobile ? 66 : 47) + i * offset}% center`,
+              scrub: 1.0,
+            },
+          });
         });
-      });
 
-    }, section);
+      }, section);
 
-    return () => ctx.revert();
+      cleanup = () => ctx.revert();
+    });
+
+    return () => {
+      cancelled = true;
+      cleanup();
+    };
   }, [revealed]);
 
   // ── Mouse parallax — desktop only; pauses when hero is off-screen or tab hidden

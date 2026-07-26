@@ -122,13 +122,26 @@ export default function StarCanvas() {
     }
 
     let last   = performance.now();
-    // Target ~30 fps for the background canvas — imperceptible at this density
-    const FRAME_MS = 33;
+    // ~30fps desktop; ~20fps mobile — the lower mobile rate cuts this
+    // canvas's share of main-thread time by another third on exactly the
+    // CPU-constrained devices this matters for, and is imperceptible at
+    // this density (already true of the desktop 30fps target).
+    const FRAME_MS = isMobile ? 50 : 33;
+
+    // Aurora gradients are the priciest per-frame op here (createRadialGradient
+    // + arc + fill, twice). Desktop recomputes them every drawn frame; mobile
+    // recomputes only every 3rd drawn frame and re-blits the cached result the
+    // rest of the time — the drift is slow/subtle enough (~0.03-0.04 of W/H,
+    // over a multi-second period) that a ~150ms-stale position is invisible,
+    // while cutting this cost by two-thirds on mobile.
+    const AURORA_SKIP = isMobile ? 3 : 1;
+    let auroraFrame = 0;
+    let ab1 = null, ab2 = null, a1x = 0, a1y = 0, a2x = 0, a2y = 0;
 
     function draw(now) {
       raf = requestAnimationFrame(draw);
 
-      // Throttle: skip if not enough time elapsed (targets ~30fps)
+      // Throttle: skip if not enough time elapsed (targets ~30fps/~20fps)
       if (now - last < FRAME_MS) return;
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
@@ -144,22 +157,27 @@ export default function StarCanvas() {
       if (nebulaCache) ctx.drawImage(nebulaCache, 0, 0);
 
       // ── Aurora blobs — arc-clipped, NOT fillRect(0,0,W,H) for speed
-      const t   = now * 0.00012;
-      const a1x = W * (0.18 + 0.03 * Math.sin(t * 0.7));
-      const a1y = H * (0.62 + 0.04 * Math.cos(t * 0.5));
-      const ab1 = ctx.createRadialGradient(a1x, a1y, 0, a1x, a1y, W * 0.36);
-      ab1.addColorStop(0, 'rgba(1,77,248,0.065)');
-      ab1.addColorStop(1, 'rgba(0,0,0,0)');
+      if (auroraFrame % AURORA_SKIP === 0 || !ab1) {
+        const t = now * 0.00012;
+        a1x = W * (0.18 + 0.03 * Math.sin(t * 0.7));
+        a1y = H * (0.62 + 0.04 * Math.cos(t * 0.5));
+        ab1 = ctx.createRadialGradient(a1x, a1y, 0, a1x, a1y, W * 0.36);
+        ab1.addColorStop(0, 'rgba(1,77,248,0.065)');
+        ab1.addColorStop(1, 'rgba(0,0,0,0)');
+
+        a2x = W * (0.82 + 0.03 * Math.cos(t * 0.6));
+        a2y = H * (0.35 + 0.04 * Math.sin(t * 0.4));
+        ab2 = ctx.createRadialGradient(a2x, a2y, 0, a2x, a2y, W * 0.28);
+        ab2.addColorStop(0, 'rgba(31,40,80,0.10)');
+        ab2.addColorStop(1, 'rgba(0,0,0,0)');
+      }
+      auroraFrame++;
+
       ctx.fillStyle = ab1;
       ctx.beginPath();
       ctx.arc(a1x, a1y, W * 0.36, 0, Math.PI * 2);
       ctx.fill();
 
-      const a2x = W * (0.82 + 0.03 * Math.cos(t * 0.6));
-      const a2y = H * (0.35 + 0.04 * Math.sin(t * 0.4));
-      const ab2 = ctx.createRadialGradient(a2x, a2y, 0, a2x, a2y, W * 0.28);
-      ab2.addColorStop(0, 'rgba(31,40,80,0.10)');
-      ab2.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = ab2;
       ctx.beginPath();
       ctx.arc(a2x, a2y, W * 0.28, 0, Math.PI * 2);

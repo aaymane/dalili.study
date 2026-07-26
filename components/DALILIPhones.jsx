@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { gsap } from 'gsap';
+import { loadGsap } from '@/lib/lazy-gsap';
 
 const RATIO = 607 / 280;
 
@@ -132,7 +132,10 @@ export default function DALILIPhones({ revealed = true }) {
     return () => clearInterval(id);
   }, [bp]);
 
-  // Mobile: cinematic entry → continuous float
+  // Mobile: cinematic entry → continuous float. gsap is loaded lazily here
+  // (see lib/lazy-gsap.js) — safe because this effect is gated on `revealed`,
+  // which only flips once the intro animation finishes, giving the import
+  // seconds to resolve before it's ever needed.
   useEffect(() => {
     if (bp !== 'mobile' || !revealed) return;
     const p1 = phone1InnerRef.current;
@@ -141,87 +144,111 @@ export default function DALILIPhones({ revealed = true }) {
     const g2 = glow2Ref.current;
     if (!p1 || !p2) return;
 
-    // Start: blurred, scaled down, below resting pos, at their final rotations
-    gsap.set(p1, { y: 90, scale: 0.80, opacity: 0, filter: 'blur(22px)', rotation: -8 });
-    gsap.set(p2, { y: 100, scale: 0.80, opacity: 0, filter: 'blur(22px)', rotation: 5 });
-    if (g1) gsap.set(g1, { opacity: 0, scale: 0.5 });
-    if (g2) gsap.set(g2, { opacity: 0, scale: 0.5 });
+    let cancelled = false;
+    let cleanup = () => {};
 
-    // Phone 1 — premium rise + blur clear
-    gsap.to(p1, {
-      y: 0, scale: 1, opacity: 1, filter: 'blur(0px)',
-      duration: 1.6, ease: 'power4.out', delay: 0.08,
-      onComplete: () => {
-        // Breathing: y + rotation oscillation, different frequency to phone 2
-        gsap.to(p1, {
-          y: -15, rotation: -5.5, scale: 1.016,
-          duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1,
-        });
-      },
-    });
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
 
-    // Phone 2 — staggered entry, slightly delayed
-    gsap.to(p2, {
-      y: 0, scale: 1, opacity: 1, filter: 'blur(0px)',
-      duration: 1.6, ease: 'power4.out', delay: 0.22,
-      onComplete: () => {
-        gsap.to(p2, {
-          y: -20, rotation: 7.5, scale: 1.014,
-          duration: 4.0, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.4,
-        });
-      },
-    });
+      // Start: blurred, scaled down, below resting pos, at their final rotations
+      gsap.set(p1, { y: 90, scale: 0.80, opacity: 0, filter: 'blur(22px)', rotation: -8 });
+      gsap.set(p2, { y: 100, scale: 0.80, opacity: 0, filter: 'blur(22px)', rotation: 5 });
+      if (g1) gsap.set(g1, { opacity: 0, scale: 0.5 });
+      if (g2) gsap.set(g2, { opacity: 0, scale: 0.5 });
 
-    // Glow entries + pulse loops
-    if (g1) {
-      gsap.to(g1, {
-        opacity: 1, scale: 1, duration: 2.2, ease: 'power2.out', delay: 0.35,
+      // Phone 1 — premium rise + blur clear
+      gsap.to(p1, {
+        y: 0, scale: 1, opacity: 1, filter: 'blur(0px)',
+        duration: 1.6, ease: 'power4.out', delay: 0.08,
         onComplete: () => {
-          gsap.to(g1, {
-            opacity: 0.52, scale: 1.35,
-            duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1,
+          // Breathing: y + rotation oscillation, different frequency to phone 2
+          gsap.to(p1, {
+            y: -15, rotation: -5.5, scale: 1.016,
+            duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1,
           });
         },
       });
-    }
-    if (g2) {
-      gsap.to(g2, {
-        opacity: 1, scale: 1, duration: 2.2, ease: 'power2.out', delay: 0.48,
+
+      // Phone 2 — staggered entry, slightly delayed
+      gsap.to(p2, {
+        y: 0, scale: 1, opacity: 1, filter: 'blur(0px)',
+        duration: 1.6, ease: 'power4.out', delay: 0.22,
         onComplete: () => {
-          gsap.to(g2, {
-            opacity: 0.42, scale: 1.25,
-            duration: 3.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.0,
+          gsap.to(p2, {
+            y: -20, rotation: 7.5, scale: 1.014,
+            duration: 4.0, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.4,
           });
         },
       });
-    }
+
+      // Glow entries + pulse loops
+      if (g1) {
+        gsap.to(g1, {
+          opacity: 1, scale: 1, duration: 2.2, ease: 'power2.out', delay: 0.35,
+          onComplete: () => {
+            gsap.to(g1, {
+              opacity: 0.52, scale: 1.35,
+              duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1,
+            });
+          },
+        });
+      }
+      if (g2) {
+        gsap.to(g2, {
+          opacity: 1, scale: 1, duration: 2.2, ease: 'power2.out', delay: 0.48,
+          onComplete: () => {
+            gsap.to(g2, {
+              opacity: 0.42, scale: 1.25,
+              duration: 3.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.0,
+            });
+          },
+        });
+      }
+
+      cleanup = () => {
+        gsap.killTweensOf(p1);
+        gsap.killTweensOf(p2);
+        if (g1) gsap.killTweensOf(g1);
+        if (g2) gsap.killTweensOf(g2);
+      };
+    });
 
     return () => {
-      gsap.killTweensOf(p1);
-      gsap.killTweensOf(p2);
-      if (g1) gsap.killTweensOf(g1);
-      if (g2) gsap.killTweensOf(g2);
+      cancelled = true;
+      cleanup();
     };
   }, [bp, revealed]);
 
   // Mobile: scroll parallax — phones exit upward before text appears
   useEffect(() => {
     if (bp !== 'mobile') return;
-    const onScroll = () => {
-      const o1 = phone1OuterRef.current;
-      const o2 = phone2OuterRef.current;
-      const gg = groundGlowRef.current;
-      if (!o1 || !o2) return;
-      const scrollY = window.scrollY;
-      const vh      = window.innerHeight;
-      const fade    = Math.max(0, 1 - (scrollY / vh) * 2.2);
-      const yShift  = -(scrollY * 0.6);
-      gsap.set(o1, { y: yShift, opacity: fade });
-      gsap.set(o2, { y: yShift, opacity: fade });
-      if (gg) gsap.set(gg, { opacity: fade * 0.9 });
+
+    let cancelled = false;
+    let removeListener = () => {};
+
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
+      const onScroll = () => {
+        const o1 = phone1OuterRef.current;
+        const o2 = phone2OuterRef.current;
+        const gg = groundGlowRef.current;
+        if (!o1 || !o2) return;
+        const scrollY = window.scrollY;
+        const vh      = window.innerHeight;
+        const fade    = Math.max(0, 1 - (scrollY / vh) * 2.2);
+        const yShift  = -(scrollY * 0.6);
+        gsap.set(o1, { y: yShift, opacity: fade });
+        gsap.set(o2, { y: yShift, opacity: fade });
+        if (gg) gsap.set(gg, { opacity: fade * 0.9 });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      removeListener = () => window.removeEventListener('scroll', onScroll);
+    });
+
+    return () => {
+      cancelled = true;
+      removeListener();
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
   }, [bp]);
 
   // Mouse parallax — desktop only
