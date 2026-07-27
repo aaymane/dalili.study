@@ -32,6 +32,11 @@ const datasetSchema = {
   description: 'Données vérifiées sur le visa étudiant, le budget, le logement et les frais de scolarité pour les étudiants étrangers en France',
   url: `${SITE_URL}/stats`,
   creator: { '@type': 'Organization', name: 'Dalili', url: SITE_URL },
+  // Points at the site's own IP notice ("propriété exclusive de DALILI, toute
+  // reproduction sans autorisation écrite est interdite") rather than a
+  // Creative Commons grant — CC-BY would contradict that all-rights-reserved
+  // notice by explicitly permitting redistribution/reuse.
+  license: `${SITE_URL}/mentions-legales`,
   dateModified: '2026-06-24',
   keywords: [
     'visa étudiant France statistiques',
