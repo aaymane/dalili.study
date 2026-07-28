@@ -185,6 +185,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:        0.9,
     },
 
+    // ── Assistant IA — outil interactif ─────────────────────────
+    {
+      url:             `${SITE_URL}/assistant`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+
     // ── Pages statiques ─────────────────────────────────────────
     {
       url:             `${SITE_URL}/a-propos`,

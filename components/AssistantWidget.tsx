@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { MessageCircle, X } from 'lucide-react';
+import { OPEN_ASSISTANT_EVENT } from './OpenAssistantButton';
 
 // Loaded only once the user actually opens the widget — keeps the chat
 // logic (fetch/stream handling, message list) out of every page's initial JS.
@@ -10,6 +11,14 @@ const AssistantPanel = dynamic(() => import('./AssistantPanel'), { ssr: false })
 
 export default function AssistantWidget() {
   const [open, setOpen] = useState(false);
+
+  // Lets other pages (e.g. /assistant) open this same widget instance via a
+  // plain window event instead of duplicating the chat UI/logic elsewhere.
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener(OPEN_ASSISTANT_EVENT, handler);
+    return () => window.removeEventListener(OPEN_ASSISTANT_EVENT, handler);
+  }, []);
 
   return (
     <>

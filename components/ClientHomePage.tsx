@@ -135,6 +135,7 @@ export default function ClientHomePage({ guidesCount, universitesCount, villesCo
                 { value: String(universitesCount), label: 'universités couvertes' },
                 { value: String(villesCount), label: 'villes décryptées' },
                 { value: '200+', label: 'étudiants inscrits' },
+                { value: '24/7', label: 'assistant IA gratuit' },
               ].map(stat => (
                 <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.5vw,1.8rem)', letterSpacing: '0.06em', color: '#4d8fff', lineHeight: 1 }}>{stat.value}</span>

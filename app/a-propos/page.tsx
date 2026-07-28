@@ -310,8 +310,14 @@ export default function AboutPage() {
 
             <h2 className="ap-h2">De A à Z, le parcours étudiant</h2>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 28px' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 16px' }}>
               {"Dalili documente l'intégralité du parcours — de la préparation du dossier Campus France à la vie quotidienne en France :"}
+            </p>
+
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(14px,1.2vw,16px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, margin: '0 0 28px' }}>
+              {"Au-delà des guides, notre "}
+              <Link href="/assistant" style={{ color: '#4d8fff', textDecoration: 'underline' }}>assistant IA gratuit</Link>
+              {" répond directement à tes questions en français, arabe ou darija, sans inscription — à partir uniquement de ces mêmes guides vérifiés."}
             </p>
 
             <div className="ap-coverage-grid">

@@ -56,6 +56,17 @@ function IconBarChart({ size = 28, color = 'currentColor' }: { size?: number; co
   );
 }
 
+function IconAssistant({ size = 28, color = 'currentColor' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+      <line x1="8.5" y1="10.5" x2="8.5" y2="10.5" strokeWidth="2.4" />
+      <line x1="12" y1="10.5" x2="12" y2="10.5" strokeWidth="2.4" />
+      <line x1="15.5" y1="10.5" x2="15.5" y2="10.5" strokeWidth="2.4" />
+    </svg>
+  );
+}
+
 const TOOLS = [
   {
     id:     'simulateur',
@@ -96,7 +107,30 @@ const TOOLS = [
     badge:  'Disponible maintenant',
     live:   true,
   },
+  {
+    id:     'assistant',
+    href:   '/assistant',
+    accent: '#A855F7',
+    Icon:   IconAssistant,
+    tag:    '04',
+    title:  'Assistant IA',
+    desc:   'Pose ta question sur le visa, le compte bloqué, la CAF ou le TCF, en français, arabe ou darija. Réponses basées uniquement sur nos guides vérifiés.',
+    points: ['Gratuit, sans inscription', 'Français, arabe, darija', 'Basé sur nos guides vérifiés'],
+    cta:    "Poser une question",
+    badge:  'Disponible maintenant',
+    live:   true,
+  },
 ] as const;
+
+// Accent hex → RGB triplet, used to build rgba() strings below. A lookup
+// keeps this a one-line-per-color mapping instead of a growing ternary
+// chain every time a new tool/accent is added.
+const ACCENT_RGB: Record<string, string> = {
+  '#014DF8': '1,77,248',
+  '#22C55E': '34,197,94',
+  '#EFB370': '239,179,112',
+  '#A855F7': '168,85,247',
+};
 
 export default function ToolsSection() {
   return (
@@ -116,8 +150,8 @@ export default function ToolsSection() {
           <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2rem,5vw,3.2rem)', letterSpacing: '0.04em', color: '#ffffff', margin: '0 0 14px', lineHeight: 1.05 }}>
             Prépare ta rentrée<br />{' '}avec les bons outils
           </h2>
-          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.9rem,1.6vw,1rem)', color: 'rgba(255,255,255,0.5)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
-            Simulateur de budget, calendrier personnalisé, comparateur de villes — tout ce dont tu as besoin pour choisir et préparer ta vie en France.
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.9rem,1.6vw,1rem)', color: 'rgba(255,255,255,0.5)', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+            Simulateur de budget, calendrier personnalisé, comparateur de villes, et un assistant IA gratuit et sans inscription qui répond en français, arabe et darija à partir de nos guides vérifiés.
           </p>
         </div>
 
@@ -128,8 +162,8 @@ export default function ToolsSection() {
               key={tool.id}
               style={{
                 position:   'relative',
-                background: `linear-gradient(160deg, rgba(${tool.accent === '#014DF8' ? '1,77,248' : tool.accent === '#22C55E' ? '34,197,94' : '239,179,112'},0.09) 0%, rgba(1,5,16,0.95) 100%)`,
-                border:     `1px solid rgba(${tool.accent === '#014DF8' ? '1,77,248' : tool.accent === '#22C55E' ? '34,197,94' : '239,179,112'},0.22)`,
+                background: `linear-gradient(160deg, rgba(${ACCENT_RGB[tool.accent]},0.09) 0%, rgba(1,5,16,0.95) 100%)`,
+                border:     `1px solid rgba(${ACCENT_RGB[tool.accent]},0.22)`,
                 borderRadius: 20,
                 overflow:   'hidden',
                 display:    'flex',
@@ -150,8 +184,8 @@ export default function ToolsSection() {
                   <span style={{
                     padding:     '3px 10px',
                     borderRadius: 100,
-                    background:  tool.live ? `rgba(${tool.accent === '#014DF8' ? '1,77,248' : tool.accent === '#22C55E' ? '34,197,94' : '239,179,112'},0.12)` : 'rgba(255,255,255,0.06)',
-                    border:      `1px solid rgba(${tool.accent === '#014DF8' ? '1,77,248' : tool.accent === '#22C55E' ? '34,197,94' : '239,179,112'},${tool.live ? '0.3' : '0.1'})`,
+                    background:  tool.live ? `rgba(${ACCENT_RGB[tool.accent]},0.12)` : 'rgba(255,255,255,0.06)',
+                    border:      `1px solid rgba(${ACCENT_RGB[tool.accent]},${tool.live ? '0.3' : '0.1'})`,
                     fontFamily:  'var(--font-montserrat)',
                     fontWeight:  700,
                     fontSize:    '0.52rem',
@@ -167,11 +201,11 @@ export default function ToolsSection() {
                 <div style={{
                   width:        56, height: 56,
                   borderRadius: 14,
-                  background:   `rgba(${tool.accent === '#014DF8' ? '1,77,248' : tool.accent === '#22C55E' ? '34,197,94' : '239,179,112'},0.12)`,
-                  border:       `1px solid rgba(${tool.accent === '#014DF8' ? '1,77,248' : tool.accent === '#22C55E' ? '34,197,94' : '239,179,112'},0.25)`,
+                  background:   `rgba(${ACCENT_RGB[tool.accent]},0.12)`,
+                  border:       `1px solid rgba(${ACCENT_RGB[tool.accent]},0.25)`,
                   display:      'flex', alignItems: 'center', justifyContent: 'center',
                   marginBottom: 20,
-                  boxShadow:    `0 0 24px rgba(${tool.accent === '#014DF8' ? '1,77,248' : tool.accent === '#22C55E' ? '34,197,94' : '239,179,112'},0.18)`,
+                  boxShadow:    `0 0 24px rgba(${ACCENT_RGB[tool.accent]},0.18)`,
                 }}>
                   <tool.Icon size={26} color={tool.accent} />
                 </div>

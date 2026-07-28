@@ -179,7 +179,8 @@ export default function RootLayout({
               "Compte bancaire étudiant France",
               "TCF DELF préparation",
               "OFII validation visa étudiant",
-              "Sécurité sociale étudiante France"
+              "Sécurité sociale étudiante France",
+              "Assistant IA multilingue français arabe darija"
             ],
             "sameAs": [
               "https://www.facebook.com/dalili.guide",
