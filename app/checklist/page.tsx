@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 const cvecNow = getTierAt(REGULATORY_FIGURES.cvec);
 
 export const metadata: Metadata = {
-  title: 'Checklist arrivée en France 2026 — PDF gratuit étudiant international | Dalili',
+  title: 'Checklist arrivée en France 2026 — PDF gratuit étudiant international',
   description:
     'Télécharge la checklist complète pour ton arrivée en France : 32 points essentiels — visa VLS-TS, ANEF, CAF, Assurance Maladie, logement, banque. PDF gratuit mis à jour juin 2026.',
   alternates: { canonical: `${SITE_URL}/checklist` },

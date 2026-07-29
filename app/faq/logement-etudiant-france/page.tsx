@@ -4,7 +4,7 @@ import Link from 'next/link';
 const SITE_URL = 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Logement étudiant France : toutes les questions 2026 | Dalili',
+  title: 'Logement étudiant France : toutes les questions 2026',
   description: "CROUS, CAF, VISALE, colocation, documents de location — 20 questions répondues sur le logement étudiant en France. Sources officielles vérifiées.",
   alternates: { canonical: `${SITE_URL}/faq/logement-etudiant-france` },
   robots: { index: true, follow: true },

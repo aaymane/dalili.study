@@ -4,7 +4,7 @@ import Link from 'next/link';
 const SITE_URL = 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Budget étudiant étranger en France : chiffres réels 2026 | Dalili',
+  title: 'Budget étudiant étranger en France : chiffres réels 2026',
   description: "Combien coûte réellement la vie étudiante en France en 2026 ? 877,50 €/mois dès août 2026, CAF, CSS, droits d'inscription, CVEC, bourses — 20 questions avec chiffres vérifiés.",
   alternates: { canonical: `${SITE_URL}/faq/budget-etudiant-france` },
   robots: { index: true, follow: true },

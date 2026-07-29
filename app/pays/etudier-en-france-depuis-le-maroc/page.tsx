@@ -6,7 +6,7 @@ import { MapPin, FileText } from 'lucide-react';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Étudier en France depuis le Maroc : guide complet 2026 | Dalili',
+  title: 'Étudier en France depuis le Maroc : guide complet 2026',
   description: 'Tout savoir pour venir étudier en France depuis le Maroc : Campus France Maroc, visa étudiant, délais réels, consulats, documents et démarches à l\'arrivée.',
   alternates: { canonical: `${SITE_URL}/pays/etudier-en-france-depuis-le-maroc` },
   openGraph: {

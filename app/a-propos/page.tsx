@@ -7,7 +7,7 @@ const SITE_URL = 'https://dalili.study';
 const { guidesCount, villesCount, paysNommesCount } = getSiteStats();
 
 export const metadata: Metadata = {
-  title: 'Dalili — Guide de référence pour les étudiants internationaux en France | Dalili',
+  title: 'Dalili — Guide de référence pour les étudiants internationaux en France',
   description: "Dalili documente l'intégralité du parcours étudiant en France : visa, Campus France, logement CROUS, CAF, banque, sécurité sociale. Sources officielles uniquement.",
   alternates: { canonical: `${SITE_URL}/a-propos` },
   openGraph: {

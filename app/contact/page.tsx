@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Contact | Dalili',
+  title: 'Contact',
   description: 'Contactez l\'équipe Dalili pour toute question, suggestion ou demande de partenariat.',
   alternates: { canonical: `${SITE_URL}/contact` },
   robots: { index: true, follow: true },

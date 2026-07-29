@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Mentions légales | Dalili',
+  title: 'Mentions légales',
   description: 'Mentions légales de dalili.study',
   robots: { index: false, follow: false },
 };

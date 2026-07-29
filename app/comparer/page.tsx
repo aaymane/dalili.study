@@ -9,7 +9,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 const VILLES_COUNT = Object.keys(CITY_SCORES).length;
 
 export const metadata: Metadata = {
-  title: 'Comparer les villes étudiantes en France : outil comparatif 2026 | Dalili',
+  title: 'Comparer les villes étudiantes en France : outil comparatif 2026',
   description:
     'Compare Bordeaux, Lyon, Paris, Toulouse, Marseille... Budget, universités, communauté maghrébine, emploi — tous les critères pour choisir ta ville d\'études en France.',
   alternates: { canonical: `${SITE_URL}/comparer` },

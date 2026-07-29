@@ -7,7 +7,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 const VILLES_COUNT = Object.keys(CITIES).length;
 
 export const metadata: Metadata = {
-  title: `${VILLES_COUNT} villes universitaires en France pour étudiants étrangers 2026 | Dalili`,
+  title: `${VILLES_COUNT} villes universitaires en France pour étudiants étrangers 2026`,
   description: `Comparez ${VILLES_COUNT} villes universitaires françaises : Paris, Lyon, Bordeaux, Toulouse, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon et plus. Coût de la vie, logement, budget mensuel et avis honnêtes.`,
   alternates: { canonical: `${SITE_URL}/villes` },
   openGraph: {

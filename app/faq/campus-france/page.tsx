@@ -4,7 +4,7 @@ import Link from 'next/link';
 const SITE_URL = 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Campus France : guide complet procédure CEF 2026 | Dalili',
+  title: 'Campus France : guide complet procédure CEF 2026',
   description: "Tout comprendre sur la procédure Campus France CEF 2026 : dossier EduFrance, entretien, avis favorable/défavorable, recours, pays concernés. Sources officielles.",
   alternates: { canonical: `${SITE_URL}/faq/campus-france` },
   robots: { index: true, follow: true },

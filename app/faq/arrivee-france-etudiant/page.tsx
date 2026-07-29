@@ -4,7 +4,7 @@ import Link from 'next/link';
 const SITE_URL = 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: "Arrivée en France étudiant étranger : checklist et démarches 2026 | Dalili",
+  title: "Arrivée en France étudiant étranger : checklist et démarches 2026",
   description: "ANEF, Sécurité Sociale, CAF, CVEC, compte bancaire — les premières démarches à faire en arrivant en France en tant qu'étudiant étranger. Guide 2026 avec sources officielles.",
   alternates: { canonical: `${SITE_URL}/faq/arrivee-france-etudiant` },
   robots: { index: true, follow: true },

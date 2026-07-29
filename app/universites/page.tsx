@@ -6,7 +6,7 @@ import SearchableUniversitesGrid from '@/components/universites/SearchableUniver
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: '14 universités françaises pour étudiants étrangers : guide complet 2026 | Dalili',
+  title: '14 universités françaises pour étudiants étrangers : guide complet 2026',
   description: 'Comparez 14 universités françaises : frais de scolarité hors UE, budget mensuel, logement CROUS, programmes phares. Bordeaux, Sorbonne, Lyon 1, Toulouse 3, Montpellier, Strasbourg, Aix-Marseille, Lille, Nantes, Nice, Rennes, Grenoble, Clermont-Ferrand, Dijon.',
   alternates: { canonical: `${SITE_URL}/universites` },
   openGraph: {

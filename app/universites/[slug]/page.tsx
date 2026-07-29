@@ -18,72 +18,72 @@ const ACCENT = '77,143,255';
 
 const UNI_SEO: Record<string, { title: string; description: string; ogDescription: string }> = {
   'universite-de-bordeaux': {
-    title: 'Université de Bordeaux : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Université de Bordeaux : guide complet étudiant étranger 2026',
     description: 'Guide complet pour intégrer l\'Université de Bordeaux : frais d\'inscription, bourses, logement CROUS, campus, débouchés professionnels. Conseils pour étudiants marocains, algériens et tunisiens.',
     ogDescription: 'Tout ce qu\'un étudiant marocain ou algérien doit savoir avant d\'intégrer l\'Université de Bordeaux — frais, bourses, logement, vie étudiante et carrière.',
   },
   'sorbonne-universite': {
-    title: 'Sorbonne Université : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Sorbonne Université : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Sorbonne Université : admission, frais, logement à Paris, bourses, vie étudiante et débouchés. Le guide le plus complet pour étudiants maghrébins.',
     ogDescription: 'Sorbonne Université, top 100 mondial — guide pratique et honnête pour les étudiants marocains, algériens et tunisiens qui veulent intégrer la plus ancienne université de France.',
   },
   'universite-de-nantes': {
-    title: 'Nantes Université : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Nantes Université : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Nantes Université : admission, frais, logement, CHU, Airbus, stages et vie étudiante nantaise. Guide dédié aux étudiants maghrébins.',
     ogDescription: 'Nantes Université, meilleure ville de France pour la qualité de vie — guide pratique complet pour intégrer l\'université et réussir à Nantes.',
   },
   'universite-de-lille': {
-    title: 'Université de Lille : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Université de Lille : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à l\'Université de Lille : budget le plus bas de France, logement, médecine, position européenne, communauté maghrébine et débouchés.',
     ogDescription: 'Université de Lille, 75 000 étudiants, 580€/mois de budget — le guide complet pour les étudiants marocains, algériens et tunisiens qui veulent étudier dans la ville la plus abordable de France.',
   },
   'universite-lyon-1': {
-    title: 'Université Lyon 1 2026 : médecine top 5 France, frais 2 770€, CROUS 200€ | Dalili',
+    title: 'Université Lyon 1 2026 : médecine top 5 France, frais 2 770€, CROUS 200€',
     description: 'Lyon 1 Claude Bernard : top 5 médecine en France, 45 000 étudiants. Frais hors UE 2 770€/an, CROUS dès 200€/mois campus La Doua. Stages Sanofi, bioMérieux, Boehringer. Guide 2026.',
     ogDescription: 'Lyon 1, top université française en sciences de la santé — guide pratique complet : admission, frais, budget 700-1150€/mois, stages pharmaceutiques et vie étudiante à Lyon.',
   },
   'universite-toulouse-3': {
-    title: 'Université Toulouse III Paul Sabatier : guide étudiant étranger 2026 | Dalili',
+    title: 'Université Toulouse III Paul Sabatier : guide étudiant étranger 2026',
     description: 'Guide complet pour étudier à l\'Université Toulouse 3 Paul Sabatier : ingénierie, aéronautique, Airbus, Thales, logement, budget 650-1050€/mois. Le guide dédié aux étudiants marocains et africains.',
     ogDescription: 'Paul Sabatier, l\'université à côté d\'Airbus — guide complet pour étudier à Toulouse : sciences, aéronautique, budget maîtrisé et opportunités industrielles uniques en France.',
   },
   'universite-de-montpellier': {
-    title: 'Université de Montpellier : guide étudiant étranger 2026 | Dalili',
+    title: 'Université de Montpellier : guide étudiant étranger 2026',
     description: 'Guide complet pour étudier à l\'Université de Montpellier : faculté de médecine fondée en 1220, pharmacie, droit, logement, 300 jours de soleil. Guide pour étudiants marocains, africains et tunisiens.',
     ogDescription: 'Université de Montpellier, la plus ancienne faculté de médecine d\'Europe — guide pratique : admission, frais, budget méditerranéen, communauté africaine et vie étudiante.',
   },
   'universite-de-strasbourg': {
-    title: 'Université de Strasbourg : guide étudiant étranger 2026 | Dalili',
+    title: 'Université de Strasbourg : guide étudiant étranger 2026',
     description: 'Guide complet pour étudier à l\'Université de Strasbourg : droit européen, Sciences Po, Parlement Européen, stages institutions UE, logement. Le guide pour étudiants marocains et africains.',
     ogDescription: 'Université de Strasbourg, siège du Parlement Européen — guide pratique : droit international, stages EU, double culture franco-allemande et budget 650-1000€/mois.',
   },
   'aix-marseille-universite': {
-    title: 'Aix-Marseille Université 2026 : 1ère université francophone, frais 2 770€, CROUS | Dalili',
+    title: 'Aix-Marseille Université 2026 : 1ère université francophone, frais 2 770€, CROUS',
     description: 'AMU : 1ère université francophone mondiale, 80 000 étudiants. Médecine, droit, sciences. Frais hors UE 2 770€/an, CROUS dès 185€/mois, 3 campus. Forte communauté maghrébine. Guide 2026.',
     ogDescription: 'Aix-Marseille Université, plus grande université francophone — guide pratique pour les étudiants marocains et africains : intégration, budget, campus dispersés et vie méditerranéenne.',
   },
   'universite-cote-azur': {
-    title: "Université Côte d'Azur : guide étudiant étranger 2026 | Dalili",
+    title: "Université Côte d'Azur : guide étudiant étranger 2026",
     description: "Guide complet pour étudier à l'Université Côte d'Azur à Nice : label IdEx, Sophia Antipolis, frais d'inscription, logement, budget 750-1200€/mois, stages tech. Guide pour étudiants marocains et algériens.",
     ogDescription: "UCA Nice, label IdEx et Sophia Antipolis à 20 min — guide pratique pour les étudiants maghrébins : admission Campus France, frais, logement tendu et accès aux entreprises tech.",
   },
   'universite-rennes-1': {
-    title: 'Université de Rennes : guide étudiant étranger 2026 | Dalili',
+    title: 'Université de Rennes : guide étudiant étranger 2026',
     description: "Guide complet pour étudier à l'Université de Rennes : capitale française de la cybersécurité, label Bienvenue en France ⭐⭐⭐, budget 600-950€/mois, IRISA, Orange Cyberdefense. Guide pour étudiants maghrébins.",
     ogDescription: "Université de Rennes, capital française de la cybersécurité — guide pratique : IRISA, Thales, Orange Cyberdefense, budget ultra-abordable et label Bienvenue en France ⭐⭐⭐.",
   },
   'universite-grenoble-alpes': {
-    title: 'Université Grenoble Alpes 2026 : label IdEx, physique top 1 France, budget 620€ | Dalili',
+    title: 'Université Grenoble Alpes 2026 : label IdEx, physique top 1 France, budget 620€',
     description: 'UGA : label IdEx, accès unique aux labos CEA/ILL/ESRF. Top 1 physique et nanosciences en France. Budget 620-1000€/mois, CROUS dès 180€. Schneider, STMicro. Alpes à 30 min. Guide 2026.',
     ogDescription: "UGA Grenoble, le campus scientifique le plus équipé d'Europe (ILL, ESRF, CEA) — guide pratique pour les étudiants en physique, ingénierie et IA qui veulent étudier en France.",
   },
   'universite-clermont-auvergne': {
-    title: 'Université Clermont Auvergne : guide étudiant étranger 2026 | Dalili',
+    title: 'Université Clermont Auvergne : guide étudiant étranger 2026',
     description: "Guide complet pour étudier à l'Université Clermont Auvergne : la moins chère de France (500€/mois), label IdEx, Michelin siège mondial, logement CROUS 150€. Guide pour étudiants marocains et algériens.",
     ogDescription: "UCA Clermont, la moins chère de France — 500€/mois budget réel, label IdEx, Michelin sur le campus. Guide pratique pour les étudiants maghrébins avec un budget serré.",
   },
   'universite-bourgogne': {
-    title: 'Université de Bourgogne Dijon : guide étudiant étranger 2026 | Dalili',
+    title: 'Université de Bourgogne Dijon : guide étudiant étranger 2026',
     description: "Guide complet pour étudier à l'Université de Bourgogne à Dijon : droit viti-vinicole unique au monde, AgroSup Dijon, budget 550-850€/mois, patrimoine UNESCO. Guide pour étudiants maghrébins.",
     ogDescription: "Université de Bourgogne, droit viti-vinicole unique en France — guide pratique : AgroSup Dijon, budget parmi les plus bas, Dijon UNESCO et 1h35 de Paris en TGV.",
   },
@@ -97,7 +97,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const uni = getUniversity(params.slug);
   if (!uni) return {};
   const seo = UNI_SEO[params.slug];
-  const title = seo?.title ?? `${uni.name} : guide étudiant international 2026 | Dalili`;
+  const title = seo?.title ?? `${uni.name} : guide étudiant international 2026`;
   const description = seo?.description ?? `Tout savoir sur ${uni.name} : frais d'inscription, logement CROUS, budget mensuel à ${uni.city}, programmes et avis.`;
   const ogDescription = seo?.ogDescription ?? description;
   return {

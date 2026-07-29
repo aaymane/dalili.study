@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Confidentialité | Dalili',
+  title: 'Confidentialité',
   description: 'Politique de confidentialité de dalili.study — RGPD',
   robots: { index: false, follow: false },
 };

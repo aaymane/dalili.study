@@ -11,7 +11,7 @@ const masterNow    = getTierAt(REGULATORY_FIGURES.fraisScolariteMaster);
 const doctoratNow  = getTierAt(REGULATORY_FIGURES.fraisScolariteDoctorat);
 
 export const metadata: Metadata = {
-  title: 'Statistiques — Études en France pour étudiants étrangers 2026 | Dalili',
+  title: 'Statistiques — Études en France pour étudiants étrangers 2026',
   description: 'Chiffres vérifiés et sourcés : visa étudiant France délais, budget 877,50€/mois dès août 2026, frais de scolarité, logement CROUS, CAF — données officielles 2025-2026.',
   alternates: { canonical: `${SITE_URL}/stats` },
   robots: { index: true, follow: true },

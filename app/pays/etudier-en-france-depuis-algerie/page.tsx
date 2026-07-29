@@ -6,7 +6,7 @@ import { MapPin, FileText } from 'lucide-react';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Étudier en France depuis l\'Algérie : guide complet 2026 | Dalili',
+  title: 'Étudier en France depuis l\'Algérie : guide complet 2026',
   description: 'Guide complet pour étudier en France depuis l\'Algérie : Campus France Algérie, visa étudiant, délais réels, Accords de 1968, documents requis et démarches.',
   alternates: { canonical: `${SITE_URL}/pays/etudier-en-france-depuis-algerie` },
   openGraph: {

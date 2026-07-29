@@ -6,7 +6,7 @@ import { MapPin, FileText } from 'lucide-react';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Étudier en France depuis le Sénégal : guide complet 2026 | Dalili',
+  title: 'Étudier en France depuis le Sénégal : guide complet 2026',
   description: 'Guide pour étudier en France depuis le Sénégal : Campus France Dakar, visa étudiant, délais réels, documents, bourses et démarches à l\'arrivée.',
   alternates: { canonical: `${SITE_URL}/pays/etudier-en-france-depuis-senegal` },
   openGraph: {

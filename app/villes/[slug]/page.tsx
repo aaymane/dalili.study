@@ -17,72 +17,72 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 const CITY_SEO: Record<string, { title: string; description: string; ogDescription: string }> = {
   'etudier-a-bordeaux': {
-    title: 'Étudier à Bordeaux : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Bordeaux : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Bordeaux : budget mensuel, logement CROUS, quartiers étudiants, jobs, stages et universités. Conseils pratiques pour étudiants marocains, algériens et tunisiens.',
     ogDescription: 'Tout ce qu\'il faut savoir avant d\'étudier à Bordeaux — budget, logement, vie étudiante, communauté maghrébine et opportunités professionnelles.',
   },
   'etudier-a-paris': {
-    title: 'Étudier à Paris : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Paris : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Paris : budget réaliste, logement, arrondissements étudiants, grandes écoles, jobs et démarches administratives pour étudiants maghrébins.',
     ogDescription: 'Étudier à Paris en tant qu\'étudiant marocain, algérien ou tunisien : budget, logement, Sorbonne, Sciences Po, Grande Mosquée et vie quotidienne.',
   },
   'etudier-a-nantes': {
-    title: 'Étudier à Nantes : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Nantes : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Nantes : budget étudiant, logement CROUS, quartiers, Centrale Nantes, Audencia, jobs et stages en Loire-Atlantique.',
     ogDescription: 'Nantes, la ville la mieux notée de France — guide pratique pour les étudiants marocains, algériens et tunisiens qui s\'installent à Nantes.',
   },
   'etudier-a-lyon': {
-    title: 'Étudier à Lyon : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Lyon : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Lyon : budget, INSA Lyon, EM Lyon, Université Lyon 1, quartiers étudiants, communauté maghrébine et opportunités pharma/biotech.',
     ogDescription: 'Lyon, capitale de la gastronomie et de l\'industrie pharmaceutique — guide pratique pour étudier à Lyon quand on vient du Maroc, d\'Algérie ou de Tunisie.',
   },
   'etudier-a-toulouse': {
-    title: 'Étudier à Toulouse 2026 : Airbus, ISAE-SUPAERO, budget 700€/mois — guide étranger | Dalili',
+    title: 'Étudier à Toulouse 2026 : Airbus, ISAE-SUPAERO, budget 700€/mois — guide étranger',
     description: 'Toulouse, capitale aérospatiale : Airbus, Thales, ISAE-SUPAERO recrutent sur place. Budget 700-1050€/mois, CROUS dès 200€. Paul Sabatier, UT1 Capitole. Stages garantis. Guide complet 2026.',
     ogDescription: 'Toulouse, capitale mondiale de l\'aéronautique — guide pratique pour étudier à Toulouse quand on vient du Maroc, d\'Algérie ou du Sénégal.',
   },
   'etudier-a-montpellier': {
-    title: 'Étudier à Montpellier : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Montpellier : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Montpellier : budget, faculté de médecine, logement CROUS, soleil méditerranéen, quartiers et communauté africaine. Mis à jour 2026.',
     ogDescription: 'Montpellier, la ville la plus ensoleillée de France — guide pratique pour étudier à Montpellier en médecine, droit ou sciences humaines.',
   },
   'etudier-a-strasbourg': {
-    title: 'Étudier à Strasbourg : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Strasbourg : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Strasbourg : budget, institutions européennes, logement, quartiers, Université de Strasbourg, Sciences Po et vie franco-allemande. 2026.',
     ogDescription: 'Strasbourg, capitale du Parlement Européen — guide pratique pour étudier à Strasbourg en droit, sciences po et relations internationales.',
   },
   'etudier-a-lille': {
-    title: 'Étudier à Lille : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Lille : guide complet étudiant étranger 2026',
     description: 'Guide complet pour étudier à Lille : budget serré, EDHEC, IESEG, Université de Lille, quartier Wazemmes, logement et connexions Paris/Bruxelles/Londres. 2026.',
     ogDescription: 'Lille, la moins chère des grandes villes françaises — guide pratique pour étudier à Lille avec un budget maîtrisé quand on vient du Maghreb ou d\'Afrique.',
   },
   'etudier-a-marseille': {
-    title: 'Étudier à Marseille 2026 : budget 650€/mois, CROUS 185€, guide étudiant étranger | Dalili',
+    title: 'Étudier à Marseille 2026 : budget 650€/mois, CROUS 185€, guide étudiant étranger',
     description: 'Marseille : ville étudiante la moins chère de France. Budget 650-900€/mois, CROUS dès 185€, 3 campus AMU, 80 000 étudiants dont 20 000 maghrébins. Logement, jobs, quartiers. Guide 2026.',
     ogDescription: 'Marseille, porte de la Méditerranée — guide pratique : budget réel, meilleurs quartiers, communauté maghrébine et opportunités étudiantes à AMU.',
   },
   'etudier-a-nice': {
-    title: "Étudier à Nice : guide complet étudiant étranger 2026 | Dalili",
+    title: "Étudier à Nice : guide complet étudiant étranger 2026",
     description: "Guide complet pour étudier à Nice : Université Côte d'Azur (IdEx), budget, logement, Côte d'Azur, aéroport international et stages à Sophia Antipolis. Mis à jour 2026.",
     ogDescription: "Nice, la Côte d'Azur et l'UCA label d'excellence — guide pratique pour étudier à Nice en tant qu'étudiant marocain, algérien ou tunisien.",
   },
   'etudier-a-rennes': {
-    title: 'Étudier à Rennes : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Rennes : guide complet étudiant étranger 2026',
     description: "Guide complet pour étudier à Rennes : Université de Rennes, INSA, budget abordable, logement CROUS, French Tech et vie étudiante bretonne. Mis à jour 2026.",
     ogDescription: "Rennes, capitale étudiante de Bretagne — guide pratique pour étudier à Rennes avec un budget maîtrisé quand on vient du Maghreb ou d'Afrique.",
   },
   'etudier-a-grenoble': {
-    title: 'Étudier à Grenoble : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Grenoble : guide complet étudiant étranger 2026',
     description: "Guide complet pour étudier à Grenoble : Grenoble INP, Université Grenoble Alpes, CEA, STMicroelectronics, budget, logement et ski dans les Alpes. Mis à jour 2026.",
     ogDescription: "Grenoble, capitale mondiale des sciences et de la recherche — guide pratique pour étudier à Grenoble en ingénierie, physique et informatique.",
   },
   'etudier-a-clermont-ferrand': {
-    title: 'Étudier à Clermont-Ferrand : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Clermont-Ferrand : guide complet étudiant étranger 2026',
     description: "Guide complet pour étudier à Clermont-Ferrand : Université Clermont Auvergne, Michelin, budget le plus bas de France, logement CROUS et volcans d'Auvergne. Mis à jour 2026.",
     ogDescription: "Clermont-Ferrand, la ville universitaire la moins chère de France — guide pratique pour étudier avec un budget serré et des entreprises mondiales sur le campus.",
   },
   'etudier-a-dijon': {
-    title: 'Étudier à Dijon : guide complet étudiant étranger 2026 | Dalili',
+    title: 'Étudier à Dijon : guide complet étudiant étranger 2026',
     description: "Guide complet pour étudier à Dijon : Université de Bourgogne, droit, agronomie, budget abordable, logement et centre historique classé UNESCO. Mis à jour 2026.",
     ogDescription: "Dijon, capitale des Ducs de Bourgogne et ville étudiante méconnue — guide pratique pour étudier à Dijon en droit, sciences et agronomie.",
   },
@@ -96,7 +96,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const city = getCity(params.slug);
   if (!city) return {};
   const seo = CITY_SEO[params.slug];
-  const title = seo?.title ?? `Étudier à ${city.name} : guide étudiant étranger 2026 | Dalili`;
+  const title = seo?.title ?? `Étudier à ${city.name} : guide étudiant étranger 2026`;
   const description = seo?.description ?? `Tout savoir pour étudier à ${city.name} : budget mensuel, logement, transport, universités et quartiers étudiants. Guide par Dalili.`;
   const ogDescription = seo?.ogDescription ?? description;
   return {

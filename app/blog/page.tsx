@@ -7,7 +7,7 @@ import SearchableBlogGrid from '@/components/blog/SearchableBlogGrid';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Blog — Guides pour étudiants internationaux en France 2026 | Dalili',
+  title: 'Blog — Guides pour étudiants internationaux en France 2026',
   description: 'Guides pratiques visa, logement, CAF, compte bancaire et toutes les démarches — écrits par et pour les étudiants marocains, algériens, tunisiens et égyptiens en France.',
   alternates: {
     canonical: `${SITE_URL}/blog`,
