@@ -16,7 +16,9 @@ export interface City {
   cafEstimee: number;
   economieRU: number;
   economieTransport: number;
-  universities: { name: string; slug: string }[];
+  // slug omitted → rendered as plain text instead of a link (e.g. establishments
+  // with no dedicated université page on the site, to avoid a dead internal link).
+  universities: { name: string; slug?: string }[];
   neighborhoods: { name: string; description: string }[];
   pros: string[];
   cons: string[];
@@ -234,7 +236,7 @@ export const CITIES: Record<string, City> = {
     universities: [
       { name: 'Université Lyon 1 (Claude Bernard)', slug: 'universite-lyon-1' },
       { name: 'Université Lyon 2 (Lumière)', slug: 'universite-lyon-2' },
-      { name: 'Sciences Po Lyon', slug: 'sciences-po-lyon' },
+      { name: 'Sciences Po Lyon' },
     ],
     neighborhoods: [
       {

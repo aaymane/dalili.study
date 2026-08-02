@@ -271,17 +271,30 @@ export default async function VillePage({ params }: { params: { slug: string } }
             <SectionLabel>Universités à {city.name}</SectionLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
               {city.universities.map(uni => (
-                <Link key={uni.slug} href={`/universites/${uni.slug}`} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '14px 18px',
-                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: 12, textDecoration: 'none',
-                  transition: 'border-color 0.2s, background 0.2s',
-                }}
-                >
-                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)' }}>{uni.name}</span>
-                  <span style={{ color: '#EFB370', fontSize: '0.8rem' }}>→</span>
-                </Link>
+                uni.slug ? (
+                  <Link key={uni.name} href={`/universites/${uni.slug}`} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '14px 18px',
+                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                    borderRadius: 12, textDecoration: 'none',
+                    transition: 'border-color 0.2s, background 0.2s',
+                  }}
+                  >
+                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)' }}>{uni.name}</span>
+                    <span style={{ color: '#EFB370', fontSize: '0.8rem' }}>→</span>
+                  </Link>
+                ) : (
+                  // No dedicated page for this establishment — plain text, no dead link.
+                  <div key={uni.name} style={{
+                    display: 'flex', alignItems: 'center',
+                    padding: '14px 18px',
+                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                    borderRadius: 12,
+                  }}
+                  >
+                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)' }}>{uni.name}</span>
+                  </div>
+                )
               ))}
             </div>
           </section>

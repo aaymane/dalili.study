@@ -433,16 +433,23 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                     {item.city?.name}
                   </p>
                   {item.city?.universities.map(u => (
-                    <div key={u.slug} style={{ marginBottom: 8 }}>
-                      <Link
-                        href={`/universites/${u.slug}`}
-                        style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.72)', textDecoration: 'none', lineHeight: 1.5 }}
-                        onMouseEnter={e => { e.currentTarget.style.color = '#fff'; }}
-                        onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.72)'; }}
-                      >
-                        {u.name}
-                        <span style={{ color: 'rgba(255,255,255,0.65)', marginLeft: 4, fontSize: '0.65rem' }}>→</span>
-                      </Link>
+                    <div key={u.name} style={{ marginBottom: 8 }}>
+                      {u.slug ? (
+                        <Link
+                          href={`/universites/${u.slug}`}
+                          style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.72)', textDecoration: 'none', lineHeight: 1.5 }}
+                          onMouseEnter={e => { e.currentTarget.style.color = '#fff'; }}
+                          onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.72)'; }}
+                        >
+                          {u.name}
+                          <span style={{ color: 'rgba(255,255,255,0.65)', marginLeft: 4, fontSize: '0.65rem' }}>→</span>
+                        </Link>
+                      ) : (
+                        // No dedicated page for this establishment — plain text, no dead link.
+                        <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.5 }}>
+                          {u.name}
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>
