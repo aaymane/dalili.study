@@ -229,6 +229,9 @@ export default function TunisiePage() {
             { slug: 'visa-etudiant-france-tout-savoir-avant-partir', title: 'Visa étudiant France : tout ce qu\'il faut savoir' },
             { slug: 'ofii-validation-visa-etudiant-france-guide', title: 'OFII : validation du visa étudiant à l\'arrivée' },
             { slug: 'reforme-apl-etudiant-etranger-2026', title: 'Réforme APL 2026 : qui est concerné et comment vérifier ta situation' },
+            { slug: 'logement-crous-etudiant-etranger-demande', title: 'Logement CROUS étudiant étranger : décrocher une chambre' },
+            { slug: 'garant-logement-etudiant-etranger-france', title: 'Trouver un garant pour ton logement étudiant en France' },
+            { slug: 'carte-vitale-etudiant-etranger-guide', title: 'Carte Vitale étudiant étranger : obtenir la sienne' },
           ]} />
         </div>
       </main>
