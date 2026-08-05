@@ -142,21 +142,14 @@ export default function SenegalPage() {
           {/* Bourses */}
           <section style={{ marginBottom: 48 }}>
             <div style={{ display: 'inline-flex', marginBottom: 16, padding: '4px 14px', border: '1px solid rgba(77,143,255,0.22)', borderRadius: 100, background: 'rgba(77,143,255,0.05)' }}>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Bourses spécifiques Sénégal</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Bourses pour étudiants sénégalais</span>
             </div>
-            <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[
-                'Bourse Eiffel Excellence (Ministère de l\'Europe et des Affaires étrangères) — jusqu\'à 1 500 €/mois pour Master et Doctorat',
-                'Bourses du gouvernement français (BGF) via l\'Ambassade de France à Dakar',
-                'Bourses de l\'ANAQ-Sup (Sénégal) pour mobilité internationale',
-                'Programme Major francophone (AUF) — Agence Universitaire de la Francophonie',
-              ].map((item, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span style={{ color: '#4d8fff', flexShrink: 0, fontWeight: 700 }}>→</span>
-                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)' }}>{item}</span>
-                </li>
-              ))}
-            </ul>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
+              Bourse Eiffel, bourses du gouvernement français (BGF), ANAQ-Sup, programme Major (AUF) : plusieurs dispositifs existent pour financer tes études en France. Détail des critères et démarches dans notre guide visa :{' '}
+              <Link href="/blog/visa-etudiant-france-senegal-2026" style={{ color: '#4d8fff', fontWeight: 600, textDecoration: 'underline' }}>
+                Visa étudiant France Sénégal : bourses et procédure →
+              </Link>
+            </p>
           </section>
 
           {/* Documents */}

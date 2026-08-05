@@ -122,21 +122,14 @@ export default function MarocPage() {
           {/* Délais visa réels */}
           <section style={{ marginBottom: 48 }}>
             <div style={{ display: 'inline-flex', marginBottom: 16, padding: '4px 14px', border: '1px solid rgba(77,143,255,0.22)', borderRadius: 100, background: 'rgba(77,143,255,0.05)' }}>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Délais réels 2025–2026</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Procédure et délais</span>
             </div>
-            <div style={{ padding: 24, background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.15)', borderRadius: 16, marginBottom: 16 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
-                <strong style={{ color: '#F59E0B' }}>⚠️ Attention :</strong> Les délais officiels de Campus France indiquent &quot;3 à 4 semaines&quot; pour l&apos;instruction. En pratique, les étudiants Dalili rapportent des délais de <strong style={{ color: '#fff' }}>5 à 7 semaines hors période estivale, et jusqu&apos;à 10–12 semaines entre juin et août</strong>. Ne faites pas de réservations non-remboursables avant d&apos;avoir le visa en main.
-              </p>
-            </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <tbody>
-                <Row label="Campus France Maroc → dossier complet" value="3–6 semaines (pic: juin–août)" />
-                <Row label="Instruction consulaire (Casablanca)" value="2–4 semaines supplémentaires" />
-                <Row label="Total Campus France + visa" value="5–10 semaines en période normale, 10–14 semaines en été" />
-                <Row label="Validation OFII à l'arrivée en France" value="Dans les 3 mois suivant l'entrée (en ligne : administration-etrangers-en-france.interieur.gouv.fr)" />
-              </tbody>
-            </table>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
+              La procédure Campus France Maroc + visa consulaire est l&apos;une des plus variables selon la période de dépôt. Notre guide dédié détaille le calendrier réel semaine par semaine, les adresses exactes et les 3 pièges qui font perdre du temps :{' '}
+              <Link href="/blog/visa-etudiant-france-maroc-2026" style={{ color: '#4d8fff', fontWeight: 600, textDecoration: 'underline' }}>
+                Visa étudiant France Maroc : procédure et délais →
+              </Link>
+            </p>
           </section>
 
           {/* Documents spécifiques au Maroc */}

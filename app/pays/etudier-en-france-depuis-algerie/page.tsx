@@ -133,23 +133,14 @@ export default function AlgeriePage() {
           {/* Délais réels */}
           <section style={{ marginBottom: 48 }}>
             <div style={{ display: 'inline-flex', marginBottom: 16, padding: '4px 14px', border: '1px solid rgba(77,143,255,0.22)', borderRadius: 100, background: 'rgba(77,143,255,0.05)' }}>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Délais réels 2025–2026</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)' }}>Procédure et délais</span>
             </div>
-            <div style={{ padding: 24, background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.15)', borderRadius: 16, marginBottom: 16 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
-                <strong style={{ color: '#F59E0B' }}>⚠️ Délais terrain :</strong> La prise de rendez-vous VFS Global en Algérie est souvent saturée — les étudiants Dalili rapportent des attentes de <strong style={{ color: '#fff' }}>4 à 8 semaines rien que pour le RDV biométrie</strong>, avant même l&apos;instruction du dossier. Commencez très tôt : idéalement dès mars pour une rentrée en septembre.
-              </p>
-            </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <tbody>
-                <Row label="Création dossier Campus France + entretien" value="3–6 semaines" />
-                <Row label="Prise de RDV VFS Global (biométrie)" value="2–6 semaines selon la ville" />
-                <Row label="Instruction consulaire après dépôt" value="2–4 semaines" />
-                <Row label="Total estimé (hors été)" value="8–14 semaines" />
-                <Row label="Total estimé (juin–août, période critique)" value="12–20 semaines" />
-                <Row label="Validation OFII à l'arrivée en France" value="Dans les 3 mois (en ligne : administration-etrangers-en-france.interieur.gouv.fr)" />
-              </tbody>
-            </table>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
+              La procédure Campus France Algérie + RDV VFS Global + instruction consulaire est l&apos;une des plus longues des pays du Maghreb. Notre guide dédié détaille le calendrier semaine par semaine, les adresses VFS par ville et les 5 erreurs qui font rater la rentrée :{' '}
+              <Link href="/blog/visa-etudiant-france-algerie-2026" style={{ color: '#4d8fff', fontWeight: 600, textDecoration: 'underline' }}>
+                Dossier visa étudiant France Algérie : procédure et délais →
+              </Link>
+            </p>
           </section>
 
           {/* Documents */}
@@ -209,14 +200,11 @@ export default function AlgeriePage() {
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(239,68,68,0.85)' }}>⚠️ Point important — Droit au travail</span>
             </div>
             <div style={{ padding: 24, background: 'rgba(239,68,68,0.04)', border: '1px solid rgba(239,68,68,0.18)', borderRadius: 16 }}>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: '0 0 12px' }}>
-                <strong style={{ color: '#fff' }}>Les étudiants algériens ont un droit au travail limité à 50% du temps légal</strong>, contre 60% pour la plupart des autres nationalités (soit environ 774 heures par an au lieu de 964 heures).
-              </p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: '0 0 12px' }}>
-                Cette restriction découle de la <strong style={{ color: '#4d8fff' }}>Convention bilatérale franco-algérienne de 1968</strong>, qui régit le droit au séjour et au travail des ressortissants algériens en France. Cette convention prime sur le droit commun des étrangers.
-              </p>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.92)', lineHeight: 1.75, margin: 0 }}>
-                <strong style={{ color: 'rgba(255,255,255,0.85)' }}>Impact budgétaire concret :</strong> si un étudiant de nationalité marocaine peut travailler jusqu&apos;à ~18h/semaine, un étudiant algérien est limité à ~15h/semaine. Prévoyez cette différence dans votre budget prévisionnel.
+                Les étudiants algériens ont un droit au travail limité à 50% du temps légal (contre 60% pour la plupart des autres nationalités), en vertu de la convention bilatérale franco-algérienne de 1968. Le détail exact en heures et l&apos;impact sur ton budget mensuel sont expliqués dans notre guide visa :{' '}
+                <Link href="/blog/visa-etudiant-france-algerie-2026" style={{ color: '#fff', fontWeight: 700, textDecoration: 'underline' }}>
+                  Restriction de travail des étudiants algériens →
+                </Link>
               </p>
             </div>
           </section>
