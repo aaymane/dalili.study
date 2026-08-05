@@ -39,6 +39,17 @@ const ARTICLES = [
     date: '2 mai 2025',
     slug: 'visa-etudiant-france-tout-savoir-avant-partir',
   },
+  {
+    category: 'Santé',
+    accentRgb: '244,63,94',
+    accent: '#F43F5E',
+    thumbnail: '/images/blog/carte-vitale-etudiant-etranger-guide.png',
+    title: "Carte Vitale étudiant étranger : obtenir la sienne",
+    excerpt: "Numéro provisoire, attestation de droits, numéro définitif, carte Vitale physique : quatre choses différentes, avec quatre délais différents. Ce qu'ameli.fr annonce réellement pour chacune.",
+    readTime: '9 min',
+    date: '22 juillet 2026',
+    slug: 'carte-vitale-etudiant-etranger-guide',
+  },
 ];
 
 const headerOverlayVariants = {
@@ -165,17 +176,23 @@ export default function BlogPreviewSection() {
 
         {/* ── Cards grid ── */}
         <motion.div
+          className="blog-preview-grid"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px,100%), 1fr))',
             gap: 'clamp(14px,2.5vw,26px)',
             alignItems: 'stretch',
           }}
         >
+          <style>{`
+            .blog-preview-grid { grid-template-columns: 1fr; }
+            @media (min-width: 640px) {
+              .blog-preview-grid { grid-template-columns: repeat(2, 1fr); }
+            }
+          `}</style>
           {ARTICLES.map((article) => (
             <Link
               key={article.slug}
