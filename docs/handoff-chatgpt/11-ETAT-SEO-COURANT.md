@@ -147,3 +147,40 @@ d'abord.
 
 `GRAPH_REPORT.md` (le seul artefact versionné) est à jour par rapport à HEAD — commit
 `d32b46b`, le plus récent du repo.
+
+---
+
+## 5. Chantier backlinks — identifié le 2026-08-06, pas encore démarré
+
+**Constat, pas une hypothèse.** GSC → Liens (`sc-domain:dalili.study`) : **11 backlinks
+externes au total**, tous vers la homepage ou des pages génériques
+(linkedin.com ×7, vercel.app ×2, producthunt.com ×1, reddit.com ×1). **Zéro
+backlink externe vers un article de blog**, quel qu'il soit.
+
+**Pourquoi ça compte** : le cluster sécurité sociale / carte Vitale sous-performe
+malgré un contenu déjà solide (`carte-vitale-etudiant-etranger-guide.mdx`,
+`securite-sociale-etudiante-france-inscription.mdx` — vérifiés, pas de contenu
+mince) et un maillage interne déjà présent (12 pages pointent vers ces deux
+articles). Diagnostic vérifié par recherche Google réelle (pas de test d'URL
+directe) :
+- `sécurité sociale étudiant étranger` : top 7 organique = 100 % domaines
+  institutionnels (ameli.fr, service-public.gouv.fr, etudiant.gouv.fr,
+  campusfrance.org...). Mur structurel, peu franchissable par du contenu privé
+  seul — le vrai levier serait le featured snippet, pas le top 3.
+- `carte vitale étudiant étranger` : concurrence mixte, avec **meridiane.fr**
+  (startup services administratifs étudiants, même modèle éditorial que
+  Dalili) qui nous dépasse avec un **titre quasi identique** au nôtre. Le titre
+  n'est donc pas le facteur différenciant ici — l'écart est l'autorité de
+  domaine/backlinks.
+
+**Ce qui a été fait pour ce cluster (2026-08-06)** : deux micro-ajustements de
+titre uniquement (ajout de "attestation" et "étranger", requêtes réelles
+absentes des titres), pas de réécriture de contenu — le diagnostic ne
+justifiait pas un chantier de contenu plus lourd.
+
+**Ce qui reste à faire, hors scope code** : acquisition de backlinks — annuaires
+étudiants/éducation, partenariats associations d'étudiants étrangers, guest
+posts, RP. Aucun outil de mesure de backlinks tiers (Ahrefs/Semrush) connecté à
+ce jour ; le seul chiffre disponible est celui de GSC → Liens ci-dessus. À
+transformer en action concrète quand le fondateur aura une stratégie
+d'acquisition (hors périmètre d'un agent de code).
