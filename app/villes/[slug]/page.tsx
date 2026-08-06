@@ -114,11 +114,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function SectionLabel({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <div style={{ display: 'inline-flex', marginBottom: 12, padding: '4px 14px', border: '1px solid rgba(239,179,112,0.22)', borderRadius: 100, background: 'rgba(239,179,112,0.05)' }}>
+    <h2 id={id} style={{ display: 'inline-flex', margin: '0 0 12px', padding: '4px 14px', border: '1px solid rgba(239,179,112,0.22)', borderRadius: 100, background: 'rgba(239,179,112,0.05)', scrollMarginTop: 100 }}>
       <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(239,179,112,0.7)' }}>{children}</span>
-    </div>
+    </h2>
   );
 }
 
@@ -243,9 +243,31 @@ export default async function VillePage({ params }: { params: { slug: string } }
             </div>
           </div>
 
+          {/* ── Sur cette page ── */}
+          <nav aria-label="Sur cette page" style={{ marginBottom: 56, padding: '18px 22px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16 }}>
+            <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 12 }}>
+              Sur cette page
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 20px' }}>
+              {[
+                { href: '#cout-de-la-vie', label: 'Coût de la vie' },
+                { href: '#universites', label: 'Universités' },
+                { href: '#logement', label: 'Logement' },
+                { href: '#quartiers', label: 'Quartiers étudiants' },
+                { href: '#avantages-inconvenients', label: 'Avantages & inconvénients' },
+                { href: '#avis-dalili', label: 'Avis Dalili' },
+                { href: '#liens-officiels', label: 'Liens officiels' },
+              ].map(link => (
+                <a key={link.href} href={link.href} style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', fontWeight: 500, color: 'rgba(239,179,112,0.85)', textDecoration: 'none' }}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+
           {/* ── Coût de la vie ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Coût de la vie à {city.name}</SectionLabel>
+            <SectionLabel id="cout-de-la-vie">Coût de la vie à {city.name}</SectionLabel>
             <div style={{ overflowX: 'auto', marginTop: 8 }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-dm-sans)', minWidth: 480 }}>
                 <thead>
@@ -268,7 +290,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
 
           {/* ── Universités ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Universités à {city.name}</SectionLabel>
+            <SectionLabel id="universites">Universités à {city.name}</SectionLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
               {city.universities.map(uni => {
                 const cardStyle = {
@@ -310,7 +332,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
 
           {/* ── Trouver un logement ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Trouver un logement à {city.name}</SectionLabel>
+            <SectionLabel id="logement">Trouver un logement à {city.name}</SectionLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
               {[
                 { label: `CROUS de ${city.name} — résidences universitaires`, url: city.crousUrl },
@@ -336,7 +358,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
 
           {/* ── Quartiers étudiants ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Quartiers étudiants</SectionLabel>
+            <SectionLabel id="quartiers">Quartiers étudiants à {city.name}</SectionLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 12 }}>
               {city.neighborhoods.map((n, i) => (
                 <div key={i} style={{ padding: 24, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16 }}>
@@ -349,7 +371,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
 
           {/* ── Avantages / Inconvénients ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Avantages & Inconvénients</SectionLabel>
+            <SectionLabel id="avantages-inconvenients">Avantages et inconvénients d&apos;étudier à {city.name}</SectionLabel>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px,100%), 1fr))', gap: 16, marginTop: 12 }}>
               <div style={{ padding: 24, background: 'rgba(16,185,129,0.04)', border: '1px solid rgba(16,185,129,0.14)', borderRadius: 16 }}>
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#10B981', margin: '0 0 14px' }}>✅ Avantages</p>
@@ -379,7 +401,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
           {/* ── Avis Dalili (from lib/cities.ts data) ── */}
           <section style={{ marginBottom: 56 }}>
             <div style={{ padding: 'clamp(24px,3vw,36px)', background: 'rgba(239,179,112,0.05)', border: '1px solid rgba(239,179,112,0.2)', borderRadius: 20 }}>
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#EFB370', margin: '0 0 16px' }}>★ Avis Dalili</p>
+              <h2 id="avis-dalili" style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#EFB370', margin: '0 0 16px', scrollMarginTop: 100 }}>★ Avis Dalili sur {city.name}</h2>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.78)', lineHeight: 1.75, margin: 0 }}>{city.avis}</p>
             </div>
           </section>
@@ -395,7 +417,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
 
           {/* ── Liens officiels ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Liens officiels</SectionLabel>
+            <SectionLabel id="liens-officiels">Liens officiels — {city.name}</SectionLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
               {[
                 { label: `${city.transportName} — abonnements et plans`, url: city.transportUrl },

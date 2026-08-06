@@ -115,11 +115,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function SectionLabel({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <div style={{ display: 'inline-flex', marginBottom: 12, padding: '4px 14px', border: `1px solid rgba(${ACCENT},0.25)`, borderRadius: 100, background: `rgba(${ACCENT},0.06)` }}>
+    <h2 id={id} style={{ display: 'inline-flex', margin: '0 0 12px', padding: '4px 14px', border: `1px solid rgba(${ACCENT},0.25)`, borderRadius: 100, background: `rgba(${ACCENT},0.06)`, scrollMarginTop: 100 }}>
       <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: `rgba(77,143,255,0.75)` }}>{children}</span>
-    </div>
+    </h2>
   );
 }
 
@@ -254,9 +254,30 @@ export default async function UniversityPage({ params }: { params: { slug: strin
             </div>
           </div>
 
+          {/* ── Sur cette page ── */}
+          <nav aria-label="Sur cette page" style={{ marginBottom: 56, padding: '18px 22px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16 }}>
+            <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 12 }}>
+              Sur cette page
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 20px' }}>
+              {[
+                { href: '#informations-cles', label: 'Informations clés' },
+                { href: '#formations', label: 'Formations populaires' },
+                { href: '#niveau-de-vie', label: 'Niveau de vie étudiant' },
+                { href: '#avantages-inconvenients', label: 'Avantages & inconvénients' },
+                { href: '#avis-dalili', label: 'Avis Dalili' },
+                { href: '#liens-officiels', label: 'Liens officiels' },
+              ].map(link => (
+                <a key={link.href} href={link.href} style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', fontWeight: 500, color: 'rgba(77,143,255,0.9)', textDecoration: 'none' }}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+
           {/* ── Informations clés ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Informations clés</SectionLabel>
+            <SectionLabel id="informations-cles">Informations clés — {uni.name}</SectionLabel>
             <div style={{ overflowX: 'auto', marginTop: 4 }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-dm-sans)' }}>
                 <tbody>
@@ -280,7 +301,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
 
           {/* ── Formations populaires ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Formations populaires</SectionLabel>
+            <SectionLabel id="formations">Formations populaires à {uni.name}</SectionLabel>
             <ul style={{ margin: '8px 0 0', paddingLeft: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {uni.popularPrograms.map((prog, i) => (
                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
@@ -293,7 +314,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
 
           {/* ── Niveau de vie étudiant ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Niveau de vie étudiant à {uni.city}</SectionLabel>
+            <SectionLabel id="niveau-de-vie">Niveau de vie étudiant à {uni.city}</SectionLabel>
             <div style={{ overflowX: 'auto', marginTop: 8 }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-dm-sans)' }}>
                 <thead>
@@ -323,7 +344,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
 
           {/* ── Avantages / Inconvénients ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Avantages & Inconvénients</SectionLabel>
+            <SectionLabel id="avantages-inconvenients">Avantages et inconvénients — {uni.name}</SectionLabel>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px,100%), 1fr))', gap: 16, marginTop: 12 }}>
               <div style={{ padding: 24, background: 'rgba(16,185,129,0.05)', border: '1px solid rgba(16,185,129,0.15)', borderRadius: 16 }}>
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#10B981', margin: '0 0 14px' }}>✅ Avantages</p>
@@ -353,7 +374,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
           {/* ── Avis Dalili (résumé court de lib/universities.ts) ── */}
           <section style={{ marginBottom: 56 }}>
             <div style={{ padding: 'clamp(24px,3vw,36px)', background: 'rgba(1,77,248,0.06)', border: '1px solid rgba(77,143,255,0.2)', borderRadius: 20 }}>
-              <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#4d8fff', margin: '0 0 16px' }}>★ Avis Dalili</p>
+              <h2 id="avis-dalili" style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#4d8fff', margin: '0 0 16px', scrollMarginTop: 100 }}>★ Avis Dalili sur {uni.name}</h2>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.78)', lineHeight: 1.75, margin: 0 }}>{uni.avis}</p>
             </div>
           </section>
@@ -369,7 +390,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
 
           {/* ── Liens officiels ── */}
           <section style={{ marginBottom: 56 }}>
-            <SectionLabel>Liens officiels</SectionLabel>
+            <SectionLabel id="liens-officiels">Liens officiels — {uni.name}</SectionLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
               {[
                 { label: `Site officiel de ${uni.name}`, url: uni.websiteUrl },
