@@ -1,9 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+
+function unauthorized() {
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+}
+
+function checkAuth(request: NextRequest) {
+  const token = request.headers.get('x-admin-token');
+  return ADMIN_TOKEN && token === ADMIN_TOKEN;
+}
+
+export async function GET(request: NextRequest) {
+  if (!checkAuth(request)) return unauthorized();
+
   const apiKey = process.env.RESEND_API_KEY;
 
   console.log('=== TEST EMAIL ROUTE ===');
@@ -61,7 +74,6 @@ export async function GET() {
             </p>
             <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:16px;margin:20px 0">
               <p style="margin:0;font-size:13px;color:#6b7280">Horodatage : <strong style="color:#0a0a0a">${ts}</strong></p>
-              <p style="margin:6px 0 0;font-size:13px;color:#6b7280">Clé Resend (prefix) : <strong style="color:#0a0a0a">${apiKey.slice(0, 12)}...</strong></p>
               <p style="margin:6px 0 0;font-size:13px;color:#6b7280">Environnement : <strong style="color:#0a0a0a">${process.env.NODE_ENV}</strong></p>
             </div>
             <p style="margin:24px 0 0;font-size:13px;color:#9ca3af">
@@ -71,7 +83,7 @@ export async function GET() {
         </body>
         </html>
       `,
-      text: `Dalili — Test de livraison\nHorodatage: ${ts}\nCle Resend (prefix): ${apiKey.slice(0, 12)}...\nEnvironnement: ${process.env.NODE_ENV}`,
+      text: `Dalili — Test de livraison\nHorodatage: ${ts}\nEnvironnement: ${process.env.NODE_ENV}`,
     });
 
     console.log('=== RESEND RESULT ===', JSON.stringify(result));
@@ -81,7 +93,6 @@ export async function GET() {
         success: false,
         error: result.error,
         domainStatus,
-        apiKeyPrefix: apiKey.slice(0, 12) + '...',
       }, { status: 500 });
     }
 
@@ -91,7 +102,6 @@ export async function GET() {
       sentTo: 'boyayman388@gmail.com',
       timestamp: ts,
       domainStatus,
-      apiKeyPrefix: apiKey.slice(0, 12) + '...',
       note: 'Email envoyé — verifie ta boite et les SPAMS. Si pas recu dans 2 min → domaine ou quota Resend.',
     });
 
@@ -102,7 +112,6 @@ export async function GET() {
       success: false,
       error: err.message,
       domainStatus,
-      apiKeyPrefix: apiKey.slice(0, 12) + '...',
     }, { status: 500 });
   }
 }

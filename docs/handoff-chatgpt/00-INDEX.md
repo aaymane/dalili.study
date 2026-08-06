@@ -25,6 +25,7 @@ Les fichiers sont numérotés dans un ordre de lecture recommandé, mais chacun 
 | `08-DETTE-TECHNIQUE-ROADMAP-CRITIQUE.md` | Bugs connus (dont un vérifié en profondeur), dette technique, ce qu'il ne faut jamais casser, analyse critique et 100 prochaines priorités |
 | `09-METHODE-DE-TRAVAIL-IMPLICITE.md` | Ce qui n'est PAS dans le dépôt : workflow exact de génération d'article, méthode de recherche/analyse concurrentielle, choix des sources officielles, détection des changements réglementaires, usage de Google Search Console, priorisation, MCP/outils réellement utilisés, erreurs toujours évitées, décisions prises avant de coder, projets prévus non implémentés |
 | `10-VISION-STRATEGIQUE-PROFONDE.md` | Mission profonde (pourquoi "دليلي"), Dalili dans 2 ans, fonctionnalités prioritaires vs. refusées, perception utilisateur visée, KPI en cascade, méthode d'arbitrage entre options, niveau d'exigence design, définition de "travail terminé" |
+| `11-ETAT-SEO-COURANT.md` | Brief de synchro daté (2026-08-06) : quels bugs de `08` sont réellement corrigés depuis, conventions non écrites (règle 301, `cluster:` frontmatter vs `CLUSTER_MAP`, `HIGH_PRIORITY_SLUGS`, process `regulatory-figures.ts`), `updatedDate` manquants, état build/lint/Graphify à HEAD |
 
 ---
 
