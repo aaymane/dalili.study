@@ -270,32 +270,41 @@ export default async function VillePage({ params }: { params: { slug: string } }
           <section style={{ marginBottom: 56 }}>
             <SectionLabel>Universités à {city.name}</SectionLabel>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
-              {city.universities.map(uni => (
-                uni.slug ? (
-                  <Link key={uni.name} href={`/universites/${uni.slug}`} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '14px 18px',
-                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: 12, textDecoration: 'none',
-                    transition: 'border-color 0.2s, background 0.2s',
-                  }}
-                  >
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)' }}>{uni.name}</span>
-                    <span style={{ color: '#EFB370', fontSize: '0.8rem' }}>→</span>
-                  </Link>
-                ) : (
-                  // No dedicated page for this establishment — plain text, no dead link.
-                  <div key={uni.name} style={{
-                    display: 'flex', alignItems: 'center',
-                    padding: '14px 18px',
-                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: 12,
-                  }}
-                  >
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)' }}>{uni.name}</span>
+              {city.universities.map(uni => {
+                const cardStyle = {
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '14px 18px',
+                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 12,
+                } as const;
+                const label = <span style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)' }}>{uni.name}</span>;
+
+                if (uni.slug) {
+                  return (
+                    <Link key={uni.name} href={`/universites/${uni.slug}`} style={{ ...cardStyle, textDecoration: 'none', transition: 'border-color 0.2s, background 0.2s' }}>
+                      {label}
+                      <span style={{ color: '#EFB370', fontSize: '0.8rem' }}>→</span>
+                    </Link>
+                  );
+                }
+
+                if (uni.url) {
+                  // No dedicated université page on the site — external link to the school's official site.
+                  return (
+                    <a key={uni.name} href={uni.url} target="_blank" rel="noopener noreferrer" style={{ ...cardStyle, textDecoration: 'none', transition: 'border-color 0.2s, background 0.2s' }}>
+                      {label}
+                      <span style={{ color: '#EFB370', fontSize: '0.8rem' }}>↗</span>
+                    </a>
+                  );
+                }
+
+                // No dedicated page and no known official site — plain text, no dead link.
+                return (
+                  <div key={uni.name} style={cardStyle}>
+                    {label}
                   </div>
-                )
-              ))}
+                );
+              })}
             </div>
           </section>
 

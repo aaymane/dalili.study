@@ -18,7 +18,8 @@ export interface City {
   economieTransport: number;
   // slug omitted → rendered as plain text instead of a link (e.g. establishments
   // with no dedicated université page on the site, to avoid a dead internal link).
-  universities: { name: string; slug?: string }[];
+  // url set without slug → rendered as an external link to the school's official site.
+  universities: { name: string; slug?: string; url?: string }[];
   neighborhoods: { name: string; description: string }[];
   pros: string[];
   cons: string[];
@@ -53,8 +54,8 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université de Bordeaux', slug: 'universite-de-bordeaux' },
-      { name: 'Sciences Po Bordeaux', slug: 'sciences-po-bordeaux' },
-      { name: 'KEDGE Business School', slug: 'kedge-business-school' },
+      { name: 'Sciences Po Bordeaux', url: 'https://www.sciencespobordeaux.fr' },
+      { name: 'KEDGE Business School', url: 'https://www.kedge.edu' },
     ],
     neighborhoods: [
       {
@@ -115,8 +116,8 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Sorbonne Université', slug: 'sorbonne-universite' },
-      { name: 'Sciences Po Paris', slug: 'sciences-po-paris' },
-      { name: 'Paris Cité', slug: 'universite-paris-cite' },
+      { name: 'Sciences Po Paris', url: 'https://www.sciencespo.fr' },
+      { name: 'Paris Cité', url: 'https://www.u-paris.fr' },
     ],
     neighborhoods: [
       {
@@ -178,7 +179,7 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Nantes Université', slug: 'universite-de-nantes' },
-      { name: 'Audencia Business School', slug: 'audencia-nantes' },
+      { name: 'Audencia Business School', url: 'https://www.audencia.com' },
     ],
     neighborhoods: [
       {
@@ -235,7 +236,7 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université Lyon 1 (Claude Bernard)', slug: 'universite-lyon-1' },
-      { name: 'Université Lyon 2 (Lumière)', slug: 'universite-lyon-2' },
+      { name: 'Université Lyon 2 (Lumière)', url: 'https://www.univ-lyon2.fr' },
       { name: 'Sciences Po Lyon' },
     ],
     neighborhoods: [
@@ -295,11 +296,11 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université Toulouse III Paul Sabatier', slug: 'universite-toulouse-3' },
-      { name: 'Université Toulouse Capitole', slug: 'universite-toulouse-capitole' },
-      { name: 'Université Jean Jaurès Toulouse 2', slug: 'universite-jean-jaures' },
-      { name: 'INP Toulouse', slug: 'inpt-toulouse' },
-      { name: 'ISAE-SUPAERO', slug: 'isae-supaero' },
-      { name: 'EM Toulouse Business School', slug: 'em-toulouse' },
+      { name: 'Université Toulouse Capitole', url: 'https://www.ut-capitole.fr' },
+      { name: 'Université Jean Jaurès Toulouse 2', url: 'https://www.univ-tlse2.fr' },
+      { name: 'INP Toulouse', url: 'https://www.inp-toulouse.fr' },
+      { name: 'ISAE-SUPAERO', url: 'https://www.isae-supaero.fr' },
+      { name: 'EM Toulouse Business School', url: 'https://www.tbs-education.fr' },
     ],
     neighborhoods: [
       {
@@ -361,9 +362,9 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université de Montpellier', slug: 'universite-de-montpellier' },
-      { name: 'Université Paul Valéry Montpellier 3', slug: 'universite-paul-valery' },
-      { name: 'Montpellier Business School', slug: 'montpellier-business-school' },
-      { name: 'SupAgro Montpellier', slug: 'supagro-montpellier' },
+      { name: 'Université Paul Valéry Montpellier 3', url: 'https://www.univ-montp3.fr' },
+      { name: 'Montpellier Business School', url: 'https://www.montpellier-bs.com' },
+      { name: 'SupAgro Montpellier', url: 'https://www.institut-agro-montpellier.fr' },
     ],
     neighborhoods: [
       {
@@ -425,10 +426,10 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université de Strasbourg', slug: 'universite-de-strasbourg' },
-      { name: 'Sciences Po Strasbourg', slug: 'sciences-po-strasbourg' },
-      { name: 'EM Strasbourg Business School', slug: 'em-strasbourg' },
-      { name: 'INSA Strasbourg', slug: 'insa-strasbourg' },
-      { name: 'Haute École des Arts du Rhin', slug: 'hear-strasbourg' },
+      { name: 'Sciences Po Strasbourg', url: 'https://www.sciencespo-strasbourg.fr' },
+      { name: 'EM Strasbourg Business School', url: 'https://www.em-strasbourg.com' },
+      { name: 'INSA Strasbourg', url: 'https://www.insa-strasbourg.fr' },
+      { name: 'Haute École des Arts du Rhin', url: 'https://www.hear.fr' },
     ],
     neighborhoods: [
       {
@@ -490,10 +491,10 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université de Lille', slug: 'universite-de-lille' },
-      { name: 'Sciences Po Lille', slug: 'sciences-po-lille' },
-      { name: 'EDHEC Business School', slug: 'edhec-business-school' },
-      { name: 'IESEG School of Management', slug: 'ieseg-management' },
-      { name: 'Centrale Lille', slug: 'centrale-lille' },
+      { name: 'Sciences Po Lille', url: 'https://www.sciencespo-lille.eu' },
+      { name: 'EDHEC Business School', url: 'https://www.edhec.edu' },
+      { name: 'IESEG School of Management', url: 'https://www.ieseg.fr' },
+      { name: 'Centrale Lille', url: 'https://centralelille.fr' },
     ],
     neighborhoods: [
       {
@@ -555,9 +556,9 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Aix-Marseille Université', slug: 'aix-marseille-universite' },
-      { name: 'KEDGE Business School Marseille', slug: 'kedge-marseille' },
-      { name: 'Sciences Po Aix', slug: 'sciences-po-aix' },
-      { name: 'Centrale Marseille', slug: 'centrale-marseille' },
+      { name: 'KEDGE Business School Marseille', url: 'https://www.kedge.edu' },
+      { name: 'Sciences Po Aix', url: 'https://www.sciencespo-aix.fr' },
+      { name: 'Centrale Marseille', url: 'https://www.centrale-mediterranee.fr' },
     ],
     neighborhoods: [
       {
@@ -619,8 +620,8 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: "Université Côte d'Azur (UCA)", slug: 'universite-cote-azur' },
-      { name: 'EDHEC Nice', slug: 'edhec-nice' },
-      { name: 'École Centrale Méditerranée', slug: 'centrale-mediterranee' },
+      { name: 'EDHEC Nice', url: 'https://www.edhec.edu' },
+      { name: 'École Centrale Méditerranée', url: 'https://www.centrale-mediterranee.fr' },
     ],
     neighborhoods: [
       {
@@ -682,9 +683,9 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université de Rennes', slug: 'universite-rennes-1' },
-      { name: 'Université Rennes 2', slug: 'universite-rennes-2' },
-      { name: 'Sciences Po Rennes', slug: 'sciences-po-rennes' },
-      { name: 'INSA Rennes', slug: 'insa-rennes' },
+      { name: 'Université Rennes 2', url: 'https://www.univ-rennes2.fr' },
+      { name: 'Sciences Po Rennes', url: 'https://www.sciencespo-rennes.fr' },
+      { name: 'INSA Rennes', url: 'https://www.insa-rennes.fr' },
     ],
     neighborhoods: [
       {
@@ -746,9 +747,9 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université Grenoble Alpes', slug: 'universite-grenoble-alpes' },
-      { name: 'Grenoble INP', slug: 'grenoble-inp' },
-      { name: 'Sciences Po Grenoble', slug: 'sciences-po-grenoble' },
-      { name: 'Grenoble École de Management', slug: 'grenoble-em' },
+      { name: 'Grenoble INP', url: 'https://www.grenoble-inp.fr' },
+      { name: 'Sciences Po Grenoble', url: 'https://www.sciencespo-grenoble.fr' },
+      { name: 'Grenoble École de Management', url: 'https://www.grenoble-em.com' },
     ],
     neighborhoods: [
       {
@@ -810,8 +811,8 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université Clermont Auvergne', slug: 'universite-clermont-auvergne' },
-      { name: 'ISIMA (informatique)', slug: 'isima-clermont' },
-      { name: 'ESC Clermont Business School', slug: 'esc-clermont' },
+      { name: 'ISIMA (informatique)', url: 'https://www.isima.fr' },
+      { name: 'ESC Clermont Business School', url: 'https://www.esc-clermont.fr' },
     ],
     neighborhoods: [
       {
@@ -873,8 +874,8 @@ export const CITIES: Record<string, City> = {
     economieTransport: 20,
     universities: [
       { name: 'Université de Bourgogne', slug: 'universite-bourgogne' },
-      { name: 'BSB (Burgundy School of Business)', slug: 'bsb-dijon' },
-      { name: 'AgroSup Dijon', slug: 'agrosup-dijon' },
+      { name: 'BSB (Burgundy School of Business)', url: 'https://www.bsb-education.com' },
+      { name: 'AgroSup Dijon', url: 'https://www.institut-agro-dijon.fr' },
     ],
     neighborhoods: [
       {
