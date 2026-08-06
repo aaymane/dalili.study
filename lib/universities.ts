@@ -585,7 +585,7 @@ export const UNIVERSITIES: Record<string, University> = {
       { slug: 'alternance-etudiant-etranger-france', title: 'Alternance étudiant étranger France' },
       { slug: 'bourses-etudes-etudiants-etrangers-france-2026', title: 'Bourses études étudiants étrangers France 2026' },
     ],
-    thumbnail: '/images/universites/toulouse3.webp',
+    thumbnail: '/images/universites/grenoble-alpes.webp',
   },
 
   'universite-clermont-auvergne': {
