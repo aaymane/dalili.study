@@ -660,7 +660,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'logement-crous-etudiant-etranger-demande', title: "Demande CROUS : tout faire depuis l'étranger" },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
     ],
-    thumbnail: '/images/villes/marseille.webp',
+    thumbnail: '/images/villes/nice.webp',
   },
 
   'etudier-a-rennes': {
@@ -724,7 +724,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'logement-crous-etudiant-etranger-demande', title: "Demande CROUS : tout faire depuis l'étranger" },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
     ],
-    thumbnail: '/images/villes/nantes.webp',
+    thumbnail: '/images/villes/rennes.webp',
   },
 
   'etudier-a-grenoble': {
@@ -788,7 +788,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'alternance-etudiant-etranger-france', title: 'Alternance étudiant étranger France' },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
     ],
-    thumbnail: '/images/villes/lyon.webp',
+    thumbnail: '/images/villes/grenoble.webp',
   },
 
   'etudier-a-clermont-ferrand': {
@@ -851,7 +851,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'logement-crous-etudiant-etranger-demande', title: "Demande CROUS : tout faire depuis l'étranger" },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
     ],
-    thumbnail: '/images/villes/toulouse.webp',
+    thumbnail: '/images/villes/clermont-ferrand.webp',
   },
 
   'etudier-a-dijon': {
@@ -914,7 +914,7 @@ export const CITIES: Record<string, City> = {
       { slug: 'logement-crous-etudiant-etranger-demande', title: "Demande CROUS : tout faire depuis l'étranger" },
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
     ],
-    thumbnail: '/images/villes/strasbourg.webp',
+    thumbnail: '/images/villes/dijon.webp',
   },
 };
 

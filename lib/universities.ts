@@ -489,7 +489,7 @@ export const UNIVERSITIES: Record<string, University> = {
       { slug: 'informatique-france-etudiant-etranger', title: 'Étudier l\'informatique en France : guide 2026' },
       { slug: 'bourses-etudes-etudiants-etrangers-france-2026', title: 'Bourses études étudiants étrangers France 2026' },
     ],
-    thumbnail: '/images/universites/montpellier.webp',
+    thumbnail: '/images/universites/cote-azur.webp',
   },
 
   'universite-rennes-1': {
@@ -537,7 +537,7 @@ export const UNIVERSITIES: Record<string, University> = {
       { slug: 'informatique-france-etudiant-etranger', title: 'Étudier l\'informatique en France : guide 2026' },
       { slug: 'alternance-etudiant-etranger-france', title: 'Alternance étudiant étranger France' },
     ],
-    thumbnail: '/images/universites/nantes.webp',
+    thumbnail: '/images/universites/rennes1.webp',
   },
 
   'universite-grenoble-alpes': {
@@ -633,7 +633,7 @@ export const UNIVERSITIES: Record<string, University> = {
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
       { slug: 'alternance-etudiant-etranger-france', title: 'Alternance étudiant étranger France' },
     ],
-    thumbnail: '/images/universites/lyon1.webp',
+    thumbnail: '/images/universites/clermont-auvergne.webp',
   },
 
   'universite-bourgogne': {
@@ -681,7 +681,7 @@ export const UNIVERSITIES: Record<string, University> = {
       { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget mensuel étudiant étranger 2026' },
       { slug: 'frais-scolarite-universite-france-etudiant-etranger-2026', title: 'Frais de scolarité université France 2026' },
     ],
-    thumbnail: '/images/universites/strasbourg.webp',
+    thumbnail: '/images/universites/bourgogne.webp',
   },
 };
 
