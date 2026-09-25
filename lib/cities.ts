@@ -916,6 +916,74 @@ export const CITIES: Record<string, City> = {
     ],
     thumbnail: '/images/villes/dijon.webp',
   },
+  // Sources (vérifiées le 25/09/2026) : population INSEE en vigueur au 01/01/2026 ;
+  // étudiants = effectif Université de Caen Normandie (mars 2026), hors écoles ;
+  // CROUS = tarifs Cité U Campus 1 (crous-normandie.fr) ; studio / chambre = moyennes
+  // LocService 2026 ; transport = Twisto 18-25 ans. Budget min/max calculé comme pour
+  // les autres villes (loyer CROUS le plus bas + dépenses courantes / studio moyen +
+  // dépenses courantes). cafEstimee = 0 : APL non garantie pour les étudiants hors UE
+  // depuis le 01/07/2026 (voir /blog/reforme-apl-etudiant-etranger-2026).
+  'etudier-a-caen': {
+    slug: 'etudier-a-caen',
+    name: 'Caen',
+    region: 'Normandie',
+    tagline: 'Ville universitaire à taille humaine, à deux heures de Paris et à deux pas de la mer',
+    population: 109400,
+    students: 32800,
+    costCrous: '167–464 €/mois',
+    costStudio: '≈ 440 €/mois (moyenne)',
+    costColoc: '≈ 380 €/mois (chambre, moyenne)',
+    costTransport: '27 €/mois',
+    monthlyBudgetMin: 460,
+    monthlyBudgetMax: 620,
+    monthlyBudgetBrut: 560,
+    monthlyBudgetNet: 500,
+    cafEstimee: 0,
+    economieRU: 60,
+    economieTransport: 0,
+    universities: [
+      { name: 'Université de Caen Normandie', url: 'https://www.unicaen.fr' },
+      { name: 'ENSICAEN (école d\'ingénieurs)', url: 'https://www.ensicaen.fr' },
+      { name: 'EM Normandie (campus de Caen)', url: 'https://www.em-normandie.com' },
+    ],
+    neighborhoods: [
+      {
+        name: 'Campus 1 / Université',
+        description: "Le cœur historique de l'Université de Caen Normandie, avec la cité universitaire Campus 1 du CROUS. Idéal pour vivre à quelques minutes à pied des amphis et des bibliothèques.",
+      },
+      {
+        name: 'Centre-ville / Vaugueux',
+        description: "Autour du château de Guillaume le Conquérant et du quartier du Vaugueux : commerces, restaurants et vie nocturne étudiante. Pratique, mais le marché locatif y est le plus tendu.",
+      },
+      {
+        name: 'Hérouville-Saint-Clair',
+        description: "Commune voisine reliée au centre par le tramway, qui accueille aussi des logements étudiants. Une option à regarder si le centre de Caen est saturé.",
+      },
+    ],
+    pros: [
+      "7e ville étudiante la moins chère de France selon le classement UNEF 2026 (1 119,97 €/mois)",
+      "Chambres CROUS parmi les moins chères : à partir de 167 €/mois à la cité universitaire Campus 1",
+      "Abonnement Twisto 18-25 ans (tramway + bus) à 27 €/mois ou 220 €/an",
+      "Université labellisée « Bienvenue en France » (3 étoiles) pour l'accueil des étudiants internationaux",
+      "Environ deux heures de Paris en train, et la côte normande à proximité",
+    ],
+    cons: [
+      "Marché locatif tendu : Caen est la ville la plus tendue de Normandie pour le logement étudiant (LocService 2026)",
+      "Moins d'offres de stages et de jobs étudiants qu'une grande métropole",
+      "Climat océanique : pluie fréquente, hivers gris",
+    ],
+    avis: "Caen coche les cases d'un premier séjour réussi en France : une université complète et habituée aux étudiants internationaux, des chambres CROUS parmi les moins chères du pays, un tramway qui relie tout, et un coût de la vie nettement inférieur à Paris, Lyon ou Bordeaux. Le point de vigilance, c'est le logement : fais ta demande CROUS dès l'ouverture du Dossier Social Étudiant et regarde aussi Hérouville-Saint-Clair si le centre est saturé.",
+    crousUrl: 'https://www.crous-normandie.fr',
+    prefectureUrl: 'https://www.calvados.gouv.fr',
+    transportUrl: 'https://www.twisto.fr',
+    transportName: 'Twisto (Tramway + Bus)',
+    cafUrl: 'https://www.caf.fr/allocataires/caf-du-calvados',
+    relatedArticles: [
+      { slug: 'villes-etudiantes-moins-cheres-france-2026', title: 'Villes étudiantes les moins chères de France en 2026' },
+      { slug: 'logement-crous-etudiant-etranger-demande', title: "Demande CROUS : tout faire depuis l'étranger" },
+    ],
+    thumbnail: '/images/villes/caen.webp',
+  },
 };
 
 export function getCity(slug: string): City | null {

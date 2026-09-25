@@ -235,7 +235,9 @@ export default async function VillePage({ params }: { params: { slug: string } }
                 fill
                 sizes="(max-width:900px) 100vw, 860px"
                 style={{ objectFit: 'cover' }}
-                placeholder="blur"
+                // No blur entry yet for a newly added city → plain placeholder
+                // instead of next/image's missing-blurDataURL error.
+                placeholder={BLUR_DATA[city.thumbnail] ? 'blur' : 'empty'}
                 blurDataURL={BLUR_DATA[city.thumbnail]}
                 priority
               />

@@ -79,10 +79,13 @@ export const CLUSTER_MAP: Record<string, string> = {
   'ofii-validation-visa-etudiant-france-guide':         'visa-campus-france',
   'ecole-privee-france-reconnue-etat-comment-verifier': 'visa-campus-france',
   'arnaques-etudes-france-etudiant-etranger-eviter':    'visa-campus-france',
+  'apostille-legalisation-traduction-documents-etudiant-etranger': 'visa-campus-france',
   'ecole-privee-vs-universite-publique-etudiant-etranger': 'visa-campus-france',
   // Articles études
   'frais-scolarite-universite-france-etudiant-etranger-2026': 'banque',
   'informatique-france-etudiant-etranger':              'vie-etudiante',
+  'bourse-complete-partielle-etudier-france-etudiant-etranger': 'aides',
+  'villes-etudiantes-moins-cheres-france-2026':         'vie-etudiante',
   // Médecine cluster
   'medecine-france-etudiant-etranger-guide-complet':    'medecine',
   'cout-etudes-medecine-france-etudiant-etranger':      'medecine',

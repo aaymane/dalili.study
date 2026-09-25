@@ -93,7 +93,7 @@ export default function SearchableVillesGrid({ cities }: Props) {
               } as React.CSSProperties}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, ${ACCENT.hex}, transparent)`, zIndex: 1 }} />
                 <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
-                  <Image src={city.thumbnail} alt={`Étudier à ${city.name}`} fill sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} placeholder="blur" blurDataURL={BLUR_DATA[city.thumbnail]} priority={idx < 3} loading={idx < 3 ? 'eager' : 'lazy'} />
+                  <Image src={city.thumbnail} alt={`Étudier à ${city.name}`} fill sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} placeholder={BLUR_DATA[city.thumbnail] ? 'blur' : 'empty'} blurDataURL={BLUR_DATA[city.thumbnail]} priority={idx < 3} loading={idx < 3 ? 'eager' : 'lazy'} />
                   <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to bottom, transparent 50%, rgba(1,4,16,0.75) 100%)` }} />
                 </div>
                 <div style={{ padding: 'clamp(20px,3vw,28px)', display: 'flex', flexDirection: 'column', flex: 1 }}>
