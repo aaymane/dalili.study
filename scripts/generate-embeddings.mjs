@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Populates Supabase `content_chunks` for the RAG assistant: chunks every
-// content/blog/*.mdx into H2 sections + FAQ pairs, embeds each chunk with
-// Voyage AI, and upserts. Safe to re-run — unchanged chunks are skipped via
-// content_hash, and chunks removed from an article are deleted.
+// content/blog/*.mdx, content/villes/*.mdx and content/universites/*.mdx
+// into H2 sections + FAQ pairs, embeds each chunk with Voyage AI, and
+// upserts. Safe to re-run — unchanged chunks are skipped via content_hash,
+// and chunks removed from a page are deleted.
 //
 // Self-contained on purpose, not importing from lib/: lib/blog.ts re-exports
 // from './blog-client' without a file extension, which is valid under
@@ -10,7 +11,8 @@
 // Node's native ESM/TS resolution. Duplicating the small amount of parsing
 // logic here avoids that mismatch entirely.
 //
-// Usage: node --env-file=.env.local scripts/generate-embeddings.mjs
+// Usage: node --env-file=.env.local scripts/generate-embeddings.mjs [--dry-run]
+//   --dry-run  parse and diff against the table, print what would change, write nothing.
 
 import fs from 'fs';
 import path from 'path';
@@ -18,10 +20,11 @@ import crypto from 'crypto';
 import matter from 'gray-matter';
 import { createClient } from '@supabase/supabase-js';
 
-const POSTS_DIR = path.join(process.cwd(), 'content', 'blog');
+const CONTENT_DIR = path.join(process.cwd(), 'content');
 const VOYAGE_EMBED_URL = 'https://api.voyageai.com/v1/embeddings';
 const VOYAGE_MODEL = 'voyage-4-lite';
 const EMBED_BATCH_SIZE = 16;
+const DRY_RUN = process.argv.includes('--dry-run');
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SECRET_KEY;
@@ -59,6 +62,26 @@ async function embedDocuments(texts) {
 
 function slugifyHeading(text) {
   return text.toLowerCase().replace(/ /g, '-').replace(/[^\wÀ-ɏ-]/g, '');
+}
+
+// Villes/universités pages render MDX through rehype-slug, which uses
+// github-slugger: lowercase, drop punctuation/symbols (keeping letters incl.
+// accents, digits, "-" and "_"), then each space → "-". github-slugger itself
+// isn't imported, for the same self-containment reason as above.
+function githubSlug(text) {
+  return text.toLowerCase().replace(/[^\p{L}\p{M}\p{N}\s_-]/gu, '').replace(/ /g, '-');
+}
+
+// Villes/universités MDX files have no frontmatter — their display names live
+// in lib/cities.ts / lib/universities.ts. Read the `'slug': { … name: '…' }`
+// pairs textually rather than importing TypeScript (see header note).
+function readNames(libFile) {
+  const src = fs.readFileSync(path.join(process.cwd(), 'lib', libFile), 'utf8');
+  const names = new Map();
+  const re = /^  '([a-z0-9-]+)': \{\s*\n\s*slug: '[^']*',\s*\n\s*name: '((?:[^'\\]|\\.)*)'/gm;
+  let m;
+  while ((m = re.exec(src)) !== null) names.set(m[1], m[2].replace(/\\'/g, "'"));
+  return names;
 }
 
 function stripMarkdown(text) {
@@ -159,7 +182,7 @@ function splitH2Sections(body) {
   return sections;
 }
 
-function chunkPost(slug, frontmatter, rawBody) {
+function chunkPost(source, slug, frontmatter, rawBody) {
   const { withoutBlock, chunk: keyFactsChunk } = extractKeyFacts(rawBody);
   const cleaned = stripJsx(withoutBlock);
   const faqItems = extractFaqItems(rawBody);
@@ -181,11 +204,11 @@ function chunkPost(slug, frontmatter, rawBody) {
   }
 
   return raw.map(c => ({
-    source_type: c.isFaq ? 'blog_faq' : 'blog_section',
+    source_type: `${source.type}_${c.isFaq ? 'faq' : 'section'}`,
     slug,
     title: frontmatter.title,
-    url: c.isFaq ? `/blog/${slug}` : `/blog/${slug}#${slugifyHeading(c.heading)}`,
-    category: frontmatter.category ?? null,
+    url: c.isFaq ? `/${source.dir}/${slug}` : `/${source.dir}/${slug}#${source.anchor(c.heading)}`,
+    category: frontmatter.category ?? source.category ?? null,
     cluster: frontmatter.cluster ?? null,
     heading: c.heading,
     content: c.content,
@@ -196,20 +219,55 @@ function chunkPost(slug, frontmatter, rawBody) {
 
 // ── Main ─────────────────────────────────────────────────────────────────
 
+const cityNames = readNames('cities.ts');
+const universityNames = readNames('universities.ts');
+
+// dir = folder under content/ AND the site's URL prefix for that content type.
+const SOURCES = [
+  { dir: 'blog', type: 'blog', anchor: slugifyHeading, frontmatterFor: fm => fm },
+  {
+    dir: 'villes',
+    type: 'ville',
+    category: 'Villes',
+    anchor: githubSlug,
+    frontmatterFor: (fm, slug) => ({ ...fm, title: cityNames.has(slug) ? `Étudier à ${cityNames.get(slug)}` : null }),
+  },
+  {
+    dir: 'universites',
+    type: 'universite',
+    category: 'Universités',
+    anchor: githubSlug,
+    frontmatterFor: (fm, slug) => ({ ...fm, title: universityNames.get(slug) ?? null }),
+  },
+];
+
 async function main() {
-  const files = fs.readdirSync(POSTS_DIR).filter(f => f.endsWith('.mdx'));
-  console.log(`Found ${files.length} articles.`);
+  const pages = [];
+  for (const source of SOURCES) {
+    const files = fs.readdirSync(path.join(CONTENT_DIR, source.dir)).filter(f => f.endsWith('.mdx'));
+    console.log(`Found ${files.length} pages in content/${source.dir}.`);
+    for (const filename of files) pages.push({ source, filename });
+  }
 
   let toEmbed = [];
   let toDeleteIds = [];
   let unchanged = 0;
 
-  for (const filename of files) {
+  for (const { source, filename } of pages) {
     const slug = filename.replace(/\.mdx$/, '');
-    const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf8');
-    const { data: frontmatter, content: body } = matter(raw);
+    const raw = fs.readFileSync(path.join(CONTENT_DIR, source.dir, filename), 'utf8');
+    const parsed = matter(raw);
+    const frontmatter = source.frontmatterFor(parsed.data, slug);
+    const body = parsed.content;
 
-    const chunks = chunkPost(slug, frontmatter, body);
+    // An MDX file with no matching entry in lib/ has no page on the site
+    // (generateStaticParams comes from lib/) — indexing it would cite a 404.
+    if (!frontmatter.title) {
+      console.warn(`Skipping content/${source.dir}/${filename}: no entry in lib/ → no rendered page.`);
+      continue;
+    }
+
+    const chunks = chunkPost(source, slug, frontmatter, body);
 
     const { data: existing, error } = await supabase
       .from('content_chunks')
@@ -236,9 +294,15 @@ async function main() {
 
   console.log(`${unchanged} chunks unchanged, ${toEmbed.length} to (re)embed, ${toDeleteIds.length} stale chunks to delete.`);
 
-  if (toDeleteIds.length > 0) {
-    const { error } = await supabase.from('content_chunks').delete().in('id', toDeleteIds);
-    if (error) throw error;
+  if (DRY_RUN) {
+    const bySlug = new Map();
+    for (const c of toEmbed) bySlug.set(c.slug, (bySlug.get(c.slug) ?? 0) + 1);
+    for (const [slug, n] of bySlug) console.log(`  ${String(n).padStart(3)}  ${slug}`);
+    for (const c of toEmbed.filter(c => c.source_type !== 'blog_section' && c.source_type !== 'blog_faq').slice(0, 6)) {
+      console.log(`  e.g. [${c.source_type}] ${c.title} → ${c.url}`);
+    }
+    console.log('Dry run — nothing written.');
+    return;
   }
 
   for (let i = 0; i < toEmbed.length; i += EMBED_BATCH_SIZE) {
@@ -261,7 +325,17 @@ async function main() {
       embedding: embeddings[j],
     }));
 
-    const { error } = await supabase.from('content_chunks').upsert(rows);
+    // A batch can mix updates (id set) and inserts (no id). Without
+    // defaultToNull: false, PostgREST sends id = null for the inserts
+    // instead of letting the column default generate one.
+    const { error } = await supabase.from('content_chunks').upsert(rows, { defaultToNull: false });
+    if (error) throw error;
+  }
+
+  // Delete only after the replacements are in, so a failed run never leaves
+  // a page with missing sections.
+  if (toDeleteIds.length > 0) {
+    const { error } = await supabase.from('content_chunks').delete().in('id', toDeleteIds);
     if (error) throw error;
   }
 
