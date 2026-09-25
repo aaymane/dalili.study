@@ -9,7 +9,9 @@
 //      only job is translating the question for retrieval; its output is
 //      never shown to a user and it runs whether or not the gate ends up
 //      passing, so it does not reopen the hallucination risk this guardrail
-//      exists to prevent.
+//      exists to prevent. The same holds for condenseQuestion(), which
+//      rewrites follow-up messages using the conversation history — also
+//      retrieval-only, also never shown to a user.
 //   2. extractAndValidateSources() — any source Claude claims to have used
 //      is checked against the chunks we actually sent it before it can be
 //      shown to a user.
@@ -19,10 +21,11 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import { supabaseAdmin } from '@/lib/supabase-admin';
-import { embedQuery } from '@/lib/assistant/voyage';
+import { embedQueries } from '@/lib/assistant/voyage';
 import { checkRateLimit, getClientIp } from '@/lib/assistant/rate-limit';
 import { buildSystemPrompt, extractAndValidateSources, type RetrievedChunk } from '@/lib/assistant/system-prompt';
 import { detectLanguage, fallbackMessage, translateToFrench } from '@/lib/assistant/language';
+import { condenseQuestion, sanitizeHistory, type HistoryMessage } from '@/lib/assistant/conversation';
 
 export const runtime = 'nodejs';
 
@@ -47,6 +50,18 @@ interface MatchedChunk extends RetrievedChunk {
   similarity: number;
 }
 
+/** Unions several result sets, keeping each chunk's best similarity, top MATCH_COUNT by similarity. */
+function mergeMatches(resultSets: MatchedChunk[][]): MatchedChunk[] {
+  const best = new Map<string, MatchedChunk>();
+  for (const chunk of resultSets.flat()) {
+    const existing = best.get(chunk.id);
+    if (!existing || chunk.similarity > existing.similarity) best.set(chunk.id, chunk);
+  }
+  return Array.from(best.values())
+    .sort((a, b) => b.similarity - a.similarity)
+    .slice(0, MATCH_COUNT);
+}
+
 function ndjsonLine(obj: unknown): string {
   return JSON.stringify(obj) + '\n';
 }
@@ -62,9 +77,11 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   let question: string;
+  let history: HistoryMessage[];
   try {
     const body = await request.json();
     question = String(body?.question ?? '').trim();
+    history = sanitizeHistory(body?.history);
   } catch {
     return new Response(JSON.stringify({ error: 'Requête invalide.' }), { status: 400 });
   }
@@ -82,34 +99,51 @@ export async function POST(request: Request): Promise<Response> {
   // only affects which chunks get retrieved, not the language of the final
   // answer (which still comes from the model reading the ORIGINAL question
   // below). Falls back to embedding the raw question if translation fails.
-  let embedText = question;
-  if (detectedLang !== 'fr') {
+  //
+  // Follow-ups (history present) are instead condensed into a standalone
+  // French query using the conversation (which also covers translation).
+  // Both the condensed query and the raw question are searched and merged
+  // by best similarity, so a question that already worked on its own can
+  // never score lower than it did before history existed.
+  let retrievalQuery = question;
+  if (history.length > 0) {
     try {
-      embedText = await translateToFrench(question, detectedLang);
+      retrievalQuery = await condenseQuestion(history, question);
+    } catch (err) {
+      console.error('Question condensing failed, falling back to single-turn retrieval:', err);
+    }
+  }
+  if (retrievalQuery === question && detectedLang !== 'fr') {
+    try {
+      retrievalQuery = await translateToFrench(question, detectedLang);
     } catch (err) {
       console.error('Question translation failed, embedding original text:', err);
     }
   }
 
-  const queryEmbedding = await embedQuery(embedText);
+  const embedTexts = history.length > 0 && retrievalQuery !== question ? [retrievalQuery, question] : [retrievalQuery];
+  const embeddings = await embedQueries(embedTexts);
 
-  const { data: matches, error: matchError } = await supabaseAdmin.rpc('match_content_chunks', {
-    query_embedding: queryEmbedding,
-    match_count: MATCH_COUNT,
-  });
+  const results = await Promise.all(
+    embeddings.map(query_embedding =>
+      supabaseAdmin.rpc('match_content_chunks', { query_embedding, match_count: MATCH_COUNT })
+    )
+  );
 
+  const matchError = results.find(r => r.error)?.error;
   if (matchError) {
     console.error('match_content_chunks failed:', matchError);
     return new Response(JSON.stringify({ error: "Erreur serveur, réessaie dans un instant." }), { status: 500 });
   }
 
-  const chunks = (matches ?? []) as MatchedChunk[];
+  const chunks = mergeMatches(results.map(r => (r.data ?? []) as MatchedChunk[]));
   const topSimilarity = chunks[0]?.similarity ?? 0;
 
   // ── Guardrail #1: relevance gate — Claude is never called below this line ──
   if (chunks.length === 0 || topSimilarity < RELEVANCE_THRESHOLD) {
     await supabaseAdmin.from('assistant_queries').insert({
       question,
+      retrieval_query: retrievalQuery,
       retrieved_chunk_ids: chunks.map(c => c.id),
       top_similarity: topSimilarity,
       fallback_triggered: true,
@@ -138,7 +172,7 @@ export async function POST(request: Request): Promise<Response> {
           model: MODEL,
           max_tokens: MAX_ANSWER_TOKENS,
           system: systemPrompt,
-          messages: [{ role: 'user', content: question }],
+          messages: [...history, { role: 'user', content: question }],
         });
 
         anthropicStream.on('text', delta => {
@@ -162,6 +196,7 @@ export async function POST(request: Request): Promise<Response> {
 
         await supabaseAdmin.from('assistant_queries').insert({
           question,
+          retrieval_query: retrievalQuery,
           retrieved_chunk_ids: chunks.map(c => c.id),
           top_similarity: topSimilarity,
           fallback_triggered: false,

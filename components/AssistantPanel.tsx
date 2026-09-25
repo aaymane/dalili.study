@@ -35,14 +35,42 @@ function newId(): string {
   return Math.random().toString(36).slice(2);
 }
 
+interface HistoryTurn {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+// Last few completed exchanges, so the API can resolve follow-ups like
+// "Canada" or "donnez-moi les étapes". Only user→assistant pairs whose
+// answer actually arrived — errored or in-flight turns are skipped. The
+// server re-validates everything (lib/assistant/conversation.ts).
+const HISTORY_EXCHANGES = 3;
+
+function buildHistory(messages: ChatMessage[]): HistoryTurn[] {
+  const pairs: HistoryTurn[][] = [];
+  for (let i = 0; i < messages.length - 1; i++) {
+    const user = messages[i];
+    const answer = messages[i + 1];
+    if (user.role === 'user' && answer.role === 'assistant' && !answer.pending && !answer.isError && answer.content) {
+      pairs.push([
+        { role: 'user', content: user.content },
+        { role: 'assistant', content: answer.content },
+      ]);
+      i++;
+    }
+  }
+  return pairs.slice(-HISTORY_EXCHANGES).flat();
+}
+
 async function streamAssistantResponse(
   question: string,
+  history: HistoryTurn[],
   onEvent: (evt: Record<string, unknown>) => void
 ) {
   const res = await fetch('/api/assistant', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ question }),
+    body: JSON.stringify({ question, history }),
   });
 
   if (res.status === 429) {
@@ -162,6 +190,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
     const trimmed = question.trim();
     if (!trimmed || pending) return;
 
+    const history = buildHistory(messages);
     setInput('');
     setPending(true);
     setMessages(prev => [
@@ -170,7 +199,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
       { id: newId(), role: 'assistant', content: '', pending: true },
     ]);
 
-    await streamAssistantResponse(trimmed, evt => {
+    await streamAssistantResponse(trimmed, history, evt => {
       setMessages(prev => {
         const next = [...prev];
         const last = next[next.length - 1];

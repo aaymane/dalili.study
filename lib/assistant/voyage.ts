@@ -46,10 +46,9 @@ async function embed(input: string | string[], inputType: 'query' | 'document'):
   return json.data.sort((a, b) => a.index - b.index).map(d => d.embedding);
 }
 
-/** Embeds a single user question. Asymmetric retrieval: queries and documents use different input_type. */
-export async function embedQuery(question: string): Promise<number[]> {
-  const [vector] = await embed(question, 'query');
-  return vector;
+/** Embeds user queries in one request (same order as input). Asymmetric retrieval: queries and documents use different input_type. */
+export async function embedQueries(questions: string[]): Promise<number[][]> {
+  return embed(questions, 'query');
 }
 
 /** Embeds one or more corpus chunks for storage. Used by the ingestion script, not at request time. */
