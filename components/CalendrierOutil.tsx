@@ -80,7 +80,8 @@ const PAYS_LIST = [
   { slug: 'senegal',     label: 'Sénégal',           emoji: '🇸🇳' },
   { slug: 'cote-ivoire', label: "Côte d'Ivoire",     emoji: '🇨🇮' },
   { slug: 'cameroun',    label: 'Cameroun',          emoji: '🇨🇲' },
-  { slug: 'autre',       label: 'Autre pays franc.', emoji: '🌍' },
+  { slug: 'liban',       label: 'Liban',             emoji: '🇱🇧' },
+  { slug: 'autre',      label: 'Autre pays franc.', emoji: '🌍' },
 ];
 
 const RENTREE_LIST = [

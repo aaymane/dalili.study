@@ -43,8 +43,8 @@ export const PAYS_INFO: Record<string, PaysInfo> = {
   },
   tunisie: {
     label: 'Tunisie', emoji: '🇹🇳', flag: 'TN',
-    cfLink:   `${SITE}/pays/etudier-en-france-depuis-tunisie`,
-    visaLink: `${SITE}/blog/visa-etudiant-france-algerie-2026`,
+    cfLink:   `${SITE}/blog/campusfrance-tunisie-guide-complet-2026`,
+    visaLink: `${SITE}/blog/visa-etudiant-france-tunisie-2026`,
     paysLink: `${SITE}/pays/etudier-en-france-depuis-tunisie`,
     tcfRequired: true,
   },
@@ -67,6 +67,14 @@ export const PAYS_INFO: Record<string, PaysInfo> = {
     cfLink:   `${SITE}/pays/etudier-en-france-depuis-cameroun`,
     visaLink: `${SITE}/pays/etudier-en-france-depuis-cameroun`,
     paysLink: `${SITE}/pays/etudier-en-france-depuis-cameroun`,
+    tcfRequired: false,
+  },
+  liban: {
+    label: 'Liban', emoji: '🇱🇧', flag: 'LB',
+    cfLink:   `${SITE}/blog/campus-france-liban-procedure-2026`,
+    visaLink: `${SITE}/blog/visa-etudiant-france-liban-2026`,
+    paysLink: `${SITE}/blog/etudier-en-france-depuis-liban-guide-2026`,
+    // À confirmer par l'équipe (comme pour le Sénégal) : le TCF est-il exigé par défaut ?
     tcfRequired: false,
   },
   autre: {
@@ -126,7 +134,7 @@ export function genererCalendrier(pays: string, rentree: string): CalendrierStep
     {
       mois: ml(2),
       action: 'Ouvrir un compte bancaire français',
-      description: "BNP, Société Générale ou Boursobank. Indispensable pour recevoir la CAF et payer ton loyer en France.",
+      description: "BNP, Société Générale ou Boursobank. Indispensable pour payer ton loyer et recevoir ton salaire ou la CAF si tu y as droit.",
       urgence: 'vert',
       lien: { label: 'Guide compte bancaire étudiant', url: `${SITE}/blog/ouvrir-compte-bancaire-etudiant-etranger-2026` },
     },
@@ -135,6 +143,7 @@ export function genererCalendrier(pays: string, rentree: string): CalendrierStep
       action: 'Choisir un médecin traitant',
       description: "Sur Doctolib.fr. Obligatoire pour être remboursé à 70 % par la Sécurité Sociale. Un médecin proche de ton logement est idéal.",
       urgence: 'vert',
+      lien: { label: 'Guide médecin traitant', url: `${SITE}/blog/medecin-traitant-france-etudiant-etranger` },
     },
   ];
 
@@ -165,7 +174,7 @@ export function genererCalendrier(pays: string, rentree: string): CalendrierStep
       action: 'Trouver un logement définitif',
       description: "Si le CROUS est refusé, cherche une colocation ou une résidence privée. Pense à VISALE pour obtenir un garant gratuitement.",
       urgence: 'vert',
-      lien: { label: 'Guide garant logement VISALE', url: `${SITE}/blog/logement-crous-etudiant-etranger-demande` },
+      lien: { label: 'Guide garant logement VISALE', url: `${SITE}/blog/garant-logement-etudiant-etranger-france` },
     },
   ];
 
@@ -202,7 +211,7 @@ export function genererCalendrier(pays: string, rentree: string): CalendrierStep
       {
         mois: ml(-4),
         action: 'Déposer le visa au consulat',
-        description: "Après l'avis favorable Campus France, prends rendez-vous au consulat. Délai de traitement : 3 à 6 semaines.",
+        description: "Après l'avis favorable Campus France, prends rendez-vous au consulat. Compte 2 à 8 semaines pour obtenir le rendez-vous, puis 2 à 4 semaines de traitement, selon la saison.",
         urgence: 'rouge',
         lien: { label: 'Guide visa étudiant France', url: info.visaLink },
       },

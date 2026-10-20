@@ -51,7 +51,7 @@ const datasetSchema = {
 const CITY_BUDGET = [
   { city: 'Paris',       brut: 950,  net: 650,  caf: 200, students: '700 000', unis: 17 },
   { city: 'Lyon',        brut: 730,  net: 470,  caf: 160, students: '180 000', unis: 4  },
-  { city: 'Bordeaux',    brut: 680,  net: 420,  caf: 130, students: '100 000', unis: 3  },
+  { city: 'Bordeaux',    brut: 645,  net: 370,  caf: 130, students: '100 000', unis: 3  },
   { city: 'Toulouse',    brut: 670,  net: 410,  caf: 130, students: '130 000', unis: 3  },
   { city: 'Marseille',   brut: 670,  net: 420,  caf: 120, students: '80 000',  unis: 1  },
   { city: 'Montpellier', brut: 680,  net: 420,  caf: 130, students: '75 000',  unis: 2  },
@@ -221,7 +221,7 @@ export default function StatsPage() {
           {/* ── Tableau villes BRUT / NET */}
           <p style={s.sectionTitle}>Budget mensuel CROUS — {CITY_BUDGET.length} villes (brut et net)</p>
           <p style={{ ...s.note, marginTop: 0, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
-            Budget BRUT = avant aides. Budget NET = après CAF (si éligible — voir condition ci-dessous), repas RU à 1 € (tous les étudiants depuis le 4 mai 2026), transport étudiant réduit, CSS (santé gratuite).
+            Budget BRUT = avant aides. Budget sans APL = après repas RU à 1 €, transport étudiant réduit et CSS, mais sans aide au logement (cas de la plupart des étudiants hors UE depuis juillet 2026). Budget NET = après CAF (si éligible — voir condition ci-dessous), repas RU à 1 € (tous les étudiants depuis le 4 mai 2026), transport étudiant réduit, CSS (santé gratuite).
           </p>
           <div style={{ overflowX: 'auto' }}>
             <table style={s.table}>
@@ -229,6 +229,7 @@ export default function StatsPage() {
                 <tr>
                   <th style={s.th}>Ville</th>
                   <th style={s.th}>Budget BRUT</th>
+                  <th style={s.th}>Budget sans APL</th>
                   <th style={s.thNet}>Budget NET si éligible CAF ✓</th>
                   <th style={{ ...s.th, color: 'rgba(34,197,94,0.5)' }}>CAF estimée</th>
                   <th style={s.th}>Étudiants</th>
@@ -239,6 +240,7 @@ export default function StatsPage() {
                   <tr key={i}>
                     <td style={{ ...s.td, color: '#ffffff', fontWeight: 600 }}>{row.city}</td>
                     <td style={s.td}>{row.brut} €</td>
+                    <td style={s.td}>{row.net + row.caf} €</td>
                     <td style={s.tdNet}>{row.net} €</td>
                     <td style={{ ...s.td, color: '#22c55e' }}>−{row.caf} €</td>
                     <td style={s.td}>{row.students}</td>
@@ -249,7 +251,7 @@ export default function StatsPage() {
           </div>
           <p style={s.note}>
             * Budget NET calculé en CROUS avec CAF, repas RU à 1 € (depuis le 4 mai 2026, remplace l&apos;ancien tarif de 3,30 €) et abonnement transport réduit.
-            Depuis le 1er juillet 2026, la CAF/APL n&apos;est plus accessible de droit commun aux étudiants hors UE/EEE/Suisse : elle est réservée aux boursiers sur critères sociaux, apprentis, en professionnalisation ou salariés (<a href="/blog/reforme-apl-etudiant-etranger-2026" style={{ color: 'inherit', textDecoration: 'underline' }}>détail</a>). Si non éligible, le budget réel est le montant BRUT. Montant réel calculé sur caf.fr.
+            Depuis le 1er juillet 2026, la CAF/APL n&apos;est plus accessible de droit commun aux étudiants hors UE/EEE/Suisse : elle est réservée aux boursiers sur critères sociaux, apprentis, en professionnalisation ou salariés (<a href="/blog/reforme-apl-etudiant-etranger-2026" style={{ color: 'inherit', textDecoration: 'underline' }}>détail</a>). Si tu n&apos;es pas éligible, ton budget réel est la colonne « Budget sans APL ». Montant réel calculé sur caf.fr.
             <br />
             ** Ces montants sont des estimations. Le consulat exige {formatTierValue(compteBloqueNow)} prouvables{compteBloqueAdjacent ? ` (${compteBloqueAdjacent})` : ''}, indépendamment de vos aides.
             <br />

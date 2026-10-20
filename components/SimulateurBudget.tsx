@@ -5,68 +5,24 @@ import Link from 'next/link';
 import { REGULATORY_FIGURES, getTierAt, formatTierValue, describeAdjacentTier } from '@/lib/data/regulatory-figures';
 
 // ── Budget data ───────────────────────────────────────────────────────────
-type CityData = {
-  slug: string; name: string;
-  crous: [number, number]; coloc: [number, number];
-  studio: [number, number]; habitant: [number, number];
-  transport: number; food: number;
-};
+import {
+  CITIES,
+  type CityData,
+  tuitionFigures,
+  cvecTier,
+  CAF_ESTIMATE,
+  CAF_ELIGIBLE_BOURSE,
+  CVEC_ANNUAL,
+  TUITION_ANNUAL,
+  TUITION_MONTHLY_12,
+  FIXED_MONTHLY,
+  SAVINGS,
+  mid,
+} from '@/lib/tools/budget';
 
-const CITIES: CityData[] = [
-  { slug: 'etudier-a-bordeaux',         name: 'Bordeaux',         crous: [180,380], coloc: [350,520], studio: [490,750],  habitant: [290,430], transport: 25, food: 260 },
-  { slug: 'etudier-a-paris',            name: 'Paris',            crous: [280,500], coloc: [600,950], studio: [950,1500], habitant: [500,750], transport: 29, food: 350 },
-  { slug: 'etudier-a-nantes',           name: 'Nantes',           crous: [180,350], coloc: [320,490], studio: [440,680],  habitant: [270,400], transport: 22, food: 220 },
-  { slug: 'etudier-a-lyon',             name: 'Lyon',             crous: [200,400], coloc: [380,560], studio: [520,800],  habitant: [320,480], transport: 30, food: 260 },
-  { slug: 'etudier-a-toulouse',         name: 'Toulouse',         crous: [200,400], coloc: [350,520], studio: [480,700],  habitant: [300,450], transport: 28, food: 230 },
-  { slug: 'etudier-a-marseille',        name: 'Marseille',        crous: [180,380], coloc: [350,520], studio: [480,700],  habitant: [290,440], transport: 30, food: 250 },
-  { slug: 'etudier-a-nice',             name: 'Nice',             crous: [200,420], coloc: [450,650], studio: [600,900],  habitant: [390,580], transport: 30, food: 290 },
-  { slug: 'etudier-a-rennes',           name: 'Rennes',           crous: [180,370], coloc: [320,470], studio: [430,620],  habitant: [270,400], transport: 26, food: 210 },
-  { slug: 'etudier-a-grenoble',         name: 'Grenoble',         crous: [180,380], coloc: [330,500], studio: [450,650],  habitant: [280,420], transport: 28, food: 220 },
-  { slug: 'etudier-a-clermont-ferrand', name: 'Clermont-Ferrand', crous: [150,320], coloc: [270,400], studio: [350,520],  habitant: [220,340], transport: 22, food: 200 },
-  { slug: 'etudier-a-montpellier',      name: 'Montpellier',      crous: [180,380], coloc: [360,530], studio: [500,720],  habitant: [300,450], transport: 26, food: 240 },
-  { slug: 'etudier-a-strasbourg',       name: 'Strasbourg',       crous: [190,380], coloc: [340,500], studio: [480,680],  habitant: [290,430], transport: 29, food: 240 },
-  { slug: 'etudier-a-lille',            name: 'Lille',            crous: [170,360], coloc: [310,460], studio: [420,620],  habitant: [260,390], transport: 27, food: 210 },
-  { slug: 'etudier-a-dijon',            name: 'Dijon',            crous: [170,340], coloc: [290,430], studio: [380,550],  habitant: [240,360], transport: 24, food: 200 },
-];
-
-const mid = (range: [number, number]) => Math.round((range[0] + range[1]) / 2);
-
-// Sourced from lib/data/regulatory-figures.ts — the single source of truth for
-// these amounts. `new Date()` is evaluated client-side at render (this file is
-// 'use client'), so a future tier (e.g. a new CVEC amount) takes effect for
-// visitors automatically once its validFrom date is reached, no redeploy needed.
-const tuitionFigures = {
-  licence:  getTierAt(REGULATORY_FIGURES.fraisScolariteLicence),
-  master:   getTierAt(REGULATORY_FIGURES.fraisScolariteMaster),
-  doctorat: getTierAt(REGULATORY_FIGURES.fraisScolariteDoctorat),
-};
-const TUITION_ANNUAL: Record<string, number> = {
-  licence:  tuitionFigures.licence.value,
-  master:   tuitionFigures.master.value,
-  doctorat: tuitionFigures.doctorat.value,
-};
-const cvecTier = getTierAt(REGULATORY_FIGURES.cvec);
-const CVEC_ANNUAL = cvecTier.value;
-const TUITION_MONTHLY_12: Record<string, number> = {
-  licence:  Math.round(tuitionFigures.licence.value / 12),
-  master:   Math.round(tuitionFigures.master.value / 12),
-  doctorat: Math.round(tuitionFigures.doctorat.value / 12),
-};
 const compteBloqueNow      = getTierAt(REGULATORY_FIGURES.compteBloqueMensuel);
 const compteBloqueAdjacent = describeAdjacentTier(REGULATORY_FIGURES.compteBloqueMensuel);
 
-const CAF_ESTIMATE: Record<string, { min: number; max: number }> = {
-  crous:    { min: 150, max: 200 },
-  coloc:    { min: 100, max: 180 },
-  studio:   { min: 80,  max: 200 },
-  habitant: { min: 0,   max: 80  },
-};
-
-// Depuis le 1er juillet 2026, l'APL/ALS n'est plus accessible de droit commun aux
-// étudiants hors UE/EEE/Suisse — seuls bcs/alternance/salarie ouvrent ce droit
-// (loi n° 2026-103 du 19 février 2026, art. 179). Eiffel/BGF/bourse pays d'origine
-// ne suffisent pas seules : voir /blog/reforme-apl-etudiant-etranger-2026.
-const CAF_ELIGIBLE_BOURSE = new Set(['bcs', 'alternance', 'salarie']);
 
 const BOURSE_NOTE: Record<string, string> = {
   bcs:         'Boursier sur critères sociaux : tu gardes le droit à l\'APL même hors UE — c\'est l\'une des seules bourses qui l\'ouvre depuis juillet 2026.',
@@ -136,7 +92,7 @@ export default function SimulateurBudget() {
     ? (TUITION_MONTHLY_12[niveau] ?? 0)
     : 0;
 
-  const baseTotal = housing + transport + food + 30 + 20 + 80;
+  const baseTotal = housing + transport + food + FIXED_MONTHLY.phone + FIXED_MONTHLY.misc;
   const total     = baseTotal + tuitionMonthly;
 
   const cafEligible = CAF_ELIGIBLE_BOURSE.has(answers.bourse);
@@ -606,9 +562,9 @@ function ResultsPanel({
   // Repas RU à 1€ pour tous les étudiants depuis le 4 mai 2026 (lescrous.fr) —
   // remplace l'ancien tarif non-boursier de 3,30€. 30 repas/mois : 30 x 1€ = 30€,
   // contre ~99€ à l'ancien tarif (30 x 3,30€) — soit ~70€ d'économie mensuelle.
-  const economieRU         = 70;
-  const economieTransport  = Math.round(transport / 2);
-  const economieCSS        = 40;
+  const economieRU         = SAVINGS.ruMeals;
+  const economieTransport  = Math.round(transport * SAVINGS.transportRate);
+  const economieCSS        = SAVINGS.css;
   const totalEconomies     = cafMid + economieRU + economieTransport + economieCSS;
   const netBudget          = Math.max(0, total - totalEconomies);
 
