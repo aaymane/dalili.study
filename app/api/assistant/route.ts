@@ -26,6 +26,7 @@ import { checkRateLimit, getClientIp } from '@/lib/assistant/rate-limit';
 import { buildSystemPrompt, extractAndValidateSources, type RetrievedChunk } from '@/lib/assistant/system-prompt';
 import { detectLanguage, fallbackMessage, translateToFrench } from '@/lib/assistant/language';
 import { condenseQuestion, sanitizeHistory, type HistoryMessage } from '@/lib/assistant/conversation';
+import { redactPersonalData } from '@/lib/assistant/redact';
 
 export const runtime = 'nodejs';
 
@@ -142,8 +143,8 @@ export async function POST(request: Request): Promise<Response> {
   // ── Guardrail #1: relevance gate — Claude is never called below this line ──
   if (chunks.length === 0 || topSimilarity < RELEVANCE_THRESHOLD) {
     await supabaseAdmin.from('assistant_queries').insert({
-      question,
-      retrieval_query: retrievalQuery,
+      question: redactPersonalData(question),
+      retrieval_query: redactPersonalData(retrievalQuery),
       retrieved_chunk_ids: chunks.map(c => c.id),
       top_similarity: topSimilarity,
       fallback_triggered: true,
@@ -195,8 +196,8 @@ export async function POST(request: Request): Promise<Response> {
         );
 
         await supabaseAdmin.from('assistant_queries').insert({
-          question,
-          retrieval_query: retrievalQuery,
+          question: redactPersonalData(question),
+          retrieval_query: redactPersonalData(retrievalQuery),
           retrieved_chunk_ids: chunks.map(c => c.id),
           top_similarity: topSimilarity,
           fallback_triggered: false,
