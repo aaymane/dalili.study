@@ -27,6 +27,8 @@ export interface JourneyStep {
   why: string;
   /** Durée réaliste de la première action, pour le Brief du jour. */
   minutes: number;
+  /** Phrase du Brief du jour, écrite par l'équipe (jamais par l'IA). `{minutes}` est remplacé par l'app. Sans chiffre. */
+  brief: string;
   howTo: { title: string; detail: string }[];
   needs?: string[];
   action: { label: string; url?: string };
@@ -39,7 +41,7 @@ export interface JourneyStep {
   reviewed: boolean;
 }
 
-export const JOURNEY_VERSION = '2026-10-19';
+export const JOURNEY_VERSION = '2026-10-20';
 
 export const JOURNEY: JourneyStep[] = [
   {
@@ -53,6 +55,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Une bourse peut payer tes frais de scolarité, ton loyer ou ton billet. Les dossiers se préparent tôt.',
     why: 'Les dates limites tombent souvent un an avant la rentrée. Après, c’est trop tard.',
     minutes: 15,
+    brief: 'Avant tout, regarde si une bourse peut t’aider : les dossiers se ferment tôt. {minutes} min aujourd’hui suffisent pour noter les dates.',
     howTo: [
       { title: 'Lis le guide de ton pays', detail: 'Il liste les bourses ouvertes aux étudiants de ton pays.' },
       { title: 'Note les dates limites', detail: 'Ajoute-les à ton calendrier DALILI.' },
@@ -78,6 +81,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: "Le TCF est un test officiel de français. C'est ta preuve que tu peux suivre des cours en France.",
     why: "Campus France et la plupart des formations te le demandent. Sans lui, ton dossier n'avance pas.",
     minutes: 10,
+    brief: 'Avant tout, il te faut un niveau de français officiel. On le fait ensemble : {minutes} min aujourd’hui pour trouver ta session.',
     howTo: [
       { title: 'Choisis ta session', detail: 'Inscris-toi au TCF (ou DELF/DALF) dans un centre agréé de ton pays.' },
       { title: 'Entraîne-toi', detail: 'Fais 2 ou 3 tests blancs : compréhension, expression écrite et orale.' },
@@ -106,6 +110,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: "Choisis où et quoi étudier : université publique ou école privée reconnue par l'État.",
     why: 'Ton choix de formation décide de ta ville, de ton budget et de toutes les démarches qui suivent.',
     minutes: 20,
+    brief: 'On choisit tes formations. {minutes} min aujourd’hui pour vérifier qu’elles sont reconnues par l’État.',
     howTo: [
       { title: 'Liste 3 à 7 formations', detail: 'Compare programmes, villes et frais de scolarité.' },
       { title: 'Vérifie la reconnaissance', detail: "Pour une école privée, vérifie qu'elle est reconnue par l'État." },
@@ -136,6 +141,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Diplômes, relevés de notes, acte de naissance : certains doivent être traduits ou légalisés.',
     why: 'Une traduction ou une légalisation prend des semaines. Un document refusé bloque tout le dossier.',
     minutes: 10,
+    brief: 'On prépare tes papiers avant qu’on te les demande. {minutes} min aujourd’hui pour faire la liste.',
     howTo: [
       { title: 'Fais la liste de tes documents', detail: 'Diplômes, relevés, acte de naissance, passeport.' },
       { title: 'Vérifie ce qu’il faut faire', detail: 'Traduction, légalisation ou apostille : le guide te dit lequel.' },
@@ -157,6 +163,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: "Campus France, c'est la plateforme officielle par laquelle passe ta candidature aux établissements français.",
     why: 'Sans dossier Campus France validé, pas de visa étudiant. C’est la porte d’entrée de tout ton projet.',
     minutes: 20,
+    brief: 'Ton dossier Campus France, c’est le cœur de ta candidature. {minutes} min aujourd’hui pour avancer.',
     howTo: [
       { title: 'Crée ton compte', detail: 'Sur la plateforme « Études en France » de ton pays.' },
       { title: 'Remplis et paie le dossier', detail: 'Diplômes, relevés de notes, TCF, lettre de motivation.' },
@@ -192,6 +199,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Le consulat veut voir assez d’argent pour toute l’année : compte bloqué, garant ou bourse.',
     why: 'C’est l’une des premières causes de refus de visa. Le montant a augmenté en août 2026.',
     minutes: 15,
+    brief: 'Le consulat veut voir que tu peux vivre en France. {minutes} min aujourd’hui pour choisir comment le prouver.',
     howTo: [
       { title: 'Vérifie le montant à jour', detail: 'Il est indiqué ci-dessous, avec sa source officielle.' },
       { title: 'Choisis ta solution', detail: 'Compte bloqué, prise en charge par un proche ou bourse.' },
@@ -215,6 +223,7 @@ export const JOURNEY: JourneyStep[] = [
       "Le visa étudiant (VLS-TS) te permet d'entrer en France. Une fois validé, il sert aussi de titre de séjour la première année.",
     why: "Sans lui, tu ne peux ni prendre l'avion, ni t'inscrire, ni ouvrir un compte. C'est LA pièce maîtresse.",
     minutes: 15,
+    brief: 'Prochaine grande marche : ton visa étudiant. {minutes} min aujourd’hui pour préparer ton rendez-vous.',
     howTo: [
       { title: 'Prends rendez-vous', detail: 'Chez le prestataire visa de ton pays (TLScontact ou VFS).' },
       { title: 'Prépare tes justificatifs', detail: 'Admission, logement, ressources, assurance.' },
@@ -250,6 +259,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Résidence CROUS, résidence privée ou colocation : il te faut une adresse avant d’arriver.',
     why: "Le logement est demandé pour le visa et la banque. Et c'est ce qui part le plus vite en septembre.",
     minutes: 15,
+    brief: 'Trouver un toit, c’est la clé. {minutes} min aujourd’hui pour lancer tes demandes.',
     howTo: [
       { title: 'Demande un logement CROUS', detail: 'Les résidences étudiantes publiques sont les moins chères.' },
       { title: 'Élargis ta recherche', detail: 'Résidences privées, colocation, chambre chez l’habitant.' },
@@ -274,6 +284,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: "Le garant s'engage à payer ton loyer si tu ne peux pas. Visale, c'est un garant gratuit fourni par l'État.",
     why: 'Sans garant, la plupart des propriétaires refusent ton dossier.',
     minutes: 10,
+    brief: 'Un propriétaire te demandera un garant. {minutes} min aujourd’hui pour régler ça, souvent gratuitement.',
     howTo: [
       { title: 'Crée ton compte Visale', detail: 'Gratuit pour les étudiants, même sans garant en France.' },
       { title: 'Obtiens ton visa Visale', detail: 'Un certificat à transmettre au propriétaire.' },
@@ -295,6 +306,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'La CVEC est une contribution annuelle obligatoire qui finance la vie étudiante (santé, sport, culture).',
     why: "Ton école te demande l'attestation CVEC pour finaliser ton inscription. Les boursiers en sont exonérés.",
     minutes: 5,
+    brief: 'Une petite démarche avant l’inscription : la CVEC. {minutes} min aujourd’hui et c’est fait.',
     howTo: [
       { title: 'Connecte-toi sur le site CVEC', detail: 'Avec ton compte étudiant.' },
       { title: 'Paie ou demande l’exonération', detail: 'Par carte bancaire, ou exonération si tu es boursier.' },
@@ -317,6 +329,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Ton premier jour en France : récupérer tes clés, t’orienter, et souffler.',
     why: 'Bien préparer ton arrivée évite les nuits d’hôtel imprévues et le stress des premiers jours.',
     minutes: 10,
+    brief: 'Ton arrivée approche. {minutes} min aujourd’hui pour préparer tes premiers jours sans stress.',
     howTo: [
       { title: 'Prépare ton trajet', detail: "De l'aéroport à ton logement : transports, horaires, adresse hors ligne." },
       { title: 'Garde tes documents sur toi', detail: 'Passeport, visa, admission, bail : en papier ET en numérique.' },
@@ -337,6 +350,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: "L'assurance habitation couvre les dégâts (eau, incendie) dans ton logement.",
     why: 'Elle est obligatoire pour tout locataire : sans attestation, pas de clés.',
     minutes: 15,
+    brief: 'Pour entrer dans ton logement, il te faut une assurance. {minutes} min aujourd’hui et tu es couvert·e.',
     howTo: [
       { title: 'Compare 2 ou 3 offres', detail: 'Banques et assureurs proposent des offres étudiantes.' },
       { title: 'Souscris en ligne', detail: 'Avec ton adresse et la surface du logement.' },
@@ -358,6 +372,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Un numéro français pour la banque, les démarches et ta vie quotidienne.',
     why: 'Beaucoup de services (banque, Ameli, CAF) envoient des codes par SMS à un numéro français.',
     minutes: 10,
+    brief: 'Un numéro français t’ouvre toutes les portes. {minutes} min aujourd’hui pour en avoir un.',
     howTo: [
       { title: 'Choisis un forfait sans engagement', detail: 'Les forfaits en ligne sont les moins chers.' },
       { title: 'Commande ta SIM ou eSIM', detail: 'Avec ton passeport.' },
@@ -378,6 +393,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Bus, tram, métro : un abonnement jeune te fait économiser beaucoup.',
     why: 'Tu vas te déplacer tous les jours. Le tarif étudiant est souvent divisé par deux.',
     minutes: 10,
+    brief: 'On s’occupe de tes trajets. {minutes} min aujourd’hui pour trouver le bon abonnement.',
     howTo: [
       { title: 'Trouve le tarif jeune', detail: 'Sur le site du réseau de transport de ta ville.' },
       { title: 'Prépare ta photo et ton certificat', detail: 'Le certificat de scolarité est souvent demandé.' },
@@ -398,6 +414,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Un compte français et son RIB : indispensables pour ton loyer, ton téléphone et ton salaire.',
     why: 'Sans RIB français, beaucoup de démarches se bloquent (loyer, job, CAF si tu y as droit).',
     minutes: 15,
+    brief: 'Un compte en France, et tout devient plus simple. {minutes} min aujourd’hui pour l’ouvrir.',
     howTo: [
       { title: 'Compare les offres étudiantes', detail: 'Banques en ligne ou en agence, souvent gratuites.' },
       { title: 'Rassemble tes papiers', detail: 'Passeport + visa, justificatif de domicile, certificat de scolarité.' },
@@ -422,6 +439,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Tu dois valider ton VLS-TS en ligne pour qu’il devienne ton titre de séjour.',
     why: 'Sans validation, tu es en situation irrégulière après 3 mois, même avec un visa dans le passeport.',
     minutes: 15,
+    brief: 'Ta démarche la plus importante à l’arrivée : valider ton visa en ligne. {minutes} min aujourd’hui, à ne pas reporter.',
     howTo: [
       { title: 'Connecte-toi à l’ANEF', detail: 'Le site officiel de l’administration des étrangers.' },
       { title: 'Saisis ton visa et ton adresse', detail: 'Et ta date d’entrée en France.' },
@@ -444,6 +462,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: "La Sécurité sociale rembourse une grande partie de tes frais de santé. Pour les étudiants, c'est gratuit.",
     why: 'Sans elle, chaque consultation est à ta charge à 100 %. Elle est aussi nécessaire pour la carte Vitale.',
     minutes: 15,
+    brief: 'Ta santé d’abord : on t’inscrit à la Sécu. {minutes} min aujourd’hui.',
     howTo: [
       { title: 'Inscris-toi sur le site', detail: 'Sur etudiant-etranger.ameli.fr.' },
       { title: 'Téléverse tes justificatifs', detail: "Visa, attestation d'école, acte de naissance." },
@@ -466,6 +485,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'L’APL, c’est l’aide de la CAF pour payer une partie du loyer. Depuis juillet 2026, elle est réservée à certains étudiants étrangers.',
     why: 'Si tu y as droit, chaque mois de retard est perdu. Si tu n’y as pas droit, mieux vaut le savoir avant de faire ton budget.',
     minutes: 10,
+    brief: 'On vérifie si tu as droit à l’APL. {minutes} min aujourd’hui pour en avoir le cœur net.',
     howTo: [
       { title: 'Vérifie ta situation', detail: 'Boursier sur critères sociaux, apprenti, contrat pro ou salarié : le guide liste les exceptions.' },
       { title: 'Si tu es concerné, fais ta demande', detail: 'Sur caf.fr, avec ton bail, ton RIB et ton titre de séjour validé.' },
@@ -488,6 +508,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'La mutuelle rembourse ce que la Sécu ne couvre pas (dentiste, lunettes, hôpital).',
     why: 'Une hospitalisation sans mutuelle peut coûter très cher. La CSS peut être gratuite selon tes ressources.',
     minutes: 10,
+    brief: 'Une mutuelle complète la Sécu. {minutes} min aujourd’hui pour voir celle qu’il te faut.',
     howTo: [
       { title: 'Teste ton droit à la CSS', detail: 'La Complémentaire santé solidaire, sur ameli.fr.' },
       { title: 'Sinon compare les mutuelles étudiantes', detail: 'Le guide t’explique quoi regarder.' },
@@ -509,6 +530,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Ton médecin traitant, c’est ton médecin habituel. Le déclarer te fait mieux rembourser.',
     why: 'Sans médecin traitant déclaré, tes consultations sont moins bien remboursées.',
     minutes: 10,
+    brief: 'Choisis ton médecin traitant, tu seras mieux remboursé·e. {minutes} min aujourd’hui.',
     howTo: [
       { title: 'Trouve un médecin près de chez toi', detail: 'Sur un site de prise de rendez-vous ou par ton école.' },
       { title: 'Prends un premier rendez-vous', detail: 'Avec ta carte Vitale ou ton attestation de droits.' },
@@ -529,6 +551,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'La carte Vitale, c’est ta carte de santé : tu la présentes chez le médecin pour être remboursé·e plus vite.',
     why: 'Sans elle, tu avances les frais et tu attends des semaines pour être remboursé·e.',
     minutes: 10,
+    brief: 'Ta carte Vitale, c’est ta carte santé. {minutes} min aujourd’hui pour la demander.',
     howTo: [
       { title: 'Crée ton compte Ameli', detail: 'Avec ton numéro de sécurité sociale définitif.' },
       { title: "Envoie une photo d'identité", detail: "Directement depuis l'application Ameli." },
@@ -550,6 +573,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Ton titre de séjour étudiant te permet de travailler, dans une limite d’heures par an.',
     why: 'Dépasser la limite peut te coûter le renouvellement de ton titre de séjour.',
     minutes: 10,
+    brief: 'Tu veux travailler à côté de tes études ? {minutes} min aujourd’hui pour connaître tes droits.',
     howTo: [
       { title: 'Connais ta limite d’heures', detail: 'Elle est indiquée ci-dessous selon ton pays.' },
       { title: 'Vérifie ton contrat', detail: 'Durée, horaires, salaire : le guide te dit quoi regarder.' },
@@ -574,6 +598,7 @@ export const JOURNEY: JourneyStep[] = [
     oneLiner: 'Ton visa étudiant dure un an. Pour rester, tu demandes un titre de séjour en ligne avant qu’il expire.',
     why: 'Une demande en retard peut te mettre en situation irrégulière, même si tu es inscrit·e.',
     minutes: 15,
+    brief: 'Ton titre de séjour se renouvelle à l’avance. {minutes} min aujourd’hui pour ne pas être pris·e de court.',
     howTo: [
       { title: 'Note la date de fin de ton visa', detail: 'DALILI te le rappelle à l’avance.' },
       { title: 'Prépare les justificatifs', detail: 'Inscription, ressources, logement : le guide liste tout.' },

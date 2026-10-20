@@ -26,6 +26,11 @@ for (const step of JOURNEY) {
     if (!(f.id in table)) errors.push(`Étape ${step.id} : chiffre inconnu « ${f.id} »`);
   }
 }
+// Brief du jour : écrit par l'équipe, sans aucun chiffre (les montants vivent dans regulatory-figures).
+for (const step of JOURNEY) {
+  if (!step.brief.includes('{minutes}')) errors.push(`Étape ${step.id} : le brief doit contenir {minutes}`);
+  if (/\d|€/.test(step.brief.replace('{minutes}', ''))) errors.push(`Étape ${step.id} : chiffre interdit dans le brief`);
+}
 if (!exists(SAFETY.guide)) errors.push(`Bouclier : guide introuvable « ${SAFETY.guide} »`);
 for (const t of GLOSSARY) if (t.stepId && !stepIds.has(t.stepId)) errors.push(`Lexique ${t.term} : étape inconnue « ${t.stepId} »`);
 
