@@ -65,7 +65,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Combien coûte la procédure Campus France ?",
-    a: "Les frais de la procédure CEF varient selon le pays : Maroc : 2 200 MAD (environ 200 €), Algérie : 5 000 DZD (environ 35 €), Sénégal : 60 000 FCFA (environ 90 €), Côte d'Ivoire : 60 000 FCFA (environ 90 €). Ces frais sont non remboursables en cas de refus.",
+    a: "Les frais de la procédure CEF varient selon le pays : Maroc : ≈ 1 900 à 2 200 MAD (montant en cours de vérification), Algérie : 5 000 DZD (environ 35 €), Sénégal : 60 000 FCFA (environ 90 €), Côte d'Ivoire : 60 000 FCFA (environ 90 €). Ces frais sont non remboursables en cas de refus.",
     source: "Sites Campus France par pays",
   },
   {
