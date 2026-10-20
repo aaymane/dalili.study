@@ -68,7 +68,11 @@ const TRANSLATE_MODEL = 'claude-haiku-4-5';
  * influences which chunks get retrieved. Falls back to the original text on
  * any failure (empty output, API error) rather than blocking the request.
  */
-export async function translateToFrench(question: string, lang: DetectedLanguage): Promise<string> {
+export async function translateToFrench(
+  question: string,
+  lang: DetectedLanguage,
+  onUsage?: (model: string, usage: Anthropic.Usage) => void
+): Promise<string> {
   if (lang === 'fr') return question;
 
   const client = new Anthropic();
@@ -79,6 +83,7 @@ export async function translateToFrench(question: string, lang: DetectedLanguage
       'Traduis la question suivante en français. Réponds UNIQUEMENT avec la traduction, sans guillemets, sans préambule, sans explication.',
     messages: [{ role: 'user', content: question }],
   });
+  onUsage?.(TRANSLATE_MODEL, result.usage);
 
   const translated = result.content.find(b => b.type === 'text')?.text?.trim();
   return translated || question;

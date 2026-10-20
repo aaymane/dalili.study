@@ -91,7 +91,11 @@ function formatTranscript(history: HistoryMessage[]): string {
  * the original question on empty output, so the caller can fall back to the
  * pre-conversation behaviour.
  */
-export async function condenseQuestion(history: HistoryMessage[], question: string): Promise<string> {
+export async function condenseQuestion(
+  history: HistoryMessage[],
+  question: string,
+  onUsage?: (model: string, usage: Anthropic.Usage) => void
+): Promise<string> {
   const client = new Anthropic();
   const result = await client.messages.create({
     model: CONDENSE_MODEL,
@@ -104,6 +108,7 @@ export async function condenseQuestion(history: HistoryMessage[], question: stri
       },
     ],
   });
+  onUsage?.(CONDENSE_MODEL, result.usage);
 
   const condensed = result.content.find(b => b.type === 'text')?.text?.trim();
   return condensed ? condensed.slice(0, MAX_CONDENSED_CHARS) : question;

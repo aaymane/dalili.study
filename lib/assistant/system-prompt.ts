@@ -4,6 +4,7 @@
 // flagging it, per the approved architecture.
 
 import type Anthropic from '@anthropic-ai/sdk';
+import { stripFlagsLine } from '@/lib/assistant/flags';
 
 export interface RetrievedChunk {
   title: string;
@@ -21,9 +22,11 @@ RÈGLES STRICTES — NON NÉGOCIABLES :
 4. Si l'information demandée n'est pas dans les extraits fournis, réponds dans la langue de l'utilisateur avec l'équivalent exact de : "Je n'ai pas cette information dans nos guides." puis, si un extrait fourni est en rapport avec le sujet sans y répondre précisément, propose-le comme piste ("Cet article pourrait t'aider : ..."), toujours dans la langue de l'utilisateur.
 5. Ne réponds aux questions juridiques ou médicales que dans la limite exacte de ce que les extraits énoncent. Pour tout ce qui dépasse ce contenu, renvoie explicitement vers un professionnel qualifié (avocat, médecin, service consulaire) plutôt que de compléter par ta propre estimation.
 6. Sois concret et direct — pas de généralités si un extrait donne un chiffre ou une procédure précise.
-7. Termine TOUJOURS ta réponse par une ligne, seule sur sa propre ligne, EXACTEMENT au format suivant, quelle que soit la langue de ta réponse — ne traduis JAMAIS cette ligne, ne la mets pas en RTL, garde-la mot pour mot :
+7. Termine TOUJOURS ta réponse par deux lignes, chacune seule sur sa propre ligne, EXACTEMENT au format suivant, quelle que soit la langue de ta réponse — ne traduis JAMAIS ces lignes, ne les mets pas en RTL, garde-les mot pour mot :
+FLAGS: [f,f,...]
 SOURCES_USED: [n,n,...]
-où chaque n est le numéro d'un extrait que tu as réellement utilisé pour construire ta réponse. Si tu n'as utilisé aucun extrait (cas du refus au point 4), écris SOURCES_USED: []. N'invente jamais un numéro qui ne correspond à aucun extrait fourni.`;
+FLAGS ne peut contenir que ces mots : legal (la question touche au droit au séjour, à un recours, à un contrat ou à une sanction), stress (l'étudiant exprime de l'inquiétude, de la panique ou de la fatigue), complex (sa situation sort du cas général décrit dans les extraits et mérite l'avis d'une personne). Écris FLAGS: [] si aucun ne s'applique.
+Dans SOURCES_USED, chaque n est le numéro d'un extrait que tu as réellement utilisé pour construire ta réponse. Si tu n'as utilisé aucun extrait (cas du refus au point 4), écris SOURCES_USED: []. N'invente jamais un numéro qui ne correspond à aucun extrait fourni.`;
 
 // Two cache_control breakpoints, each ephemeral (5 min TTL):
 //   1. After RULES — the guardrails text, byte-identical on every request.
@@ -67,7 +70,7 @@ export function extractAndValidateSources<T extends RetrievedChunk>(
   chunks: T[]
 ): { answer: string; sources: T[] } {
   const match = fullText.match(/SOURCES_USED:\s*\[([^\]]*)\]\s*$/);
-  const answer = match ? fullText.slice(0, match.index).trimEnd() : fullText.trimEnd();
+  const answer = stripFlagsLine(match ? fullText.slice(0, match.index) : fullText).trimEnd();
 
   if (!match) return { answer, sources: [] };
 

@@ -35,7 +35,9 @@
 2. **Requête enrichie par le lexique** : « c quoi CEF » → « CEF (Centre pour les études en France) Campus France ».
 3. **Contexte pays (app)** : favoriser les guides du `cluster` du pays de l'étudiant.
 4. **Seuil** : ne pas l'abaisser globalement. Accepter 0,55 seulement si le guide en tête est aussi trouvé par le plein texte (double confirmation).
-5. **Message de refus** (site et app) : toujours **le guide le plus proche**, **« Demander à un mentor »** et **« On l'ajoute à nos guides »** (ce bouton enregistre la question masquée avec `requested = true`).
+5. **Message de refus** (site et app) : toujours **le guide le plus proche**, **« Demander à un mentor »** et **« On l'ajoute à nos guides »** (ce bouton enregistre la question masquée avec `requested = true`). ✅ Fait dans l'app en M1 (`/api/v1/assistant/request`).
+
+**Fait en M1, pour le site et l'app** : requête enrichie par le lexique (point 2) et contexte pays (point 3, app seulement : les guides d'un autre pays sont exclus). **Reste à faire** : recherche hybride (point 1), qui demande une migration (`tsvector`), et double confirmation à 0,55 (point 4).
 
 ## 4. Réponses fixes (sans IA)
 
@@ -53,4 +55,8 @@ select date_trunc('week', created_at) semaine,
        count(*) total,
        round(100.0 * count(*) filter (where fallback_triggered) / count(*)) pct
 from assistant_queries group by 1 order by 1 desc;
+
+-- Depuis M1 : les sujets que les étudiants ont demandé d'ajouter (« On l'ajoute à nos guides »)
+select created_at::date jour, channel, country, question
+from assistant_queries where requested order by created_at desc limit 100;
 ```
