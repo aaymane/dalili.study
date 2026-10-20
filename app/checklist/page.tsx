@@ -263,7 +263,6 @@ export default function ChecklistPage() {
                 {[
                   { v: '32', l: 'démarches' },
                   { v: '3', l: 'phases' },
-                  { v: '200+', l: 'étudiants' },
                   { v: '100%', l: 'gratuit' },
                 ].map(s => (
                   <div key={s.v} style={{ display: 'flex', alignItems: 'baseline', gap: 5, padding: '8px 18px', background: 'rgba(255,255,255,0.035)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 100 }}>

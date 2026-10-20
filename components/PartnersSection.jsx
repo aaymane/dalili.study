@@ -134,7 +134,7 @@ export default function PartnersSection() {
               color: 'rgba(255,255,255,0.92)',
               letterSpacing: '0.01em',
             }}>
-              ✦ Sélectionnés pour leur utilité, pas pour une commission
+              ✦ Sélectionnés pour leur utilité. Certains liens sont affiliés, on te le dit toujours
             </span>
           </div>
 
@@ -375,8 +375,8 @@ export default function PartnersSection() {
             lineHeight: 1.6,
           }}
         >
-          Dalili ne touche aucune commission sur ces recommandations.
-          Les partenaires sont évalués uniquement sur leur utilité réelle pour les étudiants internationaux.
+          Certains liens sont affiliés : Dalili peut toucher une commission, sans surcoût pour toi.
+          Ça ne change jamais nos recommandations : les partenaires sont choisis pour leur utilité réelle.
         </motion.p>
 
       </div>

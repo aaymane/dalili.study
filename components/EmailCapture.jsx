@@ -271,7 +271,7 @@ export default function EmailCapture() {
                 lineHeight: 1.7,
                 color: 'rgba(255,255,255,0.92)',
               }}>
-                Rejoins 200+ étudiants qui se préparent à vivre en France avec Dalili.
+                Rejoins les premiers étudiants qui se préparent à vivre en France avec Dalili.
               </p>
 
               <form onSubmit={handleSubmit} noValidate>
@@ -372,7 +372,7 @@ export default function EmailCapture() {
                 textAlign: 'center',
                 letterSpacing: '0.02em',
               }}>
-                Déjà <span style={{ color: 'rgba(77,143,255,0.7)', fontWeight: 600 }}>200+</span> étudiants sur la liste 🇫🇷
+                Sois parmi les <span style={{ color: 'rgba(77,143,255,0.7)', fontWeight: 600 }}>premiers</span> étudiants sur la liste 🇫🇷
               </p>
             </>
           )}
