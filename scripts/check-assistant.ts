@@ -6,6 +6,7 @@ import { detectDistress, parseModelFlags, stripFlagsLine } from '../lib/assistan
 import { extractAndValidateSources } from '../lib/assistant/system-prompt';
 import { usageOf } from '../lib/assistant/cost';
 import { __test } from '../lib/assistant/answer';
+import { actionsFromSources } from '../lib/assistant/actions';
 
 // Pays
 assert.equal(countryOfSlug('visa-etudiant-france-maroc-2026'), 'MA');
@@ -52,5 +53,15 @@ assert.equal(refusal('SOURCES_USED: []'), '');
 // Coûts (Haiku 4.5 : 1 $ / 5 $ par million)
 assert.equal(usageOf('claude-haiku-4-5', { input_tokens: 1000, output_tokens: 200, cache_creation_input_tokens: 0, cache_read_input_tokens: 4000 } as never).costUsd, 0.0024);
 assert.equal(usageOf('modele-inconnu', { input_tokens: 1, output_tokens: 1 } as never).costUsd, null);
+
+// Actions déterministes : guides cités → étapes du parcours (jamais inventées par le modèle)
+assert.deepEqual(actionsFromSources(['compte-bloque-visa-etudiant-france-guide'], null), [{ type: 'step', stepId: 'ressources', title: actionsFromSources(['compte-bloque-visa-etudiant-france-guide'])[0].title }]);
+assert.equal(actionsFromSources(['tcf-maroc-2026-guide-complet'], 'MA')[0]?.stepId, 'tcf');
+assert.deepEqual(actionsFromSources(['tcf-maroc-2026-guide-complet'], 'TN'), []);
+assert.deepEqual(actionsFromSources(['guide-inconnu'], 'MA'), []);
+assert.equal(
+  actionsFromSources(['compte-bloque-visa-etudiant-france-guide', 'compte-bloque-visa-etudiant-france-guide', 'carte-vitale-etudiant-etranger-guide', 'medecin-traitant-france-etudiant-etranger'], null).length,
+  2
+);
 
 console.log('Cerveau : briques déterministes ✓');

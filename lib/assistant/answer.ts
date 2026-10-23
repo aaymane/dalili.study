@@ -15,6 +15,7 @@
 //   meta     { queryId, lang }                    — always first
 //   text     { delta }                            — one event (site) or many (app, real streaming)
 //   sources  { sources: [{title,url,category,slug}] }
+//   actions  { actions: [{type:'step',stepId,title}] }  — from cited guides (the site panel ignores it)
 //   flags    { flags: ['legal'|'stress'|'complex'|'distress'] }
 //   fallback { message, suggestions, queryId }    — refusal, no generation
 //   error    { message }
@@ -31,6 +32,7 @@ import { redactPersonalData } from '@/lib/assistant/redact';
 import { expandWithGlossary, rankForCountry } from '@/lib/assistant/retrieval-hints';
 import { detectDistress, parseModelFlags, type AssistantFlag } from '@/lib/assistant/flags';
 import { ZERO_USAGE, addUsage, usageOf, type Usage } from '@/lib/assistant/cost';
+import { actionsFromSources } from '@/lib/assistant/actions';
 
 // Conservative on purpose — start by refusing borderline questions rather
 // than risking a stretched answer. Tune upward only after reviewing real
@@ -247,7 +249,12 @@ export async function answerQuestion(input: AnswerInput): Promise<Response> {
         if (distress) flags.push('distress');
 
         if (!input.stream) send({ type: 'text', delta: answer });
-        send({ type: 'sources', sources: nearestGuides(sources as MatchedChunk[], sources.length) });
+        const cited = nearestGuides(sources as MatchedChunk[], sources.length);
+        send({ type: 'sources', sources: cited });
+        // Deterministic actions: the cited guides → the journey steps that point to them.
+        // Sent on both channels (the app in demo mode uses the public route); the site panel ignores it.
+        const actions = actionsFromSources(cited.map(s => s.slug), country);
+        if (actions.length > 0) send({ type: 'actions', actions });
         if (flags.length > 0) send({ type: 'flags', flags });
 
         await logQuery({
