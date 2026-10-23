@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import StarCanvas from "@/components/StarCanvas";
 import AssistantWidget from "@/components/AssistantWidget";
+import PublicOnly from "@/components/PublicOnly";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 
@@ -189,9 +190,13 @@ export default function RootLayout({
           }) }}
         />
         <StarCanvas />
-        <Navbar />
+        <PublicOnly>
+          <Navbar />
+        </PublicOnly>
         {children}
-        <AssistantWidget />
+        <PublicOnly>
+          <AssistantWidget />
+        </PublicOnly>
         <SpeedInsights />
       </body>
       <GoogleTagManager gtmId="GTM-WTNNC952" />
