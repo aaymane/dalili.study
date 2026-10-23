@@ -4,7 +4,7 @@
 //   1. expandWithGlossary() — short, rare words ("CEF", "apostille", "Vitale")
 //      embed poorly on their own. 4 of the 58 refusals in assistant_queries
 //      were plain "c'est quoi X ?" questions about lexicon terms. Appending the
-//      term's full name gives the embedding something to hold on to.
+//      term's full name and plain definition gives the embedding something to hold on to.
 //   2. rankForCountry() — app requests carry the student's country. Guides for
 //      ANOTHER country are dropped (a Moroccan student must never get the
 //      Tunisian visa fees), and guides for THEIR country get a small boost.
@@ -39,12 +39,16 @@ export function countryOfSlug(slug: string): CountryCode | null {
 
 const normalize = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
-/** "c quoi CEF ?" → "c quoi CEF ? (CEF : Centre pour les études en France)". */
+/**
+ * "c quoi CEF ?" → "c quoi CEF ? (CEF : Centre pour les études en France. <définition simple>)".
+ * The plain definition matters for terms without a full name: "compte bloqué" alone
+ * stayed under the relevance gate although a whole guide is about it.
+ */
 export function expandWithGlossary(query: string): string {
   const q = ` ${normalize(query).replace(/[^a-z0-9]+/g, ' ')} `;
   const hits = GLOSSARY.filter(t => q.includes(` ${normalize(t.term).replace(/[^a-z0-9]+/g, ' ')} `)).slice(0, 2);
   if (hits.length === 0) return query;
-  return `${query} (${hits.map(t => (t.full ? `${t.term} : ${t.full}` : t.term)).join(' ; ')})`;
+  return `${query} (${hits.map(t => `${t.full ? `${t.term} : ${t.full}.` : `${t.term} :`} ${t.simple}`).join(' ; ')})`;
 }
 
 /** Drops other countries' guides, boosts the student's own. No country → unchanged. */

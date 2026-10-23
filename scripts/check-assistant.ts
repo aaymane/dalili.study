@@ -29,6 +29,8 @@ assert.equal(rankForCountry([{ slug: 'visa-etudiant-france-tunisie-2026', simila
 assert.match(expandWithGlossary('c quoi CEF ?'), /Centre pour les études en France/);
 assert.match(expandWithGlossary('ma carte vitale arrive quand'), /Carte Vitale/);
 assert.equal(expandWithGlossary('bonjour'), 'bonjour');
+// Terme sans nom complet : sa définition simple porte la recherche (« compte bloqué » était refusé).
+assert.match(expandWithGlossary("C'est quoi compte bloqué"), /consulat/);
 
 // Drapeaux
 assert.deepEqual(parseModelFlags('Réponse\nFLAGS: [legal, inventé, stress]\nSOURCES_USED: [1]'), ['legal', 'stress']);
