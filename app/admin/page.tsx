@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 
+import { AdminTabs, FeedbackPanel, MentorsPanel, OverviewPanel, type AdminTab } from './panels';
+
 type Status = 'pending' | 'invited' | 'converted' | 'unsubscribed';
 
 interface SimulateurData {
@@ -241,6 +243,14 @@ export default function AdminPage() {
   const [search,   setSearch]   = useState('');
   const [loading,  setLoading]  = useState(false);
   const [updating, setUpdating] = useState<string | null>(null);
+  const [tab,      setTab]      = useState<AdminTab>('apercu');
+  const [waiting,  setWaiting]  = useState(0);
+
+  // Pastille « à valider » sur l'onglet Mentors.
+  const refreshWaiting = useCallback(async (tk: string) => {
+    const res = await fetch('/api/admin/overview', { headers: { 'x-admin-token': tk } });
+    if (res.ok) setWaiting((await res.json()).mentors?.waiting ?? 0);
+  }, []);
 
   const fetchData = useCallback(async (tk: string, pg = 0, st: Status | '' = '', q = '') => {
     setLoading(true);
@@ -261,6 +271,7 @@ export default function AdminPage() {
   const handleAuth = async (tk: string) => {
     setToken(tk);
     setAuthed(true);
+    void refreshWaiting(tk);
     await fetchData(tk, 0, '', '');
   };
 
@@ -441,14 +452,14 @@ export default function AdminPage() {
                 DALILI
               </span>
               <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.70)', letterSpacing: '0.06em' }}>/</span>
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', letterSpacing: '0.08em' }}>Waitlist</span>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.78)', letterSpacing: '0.08em' }}>Admin</span>
             </div>
             <div style={{ color: 'rgba(255,255,255,0.70)', fontSize: 12, letterSpacing: '0.04em' }}>
-              {count > 0 ? `${count} inscrits` : 'Dashboard admin'}
+              {tab === 'inscrits' && count > 0 ? `${count} inscrits` : 'Toi et tes associés, tout DALILI au même endroit'}
             </div>
           </div>
 
-          <div className="admin-header-btns">
+          {tab === 'inscrits' ? <div className="admin-header-btns">
             <button onClick={exportCsv} style={{
               display: 'flex', alignItems: 'center', gap: 7,
               padding: '9px 18px',
@@ -481,9 +492,16 @@ export default function AdminPage() {
               </svg>
               Actualiser
             </button>
-          </div>
+          </div> : null}
         </div>
 
+        <AdminTabs tab={tab} onChange={setTab} waiting={waiting} />
+
+        {tab === 'apercu' ? <OverviewPanel token={token} onGoMentors={() => setTab('mentors')} /> : null}
+        {tab === 'mentors' ? <MentorsPanel token={token} onChanged={() => void refreshWaiting(token)} /> : null}
+        {tab === 'signalements' ? <FeedbackPanel token={token} /> : null}
+
+        {tab === 'inscrits' ? <>
         {/* ── Stats ── */}
         {stats && (
           <div className="stats-grid">
@@ -702,6 +720,8 @@ export default function AdminPage() {
             </button>
           </div>
         )}
+
+        </> : null}
 
         {/* ── Footer ── */}
         <div style={{ marginTop: 52, textAlign: 'center' }}>

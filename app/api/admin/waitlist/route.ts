@@ -1,16 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAdmin as checkAuth, unauthorized } from "@/lib/admin-auth";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
-
-function unauthorized() {
-  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-}
-
-function checkAuth(request: NextRequest) {
-  const token = request.headers.get("x-admin-token");
-  return ADMIN_TOKEN && token === ADMIN_TOKEN;
-}
 
 // GET — list all waitlist entries
 export async function GET(request: NextRequest) {
