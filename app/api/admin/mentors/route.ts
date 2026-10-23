@@ -1,11 +1,12 @@
 // Admin — mentor sheets sent from the app. A new sheet is invisible to students
 // (is_active = false) until one of the founders validates it here.
 //   GET    → every sheet, waiting ones first, with the account email to contact the person
-//   PATCH  { id, action: 'valider' | 'suspendre' }
+//   PATCH  { id, action: 'valider' | 'suspendre' } → a first validation notifies the mentor's phone
 //   DELETE { id } → refuse a sheet that was never validated (the person can send a new one)
 
 import { NextResponse } from 'next/server';
 import { isAdmin, unauthorized } from '@/lib/admin-auth';
+import { once, pushTo } from '@/lib/notify';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export const runtime = 'nodejs';
@@ -51,8 +52,22 @@ export async function PATCH(request: Request) {
   if (!UUID_RE.test(id) || (action !== 'valider' && action !== 'suspendre')) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
   }
-  const { error } = await supabaseAdmin.from('mentors').update({ is_active: action === 'valider' }).eq('id', id);
+  const { data: m, error } = await supabaseAdmin
+    .from('mentors')
+    .update({ is_active: action === 'valider' })
+    .eq('id', id)
+    .select('id, user_id, city')
+    .maybeSingle();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  // First validation only: the mentor learns that students can now find them.
+  if (action === 'valider' && m?.user_id && (await once(m.id, 'mentor_validated'))) {
+    await pushTo(m.user_id, {
+      title: 'Ta fiche mentor est en ligne',
+      body: `Les étudiants de ${m.city} peuvent maintenant te proposer un appel. Merci d’être là pour eux.`,
+      url: '/(app)/(tabs)',
+      role: 'mentor',
+    });
+  }
   return NextResponse.json({ ok: true });
 }
 
