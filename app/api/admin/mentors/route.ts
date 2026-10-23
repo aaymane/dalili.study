@@ -6,7 +6,7 @@
 
 import { NextResponse } from 'next/server';
 import { isAdmin, unauthorized } from '@/lib/admin-auth';
-import { once, pushTo } from '@/lib/notify';
+import { notifyMentorValidated } from '@/lib/notify';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export const runtime = 'nodejs';
@@ -52,22 +52,10 @@ export async function PATCH(request: Request) {
   if (!UUID_RE.test(id) || (action !== 'valider' && action !== 'suspendre')) {
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
   }
-  const { data: m, error } = await supabaseAdmin
-    .from('mentors')
-    .update({ is_active: action === 'valider' })
-    .eq('id', id)
-    .select('id, user_id, city')
-    .maybeSingle();
+  const { error } = await supabaseAdmin.from('mentors').update({ is_active: action === 'valider' }).eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  // First validation only: the mentor learns that students can now find them.
-  if (action === 'valider' && m?.user_id && (await once(m.id, 'mentor_validated'))) {
-    await pushTo(m.user_id, {
-      title: 'Ta fiche mentor est en ligne',
-      body: `Les étudiants de ${m.city} peuvent maintenant te proposer un appel. Merci d’être là pour eux.`,
-      url: '/(app)/(tabs)',
-      role: 'mentor',
-    });
-  }
+  // The database webhook notifies the mentor; this is the fallback (sent once either way).
+  if (action === 'valider') await notifyMentorValidated(id);
   return NextResponse.json({ ok: true });
 }
 
