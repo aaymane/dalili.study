@@ -176,9 +176,61 @@ type MentorRow = {
   created_at: string;
   email: string | null;
   profile: { country: string | null; origin_city: string | null; study_level: string | null; situation: string | null } | null;
+  /** Charter accepted in the app (null = not yet), and the founders' verification. */
+  trust: {
+    birth_year: number;
+    charter_accepted_at: string;
+    verified_at: string | null;
+    verified_proof: Proof | null;
+    verified_by: string | null;
+  } | null;
 };
 
 const LEVELS: Record<string, string> = { bac: 'Bac', licence: 'Licence', master: 'Master', doctorat: 'Doctorat' };
+
+type Proof = 'carte_etudiante' | 'linkedin' | 'titre_sejour';
+const PROOFS: Record<Proof, string> = { carte_etudiante: 'Carte étudiante', linkedin: 'LinkedIn', titre_sejour: 'Titre de séjour' };
+const field: CSSProperties = { padding: '9px 12px', borderRadius: 10, fontSize: 13, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: C.text };
+
+// The founder's first name, remembered on this browser only: "who verified" is declared, one shared code for three.
+const NAME_KEY = 'dalili-admin-name';
+const savedName = () => {
+  try {
+    return localStorage.getItem(NAME_KEY) ?? '';
+  } catch {
+    return '';
+  }
+};
+
+/** A founder saw a proof (by video call or email): we note which one and who, never a copy. */
+function VerifyForm({ busy, onVerify }: { busy: boolean; onVerify: (proof: Proof, by: string) => void }) {
+  const [proof, setProof] = useState<Proof | ''>('');
+  const [by, setBy] = useState(savedName);
+  return (
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+      <select value={proof} onChange={e => setProof(e.target.value as Proof | '')} style={field} aria-label="Preuve vue">
+        <option value="">Preuve vue…</option>
+        {(Object.keys(PROOFS) as Proof[]).map(p => (
+          <option key={p} value={p}>
+            {PROOFS[p]}
+          </option>
+        ))}
+      </select>
+      <input value={by} onChange={e => setBy(e.target.value)} placeholder="Ton prénom" maxLength={40} style={{ ...field, width: 130 }} aria-label="Vérifié par" />
+      <Btn
+        tone="ghost"
+        disabled={busy || !proof || by.trim().length < 2}
+        onClick={() => {
+          try {
+            localStorage.setItem(NAME_KEY, by.trim());
+          } catch {}
+          if (proof) onVerify(proof, by.trim());
+        }}>
+        Marquer vérifié
+      </Btn>
+    </div>
+  );
+}
 
 function Btn({ children, onClick, tone, disabled }: { children: ReactNode; onClick: () => void; tone: 'green' | 'red' | 'ghost'; disabled?: boolean }) {
   const t = {
@@ -196,7 +248,19 @@ function Btn({ children, onClick, tone, disabled }: { children: ReactNode; onCli
   );
 }
 
-function MentorCard({ m, busy, onAction }: { m: MentorRow; busy: boolean; onAction: (a: 'valider' | 'suspendre' | 'refuser') => void }) {
+function MentorCard({
+  m,
+  busy,
+  onAction,
+  onVerify,
+}: {
+  m: MentorRow;
+  busy: boolean;
+  onAction: (a: 'valider' | 'suspendre' | 'refuser') => void;
+  onVerify: (proof: Proof, by: string) => void;
+}) {
+  const t = m.trust;
+  const verified = !!t?.verified_at;
   const facts = [
     m.profile?.study_level ? LEVELS[m.profile.study_level] ?? m.profile.study_level : null,
     m.profile?.situation === 'in_france' ? 'Vit en France' : m.profile?.situation === 'abroad' ? 'Pas encore en France' : null,
@@ -231,6 +295,18 @@ function MentorCard({ m, busy, onAction }: { m: MentorRow; busy: boolean; onActi
       {m.headline || m.study ? <div style={{ fontSize: 13, color: C.text }}>{[m.headline, m.study].filter(Boolean).join(' · ')}</div> : null}
       {m.specialties?.length ? <div style={{ fontSize: 13, color: C.dim }}>Peut aider sur : {m.specialties.join(', ')}</div> : null}
       {m.quote ? <div style={{ fontSize: 13, color: C.dim, fontStyle: 'italic' }}>« {m.quote} »</div> : null}
+      <div style={{ fontSize: 13, color: t ? C.text : C.amber }}>
+        {t
+          ? `Charte acceptée le ${day(t.charter_accepted_at)} · né·e en ${t.birth_year} (≈ ${new Date().getFullYear() - t.birth_year} ans)`
+          : '⚠ Charte pas encore acceptée dans l’app : vérification et validation impossibles.'}
+      </div>
+      {verified && t ? (
+        <div style={{ fontSize: 13, color: C.green }}>
+          ✓ Vérifié le {day(t.verified_at!)} par {t.verified_by} · {t.verified_proof ? PROOFS[t.verified_proof] : ''} vue, aucune copie gardée
+        </div>
+      ) : t ? (
+        <VerifyForm busy={busy} onVerify={onVerify} />
+      ) : null}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {m.is_active ? (
           <Btn tone="ghost" disabled={busy} onClick={() => onAction('suspendre')}>
@@ -238,8 +314,8 @@ function MentorCard({ m, busy, onAction }: { m: MentorRow; busy: boolean; onActi
           </Btn>
         ) : (
           <>
-            <Btn tone="green" disabled={busy} onClick={() => onAction('valider')}>
-              Valider la fiche
+            <Btn tone="green" disabled={busy || !verified} onClick={() => onAction('valider')}>
+              {verified ? 'Valider la fiche' : 'Valider (vérifie d’abord)'}
             </Btn>
             <Btn tone="red" disabled={busy} onClick={() => onAction('refuser')}>
               Refuser
@@ -276,6 +352,21 @@ export function MentorsPanel({ token, onChanged }: { token: string; onChanged: (
     }
   };
 
+  const verify = async (m: MentorRow, proof: Proof, by: string) => {
+    setBusy(m.id);
+    try {
+      await call(token, '/api/admin/mentors', { method: 'PATCH', body: JSON.stringify({ id: m.id, action: 'verifier', proof, by }) });
+      const now = new Date().toISOString();
+      setData(d =>
+        d ? { data: d.data.map(x => (x.id === m.id && x.trust ? { ...x, trust: { ...x.trust, verified_at: now, verified_proof: proof, verified_by: by } } : x)) } : d
+      );
+    } catch (e) {
+      alert((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+
   const all = data?.data ?? [];
   const waiting = all.filter(m => !m.is_active);
   const active = all.filter(m => m.is_active);
@@ -287,7 +378,7 @@ export function MentorsPanel({ token, onChanged }: { token: string; onChanged: (
       {waiting.length ? (
         <div style={{ display: 'grid', gap: 12, marginBottom: 32 }}>
           {waiting.map(m => (
-            <MentorCard key={m.id} m={m} busy={busy === m.id} onAction={a => act(m, a)} />
+            <MentorCard key={m.id} m={m} busy={busy === m.id} onAction={a => act(m, a)} onVerify={(p, by) => verify(m, p, by)} />
           ))}
         </div>
       ) : (
@@ -299,7 +390,7 @@ export function MentorsPanel({ token, onChanged }: { token: string; onChanged: (
       {active.length ? (
         <div style={{ display: 'grid', gap: 12 }}>
           {active.map(m => (
-            <MentorCard key={m.id} m={m} busy={busy === m.id} onAction={a => act(m, a)} />
+            <MentorCard key={m.id} m={m} busy={busy === m.id} onAction={a => act(m, a)} onVerify={(p, by) => verify(m, p, by)} />
           ))}
         </div>
       ) : (
