@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-import { AdminTabs, FeedbackPanel, MentorsPanel, OverviewPanel, type AdminTab } from './panels';
+import { AdminTabs, FeedbackPanel, MentorsPanel, OverviewPanel, SafetyPanel, type AdminTab } from './panels';
 
 type Status = 'pending' | 'invited' | 'converted' | 'unsubscribed';
 
@@ -245,11 +245,15 @@ export default function AdminPage() {
   const [updating, setUpdating] = useState<string | null>(null);
   const [tab,      setTab]      = useState<AdminTab>('apercu');
   const [waiting,  setWaiting]  = useState(0);
+  const [safety,   setSafety]   = useState(0);
 
-  // Pastille « à valider » sur l'onglet Mentors.
+  // Pastilles « à valider » (Mentors) et « à traiter » (Signalements mentorat).
   const refreshWaiting = useCallback(async (tk: string) => {
     const res = await fetch('/api/admin/overview', { headers: { 'x-admin-token': tk } });
-    if (res.ok) setWaiting((await res.json()).mentors?.waiting ?? 0);
+    if (!res.ok) return;
+    const json = await res.json();
+    setWaiting(json.mentors?.waiting ?? 0);
+    setSafety(json.safety ?? 0);
   }, []);
 
   const fetchData = useCallback(async (tk: string, pg = 0, st: Status | '' = '', q = '') => {
@@ -495,10 +499,11 @@ export default function AdminPage() {
           </div> : null}
         </div>
 
-        <AdminTabs tab={tab} onChange={setTab} waiting={waiting} />
+        <AdminTabs tab={tab} onChange={setTab} waiting={waiting} safety={safety} />
 
-        {tab === 'apercu' ? <OverviewPanel token={token} onGoMentors={() => setTab('mentors')} /> : null}
+        {tab === 'apercu' ? <OverviewPanel token={token} onGoMentors={() => setTab('mentors')} onGoSafety={() => setTab('securite')} /> : null}
         {tab === 'mentors' ? <MentorsPanel token={token} onChanged={() => void refreshWaiting(token)} /> : null}
+        {tab === 'securite' ? <SafetyPanel token={token} onChanged={() => void refreshWaiting(token)} /> : null}
         {tab === 'signalements' ? <FeedbackPanel token={token} /> : null}
 
         {tab === 'inscrits' ? <>

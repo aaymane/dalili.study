@@ -1,15 +1,16 @@
 'use client';
 
 // Admin tabs beyond the waitlist: mentors to validate, an overview of the whole
-// of DALILI, and the reports on the assistant's answers. Same look as page.tsx.
+// of DALILI, the mentoring reports, and the reports on the assistant's answers. Same look as page.tsx.
 
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 
-export type AdminTab = 'inscrits' | 'mentors' | 'apercu' | 'signalements';
+export type AdminTab = 'inscrits' | 'mentors' | 'apercu' | 'securite' | 'signalements';
 
 const TABS: { id: AdminTab; label: string }[] = [
   { id: 'apercu', label: 'Vue d’ensemble' },
   { id: 'mentors', label: 'Mentors' },
+  { id: 'securite', label: 'Signalements mentorat' },
   { id: 'inscrits', label: 'Inscrits' },
   { id: 'signalements', label: 'Signalements IA' },
 ];
@@ -35,11 +36,12 @@ async function call<T>(token: string, path: string, init?: RequestInit): Promise
 const day = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
-export function AdminTabs({ tab, onChange, waiting }: { tab: AdminTab; onChange: (t: AdminTab) => void; waiting: number }) {
+export function AdminTabs({ tab, onChange, waiting, safety }: { tab: AdminTab; onChange: (t: AdminTab) => void; waiting: number; safety: number }) {
   return (
     <div role="tablist" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
       {TABS.map(t => {
         const on = tab === t.id;
+        const badge = t.id === 'mentors' ? waiting : t.id === 'securite' ? safety : 0;
         return (
           <button
             key={t.id}
@@ -54,9 +56,9 @@ export function AdminTabs({ tab, onChange, waiting }: { tab: AdminTab; onChange:
               color: on ? C.blue : C.text,
             }}>
             {t.label}
-            {t.id === 'mentors' && waiting > 0 ? (
-              <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 10, background: C.amber, color: '#1a1300', fontSize: 11, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                {waiting}
+            {badge > 0 ? (
+              <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 10, background: t.id === 'securite' ? C.red : C.amber, color: '#1a1300', fontSize: 11, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                {badge}
               </span>
             ) : null}
           </button>
@@ -108,6 +110,8 @@ type Overview = {
   calls: { pending: number; confirmed: number; done: number };
   assistant: { questions: number; refused: number; refusalRate: number; cost30: number };
   reports: number;
+  /** Mentoring reports still open. */
+  safety: number;
 };
 
 function Metric({ label, value, sub, accent }: { label: string; value: string | number; sub?: string; accent: string }) {
@@ -121,12 +125,22 @@ function Metric({ label, value, sub, accent }: { label: string; value: string | 
   );
 }
 
-export function OverviewPanel({ token, onGoMentors }: { token: string; onGoMentors: () => void }) {
+export function OverviewPanel({ token, onGoMentors, onGoSafety }: { token: string; onGoMentors: () => void; onGoSafety: () => void }) {
   const { data, error, loading, reload } = useAdminData<Overview>(token, '/api/admin/overview');
   return (
     <State loading={loading} error={error} onRetry={reload}>
       {data ? (
         <div style={{ display: 'grid', gap: 14 }}>
+          {data.safety > 0 ? (
+            <button
+              onClick={onGoSafety}
+              style={{ ...C.card, padding: '16px 20px', textAlign: 'left', cursor: 'pointer', borderColor: 'rgba(248,113,113,0.4)', background: 'rgba(248,113,113,0.07)', color: '#fff', fontSize: 14 }}>
+              <strong style={{ color: C.red }}>
+                {data.safety} signalement{data.safety > 1 ? 's' : ''} mentorat à traiter
+              </strong>{' '}
+              · à lire en premier →
+            </button>
+          ) : null}
           {data.mentors.waiting > 0 ? (
             <button
               onClick={onGoMentors}
@@ -396,6 +410,186 @@ export function MentorsPanel({ token, onChanged }: { token: string; onChanged: (
       ) : (
         <div style={{ ...C.card, padding: 20, color: C.dim, fontSize: 14 }}>Aucun mentor validé pour le moment.</div>
       )}
+    </State>
+  );
+}
+
+// ── Mentoring reports ────────────────────────────────────────────────────────
+type Person = { name: string | null; email: string | null; country: string | null; city: string | null } | null;
+type SafetyReport = {
+  id: string;
+  reporter_role: 'student' | 'mentor';
+  reason: 'harcelement' | 'argent' | 'donnees' | 'faux_profil' | 'autre';
+  comment: string | null;
+  status: 'open' | 'handled' | 'dismissed';
+  handled_at: string | null;
+  handled_by: string | null;
+  created_at: string;
+  reporter: Person;
+  reported: Person;
+  mentor: { id: string; first_name: string; last_name: string; city: string; is_active: boolean } | null;
+  booking: { starts_at: string; topic: string; status: string } | null;
+  times_reported: number;
+};
+
+// Same words as the app's report sheet (src/features/safety/components/ReportSheet.tsx).
+const SAFETY_REASONS: Record<SafetyReport['reason'], { label: string; color: string }> = {
+  harcelement: { label: 'Propos ou gestes déplacés', color: C.red },
+  argent: { label: 'Demande de l’argent', color: C.red },
+  donnees: { label: 'Veut son numéro ou ses réseaux', color: C.amber },
+  faux_profil: { label: 'Faux profil', color: C.amber },
+  autre: { label: 'Autre chose', color: C.dim },
+};
+const BOOKING_STATUS: Record<string, string> = { pending: 'en attente', confirmed: 'acceptée', cancelled: 'annulée', done: 'appel passé' };
+
+function Who({ label, p, deleted }: { label: string; p: Person; deleted: string }) {
+  if (!p) return <div style={{ fontSize: 13, color: C.dim }}>{label} : {deleted}</div>;
+  const place = [p.city, p.country].filter(Boolean).join(', ');
+  return (
+    <div style={{ fontSize: 13, color: C.text }}>
+      {label} : <strong style={{ color: '#fff' }}>{p.name ?? 'Sans prénom'}</strong>
+      {place ? <span style={{ color: C.dim }}> · {place}</span> : null}
+      {p.email ? (
+        <>
+          {' · '}
+          <a href={`mailto:${p.email}`} style={{ color: C.blue }}>
+            {p.email}
+          </a>
+        </>
+      ) : null}
+    </div>
+  );
+}
+
+function SafetyCard({
+  r,
+  busy,
+  onClose,
+  onSuspend,
+}: {
+  r: SafetyReport;
+  busy: boolean;
+  onClose: (status: 'handled' | 'dismissed', by: string) => void;
+  onSuspend: () => void;
+}) {
+  const [by, setBy] = useState(savedName);
+  const reason = SAFETY_REASONS[r.reason] ?? { label: r.reason, color: C.dim };
+  const aboutMentor = r.reporter_role === 'student';
+  const close = (status: 'handled' | 'dismissed') => {
+    try {
+      localStorage.setItem(NAME_KEY, by.trim());
+    } catch {}
+    onClose(status, by.trim());
+  };
+  return (
+    <div style={{ ...C.card, padding: 20, display: 'grid', gap: 10, ...(r.status === 'open' ? { borderColor: 'rgba(248,113,113,0.3)' } : {}) }}>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 12 }}>
+        <span style={{ color: reason.color, fontWeight: 700 }}>● {reason.label}</span>
+        <span style={{ color: C.dim }}>
+          {day(r.created_at)} · {aboutMentor ? 'un étudiant signale son mentor' : 'un mentor signale un étudiant'}
+        </span>
+        {r.times_reported > 1 ? <span style={{ color: C.red, fontWeight: 700 }}>⚠ signalé·e {r.times_reported} fois</span> : null}
+      </div>
+      <Who label="Signalé·e" p={r.reported} deleted={aboutMentor && r.mentor ? `${r.mentor.first_name} ${r.mentor.last_name} (sans compte)` : 'compte supprimé'} />
+      <Who label="Par" p={r.reporter} deleted="compte supprimé" />
+      {aboutMentor && r.mentor ? (
+        <div style={{ fontSize: 13, color: C.dim }}>
+          Fiche mentor : {r.mentor.first_name} {r.mentor.last_name} · {r.mentor.city} ·{' '}
+          <span style={{ color: r.mentor.is_active ? C.green : C.dim }}>{r.mentor.is_active ? 'en ligne' : 'pas en ligne'}</span>
+        </div>
+      ) : null}
+      {r.booking ? (
+        <div style={{ fontSize: 13, color: C.dim }}>
+          Demande d’appel du {day(r.booking.starts_at)} · « {r.booking.topic} » · {BOOKING_STATUS[r.booking.status] ?? r.booking.status}
+        </div>
+      ) : null}
+      {r.comment ? <div style={{ fontSize: 14, color: '#fff' }}>« {r.comment} »</div> : null}
+      {r.status === 'open' ? (
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <input value={by} onChange={e => setBy(e.target.value)} placeholder="Ton prénom" maxLength={40} style={{ ...field, width: 130 }} aria-label="Traité par" />
+          <Btn tone="green" disabled={busy || by.trim().length < 2} onClick={() => close('handled')}>
+            Traité
+          </Btn>
+          <Btn tone="ghost" disabled={busy || by.trim().length < 2} onClick={() => close('dismissed')}>
+            Sans suite
+          </Btn>
+          {aboutMentor && r.mentor?.is_active ? (
+            <Btn tone="red" disabled={busy} onClick={onSuspend}>
+              Suspendre le mentor
+            </Btn>
+          ) : null}
+        </div>
+      ) : (
+        <div style={{ fontSize: 13, color: r.status === 'handled' ? C.green : C.dim }}>
+          {r.status === 'handled' ? '✓ Traité' : 'Classé sans suite'} le {r.handled_at ? day(r.handled_at) : '?'} par {r.handled_by}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function SafetyPanel({ token, onChanged }: { token: string; onChanged: () => void }) {
+  const { data, error, loading, reload, setData } = useAdminData<{ data: SafetyReport[] }>(token, '/api/admin/reports');
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const close = async (r: SafetyReport, status: 'handled' | 'dismissed', by: string) => {
+    setBusy(r.id);
+    try {
+      await call(token, '/api/admin/reports', { method: 'PATCH', body: JSON.stringify({ id: r.id, status, by }) });
+      const now = new Date().toISOString();
+      setData(d => (d ? { data: d.data.map(x => (x.id === r.id ? { ...x, status, handled_at: now, handled_by: by } : x)) } : d));
+      onChanged();
+    } catch (e) {
+      alert((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const suspend = async (r: SafetyReport) => {
+    const m = r.mentor;
+    if (!m || !confirm(`Suspendre ${m.first_name} ${m.last_name} ? Les étudiants ne le verront plus et ne pourront plus lui demander d’appel.`)) return;
+    setBusy(r.id);
+    try {
+      await call(token, '/api/admin/mentors', { method: 'PATCH', body: JSON.stringify({ id: m.id, action: 'suspendre' }) });
+      setData(d => (d ? { data: d.data.map(x => (x.mentor?.id === m.id ? { ...x, mentor: { ...m, is_active: false } } : x)) } : d));
+      onChanged();
+    } catch (e) {
+      alert((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const all = data?.data ?? [];
+  const open = all.filter(r => r.status === 'open');
+  const closed = all.filter(r => r.status !== 'open');
+  const h = (text: string) => <div style={{ fontSize: 12, color: C.text, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '8px 0 12px' }}>{text}</div>;
+
+  return (
+    <State loading={loading} error={error} onRetry={reload}>
+      {h(`À traiter · ${open.length}`)}
+      {open.length ? (
+        <div style={{ display: 'grid', gap: 12, marginBottom: 32 }}>
+          {open.map(r => (
+            <SafetyCard key={r.id} r={r} busy={busy === r.id} onClose={(s, by) => close(r, s, by)} onSuspend={() => suspend(r)} />
+          ))}
+        </div>
+      ) : (
+        <div style={{ ...C.card, padding: 20, color: C.dim, fontSize: 14, marginBottom: 32 }}>
+          Aucun signalement à traiter. Ils arrivent quand quelqu’un touche « Signaler » sur une fiche mentor, pendant un appel ou sur une demande reçue.
+        </div>
+      )}
+      {closed.length ? (
+        <>
+          {h(`Déjà classés · ${closed.length}`)}
+          <div style={{ display: 'grid', gap: 12 }}>
+            {closed.map(r => (
+              <SafetyCard key={r.id} r={r} busy={false} onClose={() => {}} onSuspend={() => {}} />
+            ))}
+          </div>
+        </>
+      ) : null}
     </State>
   );
 }
