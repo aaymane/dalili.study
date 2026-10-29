@@ -4,7 +4,7 @@
 
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
-export type NotifyEvent = 'booking_created' | 'booking_confirmed' | 'booking_declined' | 'booking_cancelled' | 'mentor_validated';
+export type NotifyEvent = 'booking_created' | 'booking_confirmed' | 'booking_declined' | 'booking_cancelled' | 'mentor_validated' | 'message_created';
 
 export interface PushMessage {
   title: string;
@@ -167,5 +167,57 @@ export async function notifyMentorValidated(mentorId: string): Promise<number> {
     body: `Les étudiants de ${m.city} peuvent maintenant te proposer un appel. Merci d’être là pour eux.`,
     url: '/(app)/(tabs)',
     role: 'mentor',
+  });
+}
+
+// ── A new message between a student and their mentor ─────────────────────────────────────────────────────────
+// (supabase/migrations/20261029100000_messagerie.sql in dalili-app). One alert per unread burst: only the first
+// message the other person has not read yet rings, the following ones wait until they open the conversation.
+
+const preview = (text: string) => (text.length > 120 ? `${text.slice(0, 117).trimEnd()}…` : text);
+
+export async function notifyMessage(messageId: string): Promise<number> {
+  const { data: msg } = await supabaseAdmin.from('messages').select('id, conversation_id, sender_id, body, created_at').eq('id', messageId).maybeSingle();
+  if (!msg) return 0;
+  const { data: c } = await supabaseAdmin
+    .from('conversations')
+    .select('id, student_id, student_read_at, mentor_read_at, mentors(user_id, first_name, is_active)')
+    .eq('id', msg.conversation_id)
+    .maybeSingle();
+  const mentor = (Array.isArray(c?.mentors) ? c?.mentors[0] : c?.mentors) as { user_id: string | null; first_name: string; is_active: boolean } | null;
+  if (!c || !mentor?.user_id || !mentor.is_active) return 0;
+
+  const fromStudent = msg.sender_id === c.student_id;
+  if (!fromStudent && msg.sender_id !== mentor.user_id) return 0;
+  const to = fromStudent ? mentor.user_id : c.student_id;
+  const readAt = fromStudent ? c.mentor_read_at : c.student_read_at;
+
+  // Blocked either way: the conversation is hidden from both, nothing rings.
+  const { count: blocked } = await supabaseAdmin
+    .from('mentorat_blocks')
+    .select('*', { count: 'exact', head: true })
+    .or(`and(blocker_id.eq.${msg.sender_id},blocked_id.eq.${to}),and(blocker_id.eq.${to},blocked_id.eq.${msg.sender_id})`);
+  if (blocked) return 0;
+
+  const { count: earlier } = await supabaseAdmin
+    .from('messages')
+    .select('*', { count: 'exact', head: true })
+    .eq('conversation_id', c.id)
+    .eq('sender_id', msg.sender_id)
+    .gt('created_at', readAt)
+    .lt('created_at', msg.created_at);
+  if (earlier) return 0;
+  if (!(await once(msg.id, 'message_created'))) return 0;
+
+  let name = mentor.first_name;
+  if (fromStudent) {
+    const { data: p } = await supabaseAdmin.from('profiles').select('first_name, last_name').eq('id', c.student_id).maybeSingle();
+    name = shortName(p?.first_name, p?.last_name);
+  }
+  return pushTo(to, {
+    title: `${name} t’a écrit`,
+    body: preview(msg.body),
+    url: `/(app)/messages/${c.id}`,
+    role: fromStudent ? 'mentor' : 'student',
   });
 }

@@ -1,11 +1,11 @@
 // Database webhook (supabase/migrations/20261024120000_notifications_webhook.sql in dalili-app): the database
-// reports « booking X changed » or « mentor sheet Y was validated ». Protected by a shared secret kept in the
+// reports « booking X changed », « mentor sheet Y was validated » or « message Z was sent ». Protected by a shared secret kept in the
 // database vault and in NOTIFY_WEBHOOK_SECRET (Vercel, Production only). Same checks and same once-only journal
 // as the app route: the payload carries no personal data, everything is re-read here.
 
 import { timingSafeEqual } from 'crypto';
 import { NextResponse } from 'next/server';
-import { notifyBooking, notifyMentorValidated, type BookingKind } from '@/lib/notify';
+import { notifyBooking, notifyMentorValidated, notifyMessage, type BookingKind } from '@/lib/notify';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -31,6 +31,7 @@ export async function POST(request: Request): Promise<Response> {
   if (!UUID_RE.test(id)) return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
 
   if (event === 'mentor_validated') return NextResponse.json({ sent: await notifyMentorValidated(id) });
+  if (event === 'message_created') return NextResponse.json({ sent: await notifyMessage(id) });
   if (BOOKING_KINDS.includes(event)) return NextResponse.json({ sent: await notifyBooking(id, event) });
   return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
 }
