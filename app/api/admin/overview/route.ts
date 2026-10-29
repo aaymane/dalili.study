@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   const month = new Date(Date.now() - 30 * 86_400_000).toISOString();
 
   try {
-    const [accounts, accountsWeek, mentorsActive, mentorsWaiting, callsPending, callsConfirmed, callsDone, questions, refused, reports, safety] = await Promise.all([
+    const [accounts, accountsWeek, mentorsActive, mentorsWaiting, callsPending, callsConfirmed, callsDone, questions, refused, reports, safety, leads] = await Promise.all([
       count('profiles'),
       count('profiles', { since: week }),
       count('mentors', { eq: ['is_active', true] }),
@@ -36,6 +36,7 @@ export async function GET(request: Request) {
       count('assistant_queries', { since: week, eq: ['fallback_triggered', true] }),
       count('assistant_feedback', { since: week }),
       count('mentorat_reports', { eq: ['status', 'open'] }),
+      count('school_leads', { eq: ['status', 'new'] }),
     ]);
     const { data: costs } = await supabaseAdmin.from('assistant_queries').select('cost_usd').gte('created_at', month);
     const cost30 = (costs ?? []).reduce((sum, r) => sum + Number(r.cost_usd ?? 0), 0);
@@ -47,6 +48,7 @@ export async function GET(request: Request) {
       assistant: { questions, refused, refusalRate: questions ? Math.round((refused / questions) * 100) : 0, cost30: Math.round(cost30 * 100) / 100 },
       reports,
       safety,
+      leads,
     });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

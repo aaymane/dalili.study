@@ -5,12 +5,13 @@
 
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 
-export type AdminTab = 'inscrits' | 'mentors' | 'apercu' | 'securite' | 'signalements';
+export type AdminTab = 'inscrits' | 'mentors' | 'apercu' | 'securite' | 'ecoles' | 'signalements';
 
 const TABS: { id: AdminTab; label: string }[] = [
   { id: 'apercu', label: 'Vue d’ensemble' },
   { id: 'mentors', label: 'Mentors' },
   { id: 'securite', label: 'Signalements mentorat' },
+  { id: 'ecoles', label: 'Écoles' },
   { id: 'inscrits', label: 'Inscrits' },
   { id: 'signalements', label: 'Signalements IA' },
 ];
@@ -36,12 +37,12 @@ async function call<T>(token: string, path: string, init?: RequestInit): Promise
 const day = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
-export function AdminTabs({ tab, onChange, waiting, safety }: { tab: AdminTab; onChange: (t: AdminTab) => void; waiting: number; safety: number }) {
+export function AdminTabs({ tab, onChange, waiting, safety, leads = 0 }: { tab: AdminTab; onChange: (t: AdminTab) => void; waiting: number; safety: number; leads?: number }) {
   return (
     <div role="tablist" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
       {TABS.map(t => {
         const on = tab === t.id;
-        const badge = t.id === 'mentors' ? waiting : t.id === 'securite' ? safety : 0;
+        const badge = t.id === 'mentors' ? waiting : t.id === 'securite' ? safety : t.id === 'ecoles' ? leads : 0;
         return (
           <button
             key={t.id}
@@ -112,6 +113,8 @@ type Overview = {
   reports: number;
   /** Mentoring reports still open. */
   safety: number;
+  /** « Je suis intéressé·e » not handled yet. */
+  leads: number;
 };
 
 function Metric({ label, value, sub, accent }: { label: string; value: string | number; sub?: string; accent: string }) {
@@ -164,6 +167,7 @@ export function OverviewPanel({ token, onGoMentors, onGoSafety }: { token: strin
               accent={data.assistant.refusalRate > 30 ? C.red : C.green}
             />
             <Metric label="Signalements IA" value={data.reports} sub="7 derniers jours" accent={C.red} />
+            <Metric label="Intérêts écoles" value={data.leads} sub="à recontacter" accent={C.blue} />
             <Metric label="Coût IA" value={`${data.assistant.cost30.toLocaleString('fr-FR')} $`} sub="30 derniers jours" accent={C.violet} />
           </div>
         </div>
@@ -586,6 +590,118 @@ export function SafetyPanel({ token, onChanged }: { token: string; onChanged: ()
           <div style={{ display: 'grid', gap: 12 }}>
             {closed.map(r => (
               <SafetyCard key={r.id} r={r} busy={false} onClose={() => {}} onSuspend={() => {}} />
+            ))}
+          </div>
+        </>
+      ) : null}
+    </State>
+  );
+}
+
+// ── Partner schools: « Je suis intéressé·e » ─────────────────────────────────
+type Lead = {
+  id: string;
+  school: string;
+  program: string | null;
+  message: string | null;
+  status: 'new' | 'contacted' | 'closed';
+  handled_by: string | null;
+  created_at: string;
+  student: { name: string | null; email: string | null; country: string | null; city: string | null; level: string | null };
+};
+const COUNTRIES: Record<string, string> = { MA: 'Maroc', DZ: 'Algérie', TN: 'Tunisie' };
+
+function LeadCard({ l, busy, onDone }: { l: Lead; busy: boolean; onDone: (status: 'contacted' | 'closed', by: string) => void }) {
+  const [by, setBy] = useState(savedName);
+  const done = (status: 'contacted' | 'closed') => {
+    try {
+      localStorage.setItem(NAME_KEY, by.trim());
+    } catch {}
+    onDone(status, by.trim());
+  };
+  const s = l.student;
+  const facts = [s.country ? COUNTRIES[s.country] ?? s.country : null, s.city ? `vient de ${s.city}` : null, s.level ? LEVELS[s.level] ?? s.level : null].filter(Boolean);
+  return (
+    <div style={{ ...C.card, padding: 20, display: 'grid', gap: 10, ...(l.status === 'new' ? { borderColor: 'rgba(77,143,255,0.35)' } : {}) }}>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 12 }}>
+        <span style={{ color: C.blue, fontWeight: 700 }}>● {l.school}</span>
+        <span style={{ color: C.dim }}>{day(l.created_at)}</span>
+      </div>
+      <div style={{ fontSize: 15, color: '#fff' }}>
+        <strong>{s.name ?? 'Sans prénom'}</strong>
+        {facts.length ? <span style={{ color: C.dim, fontSize: 13 }}> · {facts.join(' · ')}</span> : null}
+        {s.email ? (
+          <>
+            {' · '}
+            <a href={`mailto:${s.email}`} style={{ color: C.blue, fontSize: 13 }}>
+              {s.email}
+            </a>
+          </>
+        ) : null}
+      </div>
+      <div style={{ fontSize: 13, color: C.text }}>Formation : {l.program ?? 'ne sait pas encore'}</div>
+      {l.message ? <div style={{ fontSize: 14, color: '#fff' }}>« {l.message} »</div> : null}
+      {l.status === 'new' ? (
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <input value={by} onChange={e => setBy(e.target.value)} placeholder="Ton prénom" maxLength={40} style={{ ...field, width: 130 }} aria-label="Traité par" />
+          <Btn tone="green" disabled={busy || by.trim().length < 2} onClick={() => done('contacted')}>
+            Recontacté
+          </Btn>
+          <Btn tone="ghost" disabled={busy || by.trim().length < 2} onClick={() => done('closed')}>
+            Classer
+          </Btn>
+        </div>
+      ) : (
+        <div style={{ fontSize: 13, color: l.status === 'contacted' ? C.green : C.dim }}>
+          {l.status === 'contacted' ? '✓ Recontacté' : 'Classé'} par {l.handled_by}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function SchoolsPanel({ token, onChanged }: { token: string; onChanged: () => void }) {
+  const { data, error, loading, reload, setData } = useAdminData<{ data: Lead[] }>(token, '/api/admin/schools');
+  const [busy, setBusy] = useState<string | null>(null);
+  const done = async (l: Lead, status: 'contacted' | 'closed', by: string) => {
+    setBusy(l.id);
+    try {
+      await call(token, '/api/admin/schools', { method: 'PATCH', body: JSON.stringify({ id: l.id, status, by }) });
+      setData(d => (d ? { data: d.data.map(x => (x.id === l.id ? { ...x, status, handled_by: by } : x)) } : d));
+      onChanged();
+    } catch (e) {
+      alert((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+  const all = data?.data ?? [];
+  const fresh = all.filter(l => l.status === 'new');
+  const handled = all.filter(l => l.status !== 'new');
+  const h = (text: string) => <div style={{ fontSize: 12, color: C.text, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '8px 0 12px' }}>{text}</div>;
+  return (
+    <State loading={loading} error={error} onRetry={reload}>
+      <div style={{ ...C.card, padding: 16, color: C.dim, fontSize: 13, marginBottom: 20 }}>
+        Ces demandes restent chez DALILI : vous recontactez l’étudiant vous-mêmes. Rien n’est transmis à l’école sans son nouvel accord.
+      </div>
+      {h(`À recontacter · ${fresh.length}`)}
+      {fresh.length ? (
+        <div style={{ display: 'grid', gap: 12, marginBottom: 32 }}>
+          {fresh.map(l => (
+            <LeadCard key={l.id} l={l} busy={busy === l.id} onDone={(s, by) => done(l, s, by)} />
+          ))}
+        </div>
+      ) : (
+        <div style={{ ...C.card, padding: 20, color: C.dim, fontSize: 14, marginBottom: 32 }}>
+          Aucune demande pour le moment. Elles arrivent quand un étudiant touche « Je suis intéressé·e » sur la fiche d’une école.
+        </div>
+      )}
+      {handled.length ? (
+        <>
+          {h(`Déjà traitées · ${handled.length}`)}
+          <div style={{ display: 'grid', gap: 12 }}>
+            {handled.map(l => (
+              <LeadCard key={l.id} l={l} busy={false} onDone={() => {}} />
             ))}
           </div>
         </>
