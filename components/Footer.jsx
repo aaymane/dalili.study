@@ -128,6 +128,7 @@ export default function Footer() {
             <FileText size={13} strokeWidth={2} style={{ flexShrink: 0 }} /> Checklist PDF
           </Link>
           {[
+            { label: 'Partenaires',       href: '/partenaires'      },
             { label: 'Mentions légales',  href: '/mentions-legales' },
             { label: 'Confidentialité',   href: '/confidentialite'  },
           ].map(({ label, href }) => (

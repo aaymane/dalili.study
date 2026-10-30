@@ -207,6 +207,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:        0.95,
     },
     {
+      url:             `${SITE_URL}/partenaires`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.5,
+    },
+    {
       url:             `${SITE_URL}/contact`,
       lastModified:    now,
       changeFrequency: 'yearly',

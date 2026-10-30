@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -67,7 +68,7 @@ export default function ContactPage() {
           margin: '0 0 16px',
           maxWidth: 560,
         }}>
-          Pour toute question, suggestion ou demande de partenariat :
+          Pour toute question ou suggestion :
         </p>
 
         {/* Email CTA */}
@@ -107,6 +108,18 @@ export default function ContactPage() {
           margin: 0,
         }}>
           Nous répondons en général sous 48h.
+        </p>
+
+        <p style={{
+          fontFamily: 'var(--font-dm-sans)',
+          fontWeight: 400,
+          fontSize: '0.88rem',
+          color: 'rgba(255,255,255,0.82)',
+          lineHeight: 1.7,
+          margin: '16px 0 0',
+        }}>
+          Vous représentez une banque, une école, un assureur ou une association ?{' '}
+          <Link href="/partenaires" style={{ color: '#4d8fff' }}>Proposer un partenariat</Link>
         </p>
 
         {/* Divider */}

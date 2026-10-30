@@ -1,5 +1,5 @@
 // Admin — one look at the whole of DALILI: accounts, mentors, call requests,
-// the assistant (questions, refusal rate, cost), the reports on its answers, and the open mentoring reports.
+// the assistant (questions, refusal rate, cost), the reports on its answers, the open mentoring reports, and the partnership requests nobody answered yet.
 
 import { NextResponse } from 'next/server';
 import { isAdmin, unauthorized } from '@/lib/admin-auth';
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   const month = new Date(Date.now() - 30 * 86_400_000).toISOString();
 
   try {
-    const [accounts, accountsWeek, mentorsActive, mentorsWaiting, callsPending, callsConfirmed, callsDone, questions, refused, reports, safety, leads] = await Promise.all([
+    const [accounts, accountsWeek, mentorsActive, mentorsWaiting, callsPending, callsConfirmed, callsDone, questions, refused, reports, safety, leads, partners] = await Promise.all([
       count('profiles'),
       count('profiles', { since: week }),
       count('mentors', { eq: ['is_active', true] }),
@@ -37,6 +37,7 @@ export async function GET(request: Request) {
       count('assistant_feedback', { since: week }),
       count('mentorat_reports', { eq: ['status', 'open'] }),
       count('school_leads', { eq: ['status', 'new'] }),
+      count('partner_leads', { eq: ['status', 'nouveau'] }),
     ]);
     const { data: costs } = await supabaseAdmin.from('assistant_queries').select('cost_usd').gte('created_at', month);
     const cost30 = (costs ?? []).reduce((sum, r) => sum + Number(r.cost_usd ?? 0), 0);
@@ -49,6 +50,7 @@ export async function GET(request: Request) {
       reports,
       safety,
       leads,
+      partners,
     });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

@@ -4,14 +4,16 @@
 // of DALILI, the mentoring reports, and the reports on the assistant's answers. Same look as page.tsx.
 
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { PARTNER_KIND_LABEL, PARTNER_STATUS_LABEL, type PartnerKind, type PartnerStatus } from '@/lib/partner-leads';
 
-export type AdminTab = 'inscrits' | 'mentors' | 'apercu' | 'securite' | 'ecoles' | 'signalements';
+export type AdminTab = 'inscrits' | 'mentors' | 'apercu' | 'securite' | 'ecoles' | 'partenaires' | 'signalements';
 
 const TABS: { id: AdminTab; label: string }[] = [
   { id: 'apercu', label: 'Vue d’ensemble' },
   { id: 'mentors', label: 'Mentors' },
   { id: 'securite', label: 'Signalements mentorat' },
   { id: 'ecoles', label: 'Écoles' },
+  { id: 'partenaires', label: 'Partenaires' },
   { id: 'inscrits', label: 'Inscrits' },
   { id: 'signalements', label: 'Signalements IA' },
 ];
@@ -37,12 +39,12 @@ async function call<T>(token: string, path: string, init?: RequestInit): Promise
 const day = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
-export function AdminTabs({ tab, onChange, waiting, safety, leads = 0 }: { tab: AdminTab; onChange: (t: AdminTab) => void; waiting: number; safety: number; leads?: number }) {
+export function AdminTabs({ tab, onChange, waiting, safety, leads = 0, partners = 0 }: { tab: AdminTab; onChange: (t: AdminTab) => void; waiting: number; safety: number; leads?: number; partners?: number }) {
   return (
     <div role="tablist" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
       {TABS.map(t => {
         const on = tab === t.id;
-        const badge = t.id === 'mentors' ? waiting : t.id === 'securite' ? safety : t.id === 'ecoles' ? leads : 0;
+        const badge = t.id === 'mentors' ? waiting : t.id === 'securite' ? safety : t.id === 'ecoles' ? leads : t.id === 'partenaires' ? partners : 0;
         return (
           <button
             key={t.id}
@@ -115,6 +117,8 @@ type Overview = {
   safety: number;
   /** « Je suis intéressé·e » not handled yet. */
   leads: number;
+  /** Partnership requests from /partenaires nobody has answered yet. */
+  partners: number;
 };
 
 function Metric({ label, value, sub, accent }: { label: string; value: string | number; sub?: string; accent: string }) {
@@ -168,6 +172,7 @@ export function OverviewPanel({ token, onGoMentors, onGoSafety }: { token: strin
             />
             <Metric label="Signalements IA" value={data.reports} sub="7 derniers jours" accent={C.red} />
             <Metric label="Intérêts écoles" value={data.leads} sub="à recontacter" accent={C.blue} />
+            <Metric label="Demandes partenaires" value={data.partners} sub="sans réponse" accent={C.amber} />
             <Metric label="Coût IA" value={`${data.assistant.cost30.toLocaleString('fr-FR')} $`} sub="30 derniers jours" accent={C.violet} />
           </div>
         </div>
@@ -732,6 +737,159 @@ export function SchoolsPanel({ token, onChanged }: { token: string; onChanged: (
               <LeadCard key={l.id} l={l} busy={false} onDone={() => {}} />
             ))}
           </div>
+        </>
+      ) : null}
+    </State>
+  );
+}
+
+// ── Partnership requests from dalili.study/partenaires ───────────────────────
+type PartnerLead = {
+  id: string;
+  organization: string;
+  kind: PartnerKind;
+  contact_name: string;
+  job_title: string | null;
+  email: string;
+  phone: string | null;
+  website: string | null;
+  zone: string | null;
+  message: string;
+  status: PartnerStatus;
+  handled_by: string | null;
+  notes: string | null;
+  created_at: string;
+};
+type PartnerMove = Exclude<PartnerStatus, 'nouveau'>;
+const PARTNER_COLOR: Record<PartnerStatus, string> = { nouveau: C.amber, en_cours: C.blue, partenaire: C.green, sans_suite: C.dim };
+
+function PartnerCard({ l, busy, onMove }: { l: PartnerLead; busy: boolean; onMove: (status: PartnerMove, by: string, notes: string) => void }) {
+  const [by, setBy] = useState(savedName);
+  const [notes, setNotes] = useState(l.notes ?? '');
+  const open = l.status === 'nouveau' || l.status === 'en_cours';
+  const move = (status: PartnerMove) => {
+    try {
+      localStorage.setItem(NAME_KEY, by.trim());
+    } catch {}
+    onMove(status, by.trim(), notes);
+  };
+  const off = busy || by.trim().length < 2;
+  const site = l.website ? (/^https?:\/\//i.test(l.website) ? l.website : `https://${l.website}`) : null;
+  return (
+    <div style={{ ...C.card, padding: 20, display: 'grid', gap: 10, ...(l.status === 'nouveau' ? { borderColor: 'rgba(251,191,36,0.35)' } : {}) }}>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 12 }}>
+        <span style={{ color: PARTNER_COLOR[l.status], fontWeight: 700 }}>● {PARTNER_STATUS_LABEL[l.status]}</span>
+        <span style={{ color: C.text }}>{PARTNER_KIND_LABEL[l.kind]}</span>
+        {l.zone ? <span style={{ color: C.dim }}>{l.zone}</span> : null}
+        <span style={{ color: C.dim }}>{day(l.created_at)}</span>
+      </div>
+      <div style={{ fontSize: 15, color: '#fff' }}>
+        <strong>{l.organization}</strong>
+        <span style={{ color: C.dim, fontSize: 13 }}>
+          {' · '}
+          {l.contact_name}
+          {l.job_title ? `, ${l.job_title}` : ''}
+        </span>
+      </div>
+      <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', fontSize: 13 }}>
+        <a href={`mailto:${l.email}?subject=${encodeURIComponent('Partenariat Dalili')}`} style={{ color: C.blue }}>
+          {l.email}
+        </a>
+        {l.phone ? (
+          <a href={`tel:${l.phone.replace(/[^\d+]/g, '')}`} style={{ color: C.blue }}>
+            {l.phone}
+          </a>
+        ) : null}
+        {site ? (
+          <a href={site} target="_blank" rel="noopener noreferrer" style={{ color: C.blue }}>
+            {l.website}
+          </a>
+        ) : null}
+      </div>
+      <div style={{ fontSize: 14, color: '#fff', whiteSpace: 'pre-wrap' }}>« {l.message} »</div>
+      {open ? (
+        <>
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Notes de l’équipe (facultatif)" maxLength={2000} rows={2} style={{ ...field, resize: 'vertical', fontFamily: 'inherit' }} aria-label="Notes de l’équipe" />
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+            <input value={by} onChange={e => setBy(e.target.value)} placeholder="Ton prénom" maxLength={40} style={{ ...field, width: 130 }} aria-label="Traité par" />
+            {l.status === 'nouveau' ? (
+              <Btn tone="ghost" disabled={off} onClick={() => move('en_cours')}>
+                En discussion
+              </Btn>
+            ) : (
+              <Btn tone="ghost" disabled={off} onClick={() => move('en_cours')}>
+                Enregistrer les notes
+              </Btn>
+            )}
+            <Btn tone="green" disabled={off} onClick={() => move('partenaire')}>
+              Devenu partenaire
+            </Btn>
+            <Btn tone="red" disabled={off} onClick={() => move('sans_suite')}>
+              Sans suite
+            </Btn>
+          </div>
+          {l.handled_by ? <div style={{ fontSize: 12, color: C.dim }}>Suivi par {l.handled_by}</div> : null}
+        </>
+      ) : (
+        <div style={{ fontSize: 13, color: PARTNER_COLOR[l.status] }}>
+          {PARTNER_STATUS_LABEL[l.status]} · {l.handled_by}
+          {l.notes ? <div style={{ color: C.dim, marginTop: 6, whiteSpace: 'pre-wrap' }}>{l.notes}</div> : null}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function PartnersPanel({ token, onChanged }: { token: string; onChanged: () => void }) {
+  const { data, error, loading, reload, setData } = useAdminData<{ data: PartnerLead[] }>(token, '/api/admin/partners');
+  const [busy, setBusy] = useState<string | null>(null);
+  const move = async (l: PartnerLead, status: PartnerMove, by: string, notes: string) => {
+    setBusy(l.id);
+    try {
+      await call(token, '/api/admin/partners', { method: 'PATCH', body: JSON.stringify({ id: l.id, status, by, notes }) });
+      setData(d => (d ? { data: d.data.map(x => (x.id === l.id ? { ...x, status, handled_by: by, notes: notes.trim() || null } : x)) } : d));
+      onChanged();
+    } catch (e) {
+      alert((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+  const all = data?.data ?? [];
+  const fresh = all.filter(l => l.status === 'nouveau');
+  const talking = all.filter(l => l.status === 'en_cours');
+  const closed = all.filter(l => l.status === 'partenaire' || l.status === 'sans_suite');
+  const h = (text: string) => <div style={{ fontSize: 12, color: C.text, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '8px 0 12px' }}>{text}</div>;
+  const list = (rows: PartnerLead[], last = false) => (
+    <div style={{ display: 'grid', gap: 12, marginBottom: last ? 0 : 32 }}>
+      {rows.map(l => (
+        <PartnerCard key={l.id} l={l} busy={busy === l.id} onMove={(s, by, n) => move(l, s, by, n)} />
+      ))}
+    </div>
+  );
+  return (
+    <State loading={loading} error={error} onRetry={reload}>
+      <div style={{ ...C.card, padding: 16, color: C.dim, fontSize: 13, marginBottom: 20 }}>
+        Demandes envoyées depuis dalili.study/partenaires. Un email part aussi à l’équipe à chaque demande : y répondre écrit directement au contact.
+      </div>
+      {h(`Nouvelles · ${fresh.length}`)}
+      {fresh.length ? (
+        list(fresh)
+      ) : (
+        <div style={{ ...C.card, padding: 20, color: C.dim, fontSize: 14, marginBottom: 32 }}>
+          Aucune nouvelle demande. Elles arrivent quand une organisation remplit le formulaire de la page Partenaires.
+        </div>
+      )}
+      {talking.length ? (
+        <>
+          {h(`En discussion · ${talking.length}`)}
+          {list(talking)}
+        </>
+      ) : null}
+      {closed.length ? (
+        <>
+          {h(`Clôturées · ${closed.length}`)}
+          {list(closed, true)}
         </>
       ) : null}
     </State>

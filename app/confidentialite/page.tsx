@@ -96,6 +96,7 @@ export default function ConfidentialitePage() {
         <ul style={styles.ul}>
           <li>Votre adresse email (si vous vous inscrivez sur le site)</li>
           <li>Les données de navigation anonymes via Google Analytics</li>
+          <li>Les coordonnées professionnelles envoyées depuis la page Partenaires (organisation, nom, fonction, email, téléphone, message)</li>
         </ul>
 
         <h2 style={styles.h2}>Utilisation des données</h2>
@@ -104,6 +105,10 @@ export default function ConfidentialitePage() {
           <li>Vous envoyer les ressources demandées (checklist PDF, simulateur budget)</li>
           <li>Vous informer des nouvelles fonctionnalités DALILI</li>
         </ul>
+        <p style={styles.p}>
+          Une demande de partenariat sert uniquement à vous répondre et n’est lue que par l’équipe DALILI. L’adresse IP
+          n’est pas conservée : seule une empreinte chiffrée est gardée, pour limiter les envois répétés.
+        </p>
         <p style={styles.p}>Vos données ne sont jamais vendues ni partagées avec des tiers.</p>
 
         <h2 style={styles.h2}>Vos droits (RGPD)</h2>
@@ -137,7 +142,7 @@ export default function ConfidentialitePage() {
         </p>
 
         <h2 style={styles.h2}>Mise à jour</h2>
-        <p style={styles.p}>Dernière mise à jour : juin 2026</p>
+        <p style={styles.p}>Dernière mise à jour : octobre 2026</p>
 
         <div style={styles.divider} />
       </div>

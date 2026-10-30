@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-import { AdminTabs, FeedbackPanel, MentorsPanel, OverviewPanel, SafetyPanel, SchoolsPanel, type AdminTab } from './panels';
+import { AdminTabs, FeedbackPanel, MentorsPanel, OverviewPanel, PartnersPanel, SafetyPanel, SchoolsPanel, type AdminTab } from './panels';
 
 type Status = 'pending' | 'invited' | 'converted' | 'unsubscribed';
 
@@ -247,6 +247,7 @@ export default function AdminPage() {
   const [waiting,  setWaiting]  = useState(0);
   const [safety,   setSafety]   = useState(0);
   const [leads,    setLeads]    = useState(0);
+  const [partners, setPartners] = useState(0);
 
   // Pastilles « à valider » (Mentors) et « à traiter » (Signalements mentorat).
   const refreshWaiting = useCallback(async (tk: string) => {
@@ -256,6 +257,7 @@ export default function AdminPage() {
     setWaiting(json.mentors?.waiting ?? 0);
     setSafety(json.safety ?? 0);
     setLeads(json.leads ?? 0);
+    setPartners(json.partners ?? 0);
   }, []);
 
   const fetchData = useCallback(async (tk: string, pg = 0, st: Status | '' = '', q = '') => {
@@ -501,12 +503,13 @@ export default function AdminPage() {
           </div> : null}
         </div>
 
-        <AdminTabs tab={tab} onChange={setTab} waiting={waiting} safety={safety} leads={leads} />
+        <AdminTabs tab={tab} onChange={setTab} waiting={waiting} safety={safety} leads={leads} partners={partners} />
 
         {tab === 'apercu' ? <OverviewPanel token={token} onGoMentors={() => setTab('mentors')} onGoSafety={() => setTab('securite')} /> : null}
         {tab === 'mentors' ? <MentorsPanel token={token} onChanged={() => void refreshWaiting(token)} /> : null}
         {tab === 'securite' ? <SafetyPanel token={token} onChanged={() => void refreshWaiting(token)} /> : null}
         {tab === 'ecoles' ? <SchoolsPanel token={token} onChanged={() => void refreshWaiting(token)} /> : null}
+        {tab === 'partenaires' ? <PartnersPanel token={token} onChanged={() => void refreshWaiting(token)} /> : null}
         {tab === 'signalements' ? <FeedbackPanel token={token} /> : null}
 
         {tab === 'inscrits' ? <>
