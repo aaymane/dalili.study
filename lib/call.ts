@@ -8,9 +8,13 @@ import { notifyCallStarted } from '@/lib/notify';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
 const DAILY_API = 'https://api.daily.co/v1';
-/** The room opens 15 minutes before the call and closes 2 hours after it starts. */
+/**
+ * The room opens 15 minutes before the call and closes 45 minutes after it starts (a call lasts 30 minutes, plus
+ * 15 minutes of margin), or as soon as the mentor ends the call (endCall). Same rule as the database
+ * (dalili-app supabase/migrations/20261030240000_fin_d_appel.sql): then the student can rate and book again.
+ */
 const OPENS_BEFORE_MS = 15 * 60_000;
-const CLOSES_AFTER_MS = 2 * 60 * 60_000;
+const CLOSES_AFTER_MS = 45 * 60_000;
 
 export type CallAccess =
   | { ok: true; url: string; token: string; role: 'student' | 'mentor'; otherName: string; topic: string; startsAt: string }
@@ -66,6 +70,7 @@ export async function callAccess(bookingId: string, userId: string): Promise<Cal
 
   const role = userId === b.student_id ? 'student' : userId === mentor.user_id ? 'mentor' : null;
   if (!role) return { ok: false, status: 403, error: 'Ce rendez-vous n’est pas le tien.' };
+  if (b.status === 'done') return { ok: false, status: 410, error: 'Cet appel est terminé.' };
   if (b.status !== 'confirmed') return { ok: false, status: 409, error: 'Ce rendez-vous n’est pas (ou plus) confirmé.' };
   if (!mentor.is_active) return { ok: false, status: 409, error: 'Ce mentor n’est plus disponible pour le moment.' };
 
@@ -135,4 +140,28 @@ export async function callAccess(bookingId: string, userId: string): Promise<Cal
     topic: b.topic,
     startsAt: b.starts_at,
   };
+}
+
+/**
+ * The mentor ends the call: the booking becomes « done » and the Daily room is deleted, which closes it for both
+ * at once. Only the mentor of this confirmed call can do it; ending a call already ended is fine.
+ */
+export async function endCall(bookingId: string, userId: string): Promise<{ ok: true } | { ok: false; status: number; error: string }> {
+  const { data: b } = await supabaseAdmin.from('bookings').select('id, status, mentors(user_id)').eq('id', bookingId).maybeSingle();
+  const mentor = (Array.isArray(b?.mentors) ? b?.mentors[0] : b?.mentors) as { user_id: string | null } | null;
+  if (!b || !mentor) return { ok: false, status: 404, error: 'Rendez-vous introuvable.' };
+  if (mentor.user_id !== userId) return { ok: false, status: 403, error: 'Seul le mentor peut terminer l’appel.' };
+  if (b.status !== 'done') {
+    if (b.status !== 'confirmed') return { ok: false, status: 409, error: 'Ce rendez-vous n’est pas (ou plus) confirmé.' };
+    const { error } = await supabaseAdmin.from('bookings').update({ status: 'done' }).eq('id', b.id).eq('status', 'confirmed');
+    if (error) {
+      console.error('endCall update failed:', error);
+      return { ok: false, status: 500, error: 'L’appel n’a pas pu être terminé. Réessaie.' };
+    }
+  }
+  if (process.env.DAILY_API_KEY) {
+    const res = await daily(`/rooms/dalili-${b.id}`, { method: 'DELETE' }).catch(() => null);
+    if (res && !res.ok && res.status !== 404) console.error('Daily room delete failed:', res.status);
+  }
+  return { ok: true };
 }

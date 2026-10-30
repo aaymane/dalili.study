@@ -1,5 +1,6 @@
 // The app asks to join a video call (lib/call.ts): it gets a private Daily room and a personal token, only if the
-// caller is the student or the mentor of this confirmed call, and only from 15 minutes before to 2 hours after.
+// caller is the student or the mentor of this confirmed call, and only from 15 minutes before to 45 minutes after
+// (410 once the call is over or the mentor ended it).
 // The mentor opens the room; a student who arrives first gets 423 { waiting: true } and the app retries.
 
 import { json, preflight, requireUser } from '@/lib/assistant/app-auth';
