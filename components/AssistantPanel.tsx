@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { Components } from 'react-markdown';
 import { Loader2, Send, ExternalLink, Sparkles, X } from 'lucide-react';
+import { trackAssistant } from '@/lib/assistant/track';
 
 interface SourceRef {
   title: string;
@@ -186,11 +187,18 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
+  // The panel is mounted only when the widget opens (dynamic import in AssistantWidget).
+  useEffect(() => {
+    trackAssistant('assistant_open', { channel: 'site' });
+  }, []);
+
   async function ask(question: string) {
     const trimmed = question.trim();
     if (!trimmed || pending) return;
 
     const history = buildHistory(messages);
+    const followUp = history.length > 0;
+    trackAssistant('assistant_question', { channel: 'site', follow_up: followUp });
     setInput('');
     setPending(true);
     setMessages(prev => [
@@ -200,6 +208,7 @@ export default function AssistantPanel({ onClose }: { onClose: () => void }) {
     ]);
 
     await streamAssistantResponse(trimmed, history, evt => {
+      if (evt.type === 'fallback') trackAssistant('assistant_fallback', { channel: 'site', follow_up: followUp });
       setMessages(prev => {
         const next = [...prev];
         const last = next[next.length - 1];
