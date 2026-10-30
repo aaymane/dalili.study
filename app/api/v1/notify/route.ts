@@ -1,9 +1,9 @@
-// The app tells the server « something happened on this call request » (fallback: the database webhook,
-// /api/hooks/notify, normally gets there first). The caller must be the person who acted; everything else is
-// re-read from the database in lib/notify.ts, and each alert is sent once.
+// The app tells the server « something happened on this call request » or « I just sent this message » (fallback:
+// the database webhook, /api/hooks/notify, normally gets there first). The caller must be the person who acted;
+// everything else is re-read from the database in lib/notify.ts, and each alert is sent once.
 
 import { json, preflight, requireUser } from '@/lib/assistant/app-auth';
-import { notifyBooking, type BookingKind } from '@/lib/notify';
+import { notifyBooking, notifyMessage, type BookingKind } from '@/lib/notify';
 
 export const runtime = 'nodejs';
 
@@ -19,6 +19,12 @@ export async function POST(request: Request): Promise<Response> {
   if ('error' in auth) return auth.error;
 
   const body = await request.json().catch(() => null);
+  if (body?.event === 'message_created') {
+    const messageId = String(body?.messageId ?? '');
+    if (!UUID_RE.test(messageId)) return json({ error: 'Requête invalide.' }, 400);
+    return json({ sent: await notifyMessage(messageId, auth.userId) });
+  }
+
   const bookingId = String(body?.bookingId ?? '');
   const kind = body?.event as BookingKind;
   if (!UUID_RE.test(bookingId) || !KINDS.includes(kind)) return json({ error: 'Requête invalide.' }, 400);

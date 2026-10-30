@@ -194,9 +194,10 @@ export async function notifyCallStarted(bookingId: string): Promise<number> {
 
 const preview = (text: string) => (text.length > 120 ? `${text.slice(0, 117).trimEnd()}…` : text);
 
-export async function notifyMessage(messageId: string): Promise<number> {
+/** `callerId` (app route) must be the sender; the webhook passes none: the database itself reported the message. */
+export async function notifyMessage(messageId: string, callerId?: string): Promise<number> {
   const { data: msg } = await supabaseAdmin.from('messages').select('id, conversation_id, sender_id, body, created_at').eq('id', messageId).maybeSingle();
-  if (!msg) return 0;
+  if (!msg || (callerId !== undefined && callerId !== msg.sender_id)) return 0;
   const { data: c } = await supabaseAdmin
     .from('conversations')
     .select('id, student_id, student_read_at, mentor_read_at, mentors(user_id, first_name, is_active)')
