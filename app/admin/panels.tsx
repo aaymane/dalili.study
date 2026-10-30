@@ -202,7 +202,11 @@ type MentorRow = {
     verified_proof: Proof | null;
     verified_by: string | null;
   } | null;
+  /** Residence permit and enrolment certificate sent from the app; links valid 10 minutes, deleted after the decision. */
+  documents: { kind: 'titre_sejour' | 'certificat_scolarite'; url: string | null; sentAt: string }[];
 };
+
+const DOCS = { titre_sejour: 'Titre de séjour', certificat_scolarite: 'Certificat de scolarité' } as const;
 
 const LEVELS: Record<string, string> = { bac: 'Bac', licence: 'Licence', master: 'Master', doctorat: 'Doctorat' };
 
@@ -220,7 +224,7 @@ const savedName = () => {
   }
 };
 
-/** A founder saw a proof (by video call or email): we note which one and who, never a copy. */
+/** A founder looked at the documents (or saw a proof another way): we note which one and who. */
 function VerifyForm({ busy, onVerify }: { busy: boolean; onVerify: (proof: Proof, by: string) => void }) {
   const [proof, setProof] = useState<Proof | ''>('');
   const [by, setBy] = useState(savedName);
@@ -318,9 +322,29 @@ function MentorCard({
           ? `Charte acceptée le ${day(t.charter_accepted_at)} · né·e en ${t.birth_year} (≈ ${new Date().getFullYear() - t.birth_year} ans)`
           : '⚠ Charte pas encore acceptée dans l’app : vérification et validation impossibles.'}
       </div>
+      {!m.is_active ? (
+        m.documents.length ? (
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', fontSize: 13 }}>
+            {m.documents.map(d =>
+              d.url ? (
+                <a key={d.kind} href={d.url} target="_blank" rel="noreferrer" style={{ ...field, color: C.blue, textDecoration: 'none' }}>
+                  📄 {DOCS[d.kind]}
+                </a>
+              ) : (
+                <span key={d.kind} style={{ ...field, color: C.amber }}>
+                  {DOCS[d.kind]} : lien indisponible, recharge
+                </span>
+              )
+            )}
+            <span style={{ color: C.dim }}>Liens valables 10 min · supprimés dès ta décision</span>
+          </div>
+        ) : (
+          <div style={{ fontSize: 13, color: C.amber }}>⚠ Aucun document : fiche envoyée avant la candidature avec documents.</div>
+        )
+      ) : null}
       {verified && t ? (
         <div style={{ fontSize: 13, color: C.green }}>
-          ✓ Vérifié le {day(t.verified_at!)} par {t.verified_by} · {t.verified_proof ? PROOFS[t.verified_proof] : ''} vue, aucune copie gardée
+          ✓ Vérifié le {day(t.verified_at!)} par {t.verified_by} · {t.verified_proof ? PROOFS[t.verified_proof] : ''} vu · documents supprimés à la décision
         </div>
       ) : t ? (
         <VerifyForm busy={busy} onVerify={onVerify} />
@@ -351,16 +375,20 @@ export function MentorsPanel({ token, onChanged }: { token: string; onChanged: (
 
   const act = async (m: MentorRow, action: 'valider' | 'suspendre' | 'refuser') => {
     const name = `${m.first_name} ${m.last_name}`.trim();
-    if (action === 'refuser' && !confirm(`Refuser la fiche de ${name} ? Elle sera supprimée ; la personne pourra en renvoyer une depuis l’app.`)) return;
+    let reason = '';
+    if (action === 'refuser') {
+      reason = (prompt(`Refuser la candidature de ${name} ?\nÉcris le motif : la personne le lira dans l’app (ex. « Certificat de scolarité illisible »). Les documents seront supprimés.`) ?? '').trim();
+      if (!reason) return;
+    }
     if (action === 'suspendre' && !confirm(`Suspendre ${name} ? Les étudiants ne le verront plus et ne pourront plus lui demander d’appel.`)) return;
     setBusy(m.id);
     try {
       if (action === 'refuser') {
-        await call(token, '/api/admin/mentors', { method: 'DELETE', body: JSON.stringify({ id: m.id }) });
+        await call(token, '/api/admin/mentors', { method: 'DELETE', body: JSON.stringify({ id: m.id, reason }) });
         setData(d => (d ? { data: d.data.filter(x => x.id !== m.id) } : d));
       } else {
         await call(token, '/api/admin/mentors', { method: 'PATCH', body: JSON.stringify({ id: m.id, action }) });
-        setData(d => (d ? { data: d.data.map(x => (x.id === m.id ? { ...x, is_active: action === 'valider' } : x)) } : d));
+        setData(d => (d ? { data: d.data.map(x => (x.id === m.id ? { ...x, is_active: action === 'valider', documents: action === 'valider' ? [] : x.documents } : x)) } : d));
       }
       onChanged();
     } catch (e) {
@@ -401,7 +429,7 @@ export function MentorsPanel({ token, onChanged }: { token: string; onChanged: (
         </div>
       ) : (
         <div style={{ ...C.card, padding: 20, color: C.dim, fontSize: 14, marginBottom: 32 }}>
-          Aucune fiche en attente. Les fiches envoyées depuis l’app (« Devenir mentor ») arrivent ici.
+          Aucune candidature en attente. Les candidatures envoyées depuis l’app (« Devenir mentor », avec titre de séjour et certificat de scolarité) arrivent ici.
         </div>
       )}
       {h(`Validés · ${active.length}`)}
