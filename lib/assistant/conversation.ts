@@ -33,6 +33,24 @@ const MAX_ASSISTANT_CHARS = 4000;
 const CONDENSE_ASSISTANT_CHARS = 600;
 const MAX_CONDENSED_CHARS = 500;
 
+// Haiku sometimes answers about the message instead of rewriting it — on
+// 2026-10-23 an off-topic remark became "Ce message ne concerne pas une
+// question sur les études… Je ne peux donc pas le reformuler…", which still
+// scored 0.67 against a scholarship chunk and was answered. Such output is
+// commentary, not a query: retrieve with the raw message instead.
+const META_OPENING = /^(ce|le|ton|votre|cet|ce dernier) (dernier )?(message|texte|échange)\b|^(je ne (peux|suis)|désolé|il n'y a (pas|aucune)|aucune question|cette (demande|question|remarque)|la question (est|ne)|reformulation|question (reformulée|autonome))/i;
+const META_WORDS = /reformul|moteur de recherche|question autonome|ne concerne pas|hors sujet|hors-sujet/i;
+
+/** True when the condensed text has the shape of one standalone question, not a comment about the message. */
+export function isStandaloneQuery(text: string): boolean {
+  const t = text.trim().replace(/^["«»“”\s]+|["«»“”\s]+$/g, '');
+  if (!t || t.length > MAX_CONDENSED_CHARS) return false;
+  if (META_OPENING.test(t) || META_WORDS.test(t)) return false;
+  // "UNE question" — two or more sentences means an explanation came along.
+  const sentences = t.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ý])/).filter(s => s.trim().length > 0);
+  return sentences.length === 1;
+}
+
 /**
  * Validates client-sent history: an array of {role, content} alternating
  * user/assistant, starting with user and ending with assistant (the current
@@ -88,8 +106,9 @@ function formatTranscript(history: HistoryMessage[]): string {
 /**
  * Rewrites a follow-up message as a standalone French query using the
  * conversation so far. Retrieval-only — throws on API failure and returns
- * the original question on empty output, so the caller can fall back to the
- * pre-conversation behaviour.
+ * the original question on empty output or on output that isn't a single
+ * standalone question (see isStandaloneQuery), so the caller falls back to
+ * the pre-conversation behaviour.
  */
 export async function condenseQuestion(
   history: HistoryMessage[],
@@ -111,5 +130,10 @@ export async function condenseQuestion(
   onUsage?.(CONDENSE_MODEL, result.usage);
 
   const condensed = result.content.find(b => b.type === 'text')?.text?.trim();
-  return condensed ? condensed.slice(0, MAX_CONDENSED_CHARS) : question;
+  if (!condensed) return question;
+  if (!isStandaloneQuery(condensed)) {
+    console.warn('Condensed query rejected (not a standalone question), using the raw message.');
+    return question;
+  }
+  return condensed;
 }
