@@ -202,11 +202,11 @@ type MentorRow = {
     verified_proof: Proof | null;
     verified_by: string | null;
   } | null;
-  /** Residence permit and enrolment certificate sent from the app; links valid 10 minutes, deleted after the decision. */
+  /** Residence permit or visa, and enrolment certificate, sent from the app (photo or PDF); links valid 10 minutes, deleted after the decision. */
   documents: { kind: 'titre_sejour' | 'certificat_scolarite'; url: string | null; sentAt: string }[];
 };
 
-const DOCS = { titre_sejour: 'Titre de séjour', certificat_scolarite: 'Certificat de scolarité' } as const;
+const DOCS = { titre_sejour: 'Titre de séjour ou visa', certificat_scolarite: 'Certificat de scolarité' } as const;
 
 const LEVELS: Record<string, string> = { bac: 'Bac', licence: 'Licence', master: 'Master', doctorat: 'Doctorat' };
 

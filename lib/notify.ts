@@ -4,7 +4,7 @@
 
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
-export type NotifyEvent = 'booking_created' | 'booking_confirmed' | 'booking_declined' | 'booking_cancelled' | 'mentor_validated' | 'message_created';
+export type NotifyEvent = 'booking_created' | 'booking_confirmed' | 'booking_declined' | 'booking_cancelled' | 'mentor_validated' | 'message_created' | 'call_started';
 
 export interface PushMessage {
   title: string;
@@ -167,6 +167,24 @@ export async function notifyMentorValidated(mentorId: string): Promise<number> {
     body: `Les étudiants de ${m.city} peuvent maintenant te proposer un appel. Merci d’être là pour eux.`,
     url: '/(app)/(tabs)',
     role: 'mentor',
+  });
+}
+
+/** The mentor has just opened the call room: the student is told they are expected (once per call). */
+export async function notifyCallStarted(bookingId: string): Promise<number> {
+  const { data: b } = await supabaseAdmin
+    .from('bookings')
+    .select('id, student_id, status, call_started_at, mentors(first_name)')
+    .eq('id', bookingId)
+    .maybeSingle();
+  const mentor = (Array.isArray(b?.mentors) ? b?.mentors[0] : b?.mentors) as { first_name: string } | null;
+  if (!b || !mentor || b.status !== 'confirmed' || !b.call_started_at) return 0;
+  if (!(await once(b.id, 'call_started'))) return 0;
+  return pushTo(b.student_id, {
+    title: `${mentor.first_name} t’attend dans le salon`,
+    body: 'Ton appel commence. Touche pour le rejoindre.',
+    url: `/(app)/appel/${b.id}`,
+    role: 'student',
   });
 }
 

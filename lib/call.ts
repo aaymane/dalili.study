@@ -1,7 +1,10 @@
 // Video calls between a student and their mentor, with Daily (daily.co). Only this server talks to Daily, with
 // DAILY_API_KEY (Vercel, Production only): the app gets a private room and a personal token for one confirmed call,
 // after the database says the caller is the student or the mentor of that call.
+// The mentor opens the room (founders' decision, 30/10): their first request notes bookings.call_started_at and tells
+// the student; until then the student gets 423 and waits in the app's waiting room.
 
+import { notifyCallStarted } from '@/lib/notify';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
 const DAILY_API = 'https://api.daily.co/v1';
@@ -11,7 +14,7 @@ const CLOSES_AFTER_MS = 2 * 60 * 60_000;
 
 export type CallAccess =
   | { ok: true; url: string; token: string; role: 'student' | 'mentor'; otherName: string; topic: string; startsAt: string }
-  | { ok: false; status: number; error: string; opensAt?: string };
+  | { ok: false; status: number; error: string; opensAt?: string; waiting?: boolean };
 
 /** « Aymen A. », or a neutral name when the profile has no first name yet. */
 function shortName(first?: string | null, last?: string | null, fallback = 'Étudiant·e') {
@@ -53,7 +56,7 @@ export async function callAccess(bookingId: string, userId: string): Promise<Cal
 
   const { data: b } = await supabaseAdmin
     .from('bookings')
-    .select('id, student_id, starts_at, topic, status, mentors(user_id, first_name, last_name, is_active)')
+    .select('id, student_id, starts_at, topic, status, call_started_at, mentors(user_id, first_name, last_name, is_active)')
     .eq('id', bookingId)
     .maybeSingle();
   const mentor = (Array.isArray(b?.mentors) ? b?.mentors[0] : b?.mentors) as
@@ -81,6 +84,20 @@ export async function callAccess(bookingId: string, userId: string): Promise<Cal
     return { ok: false, status: 425, error: 'L’appel s’ouvre 15 minutes avant l’heure.', opensAt: new Date(start - OPENS_BEFORE_MS).toISOString() };
   }
   if (now > start + CLOSES_AFTER_MS) return { ok: false, status: 410, error: 'Cet appel est terminé.' };
+
+  // The mentor opens the room; the student waits for them (423 = waiting room in the app).
+  if (role === 'student' && !b.call_started_at) {
+    return { ok: false, status: 423, error: 'Ton mentor n’a pas encore ouvert le salon.', waiting: true };
+  }
+  if (role === 'mentor' && !b.call_started_at) {
+    const { data: opened } = await supabaseAdmin
+      .from('bookings')
+      .update({ call_started_at: new Date().toISOString() })
+      .eq('id', b.id)
+      .is('call_started_at', null)
+      .select('id');
+    if (opened?.length) await notifyCallStarted(b.id).catch(err => console.error('call_started push failed:', err));
+  }
 
   const exp = Math.floor((start + CLOSES_AFTER_MS) / 1000);
   const url = await roomFor(b.id, exp);
