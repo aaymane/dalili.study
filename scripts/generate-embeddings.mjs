@@ -11,8 +11,10 @@
 // Node's native ESM/TS resolution. Duplicating the small amount of parsing
 // logic here avoids that mismatch entirely.
 //
-// Usage: node --env-file=.env.local scripts/generate-embeddings.mjs [--dry-run]
+// Usage: node --env-file=.env.local scripts/generate-embeddings.mjs [--dry-run] [--only=slug1,slug2]
 //   --dry-run  parse and diff against the table, print what would change, write nothing.
+//   --only     restrict the run (diff, embeds and deletions) to these page slugs;
+//              every other page's chunks are left untouched.
 
 import fs from 'fs';
 import path from 'path';
@@ -25,6 +27,8 @@ const VOYAGE_EMBED_URL = 'https://api.voyageai.com/v1/embeddings';
 const VOYAGE_MODEL = 'voyage-4-lite';
 const EMBED_BATCH_SIZE = 16;
 const DRY_RUN = process.argv.includes('--dry-run');
+const ONLY_ARG = process.argv.find(a => a.startsWith('--only='));
+const ONLY = ONLY_ARG ? new Set(ONLY_ARG.slice('--only='.length).split(',').map(s => s.trim()).filter(Boolean)) : null;
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SECRET_KEY;
@@ -253,9 +257,17 @@ async function main() {
   let toDeleteIds = [];
   let unchanged = 0;
 
+  if (ONLY) {
+    const known = new Set(pages.map(p => p.filename.replace(/\.mdx$/, '')));
+    const unknown = [...ONLY].filter(s => !known.has(s));
+    if (unknown.length > 0) throw new Error(`--only: no MDX page for ${unknown.join(', ')}`);
+    console.log(`Restricted to ${ONLY.size} page(s): ${[...ONLY].join(', ')}`);
+  }
+
   for (const { source, filename } of pages) {
     const slug = filename.replace(/\.mdx$/, '');
-    const raw = fs.readFileSync(path.join(CONTENT_DIR, source.dir, filename), 'utf8');
+    if (ONLY && !ONLY.has(slug)) continue;
+    const raw =fs.readFileSync(path.join(CONTENT_DIR, source.dir, filename), 'utf8');
     const parsed = matter(raw);
     const frontmatter = source.frontmatterFor(parsed.data, slug);
     const body = parsed.content;
