@@ -11,6 +11,7 @@ import type { PostMeta } from './blog-client';
 export const CLUSTER_MAP: Record<string, string> = {
   'delai-visa-etudiant-france-tout-savoir':             'visa',
   'visa-etudiant-france-tout-savoir-avant-partir':      'visa',
+  'etudier-france-mineur-17-ans-visa-demarches':        'visa',
   'garant-logement-etudiant-etranger-france':           'logement',
   'logement-crous-etudiant-etranger-demande':           'logement',
   'residence-universitaire-vs-appart-prive-etudiant':   'logement',
