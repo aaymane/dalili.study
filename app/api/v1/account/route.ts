@@ -1,10 +1,12 @@
 // Account deletion from the app (App Store guideline 5.1.1(v), RGPD art. 17).
 // Every table linked to auth.users cascades, except what is handled here first:
-// profile photos and mentor application documents (Storage never cascades), and the mentor card (it would only be detached).
+// profile photos, mentor application documents, message attachments and group post photos (Storage never cascades),
+// and the mentor card (it would only be detached).
 // Groups and events the student created stay, detached from their name.
 // Questions asked to Dalili IA are already anonymous (assistant_queries has no user id).
 
 import { json, preflight, requireUser } from '@/lib/assistant/app-auth';
+import { purgeUserFiles } from '@/lib/attachments';
 import { purgeMentorDocuments } from '@/lib/mentor-documents';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
@@ -32,6 +34,10 @@ export async function DELETE(request: Request): Promise<Response> {
 
   const documents = await purgeMentorDocuments(auth.userId);
   if (documents) return fail('mentor documents', documents.error);
+
+  // Before the mentor card goes: its conversations are found through it.
+  const shared = await purgeUserFiles(auth.userId);
+  if (shared) return fail('attachments and post photos', shared.error);
 
   const { error: mentorError } = await supabaseAdmin.from('mentors').delete().eq('user_id', auth.userId);
   if (mentorError) return fail('mentor card', mentorError);

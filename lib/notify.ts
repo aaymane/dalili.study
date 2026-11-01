@@ -193,10 +193,14 @@ export async function notifyCallStarted(bookingId: string): Promise<number> {
 // message the other person has not read yet rings, the following ones wait until they open the conversation.
 
 const preview = (text: string) => (text.length > 120 ? `${text.slice(0, 117).trimEnd()}…` : text);
+/** A message can be only an attachment: the alert names it. */
+const messagePreview = (m: { body: string; attachment_name?: string | null; attachment_type?: string | null }) =>
+  m.body?.trim() ? preview(m.body) : m.attachment_type === 'application/pdf' ? `📎 ${m.attachment_name ?? 'Document'}` : '📷 Photo';
 
 /** `callerId` (app route) must be the sender; the webhook passes none: the database itself reported the message. */
 export async function notifyMessage(messageId: string, callerId?: string): Promise<number> {
-  const { data: msg } = await supabaseAdmin.from('messages').select('id, conversation_id, sender_id, body, created_at').eq('id', messageId).maybeSingle();
+  // `*`: works before and after the attachments migration (its columns arrive with it).
+  const { data: msg } = await supabaseAdmin.from('messages').select('*').eq('id', messageId).maybeSingle();
   if (!msg || (callerId !== undefined && callerId !== msg.sender_id)) return 0;
   const { data: c } = await supabaseAdmin
     .from('conversations')
@@ -235,7 +239,7 @@ export async function notifyMessage(messageId: string, callerId?: string): Promi
   }
   return pushTo(to, {
     title: `${name} t’a écrit`,
-    body: preview(msg.body),
+    body: messagePreview(msg),
     url: `/(app)/messages/${c.id}`,
     role: fromStudent ? 'mentor' : 'student',
   });

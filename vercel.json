@@ -22,5 +22,6 @@
       "destination": "/blog/calendrier-tcf-maroc-2026-dates-sessions",
       "permanent": true
     }
-  ]
+  ],
+  "crons": [{ "path": "/api/cron/attachments", "schedule": "0 3 * * *" }]
 }
