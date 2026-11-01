@@ -45,7 +45,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Qu'est-ce que la CVEC et comment la payer ?",
-    a: "La CVEC (Contribution Vie Étudiante et de Campus) est de 105 € pour 2025-2026. Elle se paie sur messervices.etudiant.gouv.fr avec une carte bancaire. L'attestation de paiement est obligatoire pour finaliser l'inscription universitaire. Exonérés : boursiers du gouvernement français, réfugiés, bénéficiaires de protection subsidiaire.",
+    a: "La CVEC (Contribution Vie Étudiante et de Campus) est de 105 € pour 2026-2027 (service-public.gouv.fr). Elle se paie sur messervices.etudiant.gouv.fr avec une carte bancaire. L'attestation de paiement est obligatoire pour finaliser l'inscription universitaire. Exonérés : boursiers du gouvernement français, réfugiés, bénéficiaires de protection subsidiaire.",
     source: "CNOUS 2025-2026",
   },
   {

@@ -138,7 +138,7 @@ export default function StatsPage() {
               { val: '120-450 €', label: 'Prix CROUS mensuel selon ville et type', source: 'CROUS 2025-2026' },
               { val: '80-220 €', label: 'CAF/APL mensuelle si éligible (hors UE : boursier crit. sociaux, apprenti, pro. ou salarié depuis juillet 2026)', source: 'CAF.fr, Légifrance' },
               { val: '< 9 720 €/an', label: 'Plafond de revenus pour CSS gratuite', source: 'Ameli.fr 2025' },
-              { val: formatTierValue(cvecNow), label: 'CVEC 2025-2026 (paiement unique annuel)', source: cvecNow.sourceLabel },
+              { val: formatTierValue(cvecNow), label: 'CVEC 2026-2027 (paiement unique annuel)', source: cvecNow.sourceLabel },
             ].map((stat, i) => (
               <div key={i} style={s.statCard}>
                 <div style={s.statVal}>{stat.val}</div>

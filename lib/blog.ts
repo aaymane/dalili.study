@@ -83,6 +83,7 @@ export const CLUSTER_MAP: Record<string, string> = {
   'ecole-privee-vs-universite-publique-etudiant-etranger': 'visa-campus-france',
   // Articles études
   'frais-scolarite-universite-france-etudiant-etranger-2026': 'banque',
+  'cvec-2026-2027-montant-paiement-exoneration': 'banque',
   'informatique-france-etudiant-etranger':              'vie-etudiante',
   'bourse-complete-partielle-etudier-france-etudiant-etranger': 'aides',
   'villes-etudiantes-moins-cheres-france-2026':         'vie-etudiante',

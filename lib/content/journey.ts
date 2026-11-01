@@ -314,7 +314,7 @@ export const JOURNEY: JourneyStep[] = [
     ],
     action: { label: 'Payer la CVEC', url: 'https://cvec.etudiant.gouv.fr' },
     terms: ['CVEC'],
-    guides: { default: ['frais-scolarite-universite-france-etudiant-etranger-2026'] },
+    guides: { default: ['cvec-2026-2027-montant-paiement-exoneration', 'frais-scolarite-universite-france-etudiant-etranger-2026'] },
     figures: [{ kind: 'figure', id: 'cvec', label: 'Montant de la CVEC' }],
     reviewed: true,
   },

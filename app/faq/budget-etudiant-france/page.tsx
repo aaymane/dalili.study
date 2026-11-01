@@ -55,7 +55,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Combien coûte la CVEC ?",
-    a: "La CVEC (Contribution Vie Étudiante et de Campus) est de 105 € pour l'année universitaire 2025-2026. C'est un paiement unique annuel sur messervices.etudiant.gouv.fr. Exonérés : boursiers du gouvernement français. La CVEC est obligatoire pour finaliser l'inscription dans tous les établissements.",
+    a: "La CVEC (Contribution Vie Étudiante et de Campus) est de 105 € pour l'année universitaire 2026-2027 (service-public.gouv.fr). C'est un paiement unique annuel sur messervices.etudiant.gouv.fr. Exonérés : boursiers du gouvernement français. La CVEC est obligatoire pour finaliser l'inscription dans tous les établissements.",
     source: "CNOUS 2025-2026",
   },
   {
