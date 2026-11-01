@@ -9,6 +9,7 @@ const cvecNow      = getTierAt(REGULATORY_FIGURES.cvec);
 const licenceNow   = getTierAt(REGULATORY_FIGURES.fraisScolariteLicence);
 const masterNow    = getTierAt(REGULATORY_FIGURES.fraisScolariteMaster);
 const doctoratNow  = getTierAt(REGULATORY_FIGURES.fraisScolariteDoctorat);
+const smicNow      = getTierAt(REGULATORY_FIGURES.smicHoraire);
 
 export const metadata: Metadata = {
   title: 'Statistiques — Études en France pour étudiants étrangers 2026',
@@ -170,7 +171,7 @@ export default function StatsPage() {
             {[
               { val: '964 h/an', label: 'Maximum travail autorisé (hors UE)', source: 'Service-public.fr' },
               { val: '803 h/an', label: "Maximum Algérie (accord franco-algérien 1968)", source: 'Accord 1968' },
-              { val: '11,88 €/h', label: 'SMIC horaire brut 2026', source: 'Service-public.fr 2026' },
+              { val: formatTierValue(smicNow), label: 'SMIC horaire brut 2026', source: smicNow.sourceLabel },
               { val: '~4,35 €/h', label: 'Gratification stage obligatoire (> 2 mois)', source: 'Service-public.fr 2026' },
             ].map((stat, i) => (
               <div key={i} style={s.statCard}>

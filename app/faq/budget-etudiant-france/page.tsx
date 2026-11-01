@@ -60,7 +60,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Peut-on travailler pour financer ses études en France ?",
-    a: "Oui, jusqu'à 964 heures par an (hors UE). Salaire minimum 2026 : 11,88 €/h brut (SMIC). Revenus potentiels : 20h/semaine pendant 8 mois ≈ 640 h × 11,88 € = 7 603 € brut annuel. Les jobs étudiants courants : restauration, distribution, babysitting, tutorat (15-20 €/h).",
+    a: "Oui, jusqu'à 964 heures par an (hors UE). Salaire minimum : 12,31 €/h brut (SMIC, depuis le 1er juin 2026). Revenus potentiels : 20h/semaine pendant 8 mois ≈ 640 h × 12,31 € = 7 878 € brut annuel. Les jobs étudiants courants : restauration, distribution, babysitting, tutorat (15-20 €/h).",
     source: "Service-public.fr, SMIC 2026",
   },
   {

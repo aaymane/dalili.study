@@ -202,6 +202,19 @@ export const REGULATORY_FIGURES = {
       },
     ],
   },
+  smicHoraire: {
+    id: 'smic-horaire',
+    label: 'SMIC horaire brut (métropole)',
+    tiers: [
+      {
+        value: 12.31,
+        unit: '€/h',
+        validFrom: '2026-06-01',
+        source: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F2300',
+        sourceLabel: 'Arrêté du 22 mai 2026 relatif au relèvement du SMIC',
+      },
+    ],
+  },
   heuresTravailEtudiant: {
     id: 'heures-travail-etudiant',
     label: 'Durée maximale de travail par an pour un étudiant étranger (hors UE)',
@@ -340,14 +353,5 @@ export const PENDING_FIGURES = {
       { value: 400, unit: 'TND', seenIn: 'guide etudier-en-france-depuis-tunisie' },
     ],
     checkAt: 'https://www.tunisie.campusfrance.org',
-  },
-  smicHoraire: {
-    id: 'smic-horaire',
-    label: 'SMIC horaire brut 2026',
-    candidates: [
-      { value: 11.88, unit: '€/h', seenIn: 'FAQ budget étudiant' },
-      { value: 11.91, unit: '€/h', seenIn: 'guide budget-etudiant-senegalais-france-2026' },
-    ],
-    checkAt: 'https://www.service-public.gouv.fr',
   },
 } as const satisfies Record<string, PendingFigure>;
