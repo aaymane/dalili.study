@@ -25,7 +25,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Comment valider son VLS-TS sur ANEF ?",
-    a: "Accéder à anef.interieur.gouv.fr. Créer un compte avec l'email utilisé pour le visa. Sélectionner 'Valider mon visa'. Renseigner numéro de passeport, date d'arrivée, adresse en France. Payer les taxes OFII (58 € en 2026). Recevoir la vignette OFII par courrier dans 2-4 semaines. Cette vignette complète votre titre de séjour.",
+    a: "Accéder à anef.interieur.gouv.fr. Créer un compte avec l'email utilisé pour le visa. Sélectionner 'Valider mon visa'. Renseigner numéro de passeport, date d'arrivée, adresse en France. Payer la taxe de validation (100 € pour un visa étudiant depuis le 1er mai 2026, service-public.gouv.fr). Recevoir la vignette OFII par courrier dans 2-4 semaines. Cette vignette complète votre titre de séjour.",
     source: "ANEF, OFII 2026",
   },
   {
@@ -95,7 +95,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Qu'est-ce que l'OFII et faut-il s'y rendre physiquement ?",
-    a: "L'OFII (Office Français de l'Immigration et de l'Intégration) gère la validation des VLS-TS. Depuis 2020, la procédure est entièrement dématérialisée via ANEF — pas besoin de se rendre physiquement à l'OFII. La vignette OFII (qui complète le VLS-TS) est envoyée par courrier après paiement en ligne (58 €).",
+    a: "L'OFII (Office Français de l'Immigration et de l'Intégration) gère la validation des VLS-TS. Depuis 2020, la procédure est entièrement dématérialisée via ANEF — pas besoin de se rendre physiquement à l'OFII. La vignette OFII (qui complète le VLS-TS) est envoyée par courrier après paiement en ligne de la taxe (100 € pour un visa étudiant depuis le 1er mai 2026).",
     source: "ANEF / OFII 2026",
   },
   {
@@ -105,7 +105,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Comment renouveler son titre de séjour étudiant ?",
-    a: "2 à 3 mois avant l'expiration : 1) Accéder à ANEF (anef.interieur.gouv.fr). 2) Soumettre dossier de renouvellement : justificatif d'inscription, relevés de notes, justificatifs financiers, justificatif de domicile, photos. 3) Payer les taxes (225 € environ). Le récépissé délivré par ANEF autorise à rester en France pendant l'instruction.",
+    a: "2 à 3 mois avant l'expiration : 1) Accéder à ANEF (anef.interieur.gouv.fr). 2) Soumettre dossier de renouvellement : justificatif d'inscription, relevés de notes, justificatifs financiers, justificatif de domicile, photos. 3) Payer les timbres fiscaux : 100 € pour une carte étudiant d'un an, 150 € pour une carte pluriannuelle (service-public.gouv.fr). Le récépissé délivré par ANEF autorise à rester en France pendant l'instruction.",
     source: "ANEF / Ministère de l'Intérieur",
   },
   {

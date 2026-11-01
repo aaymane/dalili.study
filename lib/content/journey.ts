@@ -41,7 +41,7 @@ export interface JourneyStep {
   reviewed: boolean;
 }
 
-export const JOURNEY_VERSION = '2026-10-20';
+export const JOURNEY_VERSION = '2026-11-01';
 
 export const JOURNEY: JourneyStep[] = [
   {
@@ -448,7 +448,7 @@ export const JOURNEY: JourneyStep[] = [
     action: { label: 'Valider sur l’ANEF', url: 'https://administration-etrangers-en-france.interieur.gouv.fr' },
     terms: ['VLS-TS', 'ANEF', 'OFII'],
     guides: { default: ['ofii-validation-visa-etudiant-france-guide'] },
-    figures: [{ kind: 'pending', id: 'taxeValidationVlsTs', label: 'Taxe de validation' }],
+    figures: [{ kind: 'figure', id: 'taxeValidationVlsTs', label: 'Taxe de validation', countries: ['MA', 'TN', 'SN', 'LB', 'CI', 'CM'] }],
     reviewed: true,
   },
   {

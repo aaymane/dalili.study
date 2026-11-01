@@ -181,6 +181,27 @@ export const REGULATORY_FIGURES = {
       },
     ],
   },
+  taxeValidationVlsTs: {
+    id: 'taxe-validation-vls-ts',
+    label: 'Taxe de validation du visa étudiant (VLS-TS) sur l’ANEF',
+    tiers: [
+      {
+        value: 50,
+        unit: '€',
+        validFrom: '2002-01-01',
+        validUntil: '2026-05-01',
+        source: 'https://www.service-public.gouv.fr/particuliers/actualites/A18881',
+        sourceLabel: 'Service-public.fr — tarif minoré étudiant avant le 1er mai 2026',
+      },
+      {
+        value: 100,
+        unit: '€',
+        validFrom: '2026-05-01',
+        source: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F2231',
+        sourceLabel: 'Service-public.fr — loi n° 2026-103 du 19 février 2026, art. 128',
+      },
+    ],
+  },
   heuresTravailEtudiant: {
     id: 'heures-travail-etudiant',
     label: 'Durée maximale de travail par an pour un étudiant étranger (hors UE)',
@@ -301,15 +322,6 @@ export const PENDING_FIGURES = {
       { value: 1900, unit: 'MAD', seenIn: 'sources externes signalées par l’équipe' },
     ],
     checkAt: 'https://www.if-maroc.org',
-  },
-  taxeValidationVlsTs: {
-    id: 'taxe-validation-vls-ts',
-    label: 'Taxe de validation du visa étudiant (VLS-TS) sur l’ANEF',
-    candidates: [
-      { value: 50, unit: '€', seenIn: 'app DALILI (ancienne fiche) et sources externes' },
-      { value: 150, unit: '€', seenIn: 'guide ofii-validation-visa-etudiant-france-guide' },
-    ],
-    checkAt: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F2231',
   },
   fraisCefMaroc: {
     id: 'frais-cef-maroc',
