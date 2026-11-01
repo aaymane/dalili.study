@@ -414,8 +414,8 @@ function StepContent({ step, answers, select }: {
       <p style={subStyle}>Les frais d&apos;inscription varient de {formatTierValue(tuitionFigures.doctorat)} à {formatTierValue(tuitionFigures.master)}/an selon le niveau.</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[
-          { val: 'licence',  label: 'Licence (L1, L2, L3)', note: `${formatTierValue(tuitionFigures.licence)} + CVEC ${formatTierValue(cvecTier)} · source : campusfrance.org 2025-2026` },
-          { val: 'master',   label: 'Master (M1, M2)',       note: `${formatTierValue(tuitionFigures.master)} + CVEC ${formatTierValue(cvecTier)} · source : campusfrance.org 2025-2026` },
+          { val: 'licence',  label: 'Licence (L1, L2, L3)', note: `${formatTierValue(tuitionFigures.licence)} + CVEC ${formatTierValue(cvecTier)} · source : ${tuitionFigures.licence.sourceLabel}` },
+          { val: 'master',   label: 'Master (M1, M2)',       note: `${formatTierValue(tuitionFigures.master)} + CVEC ${formatTierValue(cvecTier)} · source : ${tuitionFigures.master.sourceLabel}` },
           { val: 'doctorat', label: 'Doctorat',              note: `${formatTierValue(tuitionFigures.doctorat)} + CVEC ${formatTierValue(cvecTier)} · frais proches du tarif national` },
         ].map(o => (
           <button key={o.val} onClick={() => select('niveau', o.val)} style={card(answers.niveau === o.val)}>

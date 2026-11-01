@@ -50,7 +50,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Quels sont les frais d'inscription à l'université en France ?",
-    a: "Depuis 2019, les étudiants non-européens paient des droits différenciés : Licence : 2 895 €/an. Master : 3 941 €/an. Doctorat : 397 €/an. Cependant, plus de 50 % des universités ont voté des exonérations partielles ou totales. Toujours vérifier la politique d'exonération de l'établissement visé.",
+    a: "Depuis 2019, les étudiants non-européens paient des droits différenciés. En 2026-2027 : Licence : 2 902 €/an. Master : 3 950 €/an. Doctorat : 398 €/an. Cependant, plus de 50 % des universités ont voté des exonérations partielles ou totales. Toujours vérifier la politique d'exonération de l'établissement visé.",
     source: "MESR, Campus France 2025",
   },
   {

@@ -38,8 +38,8 @@ const UNI_SEO: Record<string, { title: string; description: string; ogDescriptio
     ogDescription: 'Université de Lille, 75 000 étudiants, 580€/mois de budget — le guide complet pour les étudiants marocains, algériens et tunisiens qui veulent étudier dans la ville la plus abordable de France.',
   },
   'universite-lyon-1': {
-    title: 'Université Lyon 1 2026 : médecine top 5 France, frais 2 770€, CROUS 200€',
-    description: 'Lyon 1 Claude Bernard : top 5 médecine en France, 45 000 étudiants. Frais hors UE 2 770€/an, CROUS dès 200€/mois campus La Doua. Stages Sanofi, bioMérieux, Boehringer. Guide 2026.',
+    title: 'Université Lyon 1 2026 : médecine top 5 France, frais 2 902€, CROUS 200€',
+    description: 'Lyon 1 Claude Bernard : top 5 médecine en France, 45 000 étudiants. Frais hors UE 2 902€/an, CROUS dès 200€/mois campus La Doua. Stages Sanofi, bioMérieux, Boehringer. Guide 2026.',
     ogDescription: 'Lyon 1, top université française en sciences de la santé — guide pratique complet : admission, frais, budget 700-1150€/mois, stages pharmaceutiques et vie étudiante à Lyon.',
   },
   'universite-toulouse-3': {
@@ -58,8 +58,8 @@ const UNI_SEO: Record<string, { title: string; description: string; ogDescriptio
     ogDescription: 'Université de Strasbourg, siège du Parlement Européen — guide pratique : droit international, stages EU, double culture franco-allemande et budget 650-1000€/mois.',
   },
   'aix-marseille-universite': {
-    title: 'Aix-Marseille Université 2026 : 1ère université francophone, frais 2 770€, CROUS',
-    description: 'AMU : 1ère université francophone mondiale, 80 000 étudiants. Médecine, droit, sciences. Frais hors UE 2 770€/an, CROUS dès 185€/mois, 3 campus. Forte communauté maghrébine. Guide 2026.',
+    title: 'Aix-Marseille Université 2026 : 1ère université francophone, frais 2 902€, CROUS',
+    description: 'AMU : 1ère université francophone mondiale, 80 000 étudiants. Médecine, droit, sciences. Frais hors UE 2 902€/an, CROUS dès 185€/mois, 3 campus. Forte communauté maghrébine. Guide 2026.',
     ogDescription: 'Aix-Marseille Université, plus grande université francophone — guide pratique pour les étudiants marocains et africains : intégration, budget, campus dispersés et vie méditerranéenne.',
   },
   'universite-cote-azur': {
